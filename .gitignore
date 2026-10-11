@@ -12,3 +12,5 @@ tools/sources/
 
 *.log
 .DS_Store
+
+__pycache__/

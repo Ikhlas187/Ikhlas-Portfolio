@@ -40,7 +40,7 @@
 
 .process__num {
   display: block;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--color-accent);
   margin-bottom: var(--space-4);

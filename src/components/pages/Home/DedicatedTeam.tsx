@@ -169,6 +169,41 @@ export default function DedicatedTeam() {
         })
       })
 
+      // Avant le bloc de répulsion : son return de nettoyage met fin au callback.
+      let isDragging = false
+      Draggable.create('.vt-drag', {
+        type: 'x,y',
+        onPress() {
+          isDragging = true
+          controls.current?.pause()
+          setIsManual(false)
+          setOpenRole(null)
+          gsap.set((this.target as HTMLElement).closest('.vt-slot'), { zIndex: 30 })
+          gsap.to(this.target, { scale: 1.08, duration: 0.2 })
+        },
+        onClick() {
+          const idx = slots.indexOf((this.target as HTMLElement).closest<HTMLElement>('.vt-slot')!)
+          if (idx >= 0) controls.current?.manualOpen(idx)
+        },
+        onRelease() {
+          isDragging = false
+          gsap.to(this.target, { scale: 1, duration: 0.3, ease: 'back.out(2)' })
+        },
+        onDragEnd() {
+          const slot = (this.target as HTMLElement).closest<HTMLElement>('.vt-slot')!
+          gsap.to(this.target, {
+            x: 0,
+            y: 0,
+            duration: 1,
+            ease: 'power3.inOut',
+            onComplete: () => {
+              slot.style.zIndex = ''
+            },
+          })
+          controls.current?.resume()
+        },
+      })
+
       // Les pastilles s'écartent du curseur qui approche, puis reviennent sur leur orbite.
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         const enters = gsap.utils.toArray<HTMLElement>('.vt-enter')
@@ -176,6 +211,7 @@ export default function DedicatedTeam() {
         const qy = enters.map((el) => gsap.quickTo(el, 'y', { duration: 0.45, ease: 'power3' }))
 
         const repel = (e: MouseEvent) => {
+          if (isDragging) return
           enters.forEach((el, i) => {
             const rect = el.getBoundingClientRect()
             const dx = rect.left + rect.width / 2 - e.clientX
@@ -204,37 +240,6 @@ export default function DedicatedTeam() {
           stage.removeEventListener('mouseleave', settle)
         }
       }
-
-      Draggable.create('.vt-drag', {
-        type: 'x,y',
-        onPress() {
-          controls.current?.pause()
-          setIsManual(false)
-          setOpenRole(null)
-          gsap.set((this.target as HTMLElement).closest('.vt-slot'), { zIndex: 30 })
-          gsap.to(this.target, { scale: 1.08, duration: 0.2 })
-        },
-        onClick() {
-          const idx = slots.indexOf((this.target as HTMLElement).closest<HTMLElement>('.vt-slot')!)
-          if (idx >= 0) controls.current?.manualOpen(idx)
-        },
-        onRelease() {
-          gsap.to(this.target, { scale: 1, duration: 0.3, ease: 'back.out(2)' })
-        },
-        onDragEnd() {
-          const slot = (this.target as HTMLElement).closest<HTMLElement>('.vt-slot')!
-          gsap.to(this.target, {
-            x: 0,
-            y: 0,
-            duration: 1,
-            ease: 'power3.inOut',
-            onComplete: () => {
-              slot.style.zIndex = ''
-            },
-          })
-          controls.current?.resume()
-        },
-      })
     }, root)
 
     return () => {

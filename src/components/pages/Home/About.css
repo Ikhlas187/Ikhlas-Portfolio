@@ -3,7 +3,7 @@
 .about {
   background: var(--color-white);
   color: #111111;
-  font-family: var(--font-grotesk);
+  font-family: var(--font-body);
   padding: clamp(7rem, 16vh, 12rem) 7% clamp(9rem, 20vh, 15rem);
 }
 

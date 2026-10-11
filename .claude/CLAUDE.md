@@ -12,8 +12,8 @@ portfolio-frontend/
 │   ├── CLAUDE.md             ce fichier
 │   ├── launch.json           config « pnpm dev » pour l'aperçu
 │   ├── rules/                règles du repo (architecture, fichiers, imports, ui, icônes, tests…)
-│   └── skills/               skills propres au repo (vide)
-├── public/                   servi tel quel (polices display à déposer dans public/fonts/)
+│   └── skills/               31 skills front : design, UI, animation, a11y, shadcn, React, Remotion
+├── public/                   servi tel quel (The Night Watch à déposer dans public/fonts/)
 ├── tools/                    hors app : manga.py, video/ (Remotion), sources/ (photos brutes, ignoré par git)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
@@ -77,7 +77,7 @@ Déploiement  Vercel
 - **Un composant par fichier.** Un sous-composant nommé sort dans son propre fichier, dans le dossier de son écran.
 - **Imports internes toujours en `@/`.**
 - **Sections existantes** : elles gardent leur `.css` BEM appairé (`.about__call-pill`, `.bd-board`). On ne les migre pas en Tailwind.
-- **Nouveau code** : Tailwind pour la mise en page, shadcn pour les composants d'interface, valeurs tirées de `tokens.css` (les tokens surchargent le thème Tailwind : `bg-black`, `text-sm`, `font-mono` donnent les valeurs du portfolio).
+- **Nouveau code** : Tailwind pour la mise en page, shadcn pour les composants d'interface, valeurs tirées de `tokens.css` (les tokens surchargent le thème Tailwind : `bg-black`, `text-sm`, `font-sans` donnent les valeurs du portfolio).
 
 ## Identité visuelle
 
@@ -86,10 +86,11 @@ Source unique : `src/tokens.css`.
 ```
 Encre   --color-black #0A0A0A    Crème  --color-white #F5F2EE
 Accent  --color-accent #E8530A   Alt    --color-accent-alt #00E5A0
-Display --font-display Anton     Body   --font-body Poppins     Mono  --font-mono JetBrains Mono
+Display --font-display The Night Watch, repli Cormorant Unicase (grands titres)
+Body    --font-body Inter (tout le reste)
 ```
 
-Polices chargées par `@import` Google Fonts dans `index.css`. Une nouvelle famille va dans l'@import ET dans `tokens.css`.
+2 familles seulement, celles de la section Services, pour tout le site. Chargées par `@import` Google Fonts en tête de `index.css`. Une nouvelle famille va dans l'@import ET dans `tokens.css`.
 
 ## Règles de reproduction (IP)
 
@@ -114,9 +115,8 @@ Fait           ScheduleButton · Projects · About + CallWidget · DedicatedTeam
                CTA avant footer (réf. momdesign.fr)
                Pages /projects, /projects/:slug, /about, /contact
                Boutons de test de connexion au backend (ticket setup, RM4)
-Dette          Polices display absentes : public/fonts/TheNightWatch.woff2 (Services),
-               public/fonts/Goga-{Regular,Medium,SemiBold}.otf (Footer). @font-face déjà câblés.
+Dette          The Night Watch absente : déposer public/fonts/TheNightWatch.woff2 (licence à vérifier).
+               @font-face déjà câblé dans index.css, repli actuel sur Cormorant Unicase.
                Process : copie encore calquée sur la référence (verteal), à réécrire avec le parcours d'Ikhlas
-               DedicatedTeam : Draggable n'est créé qu'en reduced-motion (return anticipé du bloc de répulsion)
                Bundle JS de 650 Ko, pas de découpage par route
 ```

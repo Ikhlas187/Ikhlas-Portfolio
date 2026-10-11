@@ -1,36 +1,10 @@
 /* Footer (réf. juanmora.co) : classes et points de rupture Webflow repris, portés sous .jmf. */
 
-/* Goga : déposer les 3 fichiers dans public/fonts/, sinon repli sur Figtree. */
-@font-face {
-  font-family: 'Goga';
-  src: url('/fonts/Goga-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Goga';
-  src: url('/fonts/Goga-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Goga';
-  src: url('/fonts/Goga-SemiBold.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
 .jmf {
   /* Texte foncé car le fond est une planche sur papier blanc (pêche #FFBC95 chez eux, sur vidéo sombre). */
   --jmf-ink: var(--color-black, #0a0a0a);
   /* 12,5vw au lieu de 17vw : « Ikhlas Olamidé » (13 lettres) se chevauchait à 17vw. */
   --jmf-name-size: 12.5vw;
-  --jmf-face: 'Goga', var(--font-figtree);
 
   position: relative;
   z-index: 4;
@@ -40,10 +14,10 @@
   align-items: center;
   width: 100%;
   height: 100vh;
-  font-family: var(--jmf-face);
+  font-family: var(--font-body);
 }
 
-/* Reset local : index.css impose Anton aux titres et ses propres marges */
+/* Reset local des marges imposées par index.css */
 .jmf p,
 .jmf ul,
 .jmf li,
@@ -261,7 +235,7 @@
 
 .jmf .body-footer {
   color: var(--jmf-ink);
-  font-family: var(--jmf-face);
+  font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 600;
   line-height: 100%;
@@ -287,7 +261,7 @@
   display: block;
   padding: 0;
   color: var(--jmf-ink);
-  font-family: var(--jmf-face);
+  font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 600;
   line-height: 100%;
@@ -301,7 +275,7 @@
   flex: 0 0 auto;
   white-space: nowrap;
   color: var(--jmf-ink);
-  font-family: var(--jmf-face);
+  font-family: var(--font-display);
   font-size: var(--jmf-name-size);
   font-weight: 600;
   line-height: 75%;

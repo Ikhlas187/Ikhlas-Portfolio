@@ -11,13 +11,8 @@
   --color-gray-600: #aaaaaa;
 
   /* Polices réellement chargées (index.css), plus de familles fantômes */
-  --font-display: 'Anton', 'Arial Narrow', sans-serif;
-  --font-body: 'Poppins', 'Helvetica Neue', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-grotesk: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-figtree: 'Figtree', system-ui, sans-serif;
-  --font-inter: 'Inter', sans-serif;
-  --font-unicase: 'Cormorant Unicase', serif;
+  --font-display: 'The Night Watch', 'Cormorant Unicase', serif;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
 
   --text-xs: clamp(0.75rem, 1vw, 0.875rem);
   --text-sm: clamp(0.875rem, 1.2vw, 1rem);

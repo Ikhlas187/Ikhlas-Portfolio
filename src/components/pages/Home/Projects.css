@@ -75,7 +75,7 @@
   left: 7%;
   z-index: 5;
   margin: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 13px;
   letter-spacing: 0.12em;
   color: var(--ink);

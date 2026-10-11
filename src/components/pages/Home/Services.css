@@ -1,27 +1,20 @@
 /* Section services (réf. kaiseisadatoki-v4.vercel.app/service) : clamps, grille et classes repris, portés sous .sv. */
 
-/* The Night Watch : déposer le .woff2 licencié dans public/fonts/, sinon repli sur Cormorant Unicase. */
-@font-face {
-  font-family: 'The Night Watch';
-  src: url('/fonts/TheNightWatch.woff2') format('woff2');
-  font-display: swap;
-}
-
 .sv {
-  --sv-bg: #fffdf1;
+  --sv-bg: var(--color-white);
   /* Orange de la référence : #E56A44 · remettre cette valeur pour y revenir */
   --sv-ink: var(--color-black, #0a0a0a);
 
   width: 100%;
   background-color: var(--sv-bg);
   color: var(--sv-ink);
-  font-family: var(--font-inter);
+  font-family: var(--font-body);
   font-weight: 500;
   font-style: normal;
   font-size: 16px;
 }
 
-/* Ramène les titres (Anton via index.css) à la pile de la référence. */
+/* Reset local des marges et graisses imposées aux titres par index.css. */
 .sv h1,
 .sv h2,
 .sv h3,
@@ -52,7 +45,7 @@
   font-size: clamp(3.5rem, 2.7277rem + 3.2952vw, 8rem);
   letter-spacing: -0.02em;
   line-height: 1;
-  font-family: 'The Night Watch', var(--font-unicase);
+  font-family: var(--font-display);
 }
 
 .sv .text-3xl {
