@@ -1,0 +1,445 @@
+/* Footer (réf. juanmora.co) : classes et points de rupture Webflow repris, portés sous .jmf. */
+
+/* Goga : déposer les 3 fichiers dans public/fonts/, sinon repli sur Figtree. */
+@font-face {
+  font-family: 'Goga';
+  src: url('/fonts/Goga-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Goga';
+  src: url('/fonts/Goga-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Goga';
+  src: url('/fonts/Goga-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+.jmf {
+  /* Texte foncé car le fond est une planche sur papier blanc (pêche #FFBC95 chez eux, sur vidéo sombre). */
+  --jmf-ink: var(--color-black, #0a0a0a);
+  /* 12,5vw au lieu de 17vw : « Ikhlas Olamidé » (13 lettres) se chevauchait à 17vw. */
+  --jmf-name-size: 12.5vw;
+  --jmf-face: 'Goga', var(--font-figtree);
+
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  font-family: var(--jmf-face);
+}
+
+/* Reset local : index.css impose Anton aux titres et ses propres marges */
+.jmf p,
+.jmf ul,
+.jmf li,
+.jmf a,
+.jmf span,
+.jmf div {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.jmf ul {
+  list-style: none;
+}
+
+/* ---- Fond ---- */
+
+.jmf .video-cont-footer {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.jmf .video-embed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- Planches manga : 3 plans de 4 s, cycle de 12 s, images-clés périodiques donc boucle sans raccord ---- */
+
+.jmf .jmf-plate {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.jmf .jmf-plate--1 {
+  animation: jmf-plate-1 12s linear infinite;
+}
+
+.jmf .jmf-plate--2 {
+  animation: jmf-plate-2 12s linear infinite;
+}
+
+.jmf .jmf-plate--3 {
+  animation: jmf-plate-3 12s linear infinite;
+}
+
+@keyframes jmf-plate-1 {
+  0% {
+    opacity: 1;
+    transform: scale(1.08) translate(0, 0);
+  }
+  25% {
+    opacity: 1;
+  }
+  33.34% {
+    opacity: 0;
+    transform: scale(1.15) translate(-1.7%, 0.9%);
+  }
+  91.67% {
+    opacity: 0;
+    transform: scale(1.08) translate(0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.08) translate(0, 0);
+  }
+}
+
+@keyframes jmf-plate-2 {
+  0% {
+    opacity: 0;
+    transform: scale(1.16) translate(1.5%, -1%);
+  }
+  25% {
+    opacity: 0;
+  }
+  33.34% {
+    opacity: 1;
+    transform: scale(1.07) translate(0, 0);
+  }
+  58.33% {
+    opacity: 1;
+  }
+  66.67% {
+    opacity: 0;
+    transform: scale(1.16) translate(1.5%, -1%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.16) translate(1.5%, -1%);
+  }
+}
+
+@keyframes jmf-plate-3 {
+  0% {
+    opacity: 0;
+    transform: scale(1.18) translate(-0.9%, 1.3%);
+  }
+  58.33% {
+    opacity: 0;
+    transform: scale(1.09) translate(0, 0);
+  }
+  66.67% {
+    opacity: 1;
+    transform: scale(1.09) translate(0, 0);
+  }
+  91.67% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18) translate(-0.9%, 1.3%);
+  }
+}
+
+/* Voile de papier : garde le contraste du texte sur la trame. */
+.jmf .jmf-veil {
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* Bas : sous le nom géant et les 2 lignes de pied */
+    linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.68) 28%, rgba(255, 255, 255, 0.12) 60%),
+    /* Droite : derrière la liste technique */
+    linear-gradient(to left, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.42) 16%, rgba(255, 255, 255, 0) 34%),
+    /* Voile général : la planche recule d'un cran */
+    linear-gradient(rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.34));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jmf .jmf-plate {
+    animation: none;
+  }
+
+  /* Sans animation, seule la première planche reste visible */
+  .jmf .jmf-plate--2,
+  .jmf .jmf-plate--3 {
+    opacity: 0;
+  }
+}
+
+/* ---- Contenu ---- */
+
+.jmf .main-wrapper-footer {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 92vw;
+  height: 100%;
+  padding-bottom: 4vw;
+}
+
+.jmf .wrapper-content-footer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.jmf .wrapper-content-footer._1 {
+  flex-flow: row-reverse wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4vw;
+}
+
+.jmf .wrapper-content-footer._2 {
+  margin-bottom: 0.5vw;
+}
+
+.jmf .wrapper-column {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 3rem;
+  width: 30%;
+}
+
+/* Masquée au-delà de 767px chez eux : le contact ne vit qu'en petit écran */
+.jmf .wrapper-column.right {
+  display: none;
+}
+
+.jmf .list-footer {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.jmf .wrapper-item-column {
+  margin-bottom: 1rem;
+}
+
+.jmf .body-footer {
+  color: var(--jmf-ink);
+  font-family: var(--jmf-face);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: 0;
+}
+
+/* 0.54 chez eux (fond vidéo sombre) : remonté, sinon le label disparaît sur la trame. */
+.jmf .body-footer.fade {
+  opacity: 0.68;
+  font-weight: 400;
+}
+
+.jmf .body-footer.right {
+  display: block;
+  text-align: right;
+}
+
+.jmf .body-footer.big {
+  font-size: 1.2rem;
+}
+
+.jmf .footer-social-link {
+  display: block;
+  padding: 0;
+  color: var(--jmf-ink);
+  font-family: var(--jmf-face);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 100%;
+  text-align: right;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.jmf .name-footer {
+  /* Boîte dimensionnée sur le contenu : à 40vw, « Olamidé » était rogné à droite. */
+  flex: 0 0 auto;
+  white-space: nowrap;
+  color: var(--jmf-ink);
+  font-family: var(--jmf-face);
+  font-size: var(--jmf-name-size);
+  font-weight: 600;
+  line-height: 75%;
+  /* -0.7vw chez eux, exprimé en em pour suivre --jmf-name-size. */
+  letter-spacing: -0.041em;
+}
+
+.jmf .name-footer.right {
+  text-align: right;
+}
+
+/* text-span-4 et text-span-3 de la référence */
+.jmf .dim-role {
+  opacity: 0.51;
+  font-weight: 400;
+}
+
+.jmf .dim-studio {
+  opacity: 0.5;
+}
+
+/* ---- Ruptures ---- */
+
+@media screen and (min-width: 1920px) {
+  .jmf .body-footer.fade,
+  .jmf .body-footer.right {
+    font-size: 0.9rem;
+  }
+
+  .jmf .body-footer.big {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .jmf .main-wrapper-footer {
+    padding-bottom: 4vw;
+  }
+
+  .jmf .wrapper-content-footer._1 {
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .jmf {
+    height: 100svh;
+  }
+
+  .jmf .main-wrapper-footer {
+    width: 90vw;
+    padding-bottom: 22vw;
+  }
+
+  .jmf .wrapper-content-footer {
+    flex-flow: column;
+    gap: 5vw;
+  }
+
+  .jmf .wrapper-content-footer._1 {
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 55vh;
+  }
+
+  .jmf .body-footer.fade,
+  .jmf .body-footer.right {
+    font-size: 2.5vw;
+  }
+
+  .jmf .body-footer.big {
+    display: none;
+    font-size: 4vw;
+  }
+
+  .jmf .name-footer {
+    display: none;
+  }
+
+  .jmf .wrapper-column {
+    gap: 8vw;
+    width: 40%;
+  }
+
+  .jmf .wrapper-column.right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 8vw;
+    width: 42%;
+  }
+
+  .jmf .wrapper-item-column {
+    margin-bottom: 4vw;
+  }
+
+  .jmf .footer-social-link {
+    text-align: left;
+    font-size: 2.5vw;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .jmf .video-cont-footer {
+    width: 100%;
+    min-height: 0;
+  }
+
+  .jmf .main-wrapper-footer {
+    width: 90vw;
+  }
+
+  .jmf .body-footer.fade {
+    font-size: 3.2vw;
+  }
+
+  .jmf .body-footer.right {
+    font-size: 3.2vw;
+    font-weight: 500;
+  }
+
+  .jmf .wrapper-column {
+    width: 44%;
+  }
+
+  .jmf .wrapper-column.right {
+    width: 42%;
+  }
+
+  .jmf .wrapper-item-column {
+    margin-bottom: 4vw;
+  }
+
+  .jmf .footer-social-link {
+    font-size: 3.2vw;
+    font-weight: 500;
+  }
+}
