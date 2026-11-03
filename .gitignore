@@ -14,3 +14,7 @@ tools/sources/
 .DS_Store
 
 __pycache__/
+
+# Captures de sites tiers et journaux du MCP Playwright (lourds, hors repo)
+.tasks/
+.playwright-mcp/
