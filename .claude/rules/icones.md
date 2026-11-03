@@ -34,5 +34,5 @@ Cas déjà tranchés :
 - **Logos de technos** (React, Docker, PostgreSQL…) dans `components/pages/Home/techIcons.tsx` : `react-icons/si`, Lucide n'a pas de logos de marque.
 - **Ellipse tracée à la main** de `Interlude.tsx` : illustration animée trait par trait (DrawSVG), le `<path>` reste inline car GSAP l'anime directement.
 - **Logo Apple du faux macOS** (`MacOS/`) : fichier `src/assets/apple-logo.svg`, décision de l'utilisateur. Affiché par `AppleLogo.tsx` (masque CSS) sur l'écran de démarrage, dans la barre de menus et dans « À propos de ce Mac ».
-- **Images du clone Giant Sur** (`public/giantsur/images/`) : icônes du Dock et du bureau, reprises telles quelles, décision de l'utilisateur.
-- **Icônes de fichiers du Finder** (`MacOS/FileIcon.tsx`) : dossier et documents style Sequoia dessinés pour le projet, un SVG par fichier dans `src/assets/finder-*.svg`, affichés en `<img>`, décision de l'utilisateur. Les apps du dossier Applications reprennent les images du Dock Giant Sur.
+- **Images du clone Giant Sur** (`public/giantsur/images/`) : icônes du Dock, reprises telles quelles, décision de l'utilisateur.
+- **Icônes de fichiers du Finder et du bureau** (`MacOS/FileIcon.tsx`) : dossier et documents style Sequoia dessinés pour le projet, un SVG par fichier dans `src/assets/finder-*.svg`, affichés en `<img>`, décision de l'utilisateur. Les apps du dossier Applications reprennent les images du Dock Giant Sur.

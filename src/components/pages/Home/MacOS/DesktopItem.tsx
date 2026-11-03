@@ -1,16 +1,16 @@
 import type { MouseEvent } from 'react'
+import FileIcon from '@/components/pages/Home/MacOS/FileIcon'
 import { cn } from '@/lib/utils'
+import type { FinderNodeItem } from '@/logic/macos/finderItems/finderItems'
 
 type DesktopItemProps = {
-  title: string
-  icon: string
-  iconAlt: string
+  item: FinderNodeItem
   isSelected: boolean
   onClick: (event: MouseEvent<HTMLElement>) => void
   onOpen: () => void
 }
 
-export default function DesktopItem({ title, icon, iconAlt, isSelected, onClick, onOpen }: DesktopItemProps) {
+export default function DesktopItem({ item, isSelected, onClick, onOpen }: DesktopItemProps) {
   return (
     <button
       type="button"
@@ -25,7 +25,7 @@ export default function DesktopItem({ title, icon, iconAlt, isSelected, onClick,
           isSelected ? 'border-(--color-giantsur-gray-500) bg-(--color-giantsur-gray-900)/30' : 'border-transparent',
         )}
       >
-        <img alt={iconAlt} className="w-12" src={icon} draggable={false} />
+        <FileIcon item={item} className="size-14" />
       </div>
       {/* Le reset global impose aux h3 police, interlignage et approche du portfolio : on les annule ici. */}
       <h3
@@ -34,7 +34,7 @@ export default function DesktopItem({ title, icon, iconAlt, isSelected, onClick,
           isSelected && 'bg-(--color-giantsur-blue-700)',
         )}
       >
-        {title}
+        {item.name}
       </h3>
     </button>
   )

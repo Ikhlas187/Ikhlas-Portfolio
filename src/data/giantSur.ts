@@ -40,11 +40,19 @@ export type GiantSurMenu = {
   items: GiantSurMenuItem[]
 }
 
-export type DockApp = 'finder' | 'browser' | 'messages' | 'music' | 'mail' | 'photos' | 'calendar' | 'notes' | 'settings'
+export type DockApp =
+  | 'finder'
+  | 'browser'
+  | 'messages'
+  | 'music'
+  | 'mail'
+  | 'photos'
+  | 'calendar'
+  | 'notes'
+  | 'vscode'
+  | 'settings'
 
 export type DockLinkId = 'github' | 'linkedin'
-
-export type DesktopTarget = { kind: 'finder'; path: string[] } | { kind: 'file'; path: string[] }
 
 type GiantSurContent = {
   appleMenu: GiantSurMenu & { ariaLabel: string }
@@ -52,8 +60,6 @@ type GiantSurContent = {
   appMenu: GiantSurMenu
   appMenus: GiantSurMenu[]
   status: { battery: string; batteryLevel: string; wifi: string; search: string; controlCenter: string }
-  desktopIconAlt: string
-  desktopItems: { id: string; title: string; icon: string; target: DesktopTarget }[]
   dockLabel: string
   dockItems: { id: string; title: string; logo: string; app: DockApp }[]
   // Liens externes après le séparateur du Dock, comme sur frvky.online.
@@ -155,17 +161,6 @@ export const GIANT_SUR: Localized<GiantSurContent> = {
       search: 'Search',
       controlCenter: 'Control Center',
     },
-    desktopIconAlt: 'desktop item icon',
-    desktopItems: [
-      { id: '1', title: 'Macintosh HD', icon: `${IMAGES}/disk-icon.png`, target: { kind: 'finder', path: [] } },
-      {
-        id: '2',
-        title: 'Giant Sur',
-        icon: `${IMAGES}/folder-icon.png`,
-        target: { kind: 'finder', path: ['desktop', 'projects'] },
-      },
-      { id: '3', title: 'Example.pdf', icon: `${IMAGES}/pdf-icon.png`, target: { kind: 'file', path: ['desktop', 'cv'] } },
-    ],
     dockLabel: 'Dock',
     dockItems: [
       { id: 'finder', title: 'Finder', logo: `${IMAGES}/finder-logo.png`, app: 'finder' },
@@ -176,6 +171,7 @@ export const GIANT_SUR: Localized<GiantSurContent> = {
       { id: 'photos', title: 'Photos', logo: `${IMAGES}/photos-logo.png`, app: 'photos' },
       { id: 'calendar', title: 'Calendar', logo: `${IMAGES}/calendar-logo.png`, app: 'calendar' },
       { id: 'notes', title: 'Note', logo: `${IMAGES}/note-logo.png`, app: 'notes' },
+      { id: 'vscode', title: 'Visual Studio Code', logo: `${IMAGES}/vscode-logo.svg`, app: 'vscode' },
       { id: 'settings', title: 'Settings', logo: `${IMAGES}/settings-logo.png`, app: 'settings' },
     ],
     dockLinks: [
@@ -274,17 +270,6 @@ export const GIANT_SUR: Localized<GiantSurContent> = {
       search: 'Rechercher',
       controlCenter: 'Centre de contrôle',
     },
-    desktopIconAlt: 'icône du bureau',
-    desktopItems: [
-      { id: '1', title: 'Macintosh HD', icon: `${IMAGES}/disk-icon.png`, target: { kind: 'finder', path: [] } },
-      {
-        id: '2',
-        title: 'Giant Sur',
-        icon: `${IMAGES}/folder-icon.png`,
-        target: { kind: 'finder', path: ['desktop', 'projects'] },
-      },
-      { id: '3', title: 'Example.pdf', icon: `${IMAGES}/pdf-icon.png`, target: { kind: 'file', path: ['desktop', 'cv'] } },
-    ],
     dockLabel: 'Dock',
     dockItems: [
       { id: 'finder', title: 'Finder', logo: `${IMAGES}/finder-logo.png`, app: 'finder' },
@@ -295,6 +280,7 @@ export const GIANT_SUR: Localized<GiantSurContent> = {
       { id: 'photos', title: 'Photos', logo: `${IMAGES}/photos-logo.png`, app: 'photos' },
       { id: 'calendar', title: 'Calendar', logo: `${IMAGES}/calendar-logo.png`, app: 'calendar' },
       { id: 'notes', title: 'Note', logo: `${IMAGES}/note-logo.png`, app: 'notes' },
+      { id: 'vscode', title: 'Visual Studio Code', logo: `${IMAGES}/vscode-logo.svg`, app: 'vscode' },
       { id: 'settings', title: 'Settings', logo: `${IMAGES}/settings-logo.png`, app: 'settings' },
     ],
     dockLinks: [
