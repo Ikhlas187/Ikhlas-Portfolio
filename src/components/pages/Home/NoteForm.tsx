@@ -52,7 +52,7 @@ export default function NoteForm({ onPin }: NoteFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative z-10 mx-auto flex w-full max-w-[480px] flex-col gap-4 rounded-[24px] bg-white p-5 shadow-[0_24px_48px_rgb(0_0_0/0.14)] sm:rounded-[28px] sm:p-7 lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[420px] lg:-translate-x-1/2 lg:-translate-y-1/2"
+      className="relative z-10 mx-auto flex w-full max-w-[480px] flex-col gap-4 rounded-[24px] bg-white p-5 shadow-(--note-form-shadow) sm:rounded-[28px] sm:p-7 lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[420px] lg:-translate-x-1/2 lg:-translate-y-1/2"
     >
       <div className="flex items-baseline justify-between">
         <label htmlFor={textId} className="text-[13px] text-gray-400">

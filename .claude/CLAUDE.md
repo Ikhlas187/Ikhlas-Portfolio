@@ -125,7 +125,7 @@ portfolio-frontend/
 │   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
 │   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor) ; repo.ts : format de public/repos/ (écrit par tools/repos)
-│   └── assets/               pièces du loader (coin-{flat,solid}.svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS, bedry-batman.m4a (musique)
+│   └── assets/               pièces du loader (coin-{flat,solid}.svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS, background-music.m4a (musique de fond)
 ├── components.json           config shadcn (base-nova, Base UI, lucide)
 ├── vite.config.ts            react + tailwindcss + tsconfigPaths, port 3000, outDir build
 ├── tsconfig*.json            TypeScript 6 strict, alias @/ vers src/

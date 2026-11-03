@@ -1,6 +1,9 @@
 :root {
   --color-black: #0a0a0a;
   --color-white: #f5f2ee;
+  --note-form-shadow: 0 24px 48px rgb(0 0 0 / 0.14);
+  --sticky-note-shadow: 0 10px 10px rgb(0 0 0 / 0.1);
+  --pin-shadow: 4px 7px 5px rgb(13 8 5 / 0.14);
   --color-accent: #e8530a;
   --color-accent-alt: #00e5a0;
   /* Boutons du widget d'appel : rouge et vert des vrais téléphones */

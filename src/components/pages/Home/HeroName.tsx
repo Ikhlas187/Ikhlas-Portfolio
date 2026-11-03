@@ -10,8 +10,7 @@ const MOUNT_DELAY = 0.2
 // Le voile du loader attend 650 ms puis s'efface en 500 ms : le nom part quand il est presque transparent.
 const AFTER_LOADER_DELAY = 1.05
 
-/* Nom mis à l'échelle de la largeur comme le fit-text SVG de la réf. viewBox et position du texte mesurées
-   sur Cormorant Unicase 400 (encre 1846x181 à 269.149px) : à recalculer quand The Night Watch sera posée. */
+// viewBox mesurée sur Cormorant Unicase 400 (encre 1846x181 à 269.149px) : à recalculer avec The Night Watch.
 export default function HeroName({ name }: HeroNameProps) {
   const isRevealed = useSyncExternalStore(subscribeLoaderReveal, isLoaderRevealed)
   const [wasRevealedOnMount] = useState(isLoaderRevealed)

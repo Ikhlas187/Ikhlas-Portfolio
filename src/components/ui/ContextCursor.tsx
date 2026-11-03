@@ -1,8 +1,8 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
-import { CURSOR_LABELS } from '@/data/cursor'
+import { CURSOR_LABELS, type CursorKind } from '@/data/cursor'
 import { useLocale } from '@/lib/LocaleProvider'
-import { cursorKindOf, type CursorKind } from '@/logic/cursorKind/cursorKind'
+import { cursorKindOf } from '@/logic/cursorKind/cursorKind'
 
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)'
 const FOLLOW_SPRING = { stiffness: 420, damping: 38, mass: 0.6 }

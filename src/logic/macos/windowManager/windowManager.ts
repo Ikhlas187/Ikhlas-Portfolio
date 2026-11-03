@@ -17,7 +17,7 @@ export type WindowPayload = { path?: string[]; repo?: string; file?: string; url
 export type MacWindow = {
   id: string
   app: AppId
-  // Deux demandes d'ouverture avec la même clé ramènent la fenêtre existante au lieu d'en créer une.
+  // 2 demandes d'ouverture avec la même clé ramènent la fenêtre existante au lieu d'en créer une.
   key: string | null
   rect: Rect
   restoreRect: Rect | null

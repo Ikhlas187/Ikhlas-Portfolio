@@ -81,9 +81,6 @@ export default function PinNote() {
   return (
     <section id="notes" className="bg-white px-4 pt-[70px] pb-[70px] text-black sm:px-10 lg:px-20 lg:pt-[140px] lg:pb-[140px]">
       <div className="mx-auto max-w-[1280px]">
-        {/* ============================================
-            EN-TÊTE : accroche + titre + intro
-            ============================================ */}
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="flex flex-col items-start gap-1">
             <motion.div
@@ -124,9 +121,6 @@ export default function PinNote() {
           <p className="max-w-[420px] text-[16px] leading-[1.5] font-medium text-gray-400">{copy.intro}</p>
         </div>
 
-        {/* ============================================
-            TABLEAU : formulaire + notes épinglées
-            ============================================ */}
         <div
           ref={boardRef}
           className="relative mt-8 rounded-[24px] bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-black)_11%,var(--color-white))_1.5px,transparent_1.6px)] bg-size-[32px_32px] bg-position-[5.5px_5.5px] p-4 sm:p-8 lg:mt-12 lg:h-[560px] lg:overflow-hidden lg:rounded-[32px] lg:p-0 xl:h-[600px] min-[1440px]:h-[640px]"

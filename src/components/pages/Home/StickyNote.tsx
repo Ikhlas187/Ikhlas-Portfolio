@@ -41,7 +41,7 @@ export default function StickyNote({
     >
       <figure
         className={cn(
-          'absolute inset-0 m-0 flex origin-[50%_-1%] flex-col gap-[3cqw] overflow-hidden rounded-[6px] p-[10.5cqw] drop-shadow-[0_10px_10px_rgb(0_0_0/0.1)]',
+          'absolute inset-0 m-0 flex origin-[50%_-1%] flex-col gap-[3cqw] overflow-hidden rounded-[6px] p-[10.5cqw] drop-shadow-(--sticky-note-shadow)',
           NOTE_COLOR_CLASSES[note.color].paper,
           rotation,
         )}
@@ -68,7 +68,7 @@ export default function StickyNote({
       >
         <Pin
           strokeWidth={1.75}
-          className="size-full rotate-[30deg] fill-primary text-black drop-shadow-[4px_7px_5px_rgb(13_8_5/0.14)]"
+          className="size-full rotate-[30deg] fill-primary text-black drop-shadow-(--pin-shadow)"
         />
       </motion.span>
     </div>

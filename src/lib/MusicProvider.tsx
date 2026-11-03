@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import batmanTrack from '@/assets/batman_aac_24586.m4a'
+import batmanTrack from '@/assets/background-music.m4a'
 import { isLoaderRevealed } from '@/lib/loaderSession'
 import { readMusicPreferences, saveMusicPreferences } from '@/lib/musicSession'
 import { shouldStartOnGesture } from '@/logic/music/autoStart/autoStart'

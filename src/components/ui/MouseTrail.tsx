@@ -25,6 +25,7 @@ export default function MouseTrail({
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
 
+    const strokeColor = getComputedStyle(document.documentElement).getPropertyValue('--color-white').trim()
     let dpr = Math.min(window.devicePixelRatio || 1, 2)
     let raf = 0
     const points: TrailPoint[] = []
@@ -81,7 +82,8 @@ export default function MouseTrail({
         const last = points[points.length - 1]
         ctx.lineTo(last.x, last.y)
         ctx.lineWidth = width
-        ctx.strokeStyle = 'rgba(245, 242, 238, 0.9)'
+        ctx.strokeStyle = strokeColor
+        ctx.globalAlpha = 0.9
         ctx.stroke()
       }
 

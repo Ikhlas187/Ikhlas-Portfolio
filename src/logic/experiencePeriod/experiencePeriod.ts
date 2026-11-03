@@ -1,12 +1,4 @@
-export type YearMonth = {
-  year: number
-  month: number
-}
-
-export type ExperiencePeriod = {
-  start: YearMonth
-  end: YearMonth
-}
+import type { ExperiencePeriod, YearMonth } from '@/data/experience'
 
 const PERIOD_SEPARATOR = ' — '
 

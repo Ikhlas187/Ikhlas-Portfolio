@@ -1,5 +1,8 @@
 import type { Localized } from '@/data/locale'
-import type { CursorKind } from '@/logic/cursorKind/cursorKind'
+
+export const CURSOR_KINDS = ['view', 'scroll'] as const
+
+export type CursorKind = (typeof CURSOR_KINDS)[number]
 
 // Libellé du curseur contextuel, choisi par l'attribut data-cursor de la zone survolée.
 export const CURSOR_LABELS: Localized<Record<CursorKind, string>> = {

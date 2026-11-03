@@ -1,6 +1,4 @@
-export const CURSOR_KINDS = ['view', 'scroll'] as const
-
-export type CursorKind = (typeof CURSOR_KINDS)[number]
+import { CURSOR_KINDS, type CursorKind } from '@/data/cursor'
 
 // Valeur de l'attribut data-cursor : une valeur inconnue ne doit pas afficher de bulle vide.
 export function cursorKindOf(value: string | null | undefined): CursorKind | null {

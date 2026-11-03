@@ -1,5 +1,14 @@
 import type { Localized } from '@/data/locale'
-import type { ExperiencePeriod } from '@/logic/experiencePeriod/experiencePeriod'
+
+export type YearMonth = {
+  year: number
+  month: number
+}
+
+export type ExperiencePeriod = {
+  start: YearMonth
+  end: YearMonth
+}
 
 export type ExperienceItem = {
   company: string
