@@ -10,4 +10,4 @@ Sur ce repo, le gestionnaire de paquets est **pnpm**, tout le temps, sans except
 
 Ne jamais créer ni modifier `package-lock.json` ou `yarn.lock` : le seul lockfile est `pnpm-lock.yaml`.
 
-Dans toute commande, doc ou exemple généré pour ce repo, écrire `pnpm` — même si la doc de l'outil montre `npm`.
+Dans toute commande, doc ou exemple généré pour ce repo, écrire `pnpm`, même si la doc de l'outil montre `npm`.

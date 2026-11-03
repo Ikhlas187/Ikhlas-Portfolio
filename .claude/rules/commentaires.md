@@ -15,7 +15,7 @@ Un commentaire ne se justifie que s'il apporte une information **que le code ne 
 
 ## Quand il est utile, il reste court
 
-Une phrase, une ligne. Jamais une deuxième ligne qui re-justifie ou détaille le mécanisme. Si le commentaire déborde sur plusieurs lignes pour expliquer un comportement de lib, c'est le signe qu'il ne fallait pas le mettre.
+Une phrase, une ligne. Jamais une 2ᵉ ligne qui re-justifie ou détaille le mécanisme. Si le commentaire déborde sur plusieurs lignes pour expliquer un comportement de lib, c'est le signe qu'il ne fallait pas le mettre.
 
 - ✗
   ```tsx
@@ -23,7 +23,7 @@ Une phrase, une ligne. Jamais une deuxième ligne qui re-justifie ou détaille l
   // focalise le premier tabbable, la croix, et son anneau de focus apparaît).
   initialFocus={false}
   ```
-- ✓ `initialFocus={false}` — le nom du prop et sa doc au survol disent déjà tout.
+- ✓ `initialFocus={false}` : le nom du prop et sa doc au survol disent déjà tout.
 
 ## Test avant d'écrire un commentaire
 

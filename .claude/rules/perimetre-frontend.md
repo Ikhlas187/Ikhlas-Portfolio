@@ -4,7 +4,7 @@
 
 « Écrire » couvre tout : créer, modifier ou supprimer un fichier (code, config, tests, docs, `.claude/`, migrations), mais aussi lancer une commande qui écrit dedans (`git` qui change l'état, `pnpm install`, un script, un formateur, un codemod). Et l'interdiction porte sur **l'emplacement du fichier**, pas sur la façon d'y arriver : un chemin absolu, un `cd` ou un lien symbolique ne la contournent pas.
 
-Le cas qui compte le plus est le backend. C'est un repo indépendant, avec sa propre stack, sa propre histoire git et sa propre session Claude Code : une modification faite d'ici ne serait ni review ni commitée correctement. Il ne se modifie donc pas depuis ici pour aligner les deux côtés, ni parce que l'utilisateur décrit un besoin qui touche visiblement le back : **décrire un besoin n'est pas demander une modification**.
+Le cas qui compte le plus est le backend. C'est un repo indépendant, avec sa propre stack, sa propre histoire git et sa propre session Claude Code : une modification faite d'ici ne serait ni review ni commitée correctement. Il ne se modifie donc pas depuis ici pour aligner les 2 côtés, ni parce que l'utilisateur décrit un besoin qui touche visiblement le back : **décrire un besoin n'est pas demander une modification**.
 
 ## Ce qui ouvre la porte
 

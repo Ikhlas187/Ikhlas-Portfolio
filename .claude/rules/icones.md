@@ -31,8 +31,9 @@ Cette rule vise les **icônes** d'interface. Un logo ou une illustration n'est p
 
 Cas déjà tranchés :
 
-- **Logos de technos** (React, Docker, PostgreSQL…) dans `components/pages/Home/techIcons.tsx` : `react-icons/si`, Lucide n'a pas de logos de marque.
+- **Logos de technos** (React, Docker, PostgreSQL…) dans `components/pages/Home/techIcons.ts` : `react-icons/si`, Lucide n'a pas de logos de marque.
 - **Ellipse tracée à la main** de `Interlude.tsx` : illustration animée trait par trait (DrawSVG), le `<path>` reste inline car GSAP l'anime directement.
 - **Logo Apple du faux macOS** (`MacOS/`) : fichier `src/assets/apple-logo.svg`, décision de l'utilisateur. Affiché par `AppleLogo.tsx` (masque CSS) sur l'écran de démarrage, dans la barre de menus et dans « À propos de ce Mac ».
 - **Images du clone Giant Sur** (`public/giantsur/images/`) : icônes du Dock, reprises telles quelles, décision de l'utilisateur.
 - **Icônes de fichiers du Finder et du bureau** (`MacOS/FileIcon.tsx`) : dossier et documents style Sequoia dessinés pour le projet, un SVG par fichier dans `src/assets/finder-*.svg`, affichés en `<img>`, décision de l'utilisateur. Les apps du dossier Applications reprennent les images du Dock Giant Sur.
+- **Logos GitHub et LinkedIn des liens du Dock** du faux macOS (`MacOS/dockLinkLogos.ts`) : `react-icons/si` pour GitHub, `react-icons/fa6` pour LinkedIn (absent de `si`), décision de l'utilisateur.

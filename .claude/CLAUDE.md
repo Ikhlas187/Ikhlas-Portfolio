@@ -22,7 +22,7 @@ portfolio-frontend/
 │                             repos/snapshot.mjs (instantané des repos, secrets filtrés, voir tools/README.md §4)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
-│   ├── App.tsx               providers (Helmet, Locale, Router, Lenis) + MouseTrail + routes animées
+│   ├── App.tsx               providers (Helmet, Locale, Router, Lenis) + MouseTrail + ContextCursor + routes animées
 │   ├── index.css             Tailwind + shadcn + reset (@layer base) + variables shadcn branchées sur les tokens
 │   ├── tokens.css            toutes les CSS vars du portfolio (couleurs, typo, espacements, easings)
 │   ├── components/
@@ -32,6 +32,7 @@ portfolio-frontend/
 │   │   │   ├── textarea.tsx, input.tsx  shadcn, restylés sans bordure (champs de PinNote)
 │   │   │   ├── PageTransition.tsx  fondu + volet noir entre routes
 │   │   │   ├── MouseTrail.tsx      traînée canvas « feutre », blend difference
+│   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet, MacBook fermé)
 │   │   │   └── CoinLoader.tsx      écran de chargement : pluie de pièces IKHLAS / AGBETI / métier (+ CoinPile, FlatCoin, SolidCoin)
 │   │   └── pages/            un dossier par écran
 │   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
@@ -46,6 +47,7 @@ portfolio-frontend/
 │   │       │   ├── ProjectBoard.tsx     une planche projet
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── CallWidget.tsx       widget « appel entrant » + formulaire de contact
+│   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
 │   │       │   ├── techIcons.ts         table techno vers { Icon, color }
 │   │       │   ├── Services             4 rangées, révélation encre (réf. kaiseisadatoki-v4)
@@ -55,6 +57,7 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
+│   │       │   ├── FinalCoinRain.tsx    fin de page : IKHLAS / AGBETI retombent une dernière fois, comme dans le loader
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacBook/             scène 3D (r3f) chargée à la demande : capot qui s'ouvre puis plongée dans l'écran au scroll
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : démarrage macweb.dev puis bureau Giant Sur, fond et barre de menus du 1er macOS
@@ -87,16 +90,20 @@ portfolio-frontend/
 │   │   ├── localeStorage.ts  choix de langue gardé dans localStorage
 │   │   ├── notesStore.ts     contrat NotesStore + localNotesStore (localStorage), à doubler d'un lib/api/notes.ts
 │   │   ├── loaderSession.ts  loader déjà vu dans la session (sessionStorage) + page révélée (déclenche l'entrée du nom)
+│   │   ├── callRingSession.ts  sonnerie du CallWidget déjà coupée dans la session (sessionStorage)
 │   │   ├── notesBookStorage.ts  changements de l'app Notes du faux macOS (localStorage)
 │   │   ├── macDisplaySession.ts  luminosité et mode sombre du faux macOS, gardés pour la session (sessionStorage)
 │   │   └── utils.ts          cn() de shadcn, ne pas déplacer
-│   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, services, roles, process, loader, notes
+│   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, experience, services, roles, process, loader, notes
 │   │   ├── cv.ts             CV d'Ikhlas : CV.pdf de l'Aperçu, fichiers des dossiers Skills et Certifications
+│   │   ├── cursor.ts         libellés de la bulle du curseur contextuel, par valeur de data-cursor
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
 │   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
 │   │   └── macbook.ts        libellés de la section MacBook (indice de scroll, Allumer / Éteindre)
 │   ├── logic/
 │   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
+│   │   ├── experiencePeriod/ période d'une expérience écrite selon la langue
+│   │   ├── cursorKind/       valeur de data-cursor vers type de bulle (view, scroll), inconnue = pas de bulle
 │   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
 │   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),
@@ -108,11 +115,11 @@ portfolio-frontend/
 │   │   ├── macBookScroll/    progression du scroll vers ouverture du capot et zoom
 │   │   ├── cameraFit/        distance caméra pour que l'écran remplisse la vue
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
-│   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize
+│   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
 │   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
 │   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor) ; repo.ts : format de public/repos/ (écrit par tools/repos)
-│   └── assets/               pièces du loader (coin-{flat,solid}[-accent].svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS
+│   └── assets/               pièces du loader (coin-{flat,solid}.svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS
 ├── components.json           config shadcn (base-nova, Base UI, lucide)
 ├── vite.config.ts            react + tailwindcss + tsconfigPaths, port 3000, outDir build
 ├── tsconfig*.json            TypeScript 6 strict, alias @/ vers src/
@@ -178,8 +185,8 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 ## État du chantier
 
 ```
-Fait           Hero + HomeHeader · Projects · About + CallWidget · DedicatedTeam · Services · PinNote · CoinLoader
-               MouseTrail · TextReveal · PageTransition · Lenis
+Fait           Hero + HomeHeader · Projects · About + CallWidget · Experience · DedicatedTeam · Services · PinNote · CoinLoader · FinalCoinRain
+               MouseTrail · ContextCursor · PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
 Écrit, pas monté   Process
 À faire        Menu (3 barres verticales) entre DedicatedTeam et Services

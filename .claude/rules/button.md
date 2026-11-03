@@ -10,7 +10,7 @@ Le reset de Tailwind v4 (preflight) met les `<button>` en `cursor: default`, con
 
 - **Composant `Button` (shadcn)** : `cursor-pointer` vit dans la classe de base de `buttonVariants` (`src/components/ui/button.tsx`), pour que chaque bouton du projet en hérite d'un coup. Ne pas le répéter à chaque usage.
 - **`<button>` natif** écrit à la main (croix de fermeture, icône cliquable…) : ajouter `cursor-pointer` dans son `className`.
-- **Élément non-bouton rendu cliquable** (`onClick` sur une `div`, un `span`) : même règle, `cursor-pointer` obligatoire — et se demander d'abord si ça ne devrait pas être un vrai `<button>`.
+- **Élément non-bouton rendu cliquable** (`onClick` sur une `div`, un `span`) : même règle, `cursor-pointer` obligatoire, et se demander d'abord si ça ne devrait pas être un vrai `<button>`.
 
 ## Interdit
 

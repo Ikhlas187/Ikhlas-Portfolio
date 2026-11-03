@@ -1,6 +1,6 @@
 # Tests — Arrange, Act, Assert strict
 
-Chaque test suit les trois phases **Arrange → Act → Assert**, séparées visuellement par une ligne vide, à chaque fois — y compris quand le test tiendrait sur une ligne.
+Chaque test suit les 3 phases **Arrange → Act → Assert**, séparées visuellement par une ligne vide, à chaque fois, y compris quand le test tiendrait sur une ligne.
 
 - **Arrange** : préparer les données d'entrée (le `menu`, les produits, etc.).
 - **Act** : appeler la fonction testée. Selon le cas, dans une variable dédiée ou directement dans le `expect` (voir la section ci-dessous).
@@ -17,7 +17,7 @@ La question « sortir l'appel dans un `const` ou l'imbriquer dans `expect(...)` 
 
 **Assertion sur l'entrée (test de non-mutation) → l'appel reste une ligne à part.** Ici on ne vérifie pas ce que la fonction renvoie, mais que le `menu` d'entrée est inchangé après l'appel. Imbriquer l'appel dans le `expect` change le sens du test (on se met à comparer le retour au lieu de l'entrée) et le fait passer à côté de son but.
 
-- ✗ `expect(editProduct(menu, edited)).toEqual(originalMenu)` — teste le retour, plus la non-mutation
+- ✗ `expect(editProduct(menu, edited)).toEqual(originalMenu)` : teste le retour, plus la non-mutation
 - ✓
   ```ts
   editProduct(menu, edited)
@@ -40,9 +40,9 @@ Pareil pour l'Arrange : `const emptyMenu: MenuProduct[] = []` plutôt que `menu`
 
 ### Exception : l'opérande attendu quand il partage le contenu du calcul
 
-Le rôle (`expected`) n'est pas interdit **combiné au contenu**. Cas typique : le côté calculé et l'attendu décrivent la même chose. `deleteProduct(menu, id)` renvoie « le menu après suppression » — si on nomme l'attendu `menuAfterDeletion` aussi, plus rien ne dit lequel est la référence. On préfixe alors l'attendu par `expected` :
+Le rôle (`expected`) n'est pas interdit **combiné au contenu**. Cas typique : le côté calculé et l'attendu décrivent la même chose. `deleteProduct(menu, id)` renvoie « le menu après suppression ». Si on nomme l'attendu `menuAfterDeletion` aussi, plus rien ne dit lequel est la référence. On préfixe alors l'attendu par `expected` :
 
-- ✗ `expect(menuAfterDeletion).toEqual(menuAfterDeletion)` — les deux côtés portent le même nom
+- ✗ `expect(menuAfterDeletion).toEqual(menuAfterDeletion)` : les 2 côtés portent le même nom
 - ✓ `expect(menuAfterDeletion).toEqual(expectedMenuAfterDeletion)`
 
 Autrement dit : `expected` seul est interdit (il ne dit pas le contenu), mais `expected` + contenu est la bonne façon de marquer la référence quand le contenu seul serait ambigu.

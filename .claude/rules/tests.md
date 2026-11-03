@@ -10,16 +10,16 @@ Comment on écrit les tests dans ce projet. Impératifs, valables **partout**.
 
 ## Test de composant (RTL) → l'exception, pas le défaut
 
-On ne rend un composant pour le tester que dans deux cas :
+On ne rend un composant pour le tester que dans 2 cas :
 
-- **Comportement inséparable du rendu** : focus piégé, `resize`, glisser-déposer — pas de forme « fonction pure » possible.
+- **Comportement inséparable du rendu** : focus piégé, `resize`, glisser-déposer : pas de forme « fonction pure » possible.
 - **Câblage d'un flux frontend** hors parcours critique, qu'on retesterait sinon à la main.
 
 Assertions **par rôle et par texte** (`getByRole`, `getByText`), jamais par structure (classe CSS, état interne, nom de composant).
 
 ## Ne pas tester
 
-- **Ce qu'une librairie garantit déjà** : le comportement des composants shadcn/ui — via sa primitive, Base UI par défaut ou Radix (Échap, focus, clic dehors) — les primitives Zod (`.email()`, `.min()`), le câblage react-hook-form. Les tester = tester la librairie.
+- **Ce qu'une librairie garantit déjà** : le comportement des composants shadcn/ui via sa primitive (Base UI par défaut ou Radix : Échap, focus, clic dehors), les primitives Zod (`.email()`, `.min()`), le câblage react-hook-form. Les tester = tester la librairie.
 - **Le rendu statique** (« tel texte s'affiche ») et les constantes.
 
 ## Backend
