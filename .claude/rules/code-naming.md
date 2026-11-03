@@ -1,4 +1,4 @@
-# Nommage dans le code — le repo décide, pas le ticket
+# Nommage dans le code : le repo décide, pas le ticket
 
 Un ticket décrit un **comportement**, pas des noms de fonctions ni de variables. Les noms des fonctions, variables et types qu'on écrit suivent les **conventions du repo**, quelle que soit la façon dont le ticket, la spec ou le grooming formulent les choses.
 

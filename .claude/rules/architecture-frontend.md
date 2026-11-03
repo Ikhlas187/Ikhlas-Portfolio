@@ -1,4 +1,4 @@
-# Architecture — frontend
+# Architecture du frontend
 
 Le découpage est **par couche technique**, pas par écran. Cette structure est figée : ne pas en inventer une autre, ne pas ajouter de dossier de premier niveau sous `src/` sans accord explicite de l'utilisateur.
 

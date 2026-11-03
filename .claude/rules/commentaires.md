@@ -1,4 +1,4 @@
-# Commentaires — seulement les utiles, et courts
+# Commentaires : seulement les utiles, et courts
 
 Un commentaire ne se justifie que s'il apporte une information **que le code ne dit pas déjà**. Par défaut, ne pas commenter.
 

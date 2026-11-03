@@ -1,4 +1,4 @@
-# Tests — Arrange, Act, Assert strict
+# Tests : Arrange, Act, Assert strict
 
 Chaque test suit les 3 phases **Arrange → Act → Assert**, séparées visuellement par une ligne vide, à chaque fois, y compris quand le test tiendrait sur une ligne.
 

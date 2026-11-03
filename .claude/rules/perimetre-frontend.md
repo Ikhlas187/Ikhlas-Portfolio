@@ -1,4 +1,4 @@
-# Périmètre de travail — ce repo et rien d'autre
+# Périmètre de travail : ce repo et rien d'autre
 
 **Le seul endroit où il est permis d'écrire de sa propre initiative, c'est l'arborescence de `portfolio-frontend/`.** Tout le reste est fermé par défaut : le repo `portfolio-backend/`, le dossier parent `Ikhlas Portfolio/`, `~/.claude`, et n'importe quel autre dossier du système.
 

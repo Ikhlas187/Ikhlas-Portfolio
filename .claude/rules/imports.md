@@ -1,4 +1,4 @@
-# Imports — frontend
+# Imports du frontend
 
 Le projet utilise l'alias `@/` qui pointe sur `src/`.
 

@@ -1,4 +1,4 @@
-# Gestionnaire de paquets — pnpm
+# Gestionnaire de paquets : pnpm
 
 Sur ce repo, le gestionnaire de paquets est **pnpm**, tout le temps, sans exception.
 

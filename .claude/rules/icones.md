@@ -1,4 +1,4 @@
-# Icônes — toujours `lucide-react`
+# Icônes : toujours `lucide-react`
 
 Toute icône affichée dans l'interface vient du paquet `lucide-react`, sans exception. C'est la bibliothèque d'icônes déclarée dans `components.json` (`"iconLibrary": "lucide"`) et celle qu'utilisent les composants générés par shadcn/ui.
 

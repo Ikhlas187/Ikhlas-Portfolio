@@ -1,4 +1,4 @@
-# Boutons — toujours `cursor-pointer`
+# Boutons : toujours `cursor-pointer`
 
 Tout élément cliquable qui se comporte comme un bouton affiche le curseur main (`cursor-pointer`) au survol, sans exception : un `<button>`, un composant `Button` de shadcn, un lien stylé en bouton, une div/span rendue cliquable via `onClick`.
 
