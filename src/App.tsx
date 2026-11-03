@@ -3,8 +3,10 @@ import { HelmetProvider } from 'react-helmet-async'
 import { AnimatePresence } from 'framer-motion'
 
 import LenisProvider from '@/lib/LenisProvider'
+import LocaleProvider from '@/lib/LocaleProvider'
 import PageTransition from '@/components/ui/PageTransition'
 import MouseTrail from '@/components/ui/MouseTrail'
+import CoinLoader from '@/components/ui/CoinLoader'
 import HomePage from '@/components/pages/Home/HomePage'
 import ProjectsPage from '@/components/pages/Projects/ProjectsPage'
 import ProjectPage from '@/components/pages/Project/ProjectPage'
@@ -74,12 +76,15 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <LenisProvider>
-          <MouseTrail />
-          <AnimatedRoutes />
-        </LenisProvider>
-      </BrowserRouter>
+      <LocaleProvider>
+        <BrowserRouter>
+          <LenisProvider>
+            <MouseTrail />
+            <AnimatedRoutes />
+            <CoinLoader />
+          </LenisProvider>
+        </BrowserRouter>
+      </LocaleProvider>
     </HelmetProvider>
   )
 }
