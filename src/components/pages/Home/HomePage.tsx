@@ -6,10 +6,15 @@ import About from '@/components/pages/Home/About'
 import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
 import Services from '@/components/pages/Home/Services'
 import PinNote from '@/components/pages/Home/PinNote'
+import FinalCoinRain from '@/components/pages/Home/FinalCoinRain'
 import { useLocale } from '@/lib/LocaleProvider'
 
 // three.js et la scène 3D partent dans un chunk à part, hors du bundle principal.
 const MacBookSection = lazy(() => import('@/components/pages/Home/MacBook/MacBookSection'))
+
+// Sections masquées pour l'instant, gardées pour y revenir : passer à true pour les réafficher.
+const SHOULD_SHOW_PROJECTS = false
+const SHOULD_SHOW_SKILLS = false
 
 // À venir : menu 3 barres verticales entre DedicatedTeam et Services, CTA de fin (réf. momdesign.fr).
 export default function HomePage() {
@@ -26,16 +31,17 @@ export default function HomePage() {
   return (
     <main className="bg-black">
       <Hero />
-      <Projects />
+      {SHOULD_SHOW_PROJECTS && <Projects />}
       {/* Même hauteur que la section : les ScrollTrigger plus bas ne bougent pas au chargement. */}
-      <Suspense fallback={<div aria-hidden className="h-svh bg-black" />}>
+      <Suspense fallback={<div aria-hidden className="h-[400svh] bg-black" />}>
         <MacBookSection />
       </Suspense>
       {/* SplitText remplace les lignes du texte dans le DOM : on remonte la section pour la redécouper dans la nouvelle langue. */}
       <About key={locale} />
-      <DedicatedTeam />
+      {SHOULD_SHOW_SKILLS && <DedicatedTeam />}
       <Services />
       <PinNote />
+      <FinalCoinRain />
     </main>
   )
 }

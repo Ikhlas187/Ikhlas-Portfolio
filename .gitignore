@@ -18,3 +18,6 @@ __pycache__/
 # Captures de sites tiers et journaux du MCP Playwright (lourds, hors repo)
 .tasks/
 .playwright-mcp/
+
+# Rapport du dernier instantané des repos (chemins retirés pour secret)
+tools/repos/last-report.json

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion'
 import BootScreen from '@/components/pages/Home/MacOS/BootScreen'
 import Desktop from '@/components/pages/Home/MacOS/Desktop'
+import MacReposProvider from '@/components/pages/Home/MacOS/MacReposProvider'
 import Wallpaper from '@/components/pages/Home/MacOS/Wallpaper'
 import { readMacDisplay, saveMacDisplay, type MacDisplay } from '@/lib/macDisplaySession'
 import { cn } from '@/lib/utils'
@@ -57,6 +58,7 @@ export default function MacOS({ isPoweredOn, onShutdown }: MacOSProps) {
       <div
         data-macos-root
         data-macos-theme={display.isDarkMode ? 'dark' : 'light'}
+        onContextMenu={(event) => event.preventDefault()}
         className={cn(
           'relative flex size-full overflow-hidden bg-(--color-giantsur-black) font-(family-name:--font-giantsur) text-[1rem]/[1.5]',
           // Les tokens changent d'un coup : le temps de la bascule, chaque élément fond ses couleurs vers les nouvelles.
@@ -66,12 +68,14 @@ export default function MacOS({ isPoweredOn, onShutdown }: MacOSProps) {
       >
         {phase === 'desktop' && <Wallpaper />}
         {phase === 'desktop' && (
-          <Desktop
-            display={display}
-            onDisplayChange={changeDisplay}
-            onRestart={() => setPhase('boot')}
-            onShutdown={shutDown}
-          />
+          <MacReposProvider>
+            <Desktop
+              display={display}
+              onDisplayChange={changeDisplay}
+              onRestart={() => setPhase('boot')}
+              onShutdown={shutDown}
+            />
+          </MacReposProvider>
         )}
         <AnimatePresence>
           {phase === 'boot' && <BootScreen key="boot" isReducedMotion={isReducedMotion} onComplete={finishBoot} />}

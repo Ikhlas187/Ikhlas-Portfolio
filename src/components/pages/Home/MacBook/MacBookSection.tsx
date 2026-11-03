@@ -77,7 +77,7 @@ export default function MacBookSection() {
 
   return (
     <section ref={sectionRef} aria-label={text.sectionLabel} className="relative h-[400svh] bg-black">
-      <div className="sticky top-0 h-svh overflow-hidden">
+      <div className="sticky top-0 h-svh overflow-hidden" data-cursor={phase === 'closed' ? 'scroll' : undefined}>
         {isNear && (
           <Canvas
             flat

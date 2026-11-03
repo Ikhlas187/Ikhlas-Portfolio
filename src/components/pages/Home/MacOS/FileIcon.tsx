@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 type FileIconProps = { item: FinderItem; className?: string }
 
-const ICON_URLS = { folder: folderIconUrl, text: documentIconUrl, pdf: pdfIconUrl }
+const ICON_URLS = { folder: folderIconUrl, text: documentIconUrl, code: documentIconUrl, pdf: pdfIconUrl }
 
 // Icône Sequoia d'un élément du Finder : dossier bleu clair, document blanc, vignette pour une photo, logo pour une app.
 export default function FileIcon({ item, className }: FileIconProps) {

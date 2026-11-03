@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import {
   ChevronDown,
   ChevronLeft,
@@ -15,10 +15,12 @@ import FinderGrid from '@/components/pages/Home/MacOS/Finder/FinderGrid'
 import FinderList from '@/components/pages/Home/MacOS/Finder/FinderList'
 import FinderSearch from '@/components/pages/Home/MacOS/Finder/FinderSearch'
 import FinderSidebar from '@/components/pages/Home/MacOS/Finder/FinderSidebar'
+import FinderStatus from '@/components/pages/Home/MacOS/Finder/FinderStatus'
+import { useMacRepos, type LoadStatus } from '@/components/pages/Home/MacOS/MacReposProvider'
 import { useMacFiles } from '@/components/pages/Home/MacOS/useMacFiles'
 import Window, { type WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
 import { GIANT_SUR, type DockApp } from '@/data/giantSur'
-import { DESKTOP_PATH, FILE_TREE_YEAR, MACOS, type FinderLocation, type FinderViewMode } from '@/data/macos'
+import { DESKTOP_PATH, FILE_TREE_YEAR, MACOS, PROJECTS_PATH, type FinderLocation, type FinderViewMode } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
 import { cn } from '@/lib/utils'
 import { findNode } from '@/logic/macos/fileTree/fileTree'
@@ -42,6 +44,7 @@ import {
   goForward,
   pushEntry,
 } from '@/logic/macos/navigationHistory/navigationHistory'
+import type { RepoSummary } from '@/types/repo'
 
 type FinderProps = {
   frame: WindowFrameProps
@@ -50,12 +53,28 @@ type FinderProps = {
   onViewModeChange: (viewMode: FinderViewMode) => void
   onOpenFile: (path: string[]) => void
   onOpenApp: (app: DockApp) => void
+  onRepoContextMenu: (repo: RepoSummary, event: MouseEvent<HTMLElement>) => void
 }
 
 const TOOL_BUTTON =
   'flex h-[28px] cursor-pointer items-center justify-center gap-[2px] rounded-[6px] px-[6px] text-(--macos-finder-tool) hover:bg-(--macos-finder-hover) disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent'
 
-export default function Finder({ frame, viewMode, recents, onViewModeChange, onOpenFile, onOpenApp }: FinderProps) {
+// Dossier d'un repo dans Bureau/Projets/<repo>/… : son nom, sinon null.
+function repoNameAt(location: FinderLocation) {
+  if (location.kind !== 'folder' || location.path.length < 3) return null
+  const isInProjects = PROJECTS_PATH.every((id, index) => location.path[index] === id)
+  return isInProjects ? location.path[PROJECTS_PATH.length] : null
+}
+
+export default function Finder({
+  frame,
+  viewMode,
+  recents,
+  onViewModeChange,
+  onOpenFile,
+  onOpenApp,
+  onRepoContextMenu,
+}: FinderProps) {
   const { locale } = useLocale()
   const texts = MACOS[locale].finder
   const dockItems = GIANT_SUR[locale].dockItems
@@ -68,6 +87,20 @@ export default function Finder({ frame, viewMode, recents, onViewModeChange, onO
   const [query, setQuery] = useState('')
 
   const location = currentEntry(history)
+  const repos = useMacRepos()
+  const { requestRepo } = repos
+  const repoName = repoNameAt(location)
+  const isProjectsFolder = location.kind === 'folder' && location.path.join('/') === PROJECTS_PATH.join('/')
+
+  useEffect(() => {
+    if (repoName) requestRepo(repoName)
+  }, [repoName, requestRepo])
+
+  const loadStatus: LoadStatus = repoName
+    ? (repos.repoStatus(repoName) ?? 'loading')
+    : isProjectsFolder
+      ? repos.indexStatus
+      : 'ready'
 
   const locationItems = useMemo((): FinderItem[] => {
     if (location.kind === 'applications') {
@@ -98,7 +131,7 @@ export default function Finder({ frame, viewMode, recents, onViewModeChange, onO
         ? texts.applications
         : location.path.length === 0
           ? texts.macintoshHd
-          : (findNode(root, location.path)?.name ?? '')
+          : (findNode(root, location.path)?.name ?? location.path.at(-1) ?? '')
 
   const goTo = (next: FinderLocation) => {
     setHistory((current) => pushEntry(current, next))
@@ -118,6 +151,12 @@ export default function Finder({ frame, viewMode, recents, onViewModeChange, onO
     else onOpenFile(item.path)
   }
 
+  const showContextMenu = (item: FinderItem, event: MouseEvent<HTMLElement>) => {
+    if (item.kind === 'app' || item.node.kind !== 'folder' || !item.node.repo) return
+    setSelectedKey(item.key)
+    onRepoContextMenu(item.node.repo.summary, event)
+  }
+
   const sortBy = (column: SortColumn) => setSortOrder((current) => nextSortOrder(current, column))
 
   const ViewIcon = viewMode === 'icons' ? LayoutGrid : List
@@ -128,9 +167,7 @@ export default function Finder({ frame, viewMode, recents, onViewModeChange, onO
     <Window
       {...frame}
       title={title}
-      className="border-(--macos-finder-window-border) bg-(--macos-finder-glass) text-(--macos-finder-text)"
-      sidebarClassName="w-[152px] border-(--macos-finder-separator) bg-(--macos-finder-sidebar)"
-      titleBarClassName="gap-[8px] border-transparent bg-(--macos-finder-window) pr-[12px] pl-[14px]"
+      sidebarClassName="w-[152px] bg-(--macos-finder-sidebar)"
       contentClassName="bg-(--macos-finder-window)"
       sidebar={<FinderSidebar root={root} current={location} onSelect={goTo} />}
       toolbar={
@@ -194,8 +231,19 @@ export default function Finder({ frame, viewMode, recents, onViewModeChange, onO
         className="absolute inset-0 overflow-auto"
         onClick={(event) => !(event.target as HTMLElement).closest('button') && setSelectedKey(null)}
       >
-        {viewMode === 'icons' ? (
-          <FinderGrid items={items} selectedKey={selectedKey} onSelect={setSelectedKey} onOpen={openItem} />
+        {loadStatus !== 'ready' ? (
+          <FinderStatus
+            status={loadStatus}
+            onRetry={() => (repoName ? requestRepo(repoName) : repos.reloadIndex())}
+          />
+        ) : viewMode === 'icons' ? (
+          <FinderGrid
+            items={items}
+            selectedKey={selectedKey}
+            onSelect={setSelectedKey}
+            onOpen={openItem}
+            onContextMenu={showContextMenu}
+          />
         ) : (
           <FinderList
             items={items}
@@ -204,6 +252,7 @@ export default function Finder({ frame, viewMode, recents, onViewModeChange, onO
             onSort={sortBy}
             onSelect={setSelectedKey}
             onOpen={openItem}
+            onContextMenu={showContextMenu}
           />
         )}
       </div>

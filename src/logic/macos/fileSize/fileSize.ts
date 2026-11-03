@@ -13,6 +13,8 @@ export function fileSizeInBytes(node: FsNode): number | null {
       return 400_000 + (charCodeSum(node.photoId) % 40) * 50_000
     case 'pdf':
       return 60_000 + JSON.stringify(node.document).length * 20
+    case 'code':
+      return node.size
   }
 }
 

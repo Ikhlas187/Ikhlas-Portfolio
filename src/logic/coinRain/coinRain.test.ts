@@ -139,4 +139,12 @@ describe('rainKeyframes', () => {
 
     expect(css.match(/@keyframes rain-\d+/g)).toHaveLength(21)
   })
+
+  it('préfixe toutes les animations du nom donné', () => {
+    const coins = buildRain(['IKHLAS'], timing)
+
+    const css = rainKeyframes(coins, timing, 'final-rain')
+
+    expect(css.match(/@keyframes rain-/g)).toBeNull()
+  })
 })

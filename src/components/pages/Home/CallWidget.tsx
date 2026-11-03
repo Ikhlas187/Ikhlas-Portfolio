@@ -5,12 +5,16 @@ import { Phone, X } from 'lucide-react'
 import { useLocale } from '@/lib/LocaleProvider'
 import { CALL_WIDGET } from '@/data/about'
 import { sendContactMessage } from '@/lib/api/contact'
+import { isCallSilenced, markCallSilenced } from '@/lib/callRingSession'
 
 gsap.registerPlugin(useGSAP)
 
 type SendState = 'idle' | 'sending' | 'sent' | 'error'
 
-const RING_BACK_DELAY_MS = 8000
+// 3 secousses horizontales par sonnerie, une sonnerie toutes les ~6 s.
+const RING_SHAKES = 3
+const RING_SHAKE_X = [0, -4, 4, -4, 4, -2, 2, 0]
+const RING_PERIOD_REPEAT_DELAY = 2.9
 
 /* Widget « appel entrant » (réf. abhijitrout.in) : refuser replie la pastille sur l'avatar, répondre déplie le formulaire. */
 export default function CallWidget() {
@@ -20,14 +24,12 @@ export default function CallWidget() {
   const collapseTlRef = useRef<gsap.core.Timeline | null>(null)
   const panelTlRef = useRef<gsap.core.Timeline | null>(null)
   const ringLoopRef = useRef<gsap.core.Timeline | null>(null)
-  const ringBackRef = useRef<(() => void) | null>(null)
-  const ringTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [isClosed, setIsClosed] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [sendState, setSendState] = useState<SendState>('idle')
 
   useGSAP(
-    (_context, contextSafe) => {
+    () => {
       const pill = pillRef.current!
 
       const collapsedWidth = () => {
@@ -47,24 +49,19 @@ export default function CallWidget() {
         })
         .to(pill, { width: collapsedWidth, duration: 0.45, ease: 'power3.inOut' }, '-=0.05')
 
-      ringBackRef.current = contextSafe!(() => {
-        gsap
-          .timeline()
-          .to(pill, { rotation: 2.2, duration: 0.07, yoyo: true, repeat: 7, ease: 'sine.inOut' })
-          .to(pill, { rotation: 0, duration: 0.1 })
-      })
-
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        // Les 3 points « tapent » à la place du nom, puis la pastille sonne, en boucle.
-        ringLoopRef.current = gsap
-          .timeline({ repeat: -1, repeatDelay: 3.4, delay: 1.6 })
+      // Les 3 points « tapent » à la place du nom, puis la pastille vibre 3 fois, jusqu'au 1er clic de la visite.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !isCallSilenced()) {
+        const ring = gsap
+          .timeline({ repeat: -1, repeatDelay: RING_PERIOD_REPEAT_DELAY, delay: 1.6 })
           .to('.about__call-hey, .about__call-name', { autoAlpha: 0.12, duration: 0.25 }, 0)
           .to('.about__call-dots', { autoAlpha: 1, duration: 0.25 }, 0)
           .to({}, { duration: 1.0 })
           .to('.about__call-dots', { autoAlpha: 0, duration: 0.2 })
           .to('.about__call-hey, .about__call-name', { autoAlpha: 1, duration: 0.25 }, '<')
-          .to(pill, { rotation: 2, duration: 0.07, yoyo: true, repeat: 5, ease: 'sine.inOut' }, '>+0.15')
-          .to(pill, { rotation: 0, duration: 0.08 })
+        for (let i = 0; i < RING_SHAKES; i++) {
+          ring.to(pill, { keyframes: { x: RING_SHAKE_X }, duration: 0.32, ease: 'none' }, i === 0 ? '>+0.15' : '>+0.16')
+        }
+        ringLoopRef.current = ring
       }
 
       panelTlRef.current = gsap
@@ -81,28 +78,29 @@ export default function CallWidget() {
           { y: 14, autoAlpha: 0, duration: 0.3, ease: 'power2.out', stagger: 0.06 },
           0.18,
         )
-
-      return () => clearTimeout(ringTimer.current)
     },
     { scope: pillRef },
   )
+
+  // Le 1er clic sur le widget, quel que soit le bouton, coupe la sonnerie pour le reste de la visite.
+  const silenceRing = () => {
+    if (!ringLoopRef.current) return
+    markCallSilenced()
+    ringLoopRef.current.pause(0).kill()
+    ringLoopRef.current = null
+  }
 
   const close = () => {
     setIsClosed(true)
     setIsFormOpen(false)
     panelTlRef.current?.reverse()
-    ringLoopRef.current?.pause(0)
     collapseTlRef.current?.play()
-    clearTimeout(ringTimer.current)
-    ringTimer.current = setTimeout(() => ringBackRef.current?.(), RING_BACK_DELAY_MS)
   }
 
   const reopen = () => {
     if (!isClosed) return
-    clearTimeout(ringTimer.current)
     setIsClosed(false)
     collapseTlRef.current?.reverse()
-    ringLoopRef.current?.play()
   }
 
   const toggleForm = () => {
@@ -110,11 +108,9 @@ export default function CallWidget() {
     setIsFormOpen(willOpen)
     if (willOpen) {
       setSendState('idle')
-      ringLoopRef.current?.pause(0)
       panelTlRef.current?.play()
     } else {
       panelTlRef.current?.reverse()
-      ringLoopRef.current?.play()
     }
   }
 
@@ -137,6 +133,7 @@ export default function CallWidget() {
     <div
       className={`about__call${isClosed ? ' about__call--closed' : ''}${isFormOpen ? ' is-form-open' : ''}`}
       ref={pillRef}
+      onClickCapture={silenceRing}
     >
       <div className="about__call-head">
         <button

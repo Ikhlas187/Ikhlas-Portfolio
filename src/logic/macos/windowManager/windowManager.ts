@@ -11,7 +11,8 @@ import {
 
 export type AppId = AppName
 
-export type WindowPayload = { path?: string[] }
+// requestId : change à chaque demande, pour qu'une app déjà ouverte rejoue l'ouverture (repo, fichier, URL).
+export type WindowPayload = { path?: string[]; repo?: string; file?: string; url?: string; requestId?: number }
 
 export type MacWindow = {
   id: string
@@ -86,7 +87,12 @@ export function focusWindow(state: WindowManagerState, id: string): WindowManage
 
 export function openWindow(state: WindowManagerState, request: OpenWindowRequest, screen: Screen): WindowManagerState {
   const existing = request.key ? state.windows.find((window) => window.key === request.key) : undefined
-  if (existing) return restoreWindow(state, existing.id)
+  if (existing) {
+    const updated = request.payload
+      ? updateWindow(state, existing.id, (window) => ({ ...window, payload: request.payload ?? {} }))
+      : state
+    return restoreWindow(updated, existing.id)
+  }
 
   const openedCount = state.openedCount + 1
   const topZ = state.topZ + 1

@@ -10,9 +10,7 @@ export default function ProjectBoard({ project }: { project: Project }) {
   const { locale } = useLocale()
 
   return (
-    <article
-      className={`bd-board bd-board--${project.layout}`}
-    >
+    <article className={`bd-board bd-board--${project.layout}`} data-cursor="view">
       <div className="bd-board__info">
         <p className="bd-board__eyebrow">{project.eyebrow}</p>
         <div>

@@ -1,3 +1,4 @@
+import CertificateDocument from '@/components/pages/Home/MacOS/Preview/CertificateDocument'
 import CvDocument from '@/components/pages/Home/MacOS/Preview/CvDocument'
 import FinderWindow from '@/components/pages/Home/MacOS/FinderWindow'
 import type { WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
@@ -33,7 +34,11 @@ export default function Preview({ frame }: PreviewProps) {
       )}
       {node?.kind === 'pdf' && (
         <div className="absolute inset-0 flex flex-col overflow-y-auto bg-(--macos-window-sidebar) py-[24px]">
-          <CvDocument document={node.document} />
+          {node.document.type === 'cv' ? (
+            <CvDocument cv={node.document.cv} />
+          ) : (
+            <CertificateDocument document={node.document} />
+          )}
           <p className="mt-[14px] text-center text-[11px] text-(--macos-text-muted)">{MACOS[locale].preview.page}</p>
         </div>
       )}

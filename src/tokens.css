@@ -138,6 +138,7 @@
   --macos-brightness-shade: #000000;
   /* Intérieur des apps Calendrier, Notes et Photos (relevé sur frvky.online, palette neutral de Tailwind) */
   --font-macos-app: Arial, Helvetica, sans-serif;
+  --font-macos-code: Menlo, Monaco, 'Courier New', monospace;
   --macos-app-ink: #171717;
   --macos-app-text: #262626;
   --macos-app-strong: #404040;
@@ -190,6 +191,96 @@
   --macos-photos-handle: rgb(255 255 255 / 0.2);
   --macos-photos-shade: rgb(0 0 0 / 0.7);
   --macos-photos-shade-soft: rgb(0 0 0 / 0.8);
+
+  /* Cadre des fenêtres du faux macOS, copié du Safari de mihrimatrix/macos-clone-react (variantes sombres plus bas) */
+  --font-macos-frame: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  --macos-frame-window: rgb(236 236 236 / 0.8);
+  --macos-frame-window-solid: #ececec;
+  --macos-frame-surface: #ffffff;
+  --macos-frame-fg: rgb(0 0 0 / 0.85);
+  --macos-frame-muted: rgb(0 0 0 / 0.5);
+  --macos-frame-line: rgb(0 0 0 / 0.1);
+  --macos-frame-hover: rgb(0 0 0 / 0.05);
+  --macos-frame-selected: rgb(0 0 0 / 0.09);
+  --macos-frame-highlight: rgb(255 255 255 / 0.6);
+  --macos-frame-accent: #007aff;
+  --macos-frame-focus: rgb(0 122 255 / 0.45);
+  --macos-frame-tabs: rgb(0 0 0 / 0.04);
+  --macos-frame-light-ring: inset 0 0 0 0.5px rgb(0 0 0 / 0.14);
+  --macos-frame-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.28), 0 24px 64px 6px rgb(0 0 0 / 0.36);
+  --macos-frame-shadow-idle: 0 0 0 0.5px rgb(0 0 0 / 0.22), 0 6px 16px rgb(0 0 0 / 0.14);
+  --macos-frame-control-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.14), 0 0.5px 1.5px rgb(0 0 0 / 0.14);
+  --macos-frame-field-shadow: inset 0 0.5px 1px rgb(0 0 0 / 0.08), 0 0 0 0.5px var(--macos-frame-line);
+  --macos-frame-field-focus: 0 0 0 0.5px var(--macos-frame-accent), 0 0 0 3.5px var(--macos-frame-focus);
+  --macos-frame-glass: rgb(255 255 255 / 0.22);
+  --macos-frame-glass-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.35), inset 1.5px 1.5px 0 -0.5px rgb(255 255 255 / 0.95),
+    inset -1px -1px 0 -0.5px rgb(255 255 255 / 0.55), inset 0 1px 12px -4px rgb(255 255 255 / 0.45),
+    0 0 0 0.5px rgb(0 0 0 / 0.06), 0 8px 28px rgb(0 0 0 / 0.14);
+  --macos-frame-sidebar: rgb(248 248 251 / 0.55);
+  --macos-frame-sidebar-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.35), inset 1.5px 1.5px 0 -0.5px rgb(255 255 255 / 0.95),
+    inset -1px -1px 0 -0.5px rgb(255 255 255 / 0.55), inset 0 1px 12px -4px rgb(255 255 255 / 0.45),
+    0 1px 6px rgb(0 0 0 / 0.08), 0 0 0 8px var(--macos-frame-surface);
+  --macos-frame-star: #ffb900;
+  --macos-notes-amber: #fe9a00;
+  --macos-notes-selected: rgb(255 210 48 / 0.7);
+
+  /* Menu contextuel du faux macOS (clic droit sur un dossier de repo) */
+  --macos-context-menu-bg: rgb(246 246 246 / 0.8);
+  --macos-context-menu-border: rgb(0 0 0 / 0.12);
+  --macos-context-menu-text: rgb(0 0 0 / 0.88);
+  --macos-context-menu-muted: rgb(0 0 0 / 0.42);
+  --macos-context-menu-separator: rgb(0 0 0 / 0.1);
+  --macos-context-menu-highlight: #0a6cff;
+  --macos-context-menu-highlight-text: #ffffff;
+  --macos-context-menu-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.08), 0 10px 32px rgb(0 0 0 / 0.22);
+
+  /* App VS Code du faux macOS : thème Dark Modern de VS Code, gardé tel quel dans les 2 modes du Mac */
+  --macos-vscode-titlebar: #181818;
+  --macos-vscode-activitybar: #181818;
+  --macos-vscode-sidebar: #181818;
+  --macos-vscode-editor: #1f1f1f;
+  --macos-vscode-tab: #181818;
+  --macos-vscode-tab-active: #1f1f1f;
+  --macos-vscode-statusbar: #181818;
+  --macos-vscode-border: #2b2b2b;
+  --macos-vscode-fg: #cccccc;
+  --macos-vscode-fg-active: #ffffff;
+  --macos-vscode-muted: #9d9d9d;
+  --macos-vscode-icon: #868686;
+  --macos-vscode-accent: #0078d4;
+  --macos-vscode-hover: #2a2d2e;
+  --macos-vscode-selected: #37373d;
+  --macos-vscode-focus: #04395e;
+  --macos-vscode-input: #313131;
+  --macos-vscode-line-number: #6e7681;
+  --macos-vscode-line-current: #282828;
+  --macos-vscode-selection: #264f78;
+  --macos-vscode-text: #d4d4d4;
+  --macos-vscode-syntax-keyword: #569cd6;
+  --macos-vscode-syntax-control: #c586c0;
+  --macos-vscode-syntax-string: #ce9178;
+  --macos-vscode-syntax-comment: #6a9955;
+  --macos-vscode-syntax-number: #b5cea8;
+  --macos-vscode-syntax-function: #dcdcaa;
+  --macos-vscode-syntax-type: #4ec9b0;
+  --macos-vscode-syntax-variable: #9cdcfe;
+  --macos-vscode-syntax-constant: #4fc1ff;
+  --macos-vscode-syntax-regexp: #d16969;
+  --macos-vscode-syntax-tag: #569cd6;
+  --macos-vscode-syntax-attribute: #9cdcfe;
+  --macos-vscode-syntax-heading: #569cd6;
+  --macos-vscode-icon-react: #61dafb;
+  --macos-vscode-icon-script: #cbcb41;
+  --macos-vscode-icon-typescript: #3178c6;
+  --macos-vscode-icon-markup: #e37933;
+  --macos-vscode-icon-style: #519aba;
+  --macos-vscode-icon-json: #cbcb41;
+  --macos-vscode-icon-markdown: #519aba;
+  --macos-vscode-icon-code: #a074c4;
+  --macos-vscode-icon-config: #6d8086;
+  --macos-vscode-icon-image: #a074c4;
+  --macos-vscode-icon-binary: #8dc149;
+  --macos-vscode-icon-folder: #c5c5c5;
 
   /* Polices réellement chargées (index.css), plus de familles fantômes */
   --font-display: 'The Night Watch', 'Cormorant Unicase', serif;
@@ -289,6 +380,30 @@
   --macos-notes-hover: rgb(255 214 10 / 0.12);
   --macos-notes-chevron: #6b6b6b;
 
+  --macos-frame-window: rgb(40 40 42 / 0.8);
+  --macos-frame-window-solid: #2a2a2c;
+  --macos-frame-surface: #1e1e1e;
+  --macos-frame-fg: rgb(255 255 255 / 0.88);
+  --macos-frame-muted: rgb(255 255 255 / 0.55);
+  --macos-frame-line: rgb(255 255 255 / 0.1);
+  --macos-frame-hover: rgb(255 255 255 / 0.07);
+  --macos-frame-selected: rgb(255 255 255 / 0.11);
+  --macos-frame-highlight: rgb(255 255 255 / 0.12);
+  --macos-frame-tabs: rgb(0 0 0 / 0.2);
+  --macos-frame-control-shadow: inset 0 0.5px 0 rgb(255 255 255 / 0.12), 0 0 0 0.5px rgb(0 0 0 / 0.4), 0 1px 1.5px rgb(0 0 0 / 0.2);
+  --macos-frame-glass: rgb(40 40 44 / 0.28);
+  --macos-frame-glass-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.1), inset 1.5px 1.5px 0 -0.5px rgb(255 255 255 / 0.32),
+    inset -1px -1px 0 -0.5px rgb(255 255 255 / 0.16), inset 0 1px 12px -4px rgb(255 255 255 / 0.08),
+    0 0 0 0.5px rgb(0 0 0 / 0.5), 0 8px 28px rgb(0 0 0 / 0.36);
+  --macos-frame-sidebar: rgb(44 44 50 / 0.5);
+  --macos-frame-sidebar-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.1), inset 1.5px 1.5px 0 -0.5px rgb(255 255 255 / 0.32),
+    inset -1px -1px 0 -0.5px rgb(255 255 255 / 0.16), inset 0 1px 12px -4px rgb(255 255 255 / 0.08),
+    0 1px 6px rgb(0 0 0 / 0.08), 0 0 0 8px var(--macos-frame-surface);
+  --macos-notes-selected: rgb(254 154 0 / 0.45);
+  /* Redéclarés ici : une variable qui en lit une autre est résolue là où elle est déclarée. */
+  --macos-frame-field-shadow: inset 0 0.5px 1px rgb(0 0 0 / 0.08), 0 0 0 0.5px var(--macos-frame-line);
+  --macos-frame-field-focus: 0 0 0 0.5px var(--macos-frame-accent), 0 0 0 3.5px var(--macos-frame-focus);
+
   --macos-cc-glass: rgb(36 36 38 / 0.72);
   --macos-cc-tile: rgb(255 255 255 / 0.08);
   --macos-cc-border: rgb(255 255 255 / 0.12);
@@ -299,4 +414,12 @@
   --macos-cc-track: rgb(255 255 255 / 0.1);
   --macos-cc-fill: rgb(255 255 255 / 0.92);
   --macos-cc-shadow: 0 18px 50px rgb(0 0 0 / 0.55), 0 0 0 0.5px rgb(255 255 255 / 0.1);
+
+  --macos-context-menu-bg: rgb(40 40 42 / 0.82);
+  --macos-context-menu-border: rgb(255 255 255 / 0.14);
+  --macos-context-menu-text: rgb(255 255 255 / 0.9);
+  --macos-context-menu-muted: rgb(255 255 255 / 0.42);
+  --macos-context-menu-separator: rgb(255 255 255 / 0.12);
+  --macos-context-menu-highlight: #0a62d9;
+  --macos-context-menu-shadow: 0 0 0 0.5px rgb(0 0 0 / 0.5), 0 10px 32px rgb(0 0 0 / 0.5);
 }

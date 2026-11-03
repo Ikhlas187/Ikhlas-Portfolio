@@ -18,6 +18,8 @@ const FAVORITE_ICONS: Record<FinderFavorite['id'], LucideIcon> = {
   documents: File,
   downloads: CircleArrowDown,
   projects: Folder,
+  skills: Folder,
+  certifications: Folder,
 }
 
 type SidebarEntry = { key: string; location: FinderLocation; label: string; Icon: LucideIcon; isDisk?: boolean }

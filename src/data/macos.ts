@@ -1,25 +1,32 @@
+import type { CvCertification, CvContent } from '@/data/cv'
 import type { Localized } from '@/data/locale'
 import type { Locale } from '@/data/locale'
 import { PROJECTS } from '@/data/projects'
 import { ROLES } from '@/data/roles'
 import { SITE } from '@/data/site'
+import type { RepoOmission, RepoSummary } from '@/types/repo'
 
 // Faux macOS de l'écran du MacBook 3D : textes des apps et de l'arborescence du Finder.
 
 type FsBase = { id: string; name: string; date: string }
 
-export type FsFolder = FsBase & { kind: 'folder'; children: FsNode[] }
+// repo : dossier d'un repo GitHub du dossier Projets, rempli quand son instantané est chargé.
+export type FsFolder = FsBase & { kind: 'folder'; children: FsNode[]; repo?: { summary: RepoSummary; isLoaded: boolean } }
 export type FsTextFile = FsBase & { kind: 'text'; content: string }
 export type FsImageFile = FsBase & { kind: 'image'; photoId: string; alt: string }
-export type CvSection = { heading: string; lines: string[] }
-export type FsPdfFile = FsBase & { kind: 'pdf'; document: { title: string; subtitle: string; sections: CvSection[] } }
-export type FsFile = FsTextFile | FsImageFile | FsPdfFile
+export type PdfDocument =
+  | { type: 'cv'; cv: CvContent }
+  | { type: 'certificate'; certification: CvCertification; holder: string; labels: CvContent['certificate'] }
+export type FsPdfFile = FsBase & { kind: 'pdf'; document: PdfDocument }
+// Fichier d'un repo GitHub : son contenu reste dans l'instantané, l'app VS Code le lit à l'ouverture.
+export type FsCodeFile = FsBase & { kind: 'code'; repo: string; filePath: string; size: number }
+export type FsFile = FsTextFile | FsImageFile | FsPdfFile | FsCodeFile
 export type FsNode = FsFolder | FsFile
 
 export type FinderLocation = { kind: 'folder'; path: string[] } | { kind: 'recents' } | { kind: 'applications' }
 
 export type FinderFavorite = {
-  id: 'recents' | 'applications' | 'desktop' | 'documents' | 'downloads' | 'projects'
+  id: 'recents' | 'applications' | 'desktop' | 'documents' | 'downloads' | 'projects' | 'skills' | 'certifications'
   location: FinderLocation
 }
 
@@ -27,7 +34,7 @@ export type FinderViewMode = 'icons' | 'list'
 
 export type MeetingFormat = 'video' | 'phone' | 'inPerson'
 
-export type NotesEntry = { id: string; folder: string | null; title: string; body: string[] }
+export type NotesEntry = { id: string; folder: string | null; title: string; body: string[]; isPinned?: boolean }
 
 export type CalendarEventKind = 'release' | 'meeting' | 'other'
 
@@ -45,13 +52,14 @@ export type CalendarEvent = {
 }
 
 export type MacFileTexts = {
-  folders: Record<'home' | 'desktop' | 'documents' | 'downloads' | 'projects' | 'skills' | 'trash', string>
+  folders: Record<
+    'home' | 'desktop' | 'documents' | 'downloads' | 'projects' | 'skills' | 'roles' | 'certifications' | 'trash',
+    string
+  >
   about: { name: string; lines: string[] }
-  readme: string
-  photo: string
   stack: { name: string; heading: string }
   downloadedPhoto: { name: string; alt: string; photoId: string }
-  cv: { name: string; title: string; subtitle: string; sections: CvSection[] }
+  cvName: string
 }
 
 const GITHUB_HANDLE = 'github.com/Ikhlas187'
@@ -65,6 +73,8 @@ export const MAC_FILE_TEXTS: Localized<MacFileTexts> = {
       downloads: 'Downloads',
       projects: 'Projects',
       skills: 'Skills',
+      roles: 'Roles',
+      certifications: 'Certifications',
       trash: 'Trash',
     },
     about: {
@@ -81,35 +91,9 @@ export const MAC_FILE_TEXTS: Localized<MacFileTexts> = {
         `GitHub: ${GITHUB_HANDLE}`,
       ],
     },
-    readme: 'README.txt',
-    photo: 'Photo',
     stack: { name: 'Stack.txt', heading: 'Every tool I work with' },
     downloadedPhoto: { name: 'code.jpg', alt: 'Lines of code on a dark screen', photoId: '1555066931-4365d14bab8c' },
-    cv: {
-      name: 'CV.pdf',
-      title: 'Ikhlas Agbeti',
-      subtitle: 'Software Engineer',
-      sections: [
-        {
-          heading: 'Experience',
-          lines: [
-            'Socialoop · Junior developer: automations and AI agents for a remote-first European team',
-            'Comprint · Developer: user interfaces up to a full Django application',
-          ],
-        },
-        { heading: 'Education', lines: ['IFRI · Software engineering'] },
-        {
-          heading: 'Skills',
-          lines: [
-            'React, TypeScript, Tailwind, Framer Motion',
-            'Node, Express, Django, Laravel, PHP',
-            'PostgreSQL, MySQL, Supabase',
-            'Make, n8n, AI agents, Docker, GitHub Actions',
-          ],
-        },
-        { heading: 'Contact', lines: [SITE.email, GITHUB_HANDLE] },
-      ],
-    },
+    cvName: 'CV.pdf',
   },
   fr: {
     folders: {
@@ -118,7 +102,9 @@ export const MAC_FILE_TEXTS: Localized<MacFileTexts> = {
       documents: 'Documents',
       downloads: 'Téléchargements',
       projects: 'Projets',
-      skills: 'Compétences',
+      skills: 'Skills',
+      roles: 'Rôles',
+      certifications: 'Certifications',
       trash: 'Corbeille',
     },
     about: {
@@ -135,35 +121,9 @@ export const MAC_FILE_TEXTS: Localized<MacFileTexts> = {
         `GitHub : ${GITHUB_HANDLE}`,
       ],
     },
-    readme: 'LISEZMOI.txt',
-    photo: 'Photo',
     stack: { name: 'Stack.txt', heading: 'Tous les outils avec lesquels je travaille' },
     downloadedPhoto: { name: 'code.jpg', alt: 'Lignes de code sur un écran sombre', photoId: '1555066931-4365d14bab8c' },
-    cv: {
-      name: 'CV.pdf',
-      title: 'Ikhlas Agbeti',
-      subtitle: 'Software Engineer',
-      sections: [
-        {
-          heading: 'Expérience',
-          lines: [
-            'Socialoop · Développeur junior : automatisations et agents IA pour une équipe européenne à distance',
-            'Comprint · Développeur : des interfaces utilisateur jusqu’à une application Django complète',
-          ],
-        },
-        { heading: 'Formation', lines: ['IFRI · Génie logiciel'] },
-        {
-          heading: 'Compétences',
-          lines: [
-            'React, TypeScript, Tailwind, Framer Motion',
-            'Node, Express, Django, Laravel, PHP',
-            'PostgreSQL, MySQL, Supabase',
-            'Make, n8n, agents IA, Docker, GitHub Actions',
-          ],
-        },
-        { heading: 'Contact', lines: [SITE.email, GITHUB_HANDLE] },
-      ],
-    },
+    cvName: 'CV.pdf',
   },
 }
 
@@ -171,8 +131,10 @@ export const FILE_TREE_YEAR = '2026'
 
 export const DESKTOP_PATH = ['desktop']
 export const CV_PATH = ['desktop', 'cv']
-export const ABOUT_PATH = ['desktop', 'about']
+export const ABOUT_PATH = ['documents', 'about']
 export const PROJECTS_PATH = ['desktop', 'projects']
+export const SKILLS_PATH = ['desktop', 'skills']
+export const CERTIFICATIONS_PATH = ['desktop', 'certifications']
 
 export const FINDER_FAVORITES: FinderFavorite[] = [
   { id: 'recents', location: { kind: 'recents' } },
@@ -180,7 +142,9 @@ export const FINDER_FAVORITES: FinderFavorite[] = [
   { id: 'desktop', location: { kind: 'folder', path: ['desktop'] } },
   { id: 'documents', location: { kind: 'folder', path: ['documents'] } },
   { id: 'downloads', location: { kind: 'folder', path: ['downloads'] } },
-  { id: 'projects', location: { kind: 'folder', path: ['desktop', 'projects'] } },
+  { id: 'projects', location: { kind: 'folder', path: PROJECTS_PATH } },
+  { id: 'skills', location: { kind: 'folder', path: SKILLS_PATH } },
+  { id: 'certifications', location: { kind: 'folder', path: CERTIFICATIONS_PATH } },
 ]
 
 export const FINDER_LOCATIONS: FinderLocation[] = [{ kind: 'folder', path: [] }]
@@ -200,6 +164,7 @@ export type AppName =
   | 'messages'
   | 'music'
   | 'calendar'
+  | 'vscode'
 
 type MacOSTexts = {
   appNames: Record<AppName, string>
@@ -226,13 +191,48 @@ type MacOSTexts = {
     sizeUnits: { bytes: string; kb: string; mb: string; decimal: string }
   }
   preview: { page: string }
+  repos: {
+    loading: string
+    loadError: string
+    retry: string
+    empty: string
+    openInVSCode: string
+    openInBrowser: string
+    openOnGitHub: string
+    private: string
+  }
+  vscode: {
+    activity: { explorer: string; search: string; sourceControl: string; run: string; extensions: string; accounts: string; manage: string }
+    explorer: string
+    openEditors: string
+    noFolder: string
+    welcomeTitle: string
+    welcomeSubtitle: string
+    recent: string
+    noFileOpen: string
+    loading: string
+    loadError: string
+    closeTab: string
+    omitted: Record<RepoOmission, string>
+    // {line} et {column} sont remplacés par la position du curseur.
+    position: string
+    spaces: string
+    encoding: string
+    lineEnding: string
+    privateRepo: string
+  }
   browser: {
     back: string
     forward: string
     reload: string
-    home: string
     loading: string
+    address: string
     addressPlaceholder: string
+    addBookmark: string
+    newTab: string
+    closeTab: string
+    bookmarks: string
+    frameNotice: string
     aboutTitle: string
     google: string
     // {query} est remplacé par la recherche.
@@ -242,21 +242,31 @@ type MacOSTexts = {
     notFoundBody: string
   }
   notes: {
-    title: string
-    folders: string
+    onMyMac: string
+    allNotes: string
     folderNames: Record<string, string>
-    testimonialsHint: string
-    testimonialsEmpty: string
+    newFolder: string
+    folderName: string
+    pinned: string
+    others: string
+    // {count} est remplacé par le nombre de notes.
+    noteCount: string
+    noNotes: string
+    noAdditionalText: string
+    untitled: string
+    deleteNote: string
+    pinNote: string
+    newNote: string
+    search: string
+    searchNotes: string
+    noteTitle: string
+    titlePlaceholder: string
+    note: string
+    bodyPlaceholder: string
+    noNoteSelected: string
     // {name} est remplacé par l'auteur de la note.
     testimonialFrom: string
     anonymous: string
-    newTestimonial: string
-    cancel: string
-    post: string
-    posting: string
-    composePlaceholder: string
-    namePlaceholder: string
-    postError: string
     entries: NotesEntry[]
   }
   terminal: {
@@ -407,6 +417,7 @@ const NOTES_INTRO: Localized<NotesEntry[]> = {
       id: 'what-i-do',
       folder: null,
       title: 'ikhlas / what i do',
+      isPinned: true,
       body: [
         'I’m Ikhlas Agbeti, a software engineer. I build interfaces in React and TypeScript, APIs in Node and Django, and automations with Make and n8n.',
         'I studied software engineering at IFRI, worked as a developer at Comprint, then joined Socialoop as a junior developer to build automations and AI agents for a remote-first European team.',
@@ -438,6 +449,7 @@ const NOTES_INTRO: Localized<NotesEntry[]> = {
       id: 'what-i-do',
       folder: null,
       title: 'ikhlas / ce que je fais',
+      isPinned: true,
       body: [
         'Je suis Ikhlas Agbeti, software engineer. Je construis des interfaces en React et TypeScript, des API en Node et Django, et des automatisations avec Make et n8n.',
         'J’ai étudié le génie logiciel à l’IFRI, travaillé comme développeur chez Comprint, puis rejoint Socialoop comme développeur junior pour construire des automatisations et des agents IA au sein d’une équipe européenne à distance.',
@@ -494,6 +506,7 @@ export const MACOS: Localized<MacOSTexts> = {
       messages: 'Messages',
       music: 'Music',
       calendar: 'Calendar',
+      vscode: 'Code',
     },
     boot: { label: 'Starting up' },
     windowControls: { close: 'Close', minimize: 'Minimize', zoom: 'Full screen' },
@@ -526,17 +539,64 @@ export const MACOS: Localized<MacOSTexts> = {
       search: 'Search',
       clearSearch: 'Clear',
       columns: { name: 'Name', size: 'Size', kind: 'Kind', dateAdded: 'Date Added' },
-      kinds: { folder: 'Folder', text: 'Plain Text', image: 'JPEG image', pdf: 'PDF document', app: 'Application' },
+      kinds: { folder: 'Folder', text: 'Plain Text', image: 'JPEG image', pdf: 'PDF document', code: 'Source code', app: 'Application' },
       sizeUnits: { bytes: 'bytes', kb: 'KB', mb: 'MB', decimal: '.' },
     },
     preview: { page: 'Page 1 of 1' },
+    repos: {
+      loading: 'Loading…',
+      loadError: 'This folder could not be loaded.',
+      retry: 'Try again',
+      empty: 'This folder is empty.',
+      openInVSCode: 'Open with VS Code',
+      openInBrowser: 'View in Browser',
+      openOnGitHub: 'View on GitHub',
+      private: 'Private',
+    },
+    vscode: {
+      activity: {
+        explorer: 'Explorer',
+        search: 'Search',
+        sourceControl: 'Source Control',
+        run: 'Run and Debug',
+        extensions: 'Extensions',
+        accounts: 'Accounts',
+        manage: 'Manage',
+      },
+      explorer: 'Explorer',
+      openEditors: 'Open Editors',
+      noFolder: 'You have not yet opened a folder.',
+      welcomeTitle: 'Visual Studio Code',
+      welcomeSubtitle: 'Editing evolved',
+      recent: 'Recent',
+      noFileOpen: 'Select a file in the Explorer to open it.',
+      loading: 'Loading repository…',
+      loadError: 'The repository could not be loaded.',
+      closeTab: 'Close',
+      omitted: {
+        binary: 'The file is not displayed in the text editor because it is either binary or uses an unsupported text encoding.',
+        lockfile: 'This lockfile is generated by the package manager and is not published here.',
+        tooLarge: 'This file is larger than 150 KB and is not published here.',
+        budget: 'This repository is too large to publish every file: only the main source files are included.',
+      },
+      position: 'Ln {line}, Col {column}',
+      spaces: 'Spaces: 2',
+      encoding: 'UTF-8',
+      lineEnding: 'LF',
+      privateRepo: 'Private repository',
+    },
     browser: {
       back: 'Back',
       forward: 'Forward',
       reload: 'Reload',
-      home: 'Home',
       loading: 'Loading...',
+      address: 'Address',
       addressPlaceholder: 'Search Google or type a URL',
+      addBookmark: 'Add bookmark',
+      newTab: 'New tab',
+      closeTab: 'Close tab',
+      bookmarks: 'Bookmarks',
+      frameNotice: 'Some sites won’t load inside this window.',
       aboutTitle: 'About Ikhlas',
       google: 'Google',
       googleSearchTitle: '{query} - Google Search',
@@ -545,20 +605,29 @@ export const MACOS: Localized<MacOSTexts> = {
       notFoundBody: 'This page doesn’t exist on ikhlas.studio.',
     },
     notes: {
-      title: 'Notes',
-      folders: 'Folders',
-      folderNames: { testimonials: 'Testimonials', projects: 'Projects' },
-      testimonialsHint: 'Notes from people who stopped by. Tap the pencil to leave one.',
-      testimonialsEmpty: 'No notes yet. Be the first.',
+      onMyMac: 'On My Mac',
+      allNotes: 'All Notes',
+      folderNames: { notes: 'Notes', testimonials: 'Testimonials', projects: 'Projects' },
+      newFolder: 'New Folder',
+      folderName: 'Folder name',
+      pinned: 'Pinned',
+      others: 'Notes',
+      noteCount: '{count} notes',
+      noNotes: 'No Notes',
+      noAdditionalText: 'No additional text',
+      untitled: 'New Note',
+      deleteNote: 'Delete note',
+      pinNote: 'Pin note',
+      newNote: 'New note',
+      search: 'Search',
+      searchNotes: 'Search notes',
+      noteTitle: 'Note title',
+      titlePlaceholder: 'Title',
+      note: 'Note',
+      bodyPlaceholder: 'Start typing…',
+      noNoteSelected: 'No Note Selected',
       testimonialFrom: 'from {name}',
       anonymous: 'someone who stopped by',
-      newTestimonial: 'New testimonial',
-      cancel: 'Cancel',
-      post: 'Post',
-      posting: 'Posting…',
-      composePlaceholder: 'Write something for Ikhlas… what you think of the site, a project, anything.',
-      namePlaceholder: 'Your name or @ (optional)',
-      postError: 'Couldn’t post that. Try again?',
       entries: notesEntries('en'),
     },
     terminal: {
@@ -743,6 +812,7 @@ export const MACOS: Localized<MacOSTexts> = {
       messages: 'Messages',
       music: 'Musique',
       calendar: 'Calendrier',
+      vscode: 'Code',
     },
     boot: { label: 'Démarrage' },
     windowControls: { close: 'Fermer', minimize: 'Placer dans le Dock', zoom: 'Plein écran' },
@@ -775,17 +845,64 @@ export const MACOS: Localized<MacOSTexts> = {
       search: 'Rechercher',
       clearSearch: 'Effacer',
       columns: { name: 'Nom', size: 'Taille', kind: 'Type', dateAdded: 'Date d’ajout' },
-      kinds: { folder: 'Dossier', text: 'Texte brut', image: 'Image JPEG', pdf: 'Document PDF', app: 'Application' },
+      kinds: { folder: 'Dossier', text: 'Texte brut', image: 'Image JPEG', pdf: 'Document PDF', code: 'Code source', app: 'Application' },
       sizeUnits: { bytes: 'octets', kb: 'Ko', mb: 'Mo', decimal: ',' },
     },
     preview: { page: 'Page 1 sur 1' },
+    repos: {
+      loading: 'Chargement…',
+      loadError: 'Impossible de charger ce dossier.',
+      retry: 'Réessayer',
+      empty: 'Ce dossier est vide.',
+      openInVSCode: 'Ouvrir avec VS Code',
+      openInBrowser: 'Voir dans le navigateur',
+      openOnGitHub: 'Voir sur GitHub',
+      private: 'Privé',
+    },
+    vscode: {
+      activity: {
+        explorer: 'Explorateur',
+        search: 'Rechercher',
+        sourceControl: 'Contrôle de code source',
+        run: 'Exécuter et déboguer',
+        extensions: 'Extensions',
+        accounts: 'Comptes',
+        manage: 'Gérer',
+      },
+      explorer: 'Explorateur',
+      openEditors: 'Éditeurs ouverts',
+      noFolder: 'Vous n’avez pas encore ouvert de dossier.',
+      welcomeTitle: 'Visual Studio Code',
+      welcomeSubtitle: 'L’édition évoluée',
+      recent: 'Récent',
+      noFileOpen: 'Sélectionnez un fichier dans l’explorateur pour l’ouvrir.',
+      loading: 'Chargement du dépôt…',
+      loadError: 'Impossible de charger le dépôt.',
+      closeTab: 'Fermer',
+      omitted: {
+        binary: 'Le fichier n’est pas affiché dans l’éditeur de texte, car il est binaire ou utilise un encodage de texte non pris en charge.',
+        lockfile: 'Ce fichier de verrouillage est généré par le gestionnaire de paquets et n’est pas publié ici.',
+        tooLarge: 'Ce fichier dépasse 150 Ko et n’est pas publié ici.',
+        budget: 'Ce dépôt est trop lourd pour publier chaque fichier : seuls les fichiers de code principaux sont inclus.',
+      },
+      position: 'Ln {line}, Col {column}',
+      spaces: 'Espaces : 2',
+      encoding: 'UTF-8',
+      lineEnding: 'LF',
+      privateRepo: 'Dépôt privé',
+    },
     browser: {
       back: 'Précédent',
       forward: 'Suivant',
       reload: 'Recharger',
-      home: 'Accueil',
       loading: 'Chargement...',
+      address: 'Adresse',
       addressPlaceholder: 'Rechercher sur Google ou saisir une URL',
+      addBookmark: 'Ajouter un signet',
+      newTab: 'Nouvel onglet',
+      closeTab: 'Fermer l’onglet',
+      bookmarks: 'Signets',
+      frameNotice: 'Certains sites refusent de s’afficher dans cette fenêtre.',
       aboutTitle: 'À propos d’Ikhlas',
       google: 'Google',
       googleSearchTitle: '{query} - Recherche Google',
@@ -794,20 +911,29 @@ export const MACOS: Localized<MacOSTexts> = {
       notFoundBody: 'Cette page n’existe pas sur ikhlas.studio.',
     },
     notes: {
-      title: 'Notes',
-      folders: 'Dossiers',
-      folderNames: { testimonials: 'Témoignages', projects: 'Projets' },
-      testimonialsHint: 'Les mots des gens passés par ici. Touchez le crayon pour laisser le vôtre.',
-      testimonialsEmpty: 'Aucune note pour l’instant. Soyez le premier.',
+      onMyMac: 'Sur mon Mac',
+      allNotes: 'Toutes les notes',
+      folderNames: { notes: 'Notes', testimonials: 'Témoignages', projects: 'Projets' },
+      newFolder: 'Nouveau dossier',
+      folderName: 'Nom du dossier',
+      pinned: 'Épinglées',
+      others: 'Notes',
+      noteCount: '{count} notes',
+      noNotes: 'Aucune note',
+      noAdditionalText: 'Aucun texte supplémentaire',
+      untitled: 'Nouvelle note',
+      deleteNote: 'Supprimer la note',
+      pinNote: 'Épingler la note',
+      newNote: 'Nouvelle note',
+      search: 'Rechercher',
+      searchNotes: 'Rechercher dans les notes',
+      noteTitle: 'Titre de la note',
+      titlePlaceholder: 'Titre',
+      note: 'Note',
+      bodyPlaceholder: 'Commencez à écrire…',
+      noNoteSelected: 'Aucune note sélectionnée',
       testimonialFrom: 'de {name}',
       anonymous: 'quelqu’un de passage',
-      newTestimonial: 'Nouveau témoignage',
-      cancel: 'Annuler',
-      post: 'Publier',
-      posting: 'Publication…',
-      composePlaceholder: 'Écrivez un mot pour Ikhlas… ce que vous pensez du site, d’un projet, de tout.',
-      namePlaceholder: 'Votre nom ou @ (facultatif)',
-      postError: 'Impossible de publier. On réessaie ?',
       entries: notesEntries('fr'),
     },
     terminal: {

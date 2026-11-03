@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react'
 import FileIcon from '@/components/pages/Home/MacOS/FileIcon'
 import { cn } from '@/lib/utils'
 import type { FinderItem } from '@/logic/macos/finderItems/finderItems'
@@ -7,9 +8,10 @@ type FinderGridProps = {
   selectedKey: string | null
   onSelect: (key: string) => void
   onOpen: (item: FinderItem) => void
+  onContextMenu: (item: FinderItem, event: MouseEvent<HTMLElement>) => void
 }
 
-export default function FinderGrid({ items, selectedKey, onSelect, onOpen }: FinderGridProps) {
+export default function FinderGrid({ items, selectedKey, onSelect, onOpen, onContextMenu }: FinderGridProps) {
   return (
     <ul className="grid grid-cols-[repeat(auto-fill,112px)] content-start justify-between gap-x-[12px] gap-y-[14px] px-[16px] pt-[24px] pb-[16px]">
       {items.map((item) => {
@@ -20,6 +22,7 @@ export default function FinderGrid({ items, selectedKey, onSelect, onOpen }: Fin
               type="button"
               onClick={() => onSelect(item.key)}
               onDoubleClick={() => onOpen(item)}
+              onContextMenu={(event) => onContextMenu(item, event)}
               onKeyDown={(event) => event.key === 'Enter' && onOpen(item)}
               className="flex w-full cursor-pointer flex-col items-center gap-[4px] outline-none"
             >
