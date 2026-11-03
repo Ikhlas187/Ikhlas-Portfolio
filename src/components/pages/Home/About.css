@@ -1,0 +1,330 @@
+/* Section About (réf. abhijitrout.in/#about) : kicker centré, récit poussé à gauche. */
+
+.about {
+  background: var(--color-white);
+  color: var(--color-black);
+  font-family: var(--font-body);
+  padding: clamp(7rem, 16vh, 12rem) 7% clamp(9rem, 20vh, 15rem);
+  /* Le widget d'appel entre depuis x: 90px (GSAP) : sans clip, ce décalage élargit la page tant qu'il n'est pas révélé. */
+  overflow-x: clip;
+}
+
+.about__kicker {
+  margin: 0 0 clamp(6rem, 14vh, 10rem);
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* La moitié droite n'accueille que le widget d'appel. */
+.about__row {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.about__label {
+  margin: 0;
+  flex: none;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.about__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35em;
+  max-width: 560px;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+}
+
+.about__body p {
+  margin: 0;
+}
+
+.about__body a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.about__body em {
+  font-style: italic;
+}
+
+/* Surligneur : background-size balayé de 0 à 100 % par GSAP. */
+.about__hl {
+  background-color: transparent;
+  background-image: linear-gradient(color-mix(in srgb, var(--color-accent) 28%, transparent), color-mix(in srgb, var(--color-accent) 28%, transparent));
+  background-repeat: no-repeat;
+  background-size: 0% 88%;
+  background-position: 0 60%;
+  color: inherit;
+  padding: 0 2px;
+  margin: 0 -2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__hl {
+    background-size: 100% 88%;
+  }
+}
+
+/* ---- Widget « appel entrant » (moitié droite) ---- */
+/* Le wrapper porte l'animation d'arrivée GSAP, la pastille garde sa vibration CSS sans conflit de transform. */
+.about__call-wrap {
+  margin: auto; /* centré dans l'espace restant à droite */
+  align-self: center;
+}
+
+.about__call {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-radius: 9999px; /* GSAP le fait passer à 26px à l'ouverture */
+  background: var(--color-black);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--color-black) 28%, transparent);
+  overflow: hidden; /* le contenu disparaît pendant repli/ouverture */
+  white-space: nowrap;
+}
+
+.about__call-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.about__call--closed .about__call-avatar {
+  cursor: pointer;
+}
+
+.about__call-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  cursor: default;
+}
+
+.about__call-text {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  margin-right: 26px;
+  line-height: 1.25;
+}
+
+/* 3 points « quelqu'un écrit », révélés par GSAP avant chaque vibration. */
+.about__call-dots {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.about__call-dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-gray-600);
+  animation: about-dot 0.9s ease-in-out infinite;
+}
+
+.about__call-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.about__call-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes about-dot {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.about__call-hey {
+  font-size: 13px;
+  color: var(--color-gray-600);
+}
+
+.about__call-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-white);
+}
+
+.about__call-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.about__call-btn--decline {
+  background: var(--color-call-decline);
+}
+
+.about__call-btn--accept {
+  position: relative;
+  background: var(--color-call-accept);
+}
+
+/* Anneau de sonnerie autour du bouton vert */
+.about__call-btn--accept::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--color-call-accept) 55%, transparent);
+  animation: about-pulse 1.6s ease-out infinite;
+}
+
+@keyframes about-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+
+/* ---- Formulaire : hauteur 0 par défaut, GSAP l'étire à l'ouverture ---- */
+.about__call-panel {
+  height: 0;
+  overflow: hidden;
+}
+
+.about__call-panel-in {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 4px 4px;
+}
+
+/* Croix rouge, écho du bouton raccrocher. */
+.about__call-panel-close {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--color-call-decline);
+  cursor: pointer;
+}
+
+.about__call-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.about__call-field-label {
+  font-size: 12px;
+  color: var(--color-gray-600);
+}
+
+.about__call-field input {
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
+  border-radius: 10px;
+  background: var(--color-gray-200);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-white);
+}
+
+.about__call-field input::placeholder {
+  color: var(--color-gray-500);
+}
+
+.about__call-send {
+  margin-top: 2px;
+  padding: 10px 14px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.about__call-send:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__call-btn--accept::after,
+  .about__call-dots i {
+    animation: none;
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .about__row {
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .about__call-wrap {
+    align-self: flex-start;
+    margin: 2.5rem 0 0;
+  }
+}
+
+/* Sous 360px, la pastille (325px en largeur naturelle) dépasse la colonne : on resserre boutons et espacements. */
+@media (max-width: 359px) {
+  .about__call {
+    padding: 8px 10px;
+  }
+
+  .about__call-head {
+    gap: 10px;
+  }
+
+  .about__call-avatar,
+  .about__call-btn {
+    width: 46px;
+    height: 46px;
+  }
+
+  .about__call-text {
+    margin-right: 10px;
+  }
+}

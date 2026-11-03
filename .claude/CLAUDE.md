@@ -1,0 +1,175 @@
+# portfolio-frontend
+
+Site vitrine d'Ikhlas Agbeti (Software Engineer) : sombre, éditorial, animé au scroll. Chaque section de la home reprend la mécanique d'un site de référence étudié, remplie avec le vrai parcours d'Ikhlas.
+
+Lire ce fichier en premier à chaque session, puis les règles de `.claude/rules/`.
+
+## Arborescence
+
+```
+portfolio-frontend/
+├── .claude/
+│   ├── CLAUDE.md             ce fichier
+│   ├── launch.json           config « pnpm dev » pour l'aperçu
+│   ├── rules/                règles du repo (architecture, fichiers, imports, ui, icônes, tests…)
+│   └── skills/               31 skills front : design, UI, animation, a11y, shadcn, React, Remotion
+├── public/                   servi tel quel (The Night Watch à déposer dans public/fonts/)
+│   ├── models/               macbook-pro-14.glb, modèle 3D compressé Draco
+│   ├── draco/                décodeur Draco chargé par la scène 3D
+│   └── giantsur/             images du clone Giant Sur (icônes du Dock et du bureau)
+├── tools/                    hors app : manga.py, video/ (Remotion), sources/ (photos brutes, ignoré par git)
+├── src/
+│   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
+│   ├── App.tsx               providers (Helmet, Locale, Router, Lenis) + MouseTrail + routes animées
+│   ├── index.css             Tailwind + shadcn + reset (@layer base) + variables shadcn branchées sur les tokens
+│   ├── tokens.css            toutes les CSS vars du portfolio (couleurs, typo, espacements, easings)
+│   ├── components/
+│   │   ├── ui/               générique, utilisé par toutes les routes
+│   │   │   ├── button.tsx          shadcn (Base UI), kebab-case voulu
+│   │   │   ├── select.tsx          shadcn (Base UI), restylé crème/noir (boîte du sélecteur de langue)
+│   │   │   ├── textarea.tsx, input.tsx  shadcn, restylés sans bordure (champs de PinNote)
+│   │   │   ├── PageTransition.tsx  fondu + volet noir entre routes
+│   │   │   ├── MouseTrail.tsx      traînée canvas « feutre », blend difference
+│   │   │   └── CoinLoader.tsx      écran de chargement : pluie de pièces IKHLAS / AGBETI / métier (+ CoinPile, FlatCoin, SolidCoin)
+│   │   └── pages/            un dossier par écran
+│   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
+│   │       │   ├── Hero.tsx             1er écran (réf. haufsess.com) : tagline + photo + nom géant
+│   │       │   ├── HomeHeader.tsx       header fixe z-90, fondu au scroll, menu mobile < 810px
+│   │       │   ├── NavPill.tsx          pill de nav, survol en ressort (--pill-hover)
+│   │       │   ├── LanguageSelect.tsx   sélecteur English / Français (shadcn Select), boîte de la réf.
+│   │       │   ├── BurgerButton.tsx     Menu / X lucide du header mobile
+│   │       │   ├── HeroName.tsx         nom en SVG mis à l'échelle de la largeur, entrée en ressort
+│   │       │   ├── Projects             pile de planches (réf. galerie Behance S. Baldeon)
+│   │       │   ├── Interlude.tsx        intercalaire « Selected works » + ellipse dessinée
+│   │       │   ├── ProjectBoard.tsx     une planche projet
+│   │       │   ├── About                planche claire (réf. abhijitrout.in)
+│   │       │   ├── CallWidget.tsx       widget « appel entrant » + formulaire de contact
+│   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
+│   │       │   ├── techIcons.ts         table techno vers { Icon, color }
+│   │       │   ├── Services             4 rangées, révélation encre (réf. kaiseisadatoki-v4)
+│   │       │   ├── PinNote.tsx          tableau de notes épinglées en fin de home (réf. tpdapson.com), Tailwind
+│   │       │   ├── NoteForm.tsx         carte formulaire : note, prénom facultatif, couleur, bouton Pin note
+│   │       │   ├── StickyNote.tsx       une note carrée inclinée + punaise lucide Pin
+│   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
+│   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
+│   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
+│   │       │   ├── Process              4 étapes, écrit mais PAS monté
+│   │       │   ├── MacBook/             scène 3D (r3f) chargée à la demande : capot qui s'ouvre puis plongée dans l'écran au scroll
+│   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : démarrage macweb.dev puis bureau Giant Sur, fond et barre de menus du 1er macOS
+│   │       │       ├── BootScreen.tsx       logo Apple + barre 280 × 2 px (courbe dans logic/macos/bootProgress)
+│   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
+│   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
+│   │       │       ├── Wallpaper.tsx        fond d'écran (assets/photo-1511300636408-a63a89df3482.avif, Unsplash)
+│   │       │       ├── Dock*.tsx, DesktopIcons.tsx, DesktopItem.tsx   interface Giant Sur à l'identique
+│   │       │       ├── Window.tsx           cadre Big Sur : barre latérale translucide pleine hauteur, barre d'outils unifiée, réduction « genie »
+│   │       │       ├── FinderWindow.tsx     cadre clair du Finder Sequoia appliqué à toutes les apps sauf Safari ; intérieurs de Calendrier, Notes et Photos copiés de frvky.online
+│   │       │       ├── DockLink.tsx, dockLinkLogos.ts   liens GitHub et LinkedIn après le séparateur du Dock
+│   │       │       ├── AppleLogo.tsx, IAEmblem.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
+│   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/   une app par dossier
+│   │       ├── Projects/ Project/ About/ Contact/   coquilles vides
+│   │       └── NotFound/     404
+│   ├── lib/
+│   │   ├── api/contact.ts    envoi du formulaire de contact (FormSubmit), seul code réseau du site
+│   │   ├── LenisProvider.tsx smooth scroll Lenis branché sur gsap.ticker + ScrollTrigger
+│   │   ├── LocaleProvider.tsx locale en | fr partagée (useLocale), met à jour <html lang>
+│   │   ├── localeStorage.ts  choix de langue gardé dans localStorage
+│   │   ├── notesStore.ts     contrat NotesStore + localNotesStore (localStorage), à doubler d'un lib/api/notes.ts
+│   │   ├── loaderSession.ts  loader déjà vu dans la session (sessionStorage) + page révélée (déclenche l'entrée du nom)
+│   │   └── utils.ts          cn() de shadcn, ne pas déplacer
+│   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, services, roles, process, loader, notes
+│   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
+│   │   ├── giantSur.ts       menus de la barre de menus, icônes du bureau et apps du Dock
+│   │   └── macbook.ts        libellés de la section MacBook (indice de scroll, Allumer / Éteindre)
+│   ├── logic/
+│   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
+│   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll
+│   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
+│   │   ├── macos/            buildFileTree, fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress,
+│   │   │                     navigationHistory, bootProgress, terminal, calendar (Calendrier : grille, horaires, rendez-vous), clock (horloge de la barre de menus),
+│   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesFolders (Notes), photoAlbums (Photos)
+│   │   ├── giantSur/         largeurs du Dock
+│   │   ├── macBookScroll/    progression du scroll vers ouverture du capot et zoom
+│   │   ├── cameraFit/        distance caméra pour que l'écran remplisse la vue
+│   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
+│   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize
+│   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
+│   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
+│   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor)
+│   └── assets/               pièces du loader (coin-{flat,solid}[-accent].svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS
+├── components.json           config shadcn (base-nova, Base UI, lucide)
+├── vite.config.ts            react + tailwindcss + tsconfigPaths, port 3000, outDir build
+├── tsconfig*.json            TypeScript 6 strict, alias @/ vers src/
+└── vercel.json               rewrites SPA, build via pnpm
+```
+
+## Stack
+
+```
+Build        Vite 6 · TypeScript 6 · pnpm
+UI           React 19 · react-router-dom 7 · react-helmet-async
+Styling      CSS par section (sections existantes) · Tailwind v4 + shadcn/ui Base UI (tout nouveau code)
+Animations   gsap 3 + @gsap/react (useGSAP) · framer-motion 12 · Lenis
+Tests        Vitest (pnpm test)
+Icônes       lucide-react · logos de marque tech via react-icons/si (logos, pas icônes)
+Déploiement  Vercel
+```
+
+`pnpm dev` ouvre http://localhost:3000/. `pnpm build` lance `tsc -b` puis le build dans `build/`.
+
+## Idéologie
+
+- **Le découpage suit les couches** (`components`, `logic`, `lib`, `data`, `types`), pas les écrans. Détail dans `rules/architecture-frontend.md`.
+- **Le texte affiché vit dans `data/`**, pas en tête de composant. Les timings et réglages d'animation restent dans le composant qui les utilise.
+- **Un composant par fichier.** Un sous-composant nommé sort dans son propre fichier, dans le dossier de son écran.
+- **Imports internes toujours en `@/`.**
+- **Sections existantes** : elles gardent leur `.css` BEM appairé (`.about__call-pill`, `.bd-board`). On ne les migre pas en Tailwind.
+- **Nouveau code** : Tailwind pour la mise en page, shadcn pour les composants d'interface, valeurs tirées de `tokens.css` (les tokens surchargent le thème Tailwind : `bg-black`, `text-sm`, `font-sans` donnent les valeurs du portfolio).
+
+## Identité visuelle
+
+Source unique : `src/tokens.css`.
+
+```
+Encre   --color-black #0A0A0A    Crème  --color-white #F5F2EE
+Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
+Accent  --color-accent #E8530A   Alt    --color-accent-alt #00E5A0
+Display --font-display The Night Watch, repli Cormorant Unicase (grands titres)
+Body    --font-body Inter (tout le reste)
+```
+
+2 familles seulement, celles de la section Services, pour tout le site. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
+
+Langue du site : anglais et français, via le sélecteur du header. Tout texte affiché (data/, alt, aria-label) existe dans les 2 langues : chaque export de `data/` est un `Localized<T>` (`{ en, fr }`), lu dans un composant par `useLocale()` puis `DATA[locale]`. L'anglais fait référence ; `index.html` reste en anglais. Pièces du loader (IKHLAS / AGBETI / métiers) et noms propres identiques dans les 2 langues.
+
+Polices chargées par `@import` Google Fonts en tête de `index.css`. Une nouvelle famille va dans l'@import ET dans `tokens.css`.
+
+## Règles de reproduction (IP)
+
+```
+1. Structure, mécanique, layout, espacement, timing : libres
+2. Copie textuelle, images, polices sous licence, logo, identité de marque : jamais reproduits
+3. Contenu : toujours le parcours d'Ikhlas, jamais la tagline ni les noms de la référence
+4. Polices propriétaires : pile de repli libre (Google Fonts)
+5. Images : Unsplash licence libre ou dégradés, tant qu'Ikhlas ne fournit pas d'asset
+6. Logos tech : usage nominatif OK, jamais de logo client
+Exception      Faux macOS (components/pages/Home/MacOS/) : logo Apple, apparence macOS et images Giant Sur autorisés à cet endroit, décision de l'utilisateur
+```
+
+Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par bandes de ~2400 px via CDP, live et local côte à côte, section par section.
+
+## État du chantier
+
+```
+Fait           Hero + HomeHeader · Projects · About + CallWidget · DedicatedTeam · Services · PinNote · CoinLoader
+               MouseTrail · TextReveal · PageTransition · Lenis
+Écrit, pas monté   Process
+À faire        Menu (3 barres verticales) entre DedicatedTeam et Services
+               Footer, puis CTA de fin (réf. momdesign.fr)
+               Pages /projects, /projects/:slug, /about, /contact
+               Boutons de test de connexion au backend (ticket setup, RM4)
+               PinNote : partager les notes entre visiteurs via portfolio-backend (NotesStore prêt, API à écrire)
+Dette          The Night Watch absente : déposer public/fonts/TheNightWatch.woff2 (licence à vérifier).
+               @font-face déjà câblé dans index.css, repli actuel sur Cormorant Unicase.
+               Process : copie encore calquée sur la référence (verteal), à réécrire avec le parcours d'Ikhlas
+               Bundle JS de 650 Ko, pas de découpage par route
+```
