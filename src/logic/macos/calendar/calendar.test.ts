@@ -91,7 +91,7 @@ describe('formatClock', () => {
 
 describe('eventTimeRange', () => {
   it('ajoute la mention du lendemain quand l’événement passe minuit', () => {
-    const lateEvent = { startTime: '22:00', endTime: '04:00', spansMidnight: true }
+    const lateEvent = { startTime: '22:00', endTime: '04:00', isSpanningMidnight: true }
 
     expect(eventTimeRange(lateEvent, true, '(+1 day)')).toBe('10:00 PM – 4:00 AM (+1 day)')
   })

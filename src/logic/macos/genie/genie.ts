@@ -3,8 +3,7 @@ import type { Rect } from '@/logic/macos/windowBounds/windowBounds'
 // Bord gauche et droit du haut et du bas d'une bande, en fraction de sa largeur affichée.
 export type GenieClip = { topLeft: number; topRight: number; bottomLeft: number; bottomRight: number }
 
-// Bande horizontale de la fenêtre : translation puis échelle depuis le coin haut gauche (transform-origin 0 0),
-// puis découpe en trapèze pour que les bords de l'entonnoir restent lisses d'une bande à l'autre.
+// Chaque bande est découpée en trapèze pour que les bords de l'entonnoir restent lisses d'une bande à l'autre.
 export type GenieStrip = { x: number; y: number; scaleX: number; scaleY: number; clip: GenieClip }
 
 // Part de l'animation où la fenêtre se tord en entonnoir avant de glisser dans l'icône, comme macOS.

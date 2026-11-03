@@ -7,8 +7,7 @@ type MenuBarMenuProps = {
   onSelect: (action: MenuAction) => void
 }
 
-// Menu maison plutôt que le DropdownMenu de shadcn : son portail et son positionnement flottant
-// sortent du plan de l'écran quand le bureau est affiché en CSS 3D sur le MacBook.
+// Pas le DropdownMenu de shadcn : son portail sort du plan de l'écran quand le bureau est affiché en CSS 3D.
 export default function MenuBarMenu({ items, onClose, onSelect }: MenuBarMenuProps) {
   return (
     <div

@@ -18,7 +18,7 @@ const ROTATE_S = 7.5 // durée de rotation par cran
 const START_DELAY = 1300 // laisse jouer l'entrée avant de démarrer
 const REPEL_RADIUS = 150
 const REPEL_PUSH = 34
-const FALLBACK_TECH_COLOR = '#B8BEC8'
+const FALLBACK_TECH_COLOR = 'var(--color-tech-fallback)'
 
 type TeamControls = {
   manualOpen: (index: number) => void

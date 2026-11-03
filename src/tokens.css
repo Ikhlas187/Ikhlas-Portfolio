@@ -6,6 +6,8 @@
   /* Boutons du widget d'appel : rouge et vert des vrais téléphones */
   --color-call-decline: #ff3b30;
   --color-call-accept: #34c759;
+  /* Logo tech sans couleur de marque dans la roue DedicatedTeam */
+  --color-tech-fallback: #b8bec8;
   /* Notes de la section Pin a note : les 5 pastels de la réf. (tpdapson.com) et leur encre, réservés aux notes */
   --color-note-pink: #edbbf7;
   --color-note-pink-ink: #503357;

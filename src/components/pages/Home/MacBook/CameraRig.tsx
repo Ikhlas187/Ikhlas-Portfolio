@@ -14,8 +14,7 @@ type CameraRigProps = {
 
 const LAPTOP_WIDTH = 0.32 * WORLD_SCALE
 const SCREEN = { width: 0.3036 * WORLD_SCALE, height: 0.1983 * WORLD_SCALE }
-// Orbite pendant l'ouverture : de l'arrière en plongée (le logo du capot fermé se lit à l'endroit) à la face avant.
-// Angles en radians : yaw 0 = face avant, elevation 0 = à hauteur du bureau.
+// Orbite de l'ouverture partie de l'arrière en plongée, pour que le logo du capot fermé se lise à l'endroit.
 const CLOSED_ORBIT = { yaw: 2.55, elevation: 0.86 }
 const OPEN_ORBIT = { yaw: 0.14, elevation: 0.3 }
 // Rotation de la caméra autour du Mac avec la souris, en radians, avant la plongée.

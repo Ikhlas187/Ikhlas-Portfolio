@@ -47,7 +47,7 @@ export type CalendarEvent = {
   kindLabel: string
   startTime: string
   endTime: string
-  spansMidnight: boolean
+  isSpanningMidnight: boolean
   link: { label: string; href: string } | null
 }
 
@@ -406,9 +406,9 @@ function event(
   startTime: string,
   endTime: string,
   link: CalendarEvent['link'] = null,
-  spansMidnight = false,
+  isSpanningMidnight = false,
 ): CalendarEvent {
-  return { id, monthOffset, day, name, kind, kindLabel, startTime, endTime, spansMidnight, link }
+  return { id, monthOffset, day, name, kind, kindLabel, startTime, endTime, isSpanningMidnight, link }
 }
 
 const NOTES_INTRO: Localized<NotesEntry[]> = {

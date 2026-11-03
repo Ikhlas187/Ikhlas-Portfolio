@@ -30,8 +30,7 @@ export type CoverBox = {
   scale: number
 }
 
-// Partie d'un écran (en px) visible quand il couvre un cadre d'un autre format, et le contenu qu'on y loge :
-// taille logique d'au moins minWidth px de large, réduite par scale pour tenir dans la partie visible.
+// Le contenu garde au moins minWidth px logiques de large, quitte à être réduit pour tenir dans la partie visible.
 export function coverBox(screen: FitTarget, viewportAspect: number, minWidth: number): CoverBox {
   const isWider = viewportAspect > screen.width / screen.height
   const visible = isWider

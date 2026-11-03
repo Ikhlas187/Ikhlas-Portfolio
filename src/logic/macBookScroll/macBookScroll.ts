@@ -31,8 +31,7 @@ export function diveDistance(from: number, to: number, dive: number) {
   return from ** (1 - dive) * to ** dive
 }
 
-// Part visible du Mac et de son studio (1 : entier, 0 : fondu dans le fond) : seul l'écran reste en fin de plongée.
-// retreat : 1 quand le Mac est éteint en plein écran (caméra reculée, studio rallumé).
+// Le Mac et son studio s'effacent pour que seul l'écran reste en fin de plongée, sauf Mac éteint (retreat 1).
 export function stageLightAt(zoom: number, retreat = 0) {
   const fade = progressBetween(zoom, [0.6, 1])
   const smooth = fade * fade * (3 - 2 * fade)

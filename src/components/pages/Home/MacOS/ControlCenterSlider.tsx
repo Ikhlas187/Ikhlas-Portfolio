@@ -7,8 +7,7 @@ type ControlCenterSliderProps = {
   onChange: (value: number) => void
 }
 
-// Curseur maison sur un <input type="range"> natif invisible : le Slider de shadcn calcule la position du pointeur
-// avec getBoundingClientRect, faussé quand le bureau est affiché en CSS 3D sur le MacBook.
+// Pas le Slider de shadcn : son getBoundingClientRect est faussé quand le bureau est affiché en CSS 3D sur le MacBook.
 export default function ControlCenterSlider({ icon: Icon, label, value, onChange }: ControlCenterSliderProps) {
   const percent = Math.round(value * 100)
 

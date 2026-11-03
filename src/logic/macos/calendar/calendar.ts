@@ -4,7 +4,7 @@ export type WeekStart = 0 | 1
 
 export type CalendarCell = { key: string; day: number; isInMonth: boolean }
 
-export type TimedEvent = { startTime: string; endTime: string; spansMidnight: boolean }
+export type TimedEvent = { startTime: string; endTime: string; isSpanningMidnight: boolean }
 
 export type MeetingRequest = {
   name: string
@@ -72,7 +72,7 @@ export function formatClock(time: string, isHour12: boolean) {
 }
 
 export function eventTimeRange(event: TimedEvent, isHour12: boolean, nextDayLabel: string) {
-  const end = formatClock(event.endTime, isHour12) + (event.spansMidnight ? ` ${nextDayLabel}` : '')
+  const end = formatClock(event.endTime, isHour12) + (event.isSpanningMidnight ? ` ${nextDayLabel}` : '')
   return `${formatClock(event.startTime, isHour12)} – ${end}`
 }
 

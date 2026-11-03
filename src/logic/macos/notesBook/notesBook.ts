@@ -8,7 +8,7 @@ export type BookNote = { id: string; folder: string; body: string; isPinned: boo
 export type NotesChanges = {
   created: BookNote[]
   edited: Record<string, { body: string; modifiedAt: number }>
-  pinned: Record<string, boolean>
+  isPinnedById: Record<string, boolean>
   deletedIds: string[]
   folders: string[]
 }
@@ -16,7 +16,7 @@ export type NotesChanges = {
 export const ALL_NOTES = '*'
 export const DEFAULT_FOLDER = 'notes'
 export const TESTIMONIALS_FOLDER = 'testimonials'
-export const EMPTY_NOTES_CHANGES: NotesChanges = { created: [], edited: {}, pinned: {}, deletedIds: [], folders: [] }
+export const EMPTY_NOTES_CHANGES: NotesChanges = { created: [], edited: {}, isPinnedById: {}, deletedIds: [], folders: [] }
 
 const SEED_STEP_MS = 60_000
 
@@ -64,7 +64,7 @@ export function applyNotesChanges(seeds: BookNote[], changes: NotesChanges): Boo
     .filter((note) => !changes.deletedIds.includes(note.id))
     .map((note) => ({ ...note, ...changes.edited[note.id] }))
   return [...changes.created, ...seededNotes].map((note) =>
-    note.id in changes.pinned ? { ...note, isPinned: changes.pinned[note.id] } : note,
+    note.id in changes.isPinnedById ? { ...note, isPinned: changes.isPinnedById[note.id] } : note,
   )
 }
 
@@ -83,13 +83,13 @@ export function editNote(changes: NotesChanges, id: string, body: string, now: n
 }
 
 export function setNotePinned(changes: NotesChanges, id: string, isPinned: boolean): NotesChanges {
-  return { ...changes, pinned: { ...changes.pinned, [id]: isPinned } }
+  return { ...changes, isPinnedById: { ...changes.isPinnedById, [id]: isPinned } }
 }
 
 export function deleteNote(changes: NotesChanges, id: string): NotesChanges {
   if (changes.created.some((note) => note.id === id)) {
-    const { [id]: _pin, ...pinned } = changes.pinned
-    return { ...changes, created: changes.created.filter((note) => note.id !== id), pinned }
+    const { [id]: _pin, ...isPinnedById } = changes.isPinnedById
+    return { ...changes, created: changes.created.filter((note) => note.id !== id), isPinnedById }
   }
   return { ...changes, deletedIds: [...changes.deletedIds, id] }
 }

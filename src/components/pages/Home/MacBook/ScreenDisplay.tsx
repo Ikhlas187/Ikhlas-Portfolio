@@ -16,8 +16,7 @@ type ScreenDisplayProps = {
 const SCREEN_WIDTH_PX = 1512
 const SCREEN_HEIGHT_PX = 982
 const SCREEN_WIDTH_M = 0.3036
-// Chrome rastérise un calque en perspective 3D à sa taille CSS puis l'étire : on le dessine 2 fois plus grand
-// et on le réduit d'autant, sinon le texte de macOS sort flou.
+// Dessiné 2 fois plus grand puis réduit, sinon Chrome étire le calque 3D et le texte de macOS sort flou.
 const RESOLUTION = 2
 // En mode transform, drei Html fait valoir 1 px CSS distanceFactor / 400 unités du monde.
 const DISTANCE_FACTOR = (SCREEN_WIDTH_M / (SCREEN_WIDTH_PX * RESOLUTION)) * 400
@@ -28,19 +27,19 @@ const FULL_SCREEN = { width: SCREEN_WIDTH_PX, height: SCREEN_HEIGHT_PX, scale: 1
 function canAncestorScroll(target: EventTarget | null, boundary: HTMLElement, event: WheelEvent) {
   for (let node = target instanceof Element ? target : null; node && node !== boundary; node = node.parentElement) {
     const style = getComputedStyle(node)
-    const canScrollY =
+    const isScrollableY =
       /(auto|scroll)/.test(style.overflowY) &&
       canScrollBy(
         { offset: node.scrollTop, contentSize: node.scrollHeight, viewportSize: node.clientHeight },
         event.deltaY,
       )
-    const canScrollX =
+    const isScrollableX =
       /(auto|scroll)/.test(style.overflowX) &&
       canScrollBy(
         { offset: node.scrollLeft, contentSize: node.scrollWidth, viewportSize: node.clientWidth },
         event.deltaX,
       )
-    if (canScrollY || canScrollX) return true
+    if (isScrollableY || isScrollableX) return true
   }
   return false
 }
