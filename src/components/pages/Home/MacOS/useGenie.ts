@@ -61,8 +61,10 @@ function buildLayer(source: HTMLElement, root: HTMLElement, window: Rect, icon: 
 function paint(run: GenieRun) {
   const shapes = genieStrips(run.window, run.icon, run.progress, run.strips.length)
   run.strips.forEach((strip, index) => {
-    const { x, y, scaleX, scaleY } = shapes[index]
+    const { x, y, scaleX, scaleY, clip } = shapes[index]
+    const percent = (value: number) => `${(value * 100).toFixed(3)}%`
     strip.style.transform = `translate(${x}px, ${y}px) scale(${scaleX}, ${scaleY})`
+    strip.style.clipPath = `polygon(${percent(clip.topLeft)} 0, ${percent(clip.topRight)} 0, ${percent(clip.bottomRight)} 100%, ${percent(clip.bottomLeft)} 100%)`
   })
   run.layer.style.opacity = String(genieOpacity(run.progress))
 }

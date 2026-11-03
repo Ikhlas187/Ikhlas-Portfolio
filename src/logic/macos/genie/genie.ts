@@ -1,7 +1,11 @@
 import type { Rect } from '@/logic/macos/windowBounds/windowBounds'
 
-// Bande horizontale de la fenêtre : translation puis échelle depuis le coin haut gauche (transform-origin 0 0).
-export type GenieStrip = { x: number; y: number; scaleX: number; scaleY: number }
+// Bord gauche et droit du haut et du bas d'une bande, en fraction de sa largeur affichée.
+export type GenieClip = { topLeft: number; topRight: number; bottomLeft: number; bottomRight: number }
+
+// Bande horizontale de la fenêtre : translation puis échelle depuis le coin haut gauche (transform-origin 0 0),
+// puis découpe en trapèze pour que les bords de l'entonnoir restent lisses d'une bande à l'autre.
+export type GenieStrip = { x: number; y: number; scaleX: number; scaleY: number; clip: GenieClip }
 
 // Part de l'animation où la fenêtre se tord en entonnoir avant de glisser dans l'icône, comme macOS.
 const BEND_SHARE = 0.35
@@ -51,12 +55,23 @@ export function genieStrips(window: Rect, icon: Rect, progress: number, count: n
   return Array.from({ length: count }, (_, index) => {
     const top = rowY(index / count)
     const bottom = rowY((index + 1) / count)
-    const { left, right } = edgesAt((top + bottom) / 2)
+    const topEdges = edgesAt(top)
+    const bottomEdges = edgesAt(bottom)
+    const left = Math.min(topEdges.left, bottomEdges.left)
+    const right = Math.max(topEdges.right, bottomEdges.right)
+    const width = Math.max(right - left, 1e-6)
+    const fraction = (x: number) => (x - left) / width
     return {
       x: left,
       y: top,
       scaleX: (right - left) / window.width,
       scaleY: (bottom - top) / stripHeight,
+      clip: {
+        topLeft: fraction(topEdges.left),
+        topRight: fraction(topEdges.right),
+        bottomLeft: fraction(bottomEdges.left),
+        bottomRight: fraction(bottomEdges.right),
+      },
     }
   })
 }

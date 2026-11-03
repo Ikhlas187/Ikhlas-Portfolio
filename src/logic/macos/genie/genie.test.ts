@@ -30,11 +30,12 @@ describe('genieStrips', () => {
 
     const stripsAtStart = genieStrips(window, icon, 0, count)
 
+    const fullClip = { topLeft: 0, topRight: 1, bottomLeft: 0, bottomRight: 1 }
     expect(stripsAtStart).toEqual([
-      { x: 200, y: 100, scaleX: 1, scaleY: 1 },
-      { x: 200, y: 200, scaleX: 1, scaleY: 1 },
-      { x: 200, y: 300, scaleX: 1, scaleY: 1 },
-      { x: 200, y: 400, scaleX: 1, scaleY: 1 },
+      { x: 200, y: 100, scaleX: 1, scaleY: 1, clip: fullClip },
+      { x: 200, y: 200, scaleX: 1, scaleY: 1, clip: fullClip },
+      { x: 200, y: 300, scaleX: 1, scaleY: 1, clip: fullClip },
+      { x: 200, y: 400, scaleX: 1, scaleY: 1, clip: fullClip },
     ])
   })
 
@@ -68,6 +69,19 @@ describe('genieStrips', () => {
 
     expect(stripsAfterBend[0].y).toBe(100)
     expect(stripsAfterBend[9].x).toBeGreaterThan(200)
+  })
+
+  it('découpe chaque bande en trapèze qui se raccorde à la bande suivante', () => {
+    const count = 10
+    const duringBend = 0.3
+
+    const [upper, lower] = genieStrips(window, icon, duringBend, count)
+
+    const upperBottomLeft = upper.x + upper.clip.bottomLeft * upper.scaleX * window.width
+    const lowerTopLeft = lower.x + lower.clip.topLeft * lower.scaleX * window.width
+    expect(upperBottomLeft).toBeCloseTo(lowerTopLeft)
+    expect(upper.clip.topLeft).toBe(0)
+    expect(upper.clip.bottomLeft).toBeGreaterThan(0)
   })
 
   it('borne la progression entre 0 et 1', () => {
