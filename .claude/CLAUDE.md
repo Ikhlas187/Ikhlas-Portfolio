@@ -16,8 +16,10 @@ portfolio-frontend/
 ├── public/                   servi tel quel (The Night Watch à déposer dans public/fonts/)
 │   ├── models/               macbook-pro-14.glb, modèle 3D compressé Draco
 │   ├── draco/                décodeur Draco chargé par la scène 3D
-│   └── giantsur/             images du clone Giant Sur (icônes du Dock et du bureau)
-├── tools/                    hors app : manga.py, video/ (Remotion), sources/ (photos brutes, ignoré par git)
+│   ├── giantsur/             images du clone Giant Sur (icônes du Dock, + vscode-logo.svg)
+│   └── repos/                instantané des repos GitHub d'Ikhlas (index.json + <repo>.json), écrit par pnpm repos:snapshot
+├── tools/                    hors app : manga.py, video/ (Remotion), sources/ (photos brutes, ignoré par git),
+│                             repos/snapshot.mjs (instantané des repos, secrets filtrés, voir tools/README.md §4)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
 │   ├── App.tsx               providers (Helmet, Locale, Router, Lenis) + MouseTrail + routes animées
@@ -60,41 +62,56 @@ portfolio-frontend/
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
 │   │       │       ├── Wallpaper.tsx        fond d'écran (assets/photo-1511300636408-a63a89df3482.avif, Unsplash)
-│   │       │       ├── Dock*.tsx, DesktopIcons.tsx, DesktopItem.tsx   interface Giant Sur à l'identique
-│   │       │       ├── Window.tsx           cadre Big Sur : barre latérale translucide pleine hauteur, barre d'outils unifiée, réduction « genie »
-│   │       │       ├── FinderWindow.tsx     cadre clair du Finder Sequoia appliqué à toutes les apps sauf Safari ; intérieurs de Calendrier, Notes et Photos copiés de frvky.online
+│   │       │       ├── Dock*.tsx                interface Giant Sur à l'identique
+│   │       │       ├── DesktopIcons.tsx, DesktopItem.tsx   icônes du bureau tirées du dossier Bureau du Finder (Projets, Skills, Certifications, CV.pdf)
+│   │       │       ├── MacReposProvider.tsx  repos GitHub du dossier Projets (useMacRepos) : liste au démarrage du bureau, arbre d'un repo à sa 1re ouverture
+│   │       │       ├── RepoContextMenu.tsx   clic droit sur un dossier de repo : Ouvrir avec VS Code, Voir dans le navigateur, Voir sur GitHub (mention Privé)
+│   │       │       ├── VSCode/              app VS Code (Dark Modern) : titre, barre d'activité, explorateur, onglets, éditeur coloré (highlight.js), barre d'état
+│   │       │       ├── Window.tsx           cadre commun de toutes les fenêtres, copié du Safari de mihrimatrix/macos-clone-react : rayon 26 px, barre d'outils 52 px, pastilles 13 px à 21/21 px
+│   │       │       ├── frameClasses.ts      classes du cadre partagées (outil en capsule de verre, champ de recherche, barre d'outils)
+│   │       │       ├── useGenie.ts, dockTarget.ts   effet génie (fenêtre copiée en bandes trapézoïdales aspirées dans l'icône du Dock)
+│   │       │       ├── ControlCenter*.tsx   centre de contrôle : bascules, luminosité (voile noir), son, mode sombre ([data-macos-theme] dans tokens.css)
+│   │       │       ├── FinderWindow.tsx     Window + palette claire du Finder pour l'intérieur des apps ; intérieurs de Calendrier et Photos copiés de frvky.online
+│   │       │       ├── Browser/, Notes/     Safari (contour de mihrimatrix, intérieur Google) et Notes (copie de mihrimatrix, notes d'Ikhlas)
 │   │       │       ├── DockLink.tsx, dockLinkLogos.ts   liens GitHub et LinkedIn après le séparateur du Dock
 │   │       │       ├── AppleLogo.tsx, IAEmblem.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
-│   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/   une app par dossier
+│   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
 │   │       ├── Projects/ Project/ About/ Contact/   coquilles vides
 │   │       └── NotFound/     404
 │   ├── lib/
-│   │   ├── api/contact.ts    envoi du formulaire de contact (FormSubmit), seul code réseau du site
+│   │   ├── api/contact.ts    envoi du formulaire de contact (FormSubmit)
+│   │   ├── api/repos.ts      lecture de public/repos/ (index et instantané d'un repo), une requête par fichier et par session
+│   │   ├── highlightCode.ts  coloration highlight.js : cœur et grammaires importés à la demande
 │   │   ├── LenisProvider.tsx smooth scroll Lenis branché sur gsap.ticker + ScrollTrigger
 │   │   ├── LocaleProvider.tsx locale en | fr partagée (useLocale), met à jour <html lang>
 │   │   ├── localeStorage.ts  choix de langue gardé dans localStorage
 │   │   ├── notesStore.ts     contrat NotesStore + localNotesStore (localStorage), à doubler d'un lib/api/notes.ts
 │   │   ├── loaderSession.ts  loader déjà vu dans la session (sessionStorage) + page révélée (déclenche l'entrée du nom)
+│   │   ├── notesBookStorage.ts  changements de l'app Notes du faux macOS (localStorage)
+│   │   ├── macDisplaySession.ts  luminosité et mode sombre du faux macOS, gardés pour la session (sessionStorage)
 │   │   └── utils.ts          cn() de shadcn, ne pas déplacer
 │   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, services, roles, process, loader, notes
+│   │   ├── cv.ts             CV d'Ikhlas : CV.pdf de l'Aperçu, fichiers des dossiers Skills et Certifications
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
-│   │   ├── giantSur.ts       menus de la barre de menus, icônes du bureau et apps du Dock
+│   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
 │   │   └── macbook.ts        libellés de la section MacBook (indice de scroll, Allumer / Éteindre)
 │   ├── logic/
 │   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
 │   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
-│   │   ├── macos/            buildFileTree, fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress,
+│   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),
+│   │   │                     contextMenu (position du menu), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
 │   │   │                     navigationHistory, bootProgress, terminal, calendar (Calendrier : grille, horaires, rendez-vous), clock (horloge de la barre de menus),
-│   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesFolders (Notes), photoAlbums (Photos)
-│   │   ├── giantSur/         largeurs du Dock
+│   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesBook (Notes), photoAlbums (Photos),
+│   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)
+│   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── macBookScroll/    progression du scroll vers ouverture du capot et zoom
 │   │   ├── cameraFit/        distance caméra pour que l'écran remplisse la vue
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
 │   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize
 │   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
-│   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor)
+│   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor) ; repo.ts : format de public/repos/ (écrit par tools/repos)
 │   └── assets/               pièces du loader (coin-{flat,solid}[-accent].svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS
 ├── components.json           config shadcn (base-nova, Base UI, lucide)
 ├── vite.config.ts            react + tailwindcss + tsconfigPaths, port 3000, outDir build
@@ -111,6 +128,7 @@ Styling      CSS par section (sections existantes) · Tailwind v4 + shadcn/ui Ba
 Animations   gsap 3 + @gsap/react (useGSAP) · framer-motion 12 · Lenis
 Tests        Vitest (pnpm test)
 Icônes       lucide-react · logos de marque tech via react-icons/si (logos, pas icônes)
+Code         highlight.js (cœur + grammaires en import dynamique) pour l'app VS Code du faux macOS
 Déploiement  Vercel
 ```
 
@@ -162,6 +180,7 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 ```
 Fait           Hero + HomeHeader · Projects · About + CallWidget · DedicatedTeam · Services · PinNote · CoinLoader
                MouseTrail · TextReveal · PageTransition · Lenis
+               Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
 Écrit, pas monté   Process
 À faire        Menu (3 barres verticales) entre DedicatedTeam et Services
                Footer, puis CTA de fin (réf. momdesign.fr)
