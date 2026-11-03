@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest'
+import type { CvContent } from '@/data/cv'
 import type { MacFileTexts } from '@/data/macos'
 import { buildFileTree, type FileTreeSources } from '@/logic/macos/buildFileTree/buildFileTree'
 import { findNode } from '@/logic/macos/fileTree/fileTree'
+import { buildRepoTree } from '@/logic/macos/repoTree/repoTree'
+import type { RepoSummary } from '@/types/repo'
 
 const texts: MacFileTexts = {
   folders: {
@@ -11,57 +14,199 @@ const texts: MacFileTexts = {
     downloads: 'Downloads',
     projects: 'Projects',
     skills: 'Skills',
+    roles: 'Roles',
+    certifications: 'Certifications',
     trash: 'Trash',
   },
   about: { name: 'About.txt', lines: ['Ikhlas Agbeti', 'Software Engineer'] },
-  readme: 'README.txt',
-  photo: 'Photo',
   stack: { name: 'Stack.txt', heading: 'Tools' },
   downloadedPhoto: { name: 'code.jpg', alt: 'Code', photoId: 'code-id' },
-  cv: { name: 'CV.pdf', title: 'Ikhlas Agbeti', subtitle: 'Software Engineer', sections: [] },
+  cvName: 'CV.pdf',
 }
+
+const cv: CvContent = {
+  name: 'Ikhlas AGBETI',
+  headline: 'Student',
+  contacts: [],
+  headings: {
+    profile: 'Profile',
+    skills: 'Skills',
+    experience: 'Experience',
+    projects: 'Projects',
+    education: 'Education',
+    certifications: 'Certifications',
+    languages: 'Languages',
+    interests: 'Interests',
+  },
+  profile: 'Profile text',
+  skillGroups: [
+    { id: 'frontend', name: 'Frontend', skills: ['React', 'Next.js'] },
+    { id: 'methods', name: 'Methods', skills: ['Agile'] },
+  ],
+  experiences: [],
+  projects: [],
+  education: [],
+  certifications: [
+    { id: 'python', title: 'Python', issuer: 'Mind Luster' },
+    { id: 'make-basics', title: 'Make Academy Basics', issuer: 'Make' },
+  ],
+  languages: [],
+  interests: [],
+  certificate: { label: 'Certificate', awardedTo: 'Awarded to', issuedBy: 'Issued by' },
+}
+
+const kommit: RepoSummary = {
+  name: 'kommit-frontend',
+  description: null,
+  language: 'TypeScript',
+  visibility: 'private',
+  githubUrl: 'https://github.com/Ikhlas187/kommit-frontend',
+  homepageUrl: null,
+  branch: 'dev',
+  updatedAt: '2026-10-12T09:00:00Z',
+  fileCount: 2,
+}
+const kommitTree = buildRepoTree([
+  { path: 'src/main.tsx', type: 'file', size: 120, content: 'render()' },
+  { path: 'README.md', type: 'file', size: 9, content: '# Kommit' },
+])
+const portfolio: RepoSummary = { ...kommit, name: 'portfolio-backend' }
 
 const sources: FileTreeSources = {
   texts,
-  projects: [
-    {
-      name: 'NEVORA',
-      eyebrow: 'Brand',
-      description: 'A project',
-      date: '2025',
-      photos: [
-        { id: 'a', alt: 'First' },
-        { id: 'b', alt: 'Second' },
-      ],
-    },
+  repos: [
+    { summary: kommit, tree: kommitTree },
+    { summary: portfolio, tree: null },
   ],
   roles: [
     { id: 'front', name: 'Frontend', stack: ['React', 'TypeScript'] },
     { id: 'back', name: 'Backend', stack: ['Node', 'React'] },
   ],
-  dateLabel: 'Date',
+  cv,
   year: '2026',
 }
 
 describe('buildFileTree', () => {
-  it('range chaque projet dans Bureau/Projets avec son README et ses photos', () => {
+  it('pose sur le Bureau les dossiers Projects, Skills, Certifications et le CV, rien d’autre', () => {
     const tree = buildFileTree(sources)
 
-    const nevora = findNode(tree, ['desktop', 'projects', 'nevora'])
+    const desktop = findNode(tree, ['desktop'])
 
-    expect(nevora?.kind === 'folder' && nevora.children.map((node) => node.name)).toEqual([
-      'README.txt',
-      'Photo 1.jpg',
-      'Photo 2.jpg',
+    expect(desktop?.kind === 'folder' && desktop.children.map((node) => node.name)).toEqual([
+      'Projects',
+      'Skills',
+      'Certifications',
+      'CV.pdf',
     ])
   })
 
-  it('écrit le README à partir du nom, de l’accroche, de la date et de la description', () => {
+  it('range un dossier par repo GitHub dans Bureau/Projets', () => {
     const tree = buildFileTree(sources)
 
-    const readme = findNode(tree, ['desktop', 'projects', 'nevora', 'readme'])
+    const projects = findNode(tree, ['desktop', 'projects'])
 
-    expect(readme?.kind === 'text' && readme.content).toBe('NEVORA\nBrand\nDate 2025\n\nA project')
+    expect(projects?.kind === 'folder' && projects.children.map((node) => node.name)).toEqual([
+      'kommit-frontend',
+      'portfolio-backend',
+    ])
+  })
+
+  it('reprend l’arbre d’un repo chargé, dossiers d’abord, daté du dernier push', () => {
+    const tree = buildFileTree(sources)
+
+    const repo = findNode(tree, ['desktop', 'projects', 'kommit-frontend'])
+
+    expect(repo?.kind === 'folder' && repo.children.map((node) => [node.kind, node.name, node.date])).toEqual([
+      ['folder', 'src', '2026-10-12'],
+      ['code', 'README.md', '2026-10-12'],
+    ])
+  })
+
+  it('relie chaque fichier de code à son repo et à son chemin dans le repo', () => {
+    const tree = buildFileTree(sources)
+
+    const main = findNode(tree, ['desktop', 'projects', 'kommit-frontend', 'src', 'main.tsx'])
+
+    expect(main).toEqual({
+      kind: 'code',
+      id: 'main.tsx',
+      name: 'main.tsx',
+      date: '2026-10-12',
+      repo: 'kommit-frontend',
+      filePath: 'src/main.tsx',
+      size: 120,
+    })
+  })
+
+  it('laisse vide et marqué non chargé le dossier d’un repo dont l’instantané manque', () => {
+    const tree = buildFileTree(sources)
+
+    const repo = findNode(tree, ['desktop', 'projects', 'portfolio-backend'])
+
+    expect(repo?.kind === 'folder' && [repo.children, repo.repo?.isLoaded]).toEqual([[], false])
+  })
+
+  it('crée un fichier par groupe de compétences du CV, puis le dossier des rôles', () => {
+    const tree = buildFileTree(sources)
+
+    const skills = findNode(tree, ['desktop', 'skills'])
+
+    expect(skills?.kind === 'folder' && skills.children.map((node) => node.name)).toEqual([
+      'Frontend.txt',
+      'Methods.txt',
+      'Roles',
+    ])
+  })
+
+  it('liste les compétences d’un groupe sous son nom', () => {
+    const tree = buildFileTree(sources)
+
+    const frontend = findNode(tree, ['desktop', 'skills', 'frontend'])
+
+    expect(frontend?.kind === 'text' && frontend.content).toBe('Frontend\n\n· React\n· Next.js')
+  })
+
+  it('garde un fichier par rôle dans Skills/Roles', () => {
+    const tree = buildFileTree(sources)
+
+    const roles = findNode(tree, ['desktop', 'skills', 'roles'])
+
+    expect(roles?.kind === 'folder' && roles.children.map((node) => node.name)).toEqual(['Frontend.txt', 'Backend.txt'])
+  })
+
+  it('omet le dossier des rôles quand il n’y en a aucun', () => {
+    const sourcesWithoutRoles: FileTreeSources = { ...sources, roles: [] }
+
+    const skills = findNode(buildFileTree(sourcesWithoutRoles), ['desktop', 'skills'])
+
+    expect(skills?.kind === 'folder' && skills.children.map((node) => node.name)).toEqual(['Frontend.txt', 'Methods.txt'])
+  })
+
+  it('crée un PDF de certificat par certification, au nom du titulaire du CV', () => {
+    const tree = buildFileTree(sources)
+
+    const python = findNode(tree, ['desktop', 'certifications', 'python'])
+
+    expect(python).toEqual({
+      kind: 'pdf',
+      id: 'python',
+      name: 'Python.pdf',
+      date: '2026',
+      document: {
+        type: 'certificate',
+        certification: { id: 'python', title: 'Python', issuer: 'Mind Luster' },
+        holder: 'Ikhlas AGBETI',
+        labels: cv.certificate,
+      },
+    })
+  })
+
+  it('porte le contenu du CV dans CV.pdf', () => {
+    const tree = buildFileTree(sources)
+
+    const cvFile = findNode(tree, ['desktop', 'cv'])
+
+    expect(cvFile?.kind === 'pdf' && cvFile.document).toEqual({ type: 'cv', cv })
   })
 
   it('liste chaque outil une seule fois dans Stack.txt', () => {
@@ -72,10 +217,10 @@ describe('buildFileTree', () => {
     expect(stack?.kind === 'text' && stack.content).toBe('Tools\n\n· React\n· TypeScript\n· Node')
   })
 
-  it('joint les lignes de la présentation dans About.txt', () => {
+  it('joint les lignes de la présentation dans Documents/About.txt', () => {
     const tree = buildFileTree(sources)
 
-    const about = findNode(tree, ['desktop', 'about'])
+    const about = findNode(tree, ['documents', 'about'])
 
     expect(about?.kind === 'text' && about.content).toBe('Ikhlas Agbeti\nSoftware Engineer')
   })

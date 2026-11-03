@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import FileIcon from '@/components/pages/Home/MacOS/FileIcon'
 import { MACOS } from '@/data/macos'
@@ -13,6 +14,7 @@ type FinderListProps = {
   onSort: (column: SortColumn) => void
   onSelect: (key: string) => void
   onOpen: (item: FinderItem) => void
+  onContextMenu: (item: FinderItem, event: MouseEvent<HTMLElement>) => void
 }
 
 const COLUMNS = 'grid grid-cols-[minmax(0,1fr)_98px_116px_150px]'
@@ -20,7 +22,7 @@ const SORT_COLUMNS: SortColumn[] = ['name', 'size', 'kind', 'dateAdded']
 // Comme le Finder, les rayures continuent sous le dernier élément jusqu'en bas de la fenêtre.
 const MIN_ROWS = 18
 
-export default function FinderList({ items, selectedKey, sortOrder, onSort, onSelect, onOpen }: FinderListProps) {
+export default function FinderList({ items, selectedKey, sortOrder, onSort, onSelect, onOpen, onContextMenu }: FinderListProps) {
   const { locale } = useLocale()
   const texts = MACOS[locale].finder
   const SortIcon = sortOrder.isAscending ? ChevronUp : ChevronDown
@@ -64,6 +66,7 @@ export default function FinderList({ items, selectedKey, sortOrder, onSort, onSe
                 type="button"
                 onClick={() => onSelect(item.key)}
                 onDoubleClick={() => onOpen(item)}
+                onContextMenu={(event) => onContextMenu(item, event)}
                 onKeyDown={(event) => event.key === 'Enter' && onOpen(item)}
                 className={cn(
                   COLUMNS,

@@ -9,7 +9,7 @@ import {
 } from '@/logic/macos/finderItems/finderItems'
 import type { FsFolder, FsTextFile } from '@/data/macos'
 
-const kindLabels = { folder: 'Folder', text: 'Plain Text', image: 'JPEG image', pdf: 'PDF document', app: 'Application' }
+const kindLabels = { folder: 'Folder', text: 'Plain Text', image: 'JPEG image', pdf: 'PDF document', code: 'Source code', app: 'Application' }
 
 const projects: FsFolder = { kind: 'folder', id: 'projects', name: 'Projects', date: '2026', children: [] }
 const about: FsTextFile = { kind: 'text', id: 'about', name: 'About.txt', date: '2024', content: 'Hello' }

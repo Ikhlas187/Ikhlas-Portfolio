@@ -1,32 +1,54 @@
-import type { FsFolder, FsImageFile, FsPdfFile, FsTextFile, MacFileTexts } from '@/data/macos'
-import { projectSlug } from '@/logic/macos/projectSlug/projectSlug'
+import type { CvContent } from '@/data/cv'
+import type { FsFolder, FsNode, FsPdfFile, FsTextFile, MacFileTexts } from '@/data/macos'
+import type { RepoTreeDir } from '@/logic/macos/repoTree/repoTree'
+import type { RepoSummary } from '@/types/repo'
 
-export type FileTreeProject = {
-  name: string
-  eyebrow: string
-  description: string
-  date: string
-  photos: { id: string; alt: string }[]
-}
+// Un repo GitHub du dossier Projets ; tree reste null tant que son instantané n'est pas chargé.
+export type FileTreeRepo = { summary: RepoSummary; tree: RepoTreeDir | null }
 
 export type FileTreeRole = { id: string; name: string; stack: string[] }
 
 export type FileTreeSources = {
   texts: MacFileTexts
-  projects: FileTreeProject[]
+  repos: FileTreeRepo[]
   roles: FileTreeRole[]
-  dateLabel: string
+  cv: CvContent
   year: string
 }
 
-// Arborescence du Finder : Bureau (projets, compétences, présentation, CV), Documents, Téléchargements, Corbeille.
-export function buildFileTree({ texts, projects, roles, dateLabel, year }: FileTreeSources): FsFolder {
-  const cv: FsPdfFile = {
+function bulletList(heading: string, items: string[]) {
+  return [heading, '', ...items.map((item) => `· ${item}`)].join('\n')
+}
+
+function repoChildren(repo: string, dir: RepoTreeDir, date: string): FsNode[] {
+  return dir.children.map((child): FsNode =>
+    child.kind === 'dir'
+      ? { kind: 'folder', id: child.name, name: child.name, date, children: repoChildren(repo, child, date) }
+      : { kind: 'code', id: child.name, name: child.name, date, repo, filePath: child.path, size: child.size },
+  )
+}
+
+// Dossier d'un repo : l'arbre GitHub complet une fois chargé, vide avant.
+export function repoFolder({ summary, tree }: FileTreeRepo): FsFolder {
+  const date = summary.updatedAt.slice(0, 10)
+  return {
+    kind: 'folder',
+    id: summary.name,
+    name: summary.name,
+    date,
+    children: tree ? repoChildren(summary.name, tree, date) : [],
+    repo: { summary, isLoaded: tree !== null },
+  }
+}
+
+// Arborescence du Finder : Bureau (Projets, Skills, Certifications, CV), Documents, Téléchargements, Corbeille.
+export function buildFileTree({ texts, repos, roles, cv, year }: FileTreeSources): FsFolder {
+  const cvFile: FsPdfFile = {
     kind: 'pdf',
     id: 'cv',
-    name: texts.cv.name,
+    name: texts.cvName,
     date: year,
-    document: { title: texts.cv.title, subtitle: texts.cv.subtitle, sections: texts.cv.sections },
+    document: { type: 'cv', cv },
   }
   const about: FsTextFile = {
     kind: 'text',
@@ -41,44 +63,50 @@ export function buildFileTree({ texts, projects, roles, dateLabel, year }: FileT
     id: 'projects',
     name: texts.folders.projects,
     date: year,
-    children: projects.map((project) => ({
-      kind: 'folder',
-      id: projectSlug(project.name),
-      name: project.name,
-      date: project.date,
-      children: [
-        {
-          kind: 'text',
-          id: 'readme',
-          name: texts.readme,
-          date: project.date,
-          content: [project.name, project.eyebrow, `${dateLabel} ${project.date}`, '', project.description].join('\n'),
-        },
-        ...project.photos.map(
-          (photo, index): FsImageFile => ({
-            kind: 'image',
-            id: `photo-${index + 1}`,
-            name: `${texts.photo} ${index + 1}.jpg`,
-            date: project.date,
-            photoId: photo.id,
-            alt: photo.alt,
-          }),
-        ),
-      ],
-    })),
+    children: repos.map(repoFolder),
   }
 
-  const skills: FsFolder = {
+  const rolesFolder: FsFolder = {
     kind: 'folder',
-    id: 'skills',
-    name: texts.folders.skills,
+    id: 'roles',
+    name: texts.folders.roles,
     date: year,
     children: roles.map((role) => ({
       kind: 'text',
       id: role.id,
       name: `${role.name}.txt`,
       date: year,
-      content: [role.name, '', ...role.stack.map((tool) => `· ${tool}`)].join('\n'),
+      content: bulletList(role.name, role.stack),
+    })),
+  }
+
+  const skillFiles: FsNode[] = cv.skillGroups.map((group) => ({
+    kind: 'text',
+    id: group.id,
+    name: `${group.name}.txt`,
+    date: year,
+    content: bulletList(group.name, group.skills),
+  }))
+
+  const skills: FsFolder = {
+    kind: 'folder',
+    id: 'skills',
+    name: texts.folders.skills,
+    date: year,
+    children: roles.length > 0 ? [...skillFiles, rolesFolder] : skillFiles,
+  }
+
+  const certifications: FsFolder = {
+    kind: 'folder',
+    id: 'certifications',
+    name: texts.folders.certifications,
+    date: year,
+    children: cv.certifications.map((certification) => ({
+      kind: 'pdf',
+      id: certification.id,
+      name: `${certification.title}.pdf`,
+      date: year,
+      document: { type: 'certificate', certification, holder: cv.name, labels: cv.certificate },
     })),
   }
 
@@ -95,7 +123,7 @@ export function buildFileTree({ texts, projects, roles, dateLabel, year }: FileT
         id: 'desktop',
         name: texts.folders.desktop,
         date: year,
-        children: [projectsFolder, skills, about, cv],
+        children: [projectsFolder, skills, certifications, cvFile],
       },
       {
         kind: 'folder',
@@ -103,13 +131,13 @@ export function buildFileTree({ texts, projects, roles, dateLabel, year }: FileT
         name: texts.folders.documents,
         date: year,
         children: [
-          cv,
+          about,
           {
             kind: 'text',
             id: 'stack',
             name: texts.stack.name,
             date: year,
-            content: [texts.stack.heading, '', ...allTools.map((tool) => `· ${tool}`)].join('\n'),
+            content: bulletList(texts.stack.heading, allTools),
           },
         ],
       },

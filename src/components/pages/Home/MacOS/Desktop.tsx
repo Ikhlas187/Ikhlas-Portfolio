@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type MouseEvent } from 'react'
 import { AnimatePresence, useReducedMotion } from 'framer-motion'
 import AboutThisMac from '@/components/pages/Home/MacOS/AboutThisMac'
 import Browser from '@/components/pages/Home/MacOS/Browser/Browser'
@@ -14,17 +14,20 @@ import Music from '@/components/pages/Home/MacOS/Music/Music'
 import Notes from '@/components/pages/Home/MacOS/Notes/Notes'
 import Photos from '@/components/pages/Home/MacOS/Photos/Photos'
 import Preview from '@/components/pages/Home/MacOS/Preview/Preview'
+import RepoContextMenu, { REPO_CONTEXT_MENU_SIZE } from '@/components/pages/Home/MacOS/RepoContextMenu'
 import Settings from '@/components/pages/Home/MacOS/Settings/Settings'
 import Terminal from '@/components/pages/Home/MacOS/Terminal/Terminal'
 import { useMacFiles } from '@/components/pages/Home/MacOS/useMacFiles'
+import VSCode from '@/components/pages/Home/MacOS/VSCode/VSCode'
 import type { WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
-import type { DesktopTarget, DockApp, MenuAction } from '@/data/giantSur'
+import type { DockApp, MenuAction } from '@/data/giantSur'
 import { ABOUT_PATH, CV_PATH, DESKTOP_PATH, MACOS, PROJECTS_PATH, type FinderViewMode, type FsNode } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
 import type { MacDisplay } from '@/lib/macDisplaySession'
+import { contextMenuPosition, screenPoint } from '@/logic/macos/contextMenu/contextMenu'
 import { findNode } from '@/logic/macos/fileTree/fileTree'
 import { addRecent } from '@/logic/macos/recents/recents'
-import { MACOS_SCREEN, type Size } from '@/logic/macos/windowBounds/windowBounds'
+import { MACOS_SCREEN, type Point, type Size } from '@/logic/macos/windowBounds/windowBounds'
 import {
   INITIAL_WINDOW_MANAGER_STATE,
   activeApp,
@@ -34,6 +37,7 @@ import {
   type MacWindow,
   type OpenWindowRequest,
 } from '@/logic/macos/windowManager/windowManager'
+import type { RepoSummary } from '@/types/repo'
 
 type DesktopProps = {
   display: MacDisplay
@@ -55,7 +59,7 @@ const INITIAL_CONTROL_CENTER: ControlCenterSettings = {
 const WINDOW_SIZES: Record<Exclude<AppId, 'preview'>, Size> = {
   finder: { width: 920, height: 436 },
   browser: { width: 1080, height: 690 },
-  notes: { width: 647, height: 501 },
+  notes: { width: 860, height: 520 },
   terminal: { width: 660, height: 420 },
   mail: { width: 620, height: 470 },
   photos: { width: 878, height: 593 },
@@ -64,13 +68,20 @@ const WINDOW_SIZES: Record<Exclude<AppId, 'preview'>, Size> = {
   messages: { width: 760, height: 500 },
   music: { width: 900, height: 560 },
   calendar: { width: 439, height: 732 },
+  vscode: { width: 1140, height: 720 },
 }
 
-const PREVIEW_SIZES: Record<Exclude<FsNode['kind'], 'folder'>, Size> = {
+type PreviewNode = Exclude<FsNode, { kind: 'folder' } | { kind: 'code' }>
+
+const PREVIEW_SIZES: Record<PreviewNode['kind'], Size> = {
   text: { width: 600, height: 500 },
   image: { width: 840, height: 600 },
-  pdf: { width: 560, height: 780 },
+  pdf: { width: 700, height: 800 },
 }
+const CERTIFICATE_PREVIEW_SIZE: Size = { width: 640, height: 500 }
+
+const previewSize = (node: PreviewNode) =>
+  node.kind === 'pdf' && node.document.type === 'certificate' ? CERTIFICATE_PREVIEW_SIZE : PREVIEW_SIZES[node.kind]
 
 const reducer = windowManagerReducer(MACOS_SCREEN)
 
@@ -87,6 +98,8 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
   const [isControlCenterOpen, setIsControlCenterOpen] = useState(false)
   const [controlCenter, setControlCenter] = useState(INITIAL_CONTROL_CENTER)
   const launchTimers = useRef<number[]>([])
+  const requestCount = useRef(0)
+  const [repoMenu, setRepoMenu] = useState<{ repo: RepoSummary; position: Point } | null>(null)
   const isReducedMotion = useReducedMotion() ?? false
 
   useEffect(() => () => launchTimers.current.forEach((timer) => window.clearTimeout(timer)), [])
@@ -109,15 +122,21 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
   const launch = (app: Exclude<AppId, 'preview'>, payload?: OpenWindowRequest['payload'], isFromDock = false) =>
     open({ app, size: WINDOW_SIZES[app], key: app === 'finder' ? undefined : app, payload, isFromDock })
 
+  const nextRequestId = () => (requestCount.current += 1)
+
+  const openInVSCode = (repo?: string, file?: string) =>
+    launch('vscode', repo ? { repo, file, requestId: nextRequestId() } : undefined)
+
+  const openInBrowser = (url: string) => launch('browser', { url, requestId: nextRequestId() })
+
   const openPath = (path: string[]) => {
     const node = findNode(root, path)
     if (!node) return
     if (node.kind === 'folder') return launch('finder', { path })
     setRecentPaths((current) => addRecent(current, path))
-    open({ app: 'preview', size: PREVIEW_SIZES[node.kind], key: `preview:${path.join('/')}`, payload: { path } })
+    if (node.kind === 'code') return openInVSCode(node.repo, node.filePath)
+    open({ app: 'preview', size: previewSize(node), key: `preview:${path.join('/')}`, payload: { path } })
   }
-
-  const openTarget = (target: DesktopTarget) => openPath(target.path)
 
   const openApp = (app: DockApp, isFromDock = false) =>
     launch(app, app === 'finder' ? { path: DESKTOP_PATH } : undefined, isFromDock)
@@ -150,6 +169,18 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
   }
 
   const closeControlCenter = useCallback(() => setIsControlCenterOpen(false), [])
+  const closeRepoMenu = useCallback(() => setRepoMenu(null), [])
+
+  const showRepoMenu = (repo: RepoSummary, event: MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    const screen = event.currentTarget.closest<HTMLElement>('[data-macos-root]')
+    if (!screen) return
+    const rect = screen.getBoundingClientRect()
+    const scale = rect.width / screen.offsetWidth || 1
+    const pointer = screenPoint({ x: event.clientX, y: event.clientY }, rect, scale)
+    closeMenu()
+    setRepoMenu({ repo, position: contextMenuPosition(pointer, REPO_CONTEXT_MENU_SIZE, MACOS_SCREEN) })
+  }
 
   const handleMenu = (action: MenuAction) => {
     switch (action) {
@@ -226,6 +257,7 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
             onViewModeChange={(viewMode) => setFinderViewMode(window.id, viewMode)}
             onOpenFile={openPath}
             onOpenApp={openApp}
+            onRepoContextMenu={showRepoMenu}
           />
         )
       case 'browser':
@@ -248,6 +280,8 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
         return <Music key={window.id} frame={frame} />
       case 'calendar':
         return <Calendar key={window.id} frame={frame} />
+      case 'vscode':
+        return <VSCode key={window.id} frame={frame} onOpenInBrowser={openInBrowser} />
       case 'about':
         return <AboutThisMac key={window.id} frame={frame} onMoreInfo={() => openPath(CV_PATH)} />
     }
@@ -260,7 +294,7 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
 
   return (
     <>
-      <DesktopIcons onClickDesktop={clickDesktop} onOpen={openTarget} />
+      <DesktopIcons onClickDesktop={clickDesktop} onOpen={openPath} />
       {/* Calque isolé : le z-index croissant des fenêtres ne passe jamais devant la barre de menus ni le Dock. */}
       <div className="pointer-events-none absolute inset-0 isolate">
         <AnimatePresence>{state.windows.map(renderWindow)}</AnimatePresence>
@@ -281,6 +315,16 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
         onClickDock={closeMenu}
         onActivate={activateFromDock}
       />
+      {repoMenu && (
+        <RepoContextMenu
+          repo={repoMenu.repo}
+          position={repoMenu.position}
+          onOpenInVSCode={() => openInVSCode(repoMenu.repo.name)}
+          onOpenInBrowser={() => repoMenu.repo.homepageUrl && openInBrowser(repoMenu.repo.homepageUrl)}
+          onOpenOnGitHub={() => window.open(repoMenu.repo.githubUrl, '_blank', 'noopener,noreferrer')}
+          onClose={closeRepoMenu}
+        />
+      )}
       <AnimatePresence>
         {isControlCenterOpen && (
           <ControlCenter

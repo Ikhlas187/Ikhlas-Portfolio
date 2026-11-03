@@ -1,4 +1,6 @@
-# tools · chaîne de fabrication des planches manga
+# tools · outillage hors build
+
+Planches manga du footer (sections 1 à 3) et instantané des repos GitHub du faux macOS (section 4).
 
 Sert à produire le fond du footer depuis des photos brutes. Rien ici n'est
 importé par l'application : c'est de l'outillage hors build.
@@ -73,3 +75,43 @@ Les images-clés CSS comme la composition Remotion sont **périodiques** : l'ét
 à 100 % du cycle est identique à celui à 0 %. Chaque plan avance pendant sa
 propre fenêtre de visibilité et revient à son point de départ pendant qu'il est
 invisible. Il n'y a donc aucun saut au bouclage.
+
+## 4. Instantané des repos GitHub (`tools/repos/`)
+
+Le dossier Projets du faux macOS et l'app VS Code lisent les repos d'Ikhlas depuis
+`public/repos/`, jamais depuis l'API GitHub : la plupart sont privés, et le site ne
+doit porter aucun jeton.
+
+```bash
+gh auth status        # gh doit être connecté au compte Ikhlas187
+pnpm repos:snapshot   # réécrit public/repos/ en entier
+```
+
+Le script `tools/repos/snapshot.mjs` lit l'arbre de chaque repo
+(`gh api repos/Ikhlas187/<repo>/git/trees/<branche>?recursive=1`) puis le contenu des
+fichiers (`git/blobs/<sha>`), et écrit :
+
+- `public/repos/<repo>.json` : `{ name, branch, contentBudgetApplied, treeTruncated, entries }`,
+  chaque entrée `{ path, type: 'dir' | 'file', size, content?, omitted? }` (type dans `src/types/repo.ts`) ;
+- `public/repos/index.json` : nom, description, langage, visibilité, URL GitHub, URL en ligne,
+  branche, date du dernier push, nombre de fichiers ;
+- `tools/repos/last-report.json` (ignoré par git) : fichiers retirés pour secret, par repo.
+
+Repos ignorés : forks, repos vides, le repo de profil `Ikhlas187` et `entourage-plus`
+(`EXCLUDED_REPOS` en tête du script).
+
+Ce qui ne part pas dans le site :
+
+| Cas | Traitement |
+|---|---|
+| `node_modules`, `dist`, `build`, `.next`, `vendor`… | absents de l'arbre |
+| lockfiles, binaires (images, PDF, polices, archives, exécutables) | dans l'arbre, sans contenu (`omitted`) |
+| fichier de plus de 150 Ko | dans l'arbre, sans contenu |
+| `.env*` (sauf `.env.example` sans valeur réelle), `*.pem`, `*.key`, `id_rsa*`, credentials, `config/secrets*` | absents de l'arbre |
+| contenu avec une clé (`sk-`, `AKIA`, `ghp_`, `xox`, `AIza`, `-----BEGIN`), un `password="…"`, une chaîne de connexion avec mot de passe réel, `mongodb+srv://` | fichier retiré, signalé dans la console |
+| JSON d'un repo au-delà de 4 Mo | arbre complet, contenu gardé pour les fichiers de code principaux seulement (`contentBudgetApplied`) |
+
+**Le code copié est public une fois déployé.** Relire la liste des fichiers retirés
+affichée en fin de script, et retirer du repo GitHub (puis changer) tout secret réel
+qu'elle révèle. Les chaînes d'exemple (`<password>`, `HOST`, `[YOUR-PASSWORD]`) ne sont
+pas retirées.

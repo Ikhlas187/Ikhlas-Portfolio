@@ -62,6 +62,15 @@ describe('openWindow', () => {
     expect(desktopAfterReopen.windows.find((window) => window.id === 'notes-1')?.isMinimized).toBe(false)
   })
 
+  it('transmet la nouvelle demande à la fenêtre existante qui porte la même clé', () => {
+    const codeRequest = { app: 'vscode' as const, size: { width: 600, height: 400 }, key: 'vscode' }
+    const desktop = openWindow(INITIAL_WINDOW_MANAGER_STATE, { ...codeRequest, payload: { repo: 'kommit' } }, screen)
+
+    const desktopAfterReopen = openWindow(desktop, { ...codeRequest, payload: { repo: 'medipass', requestId: 2 } }, screen)
+
+    expect(desktopAfterReopen.windows.map((window) => window.payload)).toEqual([{ repo: 'medipass', requestId: 2 }])
+  })
+
   it('ouvre une nouvelle fenêtre à chaque demande sans clé', () => {
     const desktop = withNotesAndFinder()
 
