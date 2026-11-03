@@ -4,10 +4,12 @@ import { AnimatePresence } from 'framer-motion'
 
 import LenisProvider from '@/lib/LenisProvider'
 import LocaleProvider from '@/lib/LocaleProvider'
+import MusicProvider from '@/lib/MusicProvider'
 import PageTransition from '@/components/ui/PageTransition'
 import MouseTrail from '@/components/ui/MouseTrail'
 import ContextCursor from '@/components/ui/ContextCursor'
 import CoinLoader from '@/components/ui/CoinLoader'
+import MusicToggle from '@/components/ui/MusicToggle'
 import HomePage from '@/components/pages/Home/HomePage'
 import ProjectsPage from '@/components/pages/Projects/ProjectsPage'
 import ProjectPage from '@/components/pages/Project/ProjectPage'
@@ -78,14 +80,17 @@ export default function App() {
   return (
     <HelmetProvider>
       <LocaleProvider>
-        <BrowserRouter>
-          <LenisProvider>
-            <MouseTrail />
-            <ContextCursor />
-            <AnimatedRoutes />
-            <CoinLoader />
-          </LenisProvider>
-        </BrowserRouter>
+        <MusicProvider>
+          <BrowserRouter>
+            <LenisProvider>
+              <MouseTrail />
+              <ContextCursor />
+              <AnimatedRoutes />
+              <MusicToggle />
+              <CoinLoader />
+            </LenisProvider>
+          </BrowserRouter>
+        </MusicProvider>
       </LocaleProvider>
     </HelmetProvider>
   )

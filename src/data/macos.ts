@@ -322,8 +322,11 @@ type MacOSTexts = {
     playlistSubtitle: string
     play: string
     pause: string
+    previewUnavailable: string
+    elapsed: string
     columns: { title: string; artist: string; time: string }
-    tracks: { id: string; title: string; artist: string; duration: string }[]
+    // Seul le morceau isPlayable a un vrai fichier (lecteur partagé de lib/MusicProvider) ; sa durée vient de l'audio.
+    tracks: { id: string; title: string; artist: string; duration?: string; isPlayable?: boolean }[]
   }
   calendar: {
     previous: string
@@ -697,11 +700,14 @@ export const MACOS: Localized<MacOSTexts> = {
       library: 'Library',
       playlist: 'Playlists',
       playlistTitle: 'Deep Work',
-      playlistSubtitle: 'Ikhlas Agbeti · 6 songs',
+      playlistSubtitle: 'Ikhlas Agbeti · 7 songs',
       play: 'Play',
       pause: 'Pause',
+      previewUnavailable: 'Preview unavailable',
+      elapsed: 'Elapsed time',
       columns: { title: 'Title', artist: 'Artist', time: 'Time' },
       tracks: [
+        { id: 'batman', title: 'Batman', artist: 'Bedry', isPlayable: true },
         { id: 'night-shift', title: 'Night Shift Commit', artist: 'Lo-fi Desk', duration: '3:12' },
         { id: 'clean-build', title: 'Clean Build', artist: 'The Linters', duration: '2:48' },
         { id: 'async', title: 'Async Await', artist: 'Promise Club', duration: '4:05' },
@@ -1003,11 +1009,14 @@ export const MACOS: Localized<MacOSTexts> = {
       library: 'Bibliothèque',
       playlist: 'Playlists',
       playlistTitle: 'Deep Work',
-      playlistSubtitle: 'Ikhlas Agbeti · 6 morceaux',
+      playlistSubtitle: 'Ikhlas Agbeti · 7 morceaux',
       play: 'Lecture',
       pause: 'Pause',
+      previewUnavailable: 'Aperçu indisponible',
+      elapsed: 'Temps écoulé',
       columns: { title: 'Titre', artist: 'Artiste', time: 'Durée' },
       tracks: [
+        { id: 'batman', title: 'Batman', artist: 'Bedry', isPlayable: true },
         { id: 'night-shift', title: 'Night Shift Commit', artist: 'Lo-fi Desk', duration: '3:12' },
         { id: 'clean-build', title: 'Clean Build', artist: 'The Linters', duration: '2:48' },
         { id: 'async', title: 'Async Await', artist: 'Promise Club', duration: '4:05' },

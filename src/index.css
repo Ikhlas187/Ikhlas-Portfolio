@@ -26,6 +26,18 @@
       rotate: 1.5deg;
     }
   }
+
+  /* Barres d'égaliseur du bouton son (components/ui/MusicToggle). */
+  --animate-music-bar: music-bar 0.9s ease-in-out infinite alternate;
+
+  @keyframes music-bar {
+    from {
+      scale: 1 0.25;
+    }
+    to {
+      scale: 1 1;
+    }
+  }
 }
 
 /* Variables sémantiques shadcn branchées sur les tokens du portfolio (site sombre). */

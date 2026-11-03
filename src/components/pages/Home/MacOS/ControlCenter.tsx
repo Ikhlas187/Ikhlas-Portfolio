@@ -5,6 +5,7 @@ import ControlCenterSlider from '@/components/pages/Home/MacOS/ControlCenterSlid
 import ControlCenterToggle from '@/components/pages/Home/MacOS/ControlCenterToggle'
 import { MACOS } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
+import { useMusic } from '@/lib/MusicProvider'
 import type { MacDisplay } from '@/lib/macDisplaySession'
 
 export type ControlCenterSettings = {
@@ -12,7 +13,6 @@ export type ControlCenterSettings = {
   isBluetoothOn: boolean
   isAirDropOn: boolean
   isFocusOn: boolean
-  volume: number
 }
 
 type ControlCenterProps = {
@@ -35,9 +35,10 @@ export default function ControlCenter({
 }: ControlCenterProps) {
   const { locale } = useLocale()
   const texts = MACOS[locale].controlCenter
+  const { volume, setVolume } = useMusic()
   const panelRef = useRef<HTMLDivElement>(null)
   const status = (isOn: boolean, onLabel = texts.on) => (isOn ? onLabel : texts.off)
-  const toggle = (key: Exclude<keyof ControlCenterSettings, 'volume'>) =>
+  const toggle = (key: keyof ControlCenterSettings) =>
     onSettingsChange({ ...settings, [key]: !settings[key] })
 
   useEffect(() => {
@@ -121,8 +122,8 @@ export default function ControlCenter({
       <ControlCenterSlider
         icon={Volume2}
         label={texts.sound}
-        value={settings.volume}
-        onChange={(volume) => onSettingsChange({ ...settings, volume })}
+        value={volume}
+        onChange={setVolume}
       />
     </motion.div>
   )

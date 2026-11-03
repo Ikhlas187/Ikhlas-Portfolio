@@ -22,7 +22,7 @@ portfolio-frontend/
 │                             repos/snapshot.mjs (instantané des repos, secrets filtrés, voir tools/README.md §4)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
-│   ├── App.tsx               providers (Helmet, Locale, Router, Lenis) + MouseTrail + ContextCursor + routes animées
+│   ├── App.tsx               providers (Helmet, Locale, Music, Router, Lenis) + MouseTrail + ContextCursor + routes animées + MusicToggle
 │   ├── index.css             Tailwind + shadcn + reset (@layer base) + variables shadcn branchées sur les tokens
 │   ├── tokens.css            toutes les CSS vars du portfolio (couleurs, typo, espacements, easings)
 │   ├── components/
@@ -33,6 +33,7 @@ portfolio-frontend/
 │   │   │   ├── PageTransition.tsx  fondu + volet noir entre routes
 │   │   │   ├── MouseTrail.tsx      traînée canvas « feutre », blend difference
 │   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet, MacBook fermé)
+│   │   │   ├── MusicToggle.tsx     bouton son fixe en bas à gauche (z-95) : barres d'égaliseur, coupe / relance la musique de fond
 │   │   │   └── CoinLoader.tsx      écran de chargement : pluie de pièces IKHLAS / AGBETI / métier (+ CoinPile, FlatCoin, SolidCoin)
 │   │   └── pages/            un dossier par écran
 │   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
@@ -73,11 +74,12 @@ portfolio-frontend/
 │   │       │       ├── Window.tsx           cadre commun de toutes les fenêtres, copié du Safari de mihrimatrix/macos-clone-react : rayon 26 px, barre d'outils 52 px, pastilles 13 px à 21/21 px
 │   │       │       ├── frameClasses.ts      classes du cadre partagées (outil en capsule de verre, champ de recherche, barre d'outils)
 │   │       │       ├── useGenie.ts, dockTarget.ts   effet génie (fenêtre copiée en bandes trapézoïdales aspirées dans l'icône du Dock)
-│   │       │       ├── ControlCenter*.tsx   centre de contrôle : bascules, luminosité (voile noir), son, mode sombre ([data-macos-theme] dans tokens.css)
+│   │       │       ├── ControlCenter*.tsx   centre de contrôle : bascules, luminosité (voile noir), son (volume du lecteur partagé), mode sombre ([data-macos-theme] dans tokens.css)
 │   │       │       ├── FinderWindow.tsx     Window + palette claire du Finder pour l'intérieur des apps ; intérieurs de Calendrier et Photos copiés de frvky.online
 │   │       │       ├── Browser/, Notes/     Safari (contour de mihrimatrix, intérieur Google) et Notes (copie de mihrimatrix, notes d'Ikhlas)
 │   │       │       ├── DockLink.tsx, dockLinkLogos.ts   liens GitHub et LinkedIn après le séparateur du Dock
 │   │       │       ├── AppleLogo.tsx, IAEmblem.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
+│   │       │       ├── Music/               app Musique : « Batman » de Bedry joué sur le lecteur partagé (progression, durée réelle), autres pistes en aperçu indisponible
 │   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
 │   │       ├── Projects/ Project/ About/ Contact/   coquilles vides
 │   │       └── NotFound/     404
@@ -87,6 +89,8 @@ portfolio-frontend/
 │   │   ├── highlightCode.ts  coloration highlight.js : cœur et grammaires importés à la demande
 │   │   ├── LenisProvider.tsx smooth scroll Lenis branché sur gsap.ticker + ScrollTrigger
 │   │   ├── LocaleProvider.tsx locale en | fr partagée (useLocale), met à jour <html lang>
+│   │   ├── MusicProvider.tsx un seul Audio pour tout le site (useMusic) : musique de fond au 1er geste après le loader + app Musique du Mac
+│   │   ├── musicSession.ts   musique coupée ou non et volume, gardés pour la session (sessionStorage)
 │   │   ├── localeStorage.ts  choix de langue gardé dans localStorage
 │   │   ├── notesStore.ts     contrat NotesStore + localNotesStore (localStorage), à doubler d'un lib/api/notes.ts
 │   │   ├── loaderSession.ts  loader déjà vu dans la session (sessionStorage) + page révélée (déclenche l'entrée du nom)
@@ -99,7 +103,8 @@ portfolio-frontend/
 │   │   ├── cursor.ts         libellés de la bulle du curseur contextuel, par valeur de data-cursor
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
 │   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
-│   │   └── macbook.ts        libellés de la section MacBook (indice de scroll, Allumer / Éteindre)
+│   │   ├── macbook.ts        libellés de la section MacBook (indice de scroll, Allumer / Éteindre)
+│   │   └── music.ts          aria-label du bouton son (Couper / Mettre la musique)
 │   ├── logic/
 │   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
 │   │   ├── experiencePeriod/ période d'une expérience écrite selon la langue
@@ -112,6 +117,7 @@ portfolio-frontend/
 │   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesBook (Notes), photoAlbums (Photos),
 │   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
+│   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
 │   │   ├── macBookScroll/    progression du scroll vers ouverture du capot et zoom
 │   │   ├── cameraFit/        distance caméra pour que l'écran remplisse la vue
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
@@ -119,7 +125,7 @@ portfolio-frontend/
 │   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
 │   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor) ; repo.ts : format de public/repos/ (écrit par tools/repos)
-│   └── assets/               pièces du loader (coin-{flat,solid}.svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS
+│   └── assets/               pièces du loader (coin-{flat,solid}.svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS, bedry-batman.m4a (musique)
 ├── components.json           config shadcn (base-nova, Base UI, lucide)
 ├── vite.config.ts            react + tailwindcss + tsconfigPaths, port 3000, outDir build
 ├── tsconfig*.json            TypeScript 6 strict, alias @/ vers src/

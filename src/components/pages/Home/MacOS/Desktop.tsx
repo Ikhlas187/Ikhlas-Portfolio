@@ -53,7 +53,6 @@ const INITIAL_CONTROL_CENTER: ControlCenterSettings = {
   isBluetoothOn: true,
   isAirDropOn: false,
   isFocusOn: false,
-  volume: 0.6,
 }
 
 const WINDOW_SIZES: Record<Exclude<AppId, 'preview'>, Size> = {
