@@ -1,5 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useAnimate, useReducedMotion } from 'framer-motion'
 import { Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import NoteForm from '@/components/pages/Home/NoteForm'
@@ -39,6 +39,9 @@ function readLayout(): NotesLayout {
 }
 
 const INK_EASE = [0.16, 1, 0.3, 1] as const
+// Le tableau encaisse l'impact de la note : ~2 px de tremblement, au moment où elle touche.
+const BOARD_SHAKE_X = [0, -2, 2, -1.5, 1.5, 0]
+const BOARD_SHAKE_TRANSITION = { duration: 0.3, delay: 0.16, ease: 'easeOut' } as const
 
 export default function PinNote() {
   const { locale } = useLocale()
@@ -49,6 +52,8 @@ export default function PinNote() {
   const [paging, setPaging] = useState({ layout, step: 0 })
   const step = paging.layout === layout ? paging.step : 0
   const [justPinnedId, setJustPinnedId] = useState<string | null>(null)
+  const isReducedMotion = useReducedMotion() ?? false
+  const [boardRef, animateBoard] = useAnimate<HTMLDivElement>()
 
   useEffect(() => {
     let isMounted = true
@@ -70,6 +75,7 @@ export default function PinNote() {
     setVisitorNotes((notes) => [savedNote, ...notes])
     setPaging({ layout, step: 0 })
     setJustPinnedId(savedNote.id)
+    if (!isReducedMotion) animateBoard(boardRef.current, { x: BOARD_SHAKE_X }, BOARD_SHAKE_TRANSITION)
   }
 
   return (
@@ -121,31 +127,38 @@ export default function PinNote() {
         {/* ============================================
             TABLEAU : formulaire + notes épinglées
             ============================================ */}
-        <div className="relative mt-8 rounded-[24px] bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-black)_11%,var(--color-white))_1.5px,transparent_1.6px)] bg-size-[32px_32px] bg-position-[5.5px_5.5px] p-4 sm:p-8 lg:mt-12 lg:h-[560px] lg:overflow-hidden lg:rounded-[32px] lg:p-0 xl:h-[600px] min-[1440px]:h-[640px]">
+        <div
+          ref={boardRef}
+          className="relative mt-8 rounded-[24px] bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-black)_11%,var(--color-white))_1.5px,transparent_1.6px)] bg-size-[32px_32px] bg-position-[5.5px_5.5px] p-4 sm:p-8 lg:mt-12 lg:h-[560px] lg:overflow-hidden lg:rounded-[32px] lg:p-0 xl:h-[600px] min-[1440px]:h-[640px]"
+        >
           <NoteForm onPin={handlePin} />
           <ul
             aria-label={copy.boardLabel}
             className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:mt-14 sm:gap-x-8 sm:gap-y-12 md:grid-cols-3 lg:static lg:mt-0 lg:block"
           >
-            {shownNotes.map((note, index) => (
-              <motion.li
-                key={note.id}
-                initial={note.id === justPinnedId ? { opacity: 0, y: -48, scale: 1.12 } : false}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                className={cn(
-                  'lg:absolute lg:w-[164px] lg:-translate-x-1/2 xl:w-[189px] min-[1440px]:w-[210px]',
-                  BOARD_SLOTS[index % BOARD_SLOTS.length],
-                )}
-              >
-                <StickyNote
-                  note={note}
-                  anonymousLabel={copy.anonymous}
-                  rotation={NOTE_ROTATION}
-                  isUnderForm={index === UNDER_FORM_SLOT}
-                />
-              </motion.li>
-            ))}
+            {shownNotes.map((note, index) => {
+              const isJustPinned = note.id === justPinnedId && !isReducedMotion
+              return (
+                <motion.li
+                  key={note.id}
+                  initial={isJustPinned ? { opacity: 0, y: -48, scale: 1.12 } : false}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+                  className={cn(
+                    'lg:absolute lg:w-[164px] lg:-translate-x-1/2 xl:w-[189px] min-[1440px]:w-[210px]',
+                    BOARD_SLOTS[index % BOARD_SLOTS.length],
+                  )}
+                >
+                  <StickyNote
+                    note={note}
+                    anonymousLabel={copy.anonymous}
+                    rotation={NOTE_ROTATION}
+                    isUnderForm={index === UNDER_FORM_SLOT}
+                    isJustPinned={isJustPinned}
+                  />
+                </motion.li>
+              )
+            })}
           </ul>
         </div>
 

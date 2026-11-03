@@ -14,6 +14,20 @@
   font-display: swap;
 }
 
+/* Balancement des post-it de Pin a note, durée et décalage posés par note (logic/notes/sway). */
+@theme {
+  --animate-note-sway: note-sway 4s ease-in-out infinite alternate;
+
+  @keyframes note-sway {
+    from {
+      rotate: -1.5deg;
+    }
+    to {
+      rotate: 1.5deg;
+    }
+  }
+}
+
 /* Variables sémantiques shadcn branchées sur les tokens du portfolio (site sombre). */
 @theme inline {
   --font-sans: var(--font-body);
@@ -156,6 +170,13 @@
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Le curseur contextuel (components/ui/ContextCursor) remplace le curseur natif sur ces zones. */
+@media (hover: hover) and (pointer: fine) {
+  [data-cursor] {
+    cursor: none;
   }
 }
 

@@ -12,6 +12,8 @@ export default function CoinPile({
   rowCount,
   isStatic,
   isExiting,
+  keyframesName = 'rain',
+  isSingleDrop = false,
 }: {
   coins: RainCoin[]
   keyframes: string
@@ -19,16 +21,23 @@ export default function CoinPile({
   rowCount: number
   isStatic: boolean
   isExiting: boolean
+  keyframesName?: string
+  // Une seule chute qui reste posée, sans effacement : la pluie de fin de page.
+  isSingleDrop?: boolean
 }) {
   const cycle = `${cycleSeconds}s`
+  const iteration = isSingleDrop ? '1 forwards' : 'infinite'
 
   return (
     <div
       className="relative h-[calc(var(--row)*3+46px)] w-[calc(var(--pitch)*9)] [--coin:46px] [--pitch:50px] [--row:48px] [perspective-origin:50%_60%] [perspective:700px] max-[520px]:[--coin:36px] max-[520px]:[--pitch:39px] max-[520px]:[--row:38px]"
       style={
-        isStatic
+        isStatic || isSingleDrop
           ? undefined
-          : { animation: `rain-wipe ${cycle} linear infinite`, animationPlayState: isExiting ? 'paused' : undefined }
+          : {
+              animation: `${keyframesName}-wipe ${cycle} linear infinite`,
+              animationPlayState: isExiting ? 'paused' : undefined,
+            }
       }
     >
       <style>{keyframes}</style>
@@ -36,7 +45,7 @@ export default function CoinPile({
         const exitStyle = {
           '--exit-spin': `${coin.spin}deg`,
           animation: isExiting
-            ? `rain-exit ${EXIT_MS}ms cubic-bezier(0.5, 0, 0.75, 0) ${exitDelayMs(coin, rowCount)}ms forwards`
+            ? `${keyframesName}-exit ${EXIT_MS}ms cubic-bezier(0.5, 0, 0.75, 0) ${exitDelayMs(coin, rowCount)}ms forwards`
             : undefined,
         } as Record<string, string | undefined> as CSSProperties
         const coinStyle = {
@@ -47,11 +56,14 @@ export default function CoinPile({
           '--tilt': `${coin.tilt}deg`,
           ...(isStatic
             ? { opacity: 1, transform: 'translate3d(var(--x), var(--lift), var(--z))' }
-            : { opacity: 0, animation: `rain-${index} ${cycle} linear infinite` }),
+            : { opacity: 0, animation: `${keyframesName}-${index} ${cycle} linear ${iteration}` }),
           animationPlayState: isExiting ? 'paused' : undefined,
         } as Record<string, string | number | undefined> as CSSProperties
-        const faceStyle = { animation: `rain-face ${cycle} linear infinite ${coin.start}s` }
-        const solidStyle = { opacity: 0, animation: `rain-solid ${cycle} linear infinite ${coin.start}s` }
+        const faceStyle = { animation: `${keyframesName}-face ${cycle} linear ${iteration} ${coin.start}s` }
+        const solidStyle = {
+          opacity: 0,
+          animation: `${keyframesName}-solid ${cycle} linear ${iteration} ${coin.start}s`,
+        }
 
         return (
           <span key={index} className="absolute inset-0" style={exitStyle}>
@@ -69,9 +81,7 @@ export default function CoinPile({
               <SolidCoin
                 letter={coin.letter}
                 isAccent={coin.isAccent}
-                style={
-                  isStatic ? undefined : { ...solidStyle, animationPlayState: isExiting ? 'paused' : undefined }
-                }
+                style={isStatic ? undefined : { ...solidStyle, animationPlayState: isExiting ? 'paused' : undefined }}
               />
             </span>
           </span>

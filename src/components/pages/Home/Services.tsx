@@ -12,6 +12,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 const PHOTO_WIDTH = 910
 const INK_SCALE = 70
 const INK_BLUR = 10
+const ACCORDION_DURATION = 0.5
+const DIMMED_OPACITY = 0.4
 
 type ServicesProps = {
   title?: string
@@ -148,6 +150,60 @@ export default function Services(props: ServicesProps) {
           ;[...inks, ...rowInks].forEach((node) => {
             node.style.filter = ''
           })
+        }
+      })
+
+      // Sans survol possible (tactile), les photos restent toutes ouvertes.
+      mm.add('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', (context) => {
+        const list = el('.p-service-list__wrapper')
+        const rows = gsap.utils.toArray<HTMLElement>(all('.p-service-list__item'))
+        const photos = rows.map((row) => row.querySelector<HTMLElement>('.p-service-list__item-img')!)
+        if (!list || !photos.length) return
+
+        const photoGap = parseFloat(getComputedStyle(photos[0]).marginBottom)
+        let activeRow: HTMLElement | null = null
+
+        gsap.set(photos, { height: 0, marginBottom: 0, overflow: 'hidden' })
+        // Les rangées repliées raccourcissent la section : les déclencheurs plus bas se recalent.
+        ScrollTrigger.refresh()
+
+        // Tweens créés au survol enregistrés dans le contexte : annulés avec lui au changement de media query.
+        const focusRow = (row: HTMLElement | null) => {
+          if (row === activeRow) return
+          activeRow = row
+          context.add(() =>
+            rows.forEach((item, i) => {
+              const isActive = item === row
+              gsap.to(photos[i], {
+                height: isActive ? 'auto' : 0,
+                marginBottom: isActive ? photoGap : 0,
+                duration: ACCORDION_DURATION,
+                ease: 'power3.inOut',
+                overwrite: true,
+              })
+              gsap.to(item, {
+                opacity: row && !isActive ? DIMMED_OPACITY : 1,
+                duration: 0.4,
+                ease: 'power2.out',
+                overwrite: true,
+              })
+            }),
+          )
+        }
+
+        // pointermove : une rangée qui remonte sous une souris immobile (repli de la voisine) ne s'ouvre pas.
+        const onMove = (event: PointerEvent) => {
+          const row =
+            event.target instanceof Element ? event.target.closest<HTMLElement>('.p-service-list__item') : null
+          if (row) focusRow(row)
+        }
+        const onLeave = () => focusRow(null)
+
+        list.addEventListener('pointermove', onMove)
+        list.addEventListener('pointerleave', onLeave)
+        return () => {
+          list.removeEventListener('pointermove', onMove)
+          list.removeEventListener('pointerleave', onLeave)
         }
       })
     },

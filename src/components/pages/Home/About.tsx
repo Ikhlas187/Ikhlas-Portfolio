@@ -52,32 +52,53 @@ export default function About() {
           }),
       })
 
+      const section = root.current!
+      const palette = getComputedStyle(section)
+      const unreadColor = palette.getPropertyValue('--color-gray-500').trim()
+      const readColor = palette.getPropertyValue('--color-black').trim()
+      let reading: gsap.core.Timeline | undefined
+
+      // autoSplit redécoupe au resize : la lecture au scroll est reconstruite sur les nouvelles lignes.
       SplitText.create('.about__body p', {
         type: 'lines',
         mask: 'lines',
         autoSplit: true,
-        onSplit: (self) =>
-          gsap.from(self.lines, {
+        onSplit: (self) => {
+          reading?.revert()
+          const highlights = section.querySelectorAll<HTMLElement>('.about__hl')
+
+          // Chaque ligne passe du gris au noir au fil du scroll, les mots surlignés se colorent en dernier.
+          reading = gsap
+            .timeline({
+              scrollTrigger: {
+                trigger: section.querySelector('.about__body'),
+                start: 'top 70%',
+                end: 'bottom 45%',
+                scrub: 0.6,
+              },
+            })
+            .fromTo(self.lines, { color: unreadColor }, { color: readColor, duration: 1, stagger: 1, ease: 'none' })
+            .fromTo(
+              highlights,
+              { color: unreadColor, backgroundSize: '0% 88%' },
+              { color: readColor, backgroundSize: '100% 88%', duration: 1.5, stagger: 0.75, ease: 'power1.out' },
+            )
+
+          return gsap.from(self.lines, {
             yPercent: 110,
             duration: 0.9,
             ease: 'power4.out',
             stagger: 0.06,
             scrollTrigger: { trigger: '.about__row', start: 'top 75%', once: true },
-          }),
+          })
+        },
       })
 
       gsap
         .timeline({ scrollTrigger: { trigger: '.about__row', start: 'top 75%', once: true } })
         .from('.about__call-wrap', { x: 90, autoAlpha: 0, duration: 0.9, ease: 'back.out(1.6)' }, 1.2)
 
-      gsap.to('.about__hl', {
-        backgroundSize: '100% 88%',
-        duration: 0.7,
-        ease: 'power2.out',
-        stagger: 0.45,
-        delay: 0.8,
-        scrollTrigger: { trigger: '.about__row', start: 'top 60%', once: true },
-      })
+      return () => reading?.revert()
     },
     { scope: root },
   )

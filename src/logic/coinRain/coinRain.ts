@@ -73,7 +73,8 @@ const percent = (time: number, cycle: number) => `${Number(((time / cycle) * 100
 const placed = (lift: string, z: string, rotation: string) =>
   `translate3d(var(--x), ${lift}, ${z}) rotate(${rotation})`
 
-export function rainKeyframes(coins: readonly RainCoin[], timing: CoinRainTiming) {
+// Le préfixe isole les noms d'animation quand 2 pluies coexistent dans la page.
+export function rainKeyframes(coins: readonly RainCoin[], timing: CoinRainTiming, name = 'rain') {
   const { cycle } = timing
   const top = placed('calc(var(--lift) - 200px)', '90px', 'var(--spin)')
   const landed = placed('var(--lift)', 'var(--z)', 'var(--tilt)')
@@ -86,15 +87,15 @@ export function rainKeyframes(coins: readonly RainCoin[], timing: CoinRainTiming
       coin.start === 0
         ? `0% { transform: ${top}; opacity: 0; ${falling} }`
         : `0% { transform: ${top}; opacity: 0; } ${percent(coin.start, cycle)} { transform: ${top}; opacity: 0; ${falling} }`
-    return `@keyframes rain-${index} { ${head} ${percent(coin.start + timing.fadeIn, cycle)} { opacity: 1; } ${percent(land, cycle)} { transform: ${landed}; animation-timing-function: ease-out; } ${percent(land + timing.bounce / 2, cycle)} { transform: ${bounced}; } ${percent(land + timing.bounce, cycle)}, 100% { transform: ${landed}; opacity: 1; } }`
+    return `@keyframes ${name}-${index} { ${head} ${percent(coin.start + timing.fadeIn, cycle)} { opacity: 1; } ${percent(land, cycle)} { transform: ${landed}; animation-timing-function: ease-out; } ${percent(land + timing.bounce / 2, cycle)} { transform: ${bounced}; } ${percent(land + timing.bounce, cycle)}, 100% { transform: ${landed}; opacity: 1; } }`
   })
 
   return [
     ...drops,
-    `@keyframes rain-face { 0%, ${percent(timing.swapFrom, cycle)} { opacity: 1; } ${percent(timing.swapTo, cycle)}, 100% { opacity: 0; } }`,
-    `@keyframes rain-solid { 0%, ${percent(timing.swapFrom, cycle)} { opacity: 0; } ${percent(timing.swapTo, cycle)}, 100% { opacity: 1; } }`,
-    `@keyframes rain-wipe { 0%, ${timing.wipeFrom * 100}% { opacity: 1; } ${timing.wipeTo * 100}%, 100% { opacity: 0; } }`,
-    `@keyframes rain-exit { to { transform: translateY(-110vh) rotate(var(--exit-spin)); } }`,
-    `@keyframes rain-dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }`,
+    `@keyframes ${name}-face { 0%, ${percent(timing.swapFrom, cycle)} { opacity: 1; } ${percent(timing.swapTo, cycle)}, 100% { opacity: 0; } }`,
+    `@keyframes ${name}-solid { 0%, ${percent(timing.swapFrom, cycle)} { opacity: 0; } ${percent(timing.swapTo, cycle)}, 100% { opacity: 1; } }`,
+    `@keyframes ${name}-wipe { 0%, ${timing.wipeFrom * 100}% { opacity: 1; } ${timing.wipeTo * 100}%, 100% { opacity: 0; } }`,
+    `@keyframes ${name}-exit { to { transform: translateY(-110vh) rotate(var(--exit-spin)); } }`,
+    `@keyframes ${name}-dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }`,
   ].join('\n')
 }

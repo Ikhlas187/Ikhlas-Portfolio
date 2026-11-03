@@ -6,6 +6,7 @@ import LenisProvider from '@/lib/LenisProvider'
 import LocaleProvider from '@/lib/LocaleProvider'
 import PageTransition from '@/components/ui/PageTransition'
 import MouseTrail from '@/components/ui/MouseTrail'
+import ContextCursor from '@/components/ui/ContextCursor'
 import CoinLoader from '@/components/ui/CoinLoader'
 import HomePage from '@/components/pages/Home/HomePage'
 import ProjectsPage from '@/components/pages/Projects/ProjectsPage'
@@ -80,6 +81,7 @@ export default function App() {
         <BrowserRouter>
           <LenisProvider>
             <MouseTrail />
+            <ContextCursor />
             <AnimatedRoutes />
             <CoinLoader />
           </LenisProvider>
