@@ -1,25 +1,41 @@
-import MagneticButton from '@/components/pages/Home/MagneticButton'
-import ScheduleButton from '@/components/pages/Home/ScheduleButton'
+import { lazy, Suspense, useEffect, useRef } from 'react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Hero from '@/components/pages/Home/Hero'
 import Projects from '@/components/pages/Home/Projects'
 import About from '@/components/pages/Home/About'
 import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
 import Services from '@/components/pages/Home/Services'
-import Footer from '@/components/pages/Home/Footer'
+import PinNote from '@/components/pages/Home/PinNote'
+import { useLocale } from '@/lib/LocaleProvider'
 
-// À venir : menu 3 barres verticales entre DedicatedTeam et Services, CTA avant Footer (réf. momdesign.fr).
+// three.js et la scène 3D partent dans un chunk à part, hors du bundle principal.
+const MacBookSection = lazy(() => import('@/components/pages/Home/MacBook/MacBookSection'))
+
+// À venir : menu 3 barres verticales entre DedicatedTeam et Services, CTA de fin (réf. momdesign.fr).
 export default function HomePage() {
+  const { locale } = useLocale()
+  const previousLocale = useRef(locale)
+
+  // Les textes traduits changent la hauteur des sections : les déclencheurs placés plus bas doivent être recalculés.
+  useEffect(() => {
+    if (previousLocale.current === locale) return
+    previousLocale.current = locale
+    ScrollTrigger.refresh()
+  }, [locale])
+
   return (
-    <main className="bg-[#000]">
-      <div className="flex justify-center px-6 py-10">
-        <MagneticButton>
-          <ScheduleButton />
-        </MagneticButton>
-      </div>
+    <main className="bg-black">
+      <Hero />
       <Projects />
-      <About />
+      {/* Même hauteur que la section : les ScrollTrigger plus bas ne bougent pas au chargement. */}
+      <Suspense fallback={<div aria-hidden className="h-svh bg-black" />}>
+        <MacBookSection />
+      </Suspense>
+      {/* SplitText remplace les lignes du texte dans le DOM : on remonte la section pour la redécouper dans la nouvelle langue. */}
+      <About key={locale} />
       <DedicatedTeam />
       <Services />
-      <Footer />
+      <PinNote />
     </main>
   )
 }
