@@ -22,4 +22,14 @@ Comment on construit l'interface dans ce projet. Impératifs, valables **partout
 
 Les sections déjà écrites dans `components/pages/Home/` (Projects, About, DedicatedTeam, Services, Process) gardent leur `.css` BEM appairé. On ne les migre pas en Tailwind. Un nouveau morceau ajouté **dans** une de ces sections suit le `.css` de la section, pour ne pas mélanger 2 systèmes dans le même bloc. Tout le reste du nouveau code suit les règles ci-dessus.
 
+## Exception : les apps du faux macOS
+
+Les apps de `components/pages/Home/MacOS/` copient l'interface de macOS à l'identique, et le style du `Button` ou de l'`Input` shadcn entre en conflit avec ce rendu. Les `<button>`, `<input>`, `<textarea>` et `<select>` natifs déjà écrits y restent natifs, on ne les migre pas.
+
+Pour du nouveau code dans `MacOS/` :
+
+- Si l'élément doit ressembler à macOS (barre d'outils, champ de recherche du Finder, curseur du Centre de contrôle), il peut rester natif, stylé avec les tokens `--macos-*` de `tokens.css`.
+- Sinon (formulaire simple, bouton d'action), utiliser le composant shadcn, comme le font déjà Mail, Messages et Terminal.
+- Un élément natif garde `cursor-pointer` (voir `button.md`).
+
 Les valeurs de `src/tokens.css` surchargent le thème Tailwind (`bg-black`, `text-sm`, `font-mono`, `text-gray-500` donnent les valeurs du portfolio) et les variables shadcn (`--background`, `--primary`…) sont branchées dessus dans `index.css`. Restyler un composant shadcn = passer par ces variables, pas par des couleurs en dur.

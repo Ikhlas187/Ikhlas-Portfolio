@@ -36,4 +36,6 @@ Cas déjà tranchés :
 - **Logo Apple du faux macOS** (`MacOS/`) : fichier `src/assets/apple-logo.svg`, décision de l'utilisateur. Affiché par `AppleLogo.tsx` (masque CSS) sur l'écran de démarrage, dans la barre de menus et dans « À propos de ce Mac ».
 - **Images du clone Giant Sur** (`public/giantsur/images/`) : icônes du Dock, reprises telles quelles, décision de l'utilisateur.
 - **Icônes de fichiers du Finder et du bureau** (`MacOS/FileIcon.tsx`) : dossier et documents style Sequoia dessinés pour le projet, un SVG par fichier dans `src/assets/finder-*.svg`, affichés en `<img>`, décision de l'utilisateur. Les apps du dossier Applications reprennent les images du Dock Giant Sur.
+- **Nom du hero** (`Home/HeroName.tsx`) : un `<svg>` avec un `<text>` mis à l'échelle de la largeur. C'est du texte, pas une icône, il reste inline.
+- **Filtre d'encre** (`Home/Services.tsx`) : `<svg>` invisible qui ne contient que des `<filter>` (`feTurbulence`), utilisés en CSS par la section. Rien n'est affiché, il reste inline.
 - **Logos GitHub et LinkedIn des liens du Dock** du faux macOS (`MacOS/dockLinkLogos.ts`) : `react-icons/si` pour GitHub, `react-icons/fa6` pour LinkedIn (absent de `si`), décision de l'utilisateur.

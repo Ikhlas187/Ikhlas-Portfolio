@@ -12,12 +12,12 @@ Cette rule porte sur les noms écrits **dans le code** : fonctions, variables, t
 
 ## La seule exception : le vocabulaire du contrat
 
-Un nom qui vient du **contrat d'API** (`src/types/apiContract.ts`), d'une **API externe** ou d'une **librairie** se reprend **tel quel**. Ce n'est pas notre invention, c'est du vocabulaire partagé que personne ne renomme unilatéralement : le front et le back doivent s'accorder dessus.
+Un nom qui vient d'un **contrat** déclaré dans `src/types/` (`note.ts` pour les notes, `repo.ts` pour les instantanés écrits par `tools/repos/`), d'une **API externe** ou d'une **librairie** se reprend **tel quel**. Ce n'est pas notre invention, c'est du vocabulaire partagé que personne ne renomme unilatéralement : le front et le back doivent s'accorder dessus.
 
 - ✓ Reprendre les noms de types et de champs déclarés dans le contrat, les codes d'erreur qu'il définit, et les options des librairies (`credentials: 'include'`, `dangerouslySetInnerHTML`).
 - ✗ Reprendre un nom de fonction ou de variable que le ticket a inventé côté front (`formulaireIncomplet`, `utilisateurExistePour`). Ceux-là ne sont pas dans le contrat, donc nos conventions priment.
 
-Le test : **ce nom est-il dans `apiContract.ts` (ou l'API / la lib) ?** Si oui, on le reprend à l'identique. Si non, c'est à nous de le nommer selon nos conventions, même quand le ticket propose un nom.
+Le test : **ce nom est-il dans `src/types/` (ou l'API / la lib) ?** Si oui, on le reprend à l'identique. Si non, c'est à nous de le nommer selon nos conventions, même quand le ticket propose un nom.
 
 ## Corollaire quand on rédige un ticket
 
