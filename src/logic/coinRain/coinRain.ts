@@ -19,7 +19,6 @@ export interface RainCoin {
   spin: number
   tilt: number
   start: number
-  isAccent: boolean
 }
 
 export function rowsForCycle(fixedRows: readonly string[], rotatingWords: readonly string[], cycleIndex: number) {
@@ -50,7 +49,6 @@ export function buildRain(rows: readonly string[], timing: CoinRainTiming): Rain
         spin: ((index * 71 + 200) % 360) - 180,
         tilt: TILTS[index % TILTS.length],
         start: Number(start.toFixed(3)),
-        isAccent: level === rows.length - 1 && col === 0,
       })
       start += timing.stagger
     }

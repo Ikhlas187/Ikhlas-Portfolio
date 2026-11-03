@@ -67,14 +67,6 @@ describe('buildRain', () => {
 
     expect(gapBetweenRows).toBeCloseTo(timing.stagger + timing.rowPause)
   })
-
-  it('met en accent la 1re lettre de la rangée du haut, et elle seule', () => {
-    const coins = buildRain(rows, timing)
-
-    const accentLetters = coins.filter((coin) => coin.isAccent).map((coin) => `${coin.letter}${coin.level}`)
-
-    expect(accentLetters).toEqual(['I2'])
-  })
 })
 
 describe('rowsForCycle', () => {
@@ -122,7 +114,7 @@ describe('pileSettledAt', () => {
 describe('exitDelayMs', () => {
   it('fait partir la rangée du haut avant celle du bas', () => {
     const coins = buildRain(rows, timing)
-    const topLeft = coins.find((coin) => coin.level === 2 && coin.isAccent)!
+    const topLeft = coins.find((coin) => coin.level === 2)!
     const bottomLeft = coins.find((coin) => coin.level === 0)!
 
     const delays = [exitDelayMs(topLeft, rows.length), exitDelayMs(bottomLeft, rows.length)]

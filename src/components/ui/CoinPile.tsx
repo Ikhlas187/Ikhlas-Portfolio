@@ -74,13 +74,11 @@ export default function CoinPile({
               {!isStatic && (
                 <FlatCoin
                   letter={coin.letter}
-                  isAccent={coin.isAccent}
                   style={{ ...faceStyle, animationPlayState: isExiting ? 'paused' : undefined }}
                 />
               )}
               <SolidCoin
                 letter={coin.letter}
-                isAccent={coin.isAccent}
                 style={isStatic ? undefined : { ...solidStyle, animationPlayState: isExiting ? 'paused' : undefined }}
               />
             </span>
