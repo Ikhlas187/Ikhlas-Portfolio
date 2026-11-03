@@ -20,6 +20,6 @@ Comment on construit l'interface dans ce projet. Impératifs, valables **partout
 
 ## Exception : les sections existantes de la home
 
-Les sections déjà écrites dans `components/pages/Home/` (Projects, About, DedicatedTeam, Services, Footer, ScheduleButton, Process) gardent leur `.css` BEM appairé. On ne les migre pas en Tailwind. Un nouveau morceau ajouté **dans** une de ces sections suit le `.css` de la section, pour ne pas mélanger 2 systèmes dans le même bloc. Tout le reste du nouveau code suit les règles ci-dessus.
+Les sections déjà écrites dans `components/pages/Home/` (Projects, About, DedicatedTeam, Services, Process) gardent leur `.css` BEM appairé. On ne les migre pas en Tailwind. Un nouveau morceau ajouté **dans** une de ces sections suit le `.css` de la section, pour ne pas mélanger 2 systèmes dans le même bloc. Tout le reste du nouveau code suit les règles ci-dessus.
 
 Les valeurs de `src/tokens.css` surchargent le thème Tailwind (`bg-black`, `text-sm`, `font-mono`, `text-gray-500` donnent les valeurs du portfolio) et les variables shadcn (`--background`, `--primary`…) sont branchées dessus dans `index.css`. Restyler un composant shadcn = passer par ces variables, pas par des couleurs en dur.
