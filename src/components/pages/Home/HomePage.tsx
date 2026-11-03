@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Hero from '@/components/pages/Home/Hero'
 import Projects from '@/components/pages/Home/Projects'
 import About from '@/components/pages/Home/About'
+import Experience from '@/components/pages/Home/Experience'
 import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
 import Services from '@/components/pages/Home/Services'
 import PinNote from '@/components/pages/Home/PinNote'
@@ -38,6 +39,7 @@ export default function HomePage() {
       </Suspense>
       {/* SplitText remplace les lignes du texte dans le DOM : on remonte la section pour la redécouper dans la nouvelle langue. */}
       <About key={locale} />
+      <Experience />
       {SHOULD_SHOW_SKILLS && <DedicatedTeam />}
       <Services />
       <PinNote />
