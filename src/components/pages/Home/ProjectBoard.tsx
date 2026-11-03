@@ -1,5 +1,5 @@
-import type { CSSProperties } from 'react'
 import { Sparkle } from 'lucide-react'
+import { useLocale } from '@/lib/LocaleProvider'
 import { PROJECTS_SECTION, type Project } from '@/data/projects'
 import { unsplashPhotoUrl } from '@/logic/unsplashPhotoUrl/unsplashPhotoUrl'
 
@@ -7,10 +7,11 @@ const PHOTO_WIDTH = 900
 
 // Gabarits a/b alternés pour retrouver le collage irrégulier de la référence.
 export default function ProjectBoard({ project }: { project: Project }) {
+  const { locale } = useLocale()
+
   return (
     <article
       className={`bd-board bd-board--${project.layout}`}
-      style={{ '--accent': project.accent, '--accent-dark': project.dark } as CSSProperties}
     >
       <div className="bd-board__info">
         <p className="bd-board__eyebrow">{project.eyebrow}</p>
@@ -19,7 +20,7 @@ export default function ProjectBoard({ project }: { project: Project }) {
           <p className="bd-board__desc">{project.description}</p>
         </div>
         <p className="bd-board__date">
-          {PROJECTS_SECTION.dateLabel} {project.date}
+          {PROJECTS_SECTION[locale].dateLabel} {project.date}
         </p>
       </div>
 

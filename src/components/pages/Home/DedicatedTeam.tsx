@@ -3,12 +3,13 @@ import gsap from 'gsap'
 import Draggable from 'gsap/Draggable'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TECH } from '@/components/pages/Home/techIcons'
-import { ROLES, SKILLS_SECTION, type Role } from '@/data/roles'
+import { useLocale } from '@/lib/LocaleProvider'
+import { ROLES, SKILLS_SECTION } from '@/data/roles'
 import '@/components/pages/Home/DedicatedTeam.css'
 
 gsap.registerPlugin(Draggable, ScrollTrigger)
 
-const N = ROLES.length
+const N = ROLES.en.length
 const STEP_ANGLE = 360 / N
 const TOP_ANGLE = 270 // sommet de l'ellipse (sin = -1)
 const LIGHT_MS = 650 // durée d'allumage par logo
@@ -30,7 +31,10 @@ type TeamControls = {
 export default function DedicatedTeam() {
   const root = useRef<HTMLElement>(null)
   const controls = useRef<TeamControls | null>(null)
-  const [openRole, setOpenRole] = useState<Role | null>(null)
+  const { locale } = useLocale()
+  const roles = ROLES[locale]
+  const [openRoleIndex, setOpenRoleIndex] = useState<number | null>(null)
+  const openRole = openRoleIndex === null ? null : roles[openRoleIndex]
   const [anchor, setAnchor] = useState({ x: 0, y: 0 })
   const [activeIdx, setActiveIdx] = useState(0)
   const [isManual, setIsManual] = useState(false)
@@ -58,7 +62,8 @@ export default function DedicatedTeam() {
     const place = (deg: number) => {
       for (let i = 0; i < N; i++) {
         const a = ((deg + STEP_ANGLE * i) * Math.PI) / 180
-        gsap.set(slots[i], { x: Math.cos(a) * rx, y: Math.sin(a) * ry })
+        // GSAP perd parfois le translate(-50%) du CSS en lisant la transform : on le fixe pour centrer chaque pastille.
+        gsap.set(slots[i], { xPercent: -50, yPercent: -50, x: Math.cos(a) * rx, y: Math.sin(a) * ry })
       }
     }
 
@@ -82,8 +87,9 @@ export default function DedicatedTeam() {
       const rect = pill.getBoundingClientRect()
       setAnchor({ x: rect.left + rect.width / 2, y: rect.top })
       setActiveIdx(0)
-      setOpenRole(ROLES[index])
-      const count = ROLES[index].stack.length
+      setOpenRoleIndex(index)
+      // Stack identique dans les 2 langues : l'effet monté une seule fois peut lire l'anglais.
+      const count = ROLES.en[index].stack.length
       for (let k = 0; k < count; k++) {
         timers.push(setTimeout(() => setActiveIdx(k), k * LIGHT_MS))
       }
@@ -95,7 +101,7 @@ export default function DedicatedTeam() {
       const duration = showStack(topIdx)
       timers.push(
         setTimeout(() => {
-          setOpenRole(null)
+          setOpenRoleIndex(null)
           topIdx = (topIdx - 1 + N) % N
           rotTween = gsap.to(drift, {
             a: drift.a + STEP_ANGLE,
@@ -119,7 +125,7 @@ export default function DedicatedTeam() {
       close() {
         clearTimers()
         setIsManual(false)
-        setOpenRole(null)
+        setOpenRoleIndex(null)
         if (!isAutoRunning) {
           isAutoRunning = true
           runAuto()
@@ -177,7 +183,7 @@ export default function DedicatedTeam() {
           isDragging = true
           controls.current?.pause()
           setIsManual(false)
-          setOpenRole(null)
+          setOpenRoleIndex(null)
           gsap.set((this.target as HTMLElement).closest('.vt-slot'), { zIndex: 30 })
           gsap.to(this.target, { scale: 1.08, duration: 0.2 })
         },
@@ -253,12 +259,12 @@ export default function DedicatedTeam() {
   return (
     <section className="vt-team" ref={root}>
       <div className="vt-team__stage">
-        <h2 className="vt-team__title">{SKILLS_SECTION.title}</h2>
+        <h2 className="vt-team__title">{SKILLS_SECTION[locale].title}</h2>
 
         <div className="vt-orbit">
-          {ROLES.map((role) => (
-            <div key={role.name} className="vt-slot">
-              <div className="vt-drag" data-role={role.name}>
+          {roles.map((role) => (
+            <div key={role.id} className="vt-slot">
+              <div className="vt-drag" data-role={role.id}>
                 <div className="vt-enter">
                   <div className="vt-float">
                     <span className="vt-pill" style={{ backgroundColor: role.color, rotate: `${role.rot}deg` }}>

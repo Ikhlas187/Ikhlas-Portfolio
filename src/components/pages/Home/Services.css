@@ -2,8 +2,7 @@
 
 .sv {
   --sv-bg: var(--color-white);
-  /* Orange de la référence : #E56A44 · remettre cette valeur pour y revenir */
-  --sv-ink: var(--color-black, #0a0a0a);
+  --sv-ink: var(--color-black);
 
   width: 100%;
   background-color: var(--sv-bg);

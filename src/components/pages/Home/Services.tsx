@@ -2,6 +2,7 @@ import { Fragment, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import { useLocale } from '@/lib/LocaleProvider'
 import { SERVICES, SERVICES_SECTION, type Service } from '@/data/services'
 import { unsplashPhotoUrl } from '@/logic/unsplashPhotoUrl/unsplashPhotoUrl'
 import '@/components/pages/Home/Services.css'
@@ -20,12 +21,13 @@ type ServicesProps = {
 }
 
 /* Section services (réf. kaiseisadatoki-v4) : les titres se condensent hors d'une tache d'encre (filtre SVG). */
-export default function Services({
-  title = SERVICES_SECTION.title,
-  label = SERVICES_SECTION.label,
-  scrollText = SERVICES_SECTION.scrollText,
-  items = SERVICES,
-}: ServicesProps) {
+export default function Services(props: ServicesProps) {
+  const { locale } = useLocale()
+  const section = SERVICES_SECTION[locale]
+  const title = props.title ?? section.title
+  const label = props.label ?? section.label
+  const scrollText = props.scrollText ?? section.scrollText
+  const items = props.items ?? SERVICES[locale]
   const root = useRef<HTMLDivElement>(null)
 
   useGSAP(
@@ -194,7 +196,7 @@ export default function Services({
       <section className="p-service-list">
         <div className="p-service-list__wrapper l-wrapper">
           {items.map((item, i) => (
-            <Fragment key={item.title}>
+            <Fragment key={item.num}>
               {/* La 1re rangée n'a pas de filet : celui de l'entête en tient lieu. */}
               {i > 0 && <div className="p-service-list__rule" aria-hidden="true" />}
 

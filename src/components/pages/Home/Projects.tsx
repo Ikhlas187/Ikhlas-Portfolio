@@ -5,6 +5,7 @@ import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin'
 import { useGSAP } from '@gsap/react'
 import Interlude from '@/components/pages/Home/Interlude'
 import ProjectBoard from '@/components/pages/Home/ProjectBoard'
+import { useLocale } from '@/lib/LocaleProvider'
 import { PROJECTS } from '@/data/projects'
 import { padIndex } from '@/logic/padIndex/padIndex'
 import '@/components/pages/Home/Projects.css'
@@ -14,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, useGSAP)
 /* Section projets (réf. galerie Behance de Sebastian Baldeon), recolorée dans la charte du site. */
 export default function Projects() {
   const root = useRef<HTMLElement>(null)
+  const { locale } = useLocale()
 
   useGSAP(
     () => {
@@ -101,7 +103,7 @@ export default function Projects() {
       <Interlude />
       <div className="bd-horizontal">
         <div className="bd-track">
-          {PROJECTS.map((project) => (
+          {PROJECTS[locale].map((project) => (
             <ProjectBoard key={project.name} project={project} />
           ))}
         </div>
@@ -110,7 +112,7 @@ export default function Projects() {
             <span className="bd-counter__current">{padIndex(1)}</span>
           </span>
           {' / '}
-          {padIndex(PROJECTS.length)}
+          {padIndex(PROJECTS[locale].length)}
         </p>
       </div>
     </section>

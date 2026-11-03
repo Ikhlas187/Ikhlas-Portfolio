@@ -2,6 +2,7 @@ import { useRef, useState, type FormEvent } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { Phone, X } from 'lucide-react'
+import { useLocale } from '@/lib/LocaleProvider'
 import { CALL_WIDGET } from '@/data/about'
 import { sendContactMessage } from '@/lib/api/contact'
 
@@ -13,6 +14,8 @@ const RING_BACK_DELAY_MS = 8000
 
 /* Widget « appel entrant » (réf. abhijitrout.in) : refuser replie la pastille sur l'avatar, répondre déplie le formulaire. */
 export default function CallWidget() {
+  const { locale } = useLocale()
+  const callWidget = CALL_WIDGET[locale]
   const pillRef = useRef<HTMLDivElement>(null)
   const collapseTlRef = useRef<gsap.core.Timeline | null>(null)
   const panelTlRef = useRef<gsap.core.Timeline | null>(null)
@@ -140,9 +143,9 @@ export default function CallWidget() {
           type="button"
           className="about__call-avatar"
           onClick={reopen}
-          aria-label={isClosed ? CALL_WIDGET.ariaReopen : 'Ikhlas'}
+          aria-label={isClosed ? callWidget.ariaReopen : 'Ikhlas'}
         >
-          {CALL_WIDGET.initials}
+          {callWidget.initials}
         </button>
         <span className="about__call-text">
           <span className="about__call-dots" aria-hidden="true">
@@ -150,49 +153,49 @@ export default function CallWidget() {
             <i />
             <i />
           </span>
-          <span className="about__call-hey">{CALL_WIDGET.greeting}</span>
-          <span className="about__call-name">{CALL_WIDGET.name}</span>
+          <span className="about__call-hey">{callWidget.greeting}</span>
+          <span className="about__call-name">{callWidget.name}</span>
         </span>
         <button
           type="button"
           className="about__call-btn about__call-btn--decline"
-          aria-label={CALL_WIDGET.ariaDecline}
+          aria-label={callWidget.ariaDecline}
           onClick={close}
         >
-          <X size={20} color="#fff" strokeWidth={2.4} aria-hidden="true" />
+          <X size={20} strokeWidth={2.4} aria-hidden="true" className="text-[var(--color-white)]" />
         </button>
         <button
           type="button"
           className="about__call-btn about__call-btn--accept"
-          aria-label={CALL_WIDGET.ariaAccept}
+          aria-label={callWidget.ariaAccept}
           aria-expanded={isFormOpen}
           onClick={toggleForm}
         >
           {/* Combiné orienté vers le bas, comme la référence */}
-          <Phone size={20} fill="#fff" strokeWidth={0} aria-hidden="true" style={{ transform: 'rotate(135deg)' }} />
+          <Phone size={20} fill="currentColor" strokeWidth={0} aria-hidden="true" className="text-[var(--color-white)]" style={{ transform: 'rotate(135deg)' }} />
         </button>
       </div>
 
       <form className="about__call-panel" onSubmit={handleSubmit}>
         <div className="about__call-panel-in">
           <label className="about__call-field">
-            <span className="about__call-field-label">{CALL_WIDGET.emailLabel}</span>
-            <input type="email" name="email" required placeholder={CALL_WIDGET.emailPlaceholder} />
+            <span className="about__call-field-label">{callWidget.emailLabel}</span>
+            <input type="email" name="email" required placeholder={callWidget.emailPlaceholder} />
           </label>
           <label className="about__call-field">
-            <span className="about__call-field-label">{CALL_WIDGET.messageLabel}</span>
-            <input type="text" name="message" required placeholder={CALL_WIDGET.messagePlaceholder} />
+            <span className="about__call-field-label">{callWidget.messageLabel}</span>
+            <input type="text" name="message" required placeholder={callWidget.messagePlaceholder} />
           </label>
           <button type="submit" className="about__call-send" disabled={sendState === 'sending'}>
-            {CALL_WIDGET.sendLabels[sendState]}
+            {callWidget.sendLabels[sendState]}
           </button>
           <button
             type="button"
             className="about__call-panel-close"
-            aria-label={CALL_WIDGET.ariaCloseForm}
+            aria-label={callWidget.ariaCloseForm}
             onClick={toggleForm}
           >
-            <X size={14} color="#fff" strokeWidth={2.4} aria-hidden="true" />
+            <X size={14} strokeWidth={2.4} aria-hidden="true" className="text-[var(--color-white)]" />
           </button>
         </div>
       </form>

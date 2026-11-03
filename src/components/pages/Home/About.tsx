@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { useGSAP } from '@gsap/react'
 import CallWidget from '@/components/pages/Home/CallWidget'
+import { useLocale } from '@/lib/LocaleProvider'
 import { ABOUT, type AboutSegment } from '@/data/about'
 import '@/components/pages/Home/About.css'
 
@@ -30,6 +31,8 @@ function renderSegment(segment: AboutSegment, key: number) {
 /* Section About (réf. abhijitrout.in/#about) : planche claire, récit poussé à gauche, widget d'appel à droite. */
 export default function About() {
   const root = useRef<HTMLElement>(null)
+  const { locale } = useLocale()
+  const about = ABOUT[locale]
 
   useGSAP(
     () => {
@@ -81,13 +84,13 @@ export default function About() {
 
   return (
     <section className="about" id="about" ref={root}>
-      <p className="about__kicker">{ABOUT.kicker}</p>
+      <p className="about__kicker">{about.kicker}</p>
 
       <div className="about__row">
-        <p className="about__label">{ABOUT.label}</p>
+        <p className="about__label">{about.label}</p>
 
         <div className="about__body">
-          {ABOUT.paragraphs.map((paragraph, i) => (
+          {about.paragraphs.map((paragraph, i) => (
             <p key={i}>{paragraph.map(renderSegment)}</p>
           ))}
         </div>

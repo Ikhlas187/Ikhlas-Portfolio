@@ -39,6 +39,11 @@ export default function MouseTrail({
     }
 
     const onMove = (e: MouseEvent) => {
+      // Zone qui refuse la traînée (écran du MacBook) : celle en cours s'efface aussitôt.
+      if (e.target instanceof Element && e.target.closest('[data-mouse-trail="off"]')) {
+        points.length = 0
+        return
+      }
       const x = e.clientX
       const y = e.clientY
       const last = points[points.length - 1]
@@ -76,7 +81,7 @@ export default function MouseTrail({
         const last = points[points.length - 1]
         ctx.lineTo(last.x, last.y)
         ctx.lineWidth = width
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)'
+        ctx.strokeStyle = 'rgba(245, 242, 238, 0.9)'
         ctx.stroke()
       }
 

@@ -2,9 +2,11 @@
 
 .about {
   background: var(--color-white);
-  color: #111111;
+  color: var(--color-black);
   font-family: var(--font-body);
   padding: clamp(7rem, 16vh, 12rem) 7% clamp(9rem, 20vh, 15rem);
+  /* Le widget d'appel entre depuis x: 90px (GSAP) : sans clip, ce décalage élargit la page tant qu'il n'est pas révélé. */
+  overflow-x: clip;
 }
 
 .about__kicker {
@@ -57,7 +59,7 @@
 /* Surligneur : background-size balayé de 0 à 100 % par GSAP. */
 .about__hl {
   background-color: transparent;
-  background-image: linear-gradient(rgba(232, 83, 10, 0.28), rgba(232, 83, 10, 0.28));
+  background-image: linear-gradient(color-mix(in srgb, var(--color-accent) 28%, transparent), color-mix(in srgb, var(--color-accent) 28%, transparent));
   background-repeat: no-repeat;
   background-size: 0% 88%;
   background-position: 0 60%;
@@ -86,8 +88,8 @@
   flex-direction: column;
   padding: 10px 12px;
   border-radius: 9999px; /* GSAP le fait passer à 26px à l'ouverture */
-  background: #3c3c3e;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  background: var(--color-black);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--color-black) 28%, transparent);
   overflow: hidden; /* le contenu disparaît pendant repli/ouverture */
   white-space: nowrap;
 }
@@ -111,7 +113,7 @@
   height: 54px;
   border-radius: 50%;
   background: var(--color-accent);
-  color: #ffffff;
+  color: var(--color-white);
   font-family: var(--font-display);
   font-size: 18px;
   letter-spacing: 0.04em;
@@ -142,7 +144,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #d9d9dc;
+  background: var(--color-gray-600);
   animation: about-dot 0.9s ease-in-out infinite;
 }
 
@@ -167,13 +169,13 @@
 
 .about__call-hey {
   font-size: 13px;
-  color: #b9b9bc;
+  color: var(--color-gray-600);
 }
 
 .about__call-name {
   font-size: 16px;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .about__call-btn {
@@ -188,12 +190,12 @@
 }
 
 .about__call-btn--decline {
-  background: #f2453d;
+  background: var(--color-call-decline);
 }
 
 .about__call-btn--accept {
   position: relative;
-  background: #26c752;
+  background: var(--color-call-accept);
 }
 
 /* Anneau de sonnerie autour du bouton vert */
@@ -202,7 +204,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid rgba(38, 199, 82, 0.55);
+  border: 2px solid color-mix(in srgb, var(--color-call-accept) 55%, transparent);
   animation: about-pulse 1.6s ease-out infinite;
 }
 
@@ -240,7 +242,7 @@
   height: 42px;
   margin-top: 2px;
   border-radius: 50%;
-  background: #f2453d;
+  background: var(--color-call-decline);
   cursor: pointer;
 }
 
@@ -252,21 +254,21 @@
 
 .about__call-field-label {
   font-size: 12px;
-  color: #b9b9bc;
+  color: var(--color-gray-600);
 }
 
 .about__call-field input {
   padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid color-mix(in srgb, var(--color-white) 12%, transparent);
   border-radius: 10px;
-  background: #2e2e30;
+  background: var(--color-gray-200);
   font-family: inherit;
   font-size: 14px;
-  color: #f4f4f5;
+  color: var(--color-white);
 }
 
 .about__call-field input::placeholder {
-  color: #8a8a8f;
+  color: var(--color-gray-500);
 }
 
 .about__call-send {
@@ -277,7 +279,7 @@
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--color-white);
   cursor: pointer;
 }
 
@@ -303,5 +305,26 @@
   .about__call-wrap {
     align-self: flex-start;
     margin: 2.5rem 0 0;
+  }
+}
+
+/* Sous 360px, la pastille (325px en largeur naturelle) dépasse la colonne : on resserre boutons et espacements. */
+@media (max-width: 359px) {
+  .about__call {
+    padding: 8px 10px;
+  }
+
+  .about__call-head {
+    gap: 10px;
+  }
+
+  .about__call-avatar,
+  .about__call-btn {
+    width: 46px;
+    height: 46px;
+  }
+
+  .about__call-text {
+    margin-right: 10px;
   }
 }

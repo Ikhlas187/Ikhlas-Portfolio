@@ -1,8 +1,10 @@
+import { useLocale } from '@/lib/LocaleProvider'
 import { PROJECTS_SECTION } from '@/data/projects'
 
 /* Intercalaire « Selected works » entouré d'une ellipse tracée à la main (réf. hand-writing-text de KokonutUI). */
 export default function Interlude() {
-  const [firstLine, secondLine] = PROJECTS_SECTION.interludeTitle
+  const { locale } = useLocale()
+  const [firstLine, secondLine] = PROJECTS_SECTION[locale].interludeTitle
 
   return (
     <div className="bd-interlude">
