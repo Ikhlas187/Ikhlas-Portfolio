@@ -1,4 +1,4 @@
-import { GOOGLE_HOME, isGoogleHome, type BrowserPage } from '@/logic/macos/browserAddress/browserAddress'
+import { GOOGLE_HOME, type BrowserPage } from '@/logic/macos/browserAddress/browserAddress'
 import {
   createHistory,
   currentEntry,
@@ -8,7 +8,7 @@ import {
   type NavigationHistory,
 } from '@/logic/macos/navigationHistory/navigationHistory'
 
-// Une seule page à la fois, sans onglets, comme le Safari de MacOS-Web-Simulator.
+// Historique d'un onglet de Safari (les onglets eux-mêmes : browserTabs).
 export type BrowserSession = { history: NavigationHistory<BrowserPage>; reloadCount: number }
 
 export function createBrowserSession(): BrowserSession {
@@ -33,9 +33,4 @@ export function goForwardInSession(session: BrowserSession): BrowserSession {
 
 export function reloadSession(session: BrowserSession): BrowserSession {
   return { ...session, reloadCount: session.reloadCount + 1 }
-}
-
-// Le bouton Accueil recharge Google s'il est déjà affiché, au lieu d'empiler la même page.
-export function goHome(session: BrowserSession): BrowserSession {
-  return isGoogleHome(currentPage(session)) ? reloadSession(session) : navigateTo(session, GOOGLE_HOME)
 }

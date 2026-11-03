@@ -6,7 +6,7 @@ type FinderWindowProps = {
   frame: WindowFrameProps
   title: string
   canZoom?: boolean
-  // undefined : titre en gras à gauche, comme le Finder. null : barre de titre courte, titre centré.
+  // undefined : titre en gras à gauche, comme le Finder. null : titre centré, sans outils.
   toolbar?: ReactNode | null
   sidebar?: ReactNode
   sidebarClassName?: string
@@ -19,7 +19,7 @@ type FinderWindowProps = {
 const LIGHT_SCHEME =
   'contents [--macos-field:var(--macos-finder-field)] [--macos-hover:var(--macos-finder-hover)] [--macos-message-received:var(--macos-finder-bubble)] [--macos-pressed-strong:var(--macos-finder-pressed-strong)] [--macos-pressed:var(--macos-finder-pressed)] [--macos-separator-strong:var(--macos-finder-separator)] [--macos-separator:var(--macos-finder-separator)] [--macos-text-muted:var(--macos-finder-text-muted)] [--macos-text:var(--macos-finder-text)] [--macos-window-sidebar:var(--macos-finder-paper-backdrop)] [--macos-window:var(--macos-finder-window)]'
 
-// Cadre du Finder Sequoia (clair, barre latérale translucide pleine hauteur) partagé par toutes les apps sauf Safari.
+// Cadre commun des apps (celui du Safari de mihrimatrix/macos-clone-react), intérieurs rebranchés sur la palette du Finder.
 export default function FinderWindow({
   frame,
   title,
@@ -35,7 +35,7 @@ export default function FinderWindow({
     toolbar === null ? undefined : (
       <div className={LIGHT_SCHEME}>
         {toolbar ?? (
-          <p className="ml-[4px] min-w-0 flex-1 truncate text-[15px] font-bold text-(--macos-finder-text)">{title}</p>
+          <p className="ml-[4px] min-w-0 flex-1 truncate text-[15px] font-bold text-(--macos-frame-fg)">{title}</p>
         )}
       </div>
     )
@@ -45,13 +45,8 @@ export default function FinderWindow({
       {...frame}
       title={title}
       canZoom={canZoom}
-      className="border-(--macos-finder-window-border) bg-(--macos-finder-glass) text-(--macos-finder-text)"
-      sidebarClassName={cn('w-[152px] border-(--macos-finder-separator) bg-(--macos-finder-sidebar)', sidebarClassName)}
-      titleBarClassName={cn(
-        'gap-[8px] border-transparent bg-(--macos-finder-window) pr-[12px] pl-[14px]',
-        toolbar === null && 'text-(--macos-finder-text)',
-        titleBarClassName,
-      )}
+      sidebarClassName={cn('w-[152px] bg-(--macos-finder-sidebar)', sidebarClassName)}
+      titleBarClassName={titleBarClassName}
       contentClassName={cn('bg-(--macos-finder-window)', contentClassName)}
       toolbar={toolbarContent}
       sidebar={sidebar && <div className={LIGHT_SCHEME}>{sidebar}</div>}
