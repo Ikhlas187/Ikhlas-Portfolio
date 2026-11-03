@@ -1,0 +1,51 @@
+import { Pin } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { NOTE_COLOR_CLASSES } from '@/components/pages/Home/noteColorClasses'
+import { noteSignature } from '@/logic/notes/draft/draft'
+import { noteTextSize, type NoteTextSize } from '@/logic/notes/textSize/textSize'
+import type { PinnedNote } from '@/types/note'
+
+const TEXT_SIZE_CLASSES: Record<NoteTextSize, string> = {
+  large: 'text-[9cqw] leading-[1.2]',
+  medium: 'text-[7.6cqw] leading-[1.25]',
+  small: 'text-[6.6cqw] leading-[1.3]',
+}
+
+type StickyNoteProps = {
+  note: PinnedNote
+  anonymousLabel: string
+  rotation: string
+  isUnderForm?: boolean
+}
+
+export default function StickyNote({ note, anonymousLabel, rotation, isUnderForm = false }: StickyNoteProps) {
+  return (
+    <div className="@container relative aspect-[210/190] w-full">
+      <figure
+        className={cn(
+          'absolute inset-0 m-0 flex origin-[50%_-1%] flex-col gap-[3cqw] overflow-hidden rounded-[6px] p-[10.5cqw] drop-shadow-[0_10px_10px_rgb(0_0_0/0.1)]',
+          NOTE_COLOR_CLASSES[note.color].paper,
+          rotation,
+        )}
+      >
+        <blockquote
+          className={cn(
+            'm-0 flex min-h-0 flex-1 flex-col overflow-hidden font-sans font-medium [overflow-wrap:anywhere]',
+            TEXT_SIZE_CLASSES[noteTextSize(note.text)],
+            isUnderForm && 'lg:justify-end',
+          )}
+        >
+          <span>{note.text}</span>
+        </blockquote>
+        <figcaption className={cn('truncate font-sans text-[6.2cqw] font-medium', isUnderForm && 'lg:order-first')}>
+          {noteSignature(note, anonymousLabel)}
+        </figcaption>
+      </figure>
+      <Pin
+        aria-hidden="true"
+        strokeWidth={1.75}
+        className="pointer-events-none absolute top-[-9.5cqw] left-1/2 size-[13.7cqw] -translate-x-1/2 rotate-[30deg] fill-primary text-black drop-shadow-[4px_7px_5px_rgb(13_8_5/0.14)]"
+      />
+    </div>
+  )
+}
