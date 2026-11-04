@@ -17,7 +17,6 @@ const DIMMED_OPACITY = 0.4
 
 type ServicesProps = {
   title?: string
-  label?: string
   scrollText?: string
   items?: Service[]
 }
@@ -27,7 +26,6 @@ export default function Services(props: ServicesProps) {
   const { locale } = useLocale()
   const section = SERVICES_SECTION[locale]
   const title = props.title ?? section.title
-  const label = props.label ?? section.label
   const scrollText = props.scrollText ?? section.scrollText
   const items = props.items ?? SERVICES[locale]
   const root = useRef<HTMLDivElement>(null)
@@ -233,7 +231,6 @@ export default function Services(props: ServicesProps) {
       <div className="page-header">
         <div className="page-header__wrapper l-wrapper">
           <h2 className="text-6xl page-header__title ink-anim">{title}</h2>
-          <p className="page-header__label text-lg ink-anim">{label}</p>
 
           <div className="page-header__scroll">
             <span className="text-sm page-header__scroll-text ink-anim js-scroll-text">{scrollText}</span>

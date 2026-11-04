@@ -48,7 +48,7 @@
   font-weight: 400;
 }
 
-/* Même taille que le titre Experiences (ExperienceHeading). */
+/* Même taille que le titre Experiences (SectionHeading). */
 @media (min-width: 810px) {
   .sv .text-6xl {
     font-size: 36px;
@@ -92,12 +92,11 @@
 }
 
 .sv .page-header__wrapper {
-  /* 79px = entête fixe de la référence, à passer à 0 quand le menu du site existera. */
-  padding-top: calc(48px + var(--sv-header-h, 79px));
+  padding-top: var(--section-gap);
   padding-bottom: 64px;
 }
 
-.sv .page-header__label {
+.sv .page-header__title {
   margin-bottom: 32px;
 }
 
@@ -178,22 +177,21 @@
   position: relative;
 }
 
-/* Marge du dernier item reportée en padding : ici le fond change sous la section. */
+/* Pas de marge sous le dernier item : l'espace avant la section suivante vient de --section-gap. */
 .sv .p-service-list__item:last-child {
   margin-bottom: 0;
 }
 
 .sv .p-service-list {
-  padding-bottom: 96px;
+  padding-bottom: 0;
 }
 
 @media (min-width: 1024px) {
   .sv .page-header__wrapper {
-    padding-top: calc(72px + var(--sv-header-h, 79px));
     padding-bottom: 80px;
   }
 
-  .sv .page-header__label {
+  .sv .page-header__title {
     margin-bottom: 48px;
   }
 
@@ -224,10 +222,6 @@
 
   .sv .p-service-list__item-img {
     margin-bottom: 24px;
-  }
-
-  .sv .p-service-list {
-    padding-bottom: 160px;
   }
 }
 

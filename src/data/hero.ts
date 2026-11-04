@@ -19,13 +19,13 @@ type HeaderContent = {
 
 export const HERO: Localized<HeroContent> = {
   en: {
-    name: 'IKHLAS AGBETI',
+    name: 'Ikhlas A.',
     tagline: 'Fast, readable products with character in every pixel.',
     photoId: '1555066931-4365d14bab8c',
     photoAlt: 'Lines of code on a dark screen',
   },
   fr: {
-    name: 'IKHLAS AGBETI',
+    name: 'Ikhlas A.',
     tagline: 'Des produits rapides et lisibles, avec du caractère dans chaque pixel.',
     photoId: '1555066931-4365d14bab8c',
     photoAlt: 'Lignes de code sur un écran sombre',

@@ -26,7 +26,7 @@ export default function HeroName({ name }: HeroNameProps) {
         transition={{ type: 'spring', stiffness: 130, damping: 30, mass: 0.1, delay }}
         className="w-full"
       >
-        <svg viewBox="0 0 1666 269" className="block h-auto w-full" role="img" aria-label={name}>
+        <svg viewBox="0 0 849 269" className="block h-auto w-full" role="img" aria-label={name}>
           <text
             x="0"
             y="244"

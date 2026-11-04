@@ -31,7 +31,7 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
     title: 'Experiences',
     items: [
       {
-        company: 'Zsquares Sol Inc',
+        company: 'Zsquares Sol Inc, Dallas',
         role: 'Developer',
         period: ZSQUARES_PERIOD,
         highlights: [
@@ -40,13 +40,13 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
         ],
       },
       {
-        company: 'Comprint FR',
+        company: 'Comprint FR, Paris',
         role: 'Developer',
         period: COMPRINT_PERIOD,
         highlights: ['Developed and maintained client web applications with Next.js and WordPress.'],
       },
       {
-        company: 'Socialoop EU',
+        company: 'Socialoop EU, London',
         role: 'Developer',
         period: SOCIALOOP_PERIOD,
         highlights: [
@@ -60,7 +60,7 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
     title: 'Expériences',
     items: [
       {
-        company: 'Zsquares Sol Inc',
+        company: 'Zsquares Sol Inc, Dallas',
         role: 'Développeur',
         period: ZSQUARES_PERIOD,
         highlights: [
@@ -69,13 +69,13 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
         ],
       },
       {
-        company: 'Comprint FR',
+        company: 'Comprint FR, Paris',
         role: 'Développeur',
         period: COMPRINT_PERIOD,
         highlights: ["Développement et maintenance d'applications web clientes avec Next.js et WordPress."],
       },
       {
-        company: 'Socialoop EU',
+        company: 'Socialoop EU, Londres',
         role: 'Développeur',
         period: SOCIALOOP_PERIOD,
         highlights: [

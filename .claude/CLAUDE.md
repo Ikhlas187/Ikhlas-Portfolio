@@ -49,6 +49,7 @@ portfolio-frontend/
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── CallWidget.tsx       widget « appel entrant » + formulaire de contact
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
+│   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), partagé par Experience et PinNote
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
 │   │       │   ├── techIcons.ts         table techno vers { Icon, color }
 │   │       │   ├── Services             4 rangées, révélation encre (réf. kaiseisadatoki-v4)
@@ -168,7 +169,7 @@ Display --font-display Plus Jakarta Sans 400 (nom du hero, titres de section : E
 Body    --font-body Inter 500 (tout le reste)
 ```
 
-2 familles, celles de haufsess.com : Plus Jakarta Sans pour les titres, Inter pour le texte. Un titre de section fait 28 / 36 / 40 px (paliers 810 et 1200), comme Experiences. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
+2 familles, celles de haufsess.com : Plus Jakarta Sans pour les titres, Inter pour le texte. Un titre de section fait 28 / 36 / 40 px (paliers 810 et 1200), comme Experiences. Espace entre 2 sections : `--section-gap` (48 px, comme la réf.), en padding-top de chaque section. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
 
 Langue du site : anglais et français, via le sélecteur du header. Tout texte affiché (data/, alt, aria-label) existe dans les 2 langues : chaque export de `data/` est un `Localized<T>` (`{ en, fr }`), lu dans un composant par `useLocale()` puis `DATA[locale]`. L'anglais fait référence ; `index.html` reste en anglais. Pièces du loader (IKHLAS / AGBETI / métiers) et noms propres identiques dans les 2 langues.
 

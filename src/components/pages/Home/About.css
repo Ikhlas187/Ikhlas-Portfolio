@@ -4,7 +4,7 @@
   background: var(--color-white);
   color: var(--color-black);
   font-family: var(--font-body);
-  padding: clamp(7rem, 16vh, 12rem) 7% clamp(9rem, 20vh, 15rem);
+  padding: var(--section-gap) 7% 0;
   /* Le widget d'appel entre depuis x: 90px (GSAP) : sans clip, ce décalage élargit la page tant qu'il n'est pas révélé. */
   overflow-x: clip;
 }

@@ -10,7 +10,6 @@ export type Service = {
 
 type ServicesSection = {
   title: string
-  label: string
   scrollText: string
 }
 
@@ -78,6 +77,6 @@ export const SERVICES: Localized<Service[]> = {
 }
 
 export const SERVICES_SECTION: Localized<ServicesSection> = {
-  en: { title: 'services', label: 'What I do', scrollText: 'Scroll' },
-  fr: { title: 'services', label: 'Ce que je fais', scrollText: 'Défiler' },
+  en: { title: 'Services', scrollText: 'Scroll' },
+  fr: { title: 'Services', scrollText: 'Défiler' },
 }

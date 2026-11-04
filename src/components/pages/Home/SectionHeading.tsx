@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 
-type ExperienceHeadingProps = {
+type SectionHeadingProps = {
   title: string
 }
 
@@ -8,7 +8,7 @@ type ExperienceHeadingProps = {
 const LINE_TRANSITION = { type: 'tween', delay: 0.25, duration: 1, ease: [0.12, 0.23, 0.5, 1] } as const
 
 /* Titre de section de la réf. haufsess.com : trait de 2 px qui pousse depuis le titre vers la gauche. */
-export default function ExperienceHeading({ title }: ExperienceHeadingProps) {
+export default function SectionHeading({ title }: SectionHeadingProps) {
   const shouldReduceMotion = useReducedMotion()
 
   return (
