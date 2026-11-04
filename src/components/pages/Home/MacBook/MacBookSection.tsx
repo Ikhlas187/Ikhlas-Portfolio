@@ -76,7 +76,7 @@ export default function MacBookSection() {
   const isPoweredOn = phase === 'open' && !isShutDown
 
   return (
-    <section ref={sectionRef} aria-label={text.sectionLabel} className="relative h-[400svh] bg-black">
+    <section ref={sectionRef} aria-label={text.sectionLabel} className="relative h-[400svh] bg-white">
       <div className="sticky top-0 h-svh overflow-hidden" data-cursor={phase === 'closed' ? 'scroll' : undefined}>
         {isNear && (
           <Canvas

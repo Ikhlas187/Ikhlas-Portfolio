@@ -34,7 +34,7 @@ export default function HomePage() {
       <Hero />
       {SHOULD_SHOW_PROJECTS && <Projects />}
       {/* Même hauteur que la section : les ScrollTrigger plus bas ne bougent pas au chargement. */}
-      <Suspense fallback={<div aria-hidden className="h-[400svh] bg-black" />}>
+      <Suspense fallback={<div aria-hidden className="h-[400svh] bg-white" />}>
         <MacBookSection />
       </Suspense>
       {/* SplitText remplace les lignes du texte dans le DOM : on remonte la section pour la redécouper dans la nouvelle langue. */}

@@ -24,7 +24,7 @@ type MacBookSceneProps = {
 export default function MacBookScene({ motion, isShutDown, isReducedMotion, ...modelProps }: MacBookSceneProps) {
   const screenAnchor = useRef<Group>(null)
   const stage = useRef<StageMotion>({ pointerX: 0, pointerY: 0, retreat: 0 }).current
-  const background = useMemo(() => cssToken('--color-black'), [])
+  const background = useMemo(() => cssToken('--color-white'), [])
 
   return (
     <>

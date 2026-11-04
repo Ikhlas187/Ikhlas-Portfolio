@@ -24,7 +24,7 @@ function createPoolTexture() {
     const gradient = context.createRadialGradient(center, center, 0, center, center, center)
     gradient.addColorStop(0, cssToken('--color-white'))
     gradient.addColorStop(0.35, cssToken('--color-macbook-floor'))
-    gradient.addColorStop(1, cssToken('--color-black'))
+    gradient.addColorStop(1, cssToken('--color-white'))
     context.fillStyle = gradient
     context.fillRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE)
   }
@@ -33,7 +33,7 @@ function createPoolTexture() {
   return texture
 }
 
-// Sol invisible sur fond noir : une flaque de lumière sous le Mac, pour que son ombre douce se lise.
+// Sol invisible sur fond crème : une flaque de lumière sous le Mac, pour que son ombre douce se lise.
 export default function FloorGlow({ motion, stage }: FloorGlowProps) {
   const texture = useMemo(createPoolTexture, [])
   const poolRef = useRef<MeshBasicMaterial>(null)
