@@ -12,6 +12,9 @@ import '@/components/pages/Home/Projects.css'
 
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, useGSAP)
 
+// Planches masquées pour l'instant (seul l'intercalaire s'affiche) : passer à true pour les réafficher.
+const SHOULD_SHOW_BOARDS = false
+
 /* Section projets (réf. galerie Behance de Sebastian Baldeon), recolorée dans la charte du site. */
 export default function Projects() {
   const root = useRef<HTMLElement>(null)
@@ -43,6 +46,7 @@ export default function Projects() {
       })
 
       // Pile de planches épinglée, 1 écran de scroll par planche. Sous 900px : flux vertical.
+      if (!SHOULD_SHOW_BOARDS) return
       mm.add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
         const track = root.current!.querySelector('.bd-track')
         const boards = gsap.utils.toArray<HTMLElement>('.bd-board', track)
@@ -101,20 +105,22 @@ export default function Projects() {
   return (
     <section className="bd" ref={root}>
       <Interlude />
-      <div className="bd-horizontal">
-        <div className="bd-track">
-          {PROJECTS[locale].map((project) => (
-            <ProjectBoard key={project.name} project={project} />
-          ))}
+      {SHOULD_SHOW_BOARDS && (
+        <div className="bd-horizontal">
+          <div className="bd-track">
+            {PROJECTS[locale].map((project) => (
+              <ProjectBoard key={project.name} project={project} />
+            ))}
+          </div>
+          <p className="bd-counter" aria-hidden="true">
+            <span className="bd-counter__mask">
+              <span className="bd-counter__current">{padIndex(1)}</span>
+            </span>
+            {' / '}
+            {padIndex(PROJECTS[locale].length)}
+          </p>
         </div>
-        <p className="bd-counter" aria-hidden="true">
-          <span className="bd-counter__mask">
-            <span className="bd-counter__current">{padIndex(1)}</span>
-          </span>
-          {' / '}
-          {padIndex(PROJECTS[locale].length)}
-        </p>
-      </div>
+      )}
     </section>
   )
 }
