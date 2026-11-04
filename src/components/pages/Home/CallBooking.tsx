@@ -48,18 +48,22 @@ export default function CallBooking({ onClose }: CallBookingProps) {
   }
 
   return (
-    <div className="w-[400px] max-w-full overflow-hidden rounded-[8px] bg-white text-black shadow-(--note-form-shadow)">
-      <BookingCalendar selectedSlot={slot} onSlotSelect={selectSlot} className="h-auto rounded-none" />
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3 border-t border-black/10 px-5 pt-4 pb-5">
+    <div className="flex w-[400px] max-w-full flex-col overflow-hidden rounded-[8px] bg-white text-black shadow-(--note-form-shadow) min-[810px]:w-[800px] min-[810px]:flex-row">
+      <BookingCalendar
+        selectedSlot={slot}
+        onSlotSelect={selectSlot}
+        className="h-auto shrink-0 rounded-none min-[810px]:w-[400px]"
+      />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3 border-t border-black/10 px-5 pt-4 pb-5 min-[810px]:flex-1 min-[810px]:border-t-0 min-[810px]:border-l min-[810px]:pt-5">
         <label className="flex flex-col gap-1.5 text-[12px] text-black/60">
           {copy.emailLabel}
           <input type="email" name="email" required placeholder={copy.emailPlaceholder} className={FIELD} />
         </label>
-        <label className="flex flex-col gap-1.5 text-[12px] text-black/60">
+        <label className="flex flex-col gap-1.5 text-[12px] text-black/60 min-[810px]:flex-1">
           {copy.messageLabel}
-          <textarea name="message" rows={3} placeholder={copy.messagePlaceholder} className={`${FIELD} resize-none`} />
+          <textarea name="message" rows={3} placeholder={copy.messagePlaceholder} className={`${FIELD} resize-none min-[810px]:flex-1`} />
         </label>
-        <div className="flex items-center gap-3">
+        <div className="mt-auto flex items-center gap-3">
           <Button
             type="submit"
             disabled={!slot || sendState === 'sending'}
