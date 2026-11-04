@@ -61,7 +61,7 @@ portfolio-frontend/
 │   │       │   ├── Footer.tsx           footer de la réf. haufsess.com : BookingCalendar (créneau = email pré-rempli), contact, LinkedIn, nom, copyright
 │   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), partagé par HeroName et Footer
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
-│   │       │   ├── MacOSSection.tsx     le faux macOS en section normale, mis en scène comme le projet Awwwards « Personal Portfolio - MacBook » : écran à cadre noir sur son fond d'écran flouté, tenant dans la hauteur de la fenêtre ; bouton Allumer après extinction
+│   │       │   ├── MacOSSection.tsx     le faux macOS en section normale, mis en scène comme le projet Awwwards « Personal Portfolio - MacBook » : écran à cadre noir sur le fond crème du site, tenant dans la hauteur de la fenêtre ; bouton Allumer après extinction
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Power } from 'lucide-react'
-import wallpaperUrl from '@/assets/photo-1511300636408-a63a89df3482.avif'
 import MacOS from '@/components/pages/Home/MacOS/MacOS'
 import { Button } from '@/components/ui/button'
 import { MACBOOK } from '@/data/macbook'
@@ -26,7 +25,7 @@ function canAncestorScroll(target: EventTarget | null, boundary: HTMLElement, ev
 }
 
 /* Le faux macOS en section normale (mise en scène du projet Awwwards « Personal Portfolio - MacBook ») :
-   écran à cadre noir posé sur son propre fond d'écran flouté, bureau 1512 × 982 mis à la largeur. */
+   écran à cadre noir sur le fond crème du site, bureau 1512 × 982 mis à la largeur. */
 export default function MacOSSection() {
   const { locale } = useLocale()
   const text = MACBOOK[locale]
@@ -56,13 +55,6 @@ export default function MacOSSection() {
   return (
     <section aria-label={text.sectionLabel} className="bg-white pt-(--section-gap)">
       <div className="relative overflow-hidden flex min-h-svh items-center px-[5%] py-[max(48px,5.5vw)]">
-        <img
-          src={wallpaperUrl}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          className="pointer-events-none absolute inset-0 size-full scale-110 object-cover blur-[10px]"
-        />
         {/* Cadre noir de l'écran comme la réf., limité en largeur pour que l'écran entier tienne dans la fenêtre. */}
         <div className="relative mx-auto w-full max-w-[min(1620px,calc((100svh-160px)*1.54))] rounded-[10px] bg-black p-[1.45%] pb-[1.15%] shadow-(--macos-screen-shadow)">
       <div
