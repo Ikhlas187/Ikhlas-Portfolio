@@ -36,7 +36,7 @@ export default function HomeHeader() {
       initial={false}
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
-      className={`fixed inset-x-0 top-0 z-[90] bg-white ${isVisible ? '' : 'pointer-events-none'}`}
+      className={`fixed inset-x-0 top-0 z-[90] ${isMenuOpen ? 'bg-white' : 'bg-transparent'} ${isVisible ? '' : 'pointer-events-none'}`}
     >
       <div className="mx-auto flex max-w-[1800px] flex-col px-3 py-5 min-[810px]:px-4">
         <div className="flex w-full items-center justify-center gap-2.5 max-[809px]:h-[47px]">
