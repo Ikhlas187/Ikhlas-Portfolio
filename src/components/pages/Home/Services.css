@@ -41,11 +41,24 @@
 }
 
 .sv .text-6xl {
-  font-size: clamp(3.5rem, 2.7277rem + 3.2952vw, 8rem);
+  font-size: 28px;
   letter-spacing: -0.02em;
-  line-height: 1;
+  line-height: 1.2;
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 400;
+}
+
+/* Même taille que le titre Experiences (ExperienceHeading). */
+@media (min-width: 810px) {
+  .sv .text-6xl {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .sv .text-6xl {
+    font-size: 40px;
+  }
 }
 
 .sv .text-3xl {

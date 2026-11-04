@@ -28,7 +28,7 @@ export default function ExperienceHeading({ title }: ExperienceHeadingProps) {
           />
         </div>
       </div>
-      <h2 className="shrink-0 font-heading text-[28px] leading-[1.2] font-medium tracking-[-0.02em] whitespace-pre min-[810px]:text-[36px] min-[1200px]:text-[40px]">
+      <h2 className="shrink-0 font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em] whitespace-pre min-[810px]:text-[36px] min-[1200px]:text-[40px]">
         {title}
       </h2>
     </motion.div>

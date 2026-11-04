@@ -164,11 +164,11 @@ Source unique : `src/tokens.css`.
 Encre   --color-black #0A0A0A    Crème  --color-white #F5F2EE
 Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
 Accent  --color-accent #E8530A   Alt    --color-accent-alt #00E5A0
-Police  Inter partout, graisse 500 (comme haufsess.com) ; --font-display = Inter aussi, les grands titres ne diffèrent que par la taille
-Body    --font-body Inter
+Display --font-display Plus Jakarta Sans 400 (nom du hero, titres de section : Experiences, services…), comme haufsess.com
+Body    --font-body Inter 500 (tout le reste)
 ```
 
-1 seule famille, Inter, pour tout le site. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
+2 familles, celles de haufsess.com : Plus Jakarta Sans pour les titres, Inter pour le texte. Un titre de section fait 28 / 36 / 40 px (paliers 810 et 1200), comme Experiences. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
 
 Langue du site : anglais et français, via le sélecteur du header. Tout texte affiché (data/, alt, aria-label) existe dans les 2 langues : chaque export de `data/` est un `Localized<T>` (`{ en, fr }`), lu dans un composant par `useLocale()` puis `DATA[locale]`. L'anglais fait référence ; `index.html` reste en anglais. Pièces du loader (IKHLAS / AGBETI / métiers) et noms propres identiques dans les 2 langues.
 
