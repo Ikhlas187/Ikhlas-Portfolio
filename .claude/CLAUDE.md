@@ -164,7 +164,7 @@ Source unique : `src/tokens.css`.
 Encre   --color-black #0A0A0A    Crème  --color-white #F5F2EE
 Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
 Accent  --color-accent #E8530A   Alt    --color-accent-alt #00E5A0
-Display --font-display The Night Watch, repli Cormorant Unicase (grands titres)
+Display --font-display The Night Watch, repli Cormorant Unicase (grands titres, toujours en majuscules et en graisse 400)
 Body    --font-body Inter (tout le reste)
 ```
 
