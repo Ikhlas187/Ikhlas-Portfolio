@@ -14,8 +14,6 @@ portfolio-frontend/
 │   ├── rules/                règles du repo (architecture, fichiers, imports, ui, icônes, tests…)
 │   └── skills/               31 skills front : design, UI, animation, a11y, shadcn, React, Remotion
 ├── public/                   servi tel quel
-│   ├── models/               macbook-pro-14.glb, modèle 3D compressé Draco
-│   ├── draco/                décodeur Draco chargé par la scène 3D
 │   ├── giantsur/             images du clone Giant Sur (icônes du Dock, + vscode-logo.svg)
 │   └── repos/                instantané des repos GitHub d'Ikhlas (index.json + <repo>.json), écrit par pnpm repos:snapshot
 ├── tools/                    hors app : manga.py, video/ (Remotion), sources/ (photos brutes, ignoré par git),
@@ -32,7 +30,7 @@ portfolio-frontend/
 │   │   │   ├── textarea.tsx, input.tsx  shadcn, restylés sans bordure (champs de PinNote)
 │   │   │   ├── PageTransition.tsx  fondu + volet noir entre routes
 │   │   │   ├── MouseTrail.tsx      traînée canvas « feutre », blend difference
-│   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet, MacBook fermé)
+│   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet)
 │   │   │   ├── MusicToggle.tsx     bouton son fixe en bas à gauche (z-95) : barres d'égaliseur, coupe / relance la musique de fond
 │   │   │   └── CoinLoader.tsx      écran de chargement : une seule chute de pièces IKHLAS / AGBETI / DEVELOPER, puis entrée automatique, sans bouton (+ CoinPile, FlatCoin, SolidCoin)
 │   │   └── pages/            un dossier par écran
@@ -63,7 +61,7 @@ portfolio-frontend/
 │   │       │   ├── Footer.tsx           footer de la réf. haufsess.com : BookingCalendar (créneau = email pré-rempli), contact, LinkedIn, nom, copyright
 │   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), partagé par HeroName et Footer
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
-│   │       │   ├── MacBook/             scène 3D (r3f) chargée à la demande : capot qui s'ouvre puis plongée dans l'écran au scroll
+│   │       │   ├── MacOSSection.tsx     le faux macOS en section normale (écran 1512 × 982 mis à la largeur), bouton Allumer après extinction
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
@@ -105,7 +103,7 @@ portfolio-frontend/
 │   │   ├── cursor.ts         libellés de la bulle du curseur contextuel, par valeur de data-cursor
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
 │   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
-│   │   ├── macbook.ts        libellés de la section MacBook (indice de scroll, Allumer / Éteindre)
+│   │   ├── macbook.ts        libellés de la section macOS (aria-label, Allumer)
 │   │   └── music.ts          aria-label du bouton son (Couper / Mettre la musique)
 │   ├── logic/
 │   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
@@ -120,9 +118,8 @@ portfolio-frontend/
 │   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
-│   │   ├── macBookScroll/    progression du scroll vers ouverture du capot et zoom
-│   │   ├── cameraFit/        distance caméra pour que l'écran remplisse la vue
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
+│   │   ├── booking/          bookableDay (jours ouvrés à venir), bookingMail (mailto du footer), callRequest (message de la carte d'appel)
 │   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
 │   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur

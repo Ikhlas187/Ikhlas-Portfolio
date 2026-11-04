@@ -443,7 +443,7 @@ const NOTES_INTRO: Localized<NotesEntry[]> = {
       title: 'why build a mac inside a portfolio',
       body: [
         'got tired of portfolios that are just a list of cards. this one boots, has a finder, a terminal and apps you can actually use.',
-        'built with: react, typescript, tailwind, three.js for the macbook, framer motion and gsap for the movement. hosted on vercel.',
+        'built with: react, typescript, tailwind, framer motion and gsap for the movement. hosted on vercel.',
       ],
     },
   ],
@@ -475,7 +475,7 @@ const NOTES_INTRO: Localized<NotesEntry[]> = {
       title: 'pourquoi un mac dans un portfolio',
       body: [
         'marre des portfolios qui ne sont qu’une liste de cartes. celui-ci démarre, a un finder, un terminal et des apps qu’on peut vraiment utiliser.',
-        'fait avec : react, typescript, tailwind, three.js pour le macbook, framer motion et gsap pour le mouvement. hébergé sur vercel.',
+        'fait avec : react, typescript, tailwind, framer motion et gsap pour le mouvement. hébergé sur vercel.',
       ],
     },
   ],
