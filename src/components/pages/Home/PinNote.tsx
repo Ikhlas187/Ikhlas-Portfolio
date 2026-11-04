@@ -100,7 +100,7 @@ export default function PinNote() {
                 className="block h-[2px] w-[70px] origin-left rounded-[1px] bg-gray-400"
               />
             </motion.div>
-            <h2 className="font-heading text-[clamp(48px,6.67vw,96px)] leading-none font-normal tracking-[-0.03em] text-black uppercase">
+            <h2 className="font-heading text-[clamp(48px,6.67vw,96px)] leading-none font-medium tracking-[-0.03em] text-black uppercase">
               {/* L'observateur est sur le masque : le texte décalé hors du masque ne serait jamais vu « à l'écran ». */}
               <motion.span
                 className="-mb-[0.06em] block overflow-hidden pb-[0.06em]"

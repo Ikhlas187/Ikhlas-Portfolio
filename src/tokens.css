@@ -288,7 +288,7 @@
   --macos-vscode-icon-folder: #c5c5c5;
 
   /* Polices réellement chargées (index.css), plus de familles fantômes */
-  --font-display: 'The Night Watch', 'Cormorant Unicase', serif;
+  --font-display: 'Inter', 'Helvetica Neue', sans-serif;
   --font-body: 'Inter', 'Helvetica Neue', sans-serif;
 
   --text-xs: clamp(0.75rem, 1vw, 0.875rem);

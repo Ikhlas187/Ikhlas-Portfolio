@@ -1,18 +1,11 @@
 /* Polices en 1er : un @import url placé après les règles de Tailwind serait ignoré par le navigateur. */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Cormorant+Unicase:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import './tokens.css';
 
 @custom-variant dark (&:is(.dark *));
-
-/* The Night Watch : déposer le .woff2 licencié dans public/fonts/, sinon repli sur Cormorant Unicase. */
-@font-face {
-  font-family: 'The Night Watch';
-  src: url('/fonts/TheNightWatch.woff2') format('woff2');
-  font-display: swap;
-}
 
 /* Balancement des post-it de Pin a note, durée et décalage posés par note (logic/notes/sway). */
 @theme {
@@ -111,6 +104,7 @@
     background-color: var(--color-black);
     color: var(--color-white);
     font-family: var(--font-body);
+    font-weight: 500;
     font-size: var(--text-base);
     line-height: 1.6;
     overflow-x: hidden;
@@ -150,7 +144,7 @@
   h5,
   h6 {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.05;
     letter-spacing: -0.02em;
   }

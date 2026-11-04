@@ -13,7 +13,7 @@ portfolio-frontend/
 │   ├── launch.json           config « pnpm dev » pour l'aperçu
 │   ├── rules/                règles du repo (architecture, fichiers, imports, ui, icônes, tests…)
 │   └── skills/               31 skills front : design, UI, animation, a11y, shadcn, React, Remotion
-├── public/                   servi tel quel (The Night Watch à déposer dans public/fonts/)
+├── public/                   servi tel quel
 │   ├── models/               macbook-pro-14.glb, modèle 3D compressé Draco
 │   ├── draco/                décodeur Draco chargé par la scène 3D
 │   ├── giantsur/             images du clone Giant Sur (icônes du Dock, + vscode-logo.svg)
@@ -164,11 +164,11 @@ Source unique : `src/tokens.css`.
 Encre   --color-black #0A0A0A    Crème  --color-white #F5F2EE
 Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
 Accent  --color-accent #E8530A   Alt    --color-accent-alt #00E5A0
-Display --font-display The Night Watch, repli Cormorant Unicase (grands titres, toujours en majuscules et en graisse 400)
-Body    --font-body Inter (tout le reste)
+Police  Inter partout, graisse 500 (comme haufsess.com) ; --font-display = Inter aussi, les grands titres ne diffèrent que par la taille
+Body    --font-body Inter
 ```
 
-2 familles seulement, celles de la section Services, pour tout le site. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
+1 seule famille, Inter, pour tout le site. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
 
 Langue du site : anglais et français, via le sélecteur du header. Tout texte affiché (data/, alt, aria-label) existe dans les 2 langues : chaque export de `data/` est un `Localized<T>` (`{ en, fr }`), lu dans un composant par `useLocale()` puis `DATA[locale]`. L'anglais fait référence ; `index.html` reste en anglais. Pièces du loader (IKHLAS / AGBETI / métiers) et noms propres identiques dans les 2 langues.
 
@@ -200,8 +200,6 @@ Fait           Hero + HomeHeader · Projects · About + CallWidget · Experience
                Pages /projects, /projects/:slug, /about, /contact
                Boutons de test de connexion au backend (ticket setup, RM4)
                PinNote : partager les notes entre visiteurs via portfolio-backend (NotesStore prêt, API à écrire)
-Dette          The Night Watch absente : déposer public/fonts/TheNightWatch.woff2 (licence à vérifier).
-               @font-face déjà câblé dans index.css, repli actuel sur Cormorant Unicase.
-               Process : copie encore calquée sur la référence (verteal), à réécrire avec le parcours d'Ikhlas
+Dette          Process : copie encore calquée sur la référence (verteal), à réécrire avec le parcours d'Ikhlas
                Bundle JS de 650 Ko, pas de découpage par route
 ```

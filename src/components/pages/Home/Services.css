@@ -45,8 +45,7 @@
   letter-spacing: -0.02em;
   line-height: 1;
   font-family: var(--font-display);
-  font-weight: 400;
-  text-transform: uppercase;
+  font-weight: 500;
 }
 
 .sv .text-3xl {
