@@ -42,7 +42,7 @@ export default function MenuBar({
   return (
     <header
       onClick={onCloseMenu}
-      className="absolute inset-x-0 top-0 z-10 flex h-[32px] items-center justify-between bg-(--macos-glass-bar) px-[8px] font-sans text-[13px] leading-[normal] text-(--macos-text) backdrop-blur-2xl [text-shadow:var(--macos-text-shadow)]"
+      className="absolute inset-x-0 top-0 z-10 flex h-[32px] items-center justify-between bg-transparent px-[8px] font-sans text-[13px] leading-[normal] text-(--macos-text) [text-shadow:var(--macos-text-shadow)]"
     >
       <nav className="flex h-[26px] items-center">
         <MenuBarTitle {...titleProps} menu={appleMenu} ariaLabel={appleMenu.ariaLabel} className="px-[11px]">

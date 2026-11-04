@@ -48,7 +48,6 @@
   --macos-minimize: #febc2e;
   --macos-zoom: #28c840;
   --macos-glyph: rgb(0 0 0 / 0.55);
-  --macos-glass-bar: rgb(30 22 30 / 0.32);
   --macos-glass-menu: rgb(40 36 42 / 0.62);
   --macos-glass-border: rgb(255 255 255 / 0.18);
   --macos-glass-highlight: rgb(255 255 255 / 0.08);
@@ -339,7 +338,6 @@
 
 /* Mode sombre du faux macOS : posé par le centre de contrôle sur la racine de l'écran (MacOS.tsx). */
 [data-macos-theme='dark'] {
-  --macos-glass-bar: rgb(16 16 18 / 0.62);
   --macos-glass-menu: rgb(28 28 30 / 0.82);
   --macos-dock-bg: rgb(22 22 24 / 0.55);
   --macos-dock-separator: rgb(255 255 255 / 0.18);
