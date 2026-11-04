@@ -14,7 +14,7 @@ import { useLocale } from '@/lib/LocaleProvider'
 const MacBookSection = lazy(() => import('@/components/pages/Home/MacBook/MacBookSection'))
 
 // Sections masquées pour l'instant, gardées pour y revenir : passer à true pour les réafficher.
-const SHOULD_SHOW_PROJECTS = false
+const SHOULD_SHOW_PROJECTS = true
 const SHOULD_SHOW_SKILLS = false
 
 // À venir : menu 3 barres verticales entre DedicatedTeam et Services, CTA de fin (réf. momdesign.fr).
