@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import { Phone, X } from 'lucide-react'
 import { useLocale } from '@/lib/LocaleProvider'
 import CallBooking from '@/components/pages/Home/CallBooking'
@@ -14,6 +15,9 @@ gsap.registerPlugin(useGSAP)
 const RING_SHAKES = 3
 const RING_SHAKE_X = [0, -4, 4, -4, 4, -2, 2, 0]
 const RING_PERIOD_REPEAT_DELAY = 2.9
+// Bascule pastille ↔ calendrier : la hauteur suit en douceur, la carte monte en fondu, la pastille s'efface en se réduisant.
+const SWAP_EASE = [0.22, 1, 0.36, 1] as const
+const SWAP_TRANSITION = { duration: 0.45, ease: SWAP_EASE }
 
 /* Widget « appel entrant » (réf. abhijitrout.in) : refuser replie la pastille sur l'avatar, répondre déplie le formulaire. */
 export default function CallWidget() {
@@ -87,12 +91,30 @@ export default function CallWidget() {
   const openBooking = () => setIsFormOpen(true)
 
   return (
-    <>
-    {isFormOpen && <CallBooking onClose={() => setIsFormOpen(false)} />}
-    {/* La pastille reste montée (timelines GSAP liées à son DOM), masquée tant que la carte est ouverte. */}
+    <MotionConfig reducedMotion="user">
+    <motion.div layout transition={{ layout: SWAP_TRANSITION }} className="relative flex justify-center">
+      <AnimatePresence initial={false} mode="popLayout">
+        {isFormOpen && (
+          <motion.div
+            key="booking"
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1, transition: { ...SWAP_TRANSITION, delay: 0.08 } }}
+            exit={{ opacity: 0, y: 16, scale: 0.97, transition: { duration: 0.25, ease: SWAP_EASE } }}
+          >
+            <CallBooking onClose={() => setIsFormOpen(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* La pastille reste montée (timelines GSAP liées à son DOM) : retirée du flux et effacée tant que la carte est ouverte. */}
+      <motion.div
+        initial={false}
+        animate={isFormOpen ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
+        transition={isFormOpen ? { duration: 0.2, ease: SWAP_EASE } : { ...SWAP_TRANSITION, delay: 0.15 }}
+        inert={isFormOpen}
+        className={isFormOpen ? 'pointer-events-none absolute inset-x-0 top-0 mx-auto w-fit' : 'relative'}
+      >
     <div
       className={`about__call${isClosed ? ' about__call--closed' : ''}`}
-      style={isFormOpen ? { display: 'none' } : undefined}
       ref={pillRef}
       onClickCapture={silenceRing}
     >
@@ -134,6 +156,8 @@ export default function CallWidget() {
         </button>
       </div>
     </div>
-    </>
+      </motion.div>
+    </motion.div>
+    </MotionConfig>
   )
 }
