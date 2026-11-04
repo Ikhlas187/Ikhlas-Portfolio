@@ -49,7 +49,7 @@ portfolio-frontend/
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── CallWidget.tsx       widget « appel entrant » + formulaire de contact
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
-│   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), partagé par Experience et PinNote
+│   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
 │   │       │   ├── techIcons.ts         table techno vers { Icon, color }
 │   │       │   ├── Services             4 rangées, révélation encre (réf. kaiseisadatoki-v4)

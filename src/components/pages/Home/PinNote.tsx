@@ -4,7 +4,6 @@ import { Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import NoteForm from '@/components/pages/Home/NoteForm'
 import RollingLabel from '@/components/pages/Home/RollingLabel'
-import SectionHeading from '@/components/pages/Home/SectionHeading'
 import StickyNote from '@/components/pages/Home/StickyNote'
 import { NOTES_SECTION, WELCOME_NOTES } from '@/data/notes'
 import { useLocale } from '@/lib/LocaleProvider'
@@ -39,6 +38,7 @@ function readLayout(): NotesLayout {
   return window.matchMedia(BOARD_QUERY).matches ? 'board' : 'grid'
 }
 
+const INK_EASE = [0.16, 1, 0.3, 1] as const
 // Le tableau encaisse l'impact de la note : ~2 px de tremblement, au moment où elle touche.
 const BOARD_SHAKE_X = [0, -2, 2, -1.5, 1.5, 0]
 const BOARD_SHAKE_TRANSITION = { duration: 0.3, delay: 0.16, ease: 'easeOut' } as const
@@ -81,9 +81,43 @@ export default function PinNote() {
   return (
     <section id="notes" className="bg-white px-3 py-(--section-gap) text-black min-[810px]:px-4 min-[1200px]:px-5">
       <div className="mx-auto max-w-[1800px]">
-        <SectionHeading title={copy.title} />
-        <div className="mt-8 flex flex-col gap-1 min-[810px]:mt-12 min-[1200px]:mt-14">
-          <p className="font-sans text-[20px] leading-[1.2] font-medium tracking-[-0.04em]">{copy.kicker}</p>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+          <div className="flex flex-col items-start gap-1">
+            <motion.div
+              initial={{ opacity: 0, rotate: 0 }}
+              whileInView={{ opacity: 1, rotate: 3 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, ease: INK_EASE }}
+              className="flex origin-left flex-col items-start gap-1"
+            >
+              <p className="text-[18px] font-medium text-gray-200 sm:text-[20px]">{copy.kicker}</p>
+              <motion.span
+                aria-hidden="true"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, delay: 0.3, ease: INK_EASE }}
+                className="block h-[2px] w-[70px] origin-left rounded-[1px] bg-gray-400"
+              />
+            </motion.div>
+            <h2 className="font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em] text-black min-[810px]:text-[36px] min-[1200px]:text-[40px]">
+              {/* L'observateur est sur le masque : le texte décalé hors du masque ne serait jamais vu « à l'écran ». */}
+              <motion.span
+                className="-mb-[0.06em] block overflow-hidden pb-[0.06em]"
+                initial="hidden"
+                whileInView="shown"
+                viewport={{ once: true, margin: '-80px' }}
+              >
+                <motion.span
+                  className="block"
+                  variants={{ hidden: { y: '110%' }, shown: { y: '0%' } }}
+                  transition={{ duration: 0.9, ease: INK_EASE }}
+                >
+                  {copy.title}
+                </motion.span>
+              </motion.span>
+            </h2>
+          </div>
           <p className="max-w-[420px] text-[16px] leading-[1.5] font-medium text-gray-400">{copy.intro}</p>
         </div>
 
