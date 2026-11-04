@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion'
-import { MouseIcon } from 'lucide-react'
 import MacBookControls from '@/components/pages/Home/MacBook/MacBookControls'
 import MacBookScene from '@/components/pages/Home/MacBook/MacBookScene'
 import type { MacBookMotion, MacBookPhase } from '@/components/pages/Home/MacBook/macBookMotion'
@@ -100,13 +99,6 @@ export default function MacBookSection() {
         )}
         {phase === 'closed' && (
           <>
-            <p
-              aria-hidden
-              className="pointer-events-none absolute bottom-[10%] left-1/2 flex -translate-x-1/2 animate-pulse items-center gap-2 rounded-full bg-black/80 px-4 py-2 text-sm text-white motion-reduce:animate-none"
-            >
-              <MouseIcon className="size-4" />
-              {text.openHint}
-            </p>
             <Button
               className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:bottom-[6%] focus-visible:left-1/2 focus-visible:h-9 focus-visible:-translate-x-1/2 focus-visible:rounded-full focus-visible:bg-white focus-visible:px-4 focus-visible:text-black"
               onClick={scrollToScreen}

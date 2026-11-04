@@ -25,10 +25,6 @@ export function rowsForCycle(fixedRows: readonly string[], rotatingWords: readon
   return [...fixedRows, rotatingWords[cycleIndex % rotatingWords.length]]
 }
 
-export function isRevealCycle(cycleIndex: number, minDrops: number) {
-  return cycleIndex >= minDrops - 1
-}
-
 const DEPTHS = [3, -2, 4, -3, 1]
 const TILTS = [-5, 0, 5, -1, 4]
 

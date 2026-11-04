@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 import {
   buildRain,
   exitDelayMs,
-  isRevealCycle,
   pileSettledAt,
   rainKeyframes,
   rowsForCycle,
@@ -84,22 +83,6 @@ describe('rowsForCycle', () => {
     const fixedRows = ['IKHLAS', 'AGBETI']
 
     expect(rowsForCycle(fixedRows, roles, 3)).toEqual(['IKHLAS', 'AGBETI', 'DEVELOPER'])
-  })
-})
-
-describe('isRevealCycle', () => {
-  it('attend la dernière chute imposée', () => {
-    const minDrops = 3
-
-    const revealCycles = [0, 1, 2, 3].map((cycleIndex) => isRevealCycle(cycleIndex, minDrops))
-
-    expect(revealCycles).toEqual([false, false, true, true])
-  })
-
-  it('révèle dès la 1re chute pour une visite déjà faite', () => {
-    const minDrops = 1
-
-    expect(isRevealCycle(0, minDrops)).toBe(true)
   })
 })
 

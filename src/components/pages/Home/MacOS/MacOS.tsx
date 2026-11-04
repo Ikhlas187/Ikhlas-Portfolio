@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, MotionConfig, useReducedMotion } from 'framer-motion'
-import BootScreen from '@/components/pages/Home/MacOS/BootScreen'
+import { MotionConfig, useReducedMotion } from 'framer-motion'
 import Desktop from '@/components/pages/Home/MacOS/Desktop'
 import MacReposProvider from '@/components/pages/Home/MacOS/MacReposProvider'
 import Wallpaper from '@/components/pages/Home/MacOS/Wallpaper'
@@ -13,13 +12,15 @@ type MacOSProps = {
   onShutdown?: () => void
 }
 
-type Phase = 'off' | 'boot' | 'desktop'
+type Phase = 'off' | 'desktop'
 
 const THEME_TRANSITION_MS = 450
 
-// Écran du MacBook 3D (1512 × 982) : démarrage de macweb.dev, bureau Giant Sur avec le fond et la barre de menus du 1er macOS.
+// Écran du MacBook 3D (1512 × 982) : bureau Giant Sur affiché directement, sans écran de démarrage, avec le fond et la barre de menus du 1er macOS.
 export default function MacOS({ isPoweredOn, onShutdown }: MacOSProps) {
-  const [phase, setPhase] = useState<Phase>(isPoweredOn ? 'boot' : 'off')
+  const [phase, setPhase] = useState<Phase>(isPoweredOn ? 'desktop' : 'off')
+  // Redémarrer remonte le bureau : fenêtres fermées, comme un vrai redémarrage.
+  const [sessionKey, setSessionKey] = useState(0)
   const [hasBeenPoweredOn, setHasBeenPoweredOn] = useState(isPoweredOn)
   const [display, setDisplay] = useState<MacDisplay>(readMacDisplay)
   const [isThemeChanging, setIsThemeChanging] = useState(false)
@@ -28,7 +29,7 @@ export default function MacOS({ isPoweredOn, onShutdown }: MacOSProps) {
 
   if (isPoweredOn !== hasBeenPoweredOn) {
     setHasBeenPoweredOn(isPoweredOn)
-    setPhase(isPoweredOn ? 'boot' : 'off')
+    setPhase(isPoweredOn ? 'desktop' : 'off')
   }
 
   useEffect(() => saveMacDisplay(display), [display])
@@ -45,8 +46,6 @@ export default function MacOS({ isPoweredOn, onShutdown }: MacOSProps) {
     },
     [display.isDarkMode, isReducedMotion],
   )
-
-  const finishBoot = useCallback(() => setPhase('desktop'), [])
 
   const shutDown = () => {
     if (onShutdown) onShutdown()
@@ -68,18 +67,15 @@ export default function MacOS({ isPoweredOn, onShutdown }: MacOSProps) {
       >
         {phase === 'desktop' && <Wallpaper />}
         {phase === 'desktop' && (
-          <MacReposProvider>
+          <MacReposProvider key={sessionKey}>
             <Desktop
               display={display}
               onDisplayChange={changeDisplay}
-              onRestart={() => setPhase('boot')}
+              onRestart={() => setSessionKey((key) => key + 1)}
               onShutdown={shutDown}
             />
           </MacReposProvider>
         )}
-        <AnimatePresence>
-          {phase === 'boot' && <BootScreen key="boot" isReducedMotion={isReducedMotion} onComplete={finishBoot} />}
-        </AnimatePresence>
         {/* Voile de luminosité : au-dessus de tout l'écran, sous le seul centre de contrôle (z-50). */}
         <div
           aria-hidden="true"

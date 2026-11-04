@@ -3,7 +3,6 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { useGSAP } from '@gsap/react'
-import CallWidget from '@/components/pages/Home/CallWidget'
 import { useLocale } from '@/lib/LocaleProvider'
 import { ABOUT, type AboutSegment } from '@/data/about'
 import '@/components/pages/Home/About.css'
@@ -94,10 +93,6 @@ export default function About() {
         },
       })
 
-      gsap
-        .timeline({ scrollTrigger: { trigger: '.about__row', start: 'top 75%', once: true } })
-        .from('.about__call-wrap', { x: 90, autoAlpha: 0, duration: 0.9, ease: 'back.out(1.6)' }, 1.2)
-
       return () => reading?.revert()
     },
     { scope: root },
@@ -114,10 +109,6 @@ export default function About() {
           {about.paragraphs.map((paragraph, i) => (
             <p key={i}>{paragraph.map(renderSegment)}</p>
           ))}
-        </div>
-
-        <div className="about__call-wrap">
-          <CallWidget />
         </div>
       </div>
     </section>

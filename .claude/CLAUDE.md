@@ -34,7 +34,7 @@ portfolio-frontend/
 │   │   │   ├── MouseTrail.tsx      traînée canvas « feutre », blend difference
 │   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet, MacBook fermé)
 │   │   │   ├── MusicToggle.tsx     bouton son fixe en bas à gauche (z-95) : barres d'égaliseur, coupe / relance la musique de fond
-│   │   │   └── CoinLoader.tsx      écran de chargement : pluie de pièces IKHLAS / AGBETI / métier (+ CoinPile, FlatCoin, SolidCoin)
+│   │   │   └── CoinLoader.tsx      écran de chargement : une seule chute de pièces IKHLAS / AGBETI / DEVELOPER, puis entrée automatique, sans bouton (+ CoinPile, FlatCoin, SolidCoin)
 │   │   └── pages/            un dossier par écran
 │   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
 │   │       │   ├── Hero.tsx             1er écran (réf. haufsess.com) : tagline + photo + nom géant
@@ -48,6 +48,7 @@ portfolio-frontend/
 │   │       │   ├── ProjectBoard.tsx     une planche projet
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── CallWidget.tsx       widget « appel entrant » + formulaire de contact
+│   │       │   ├── CallSection.tsx      section du CallWidget, en fin de home sous PinNote
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
@@ -62,8 +63,7 @@ portfolio-frontend/
 │   │       │   ├── FinalCoinRain.tsx    fin de page : IKHLAS / AGBETI retombent une dernière fois, comme dans le loader
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacBook/             scène 3D (r3f) chargée à la demande : capot qui s'ouvre puis plongée dans l'écran au scroll
-│   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : démarrage macweb.dev puis bureau Giant Sur, fond et barre de menus du 1er macOS
-│   │       │       ├── BootScreen.tsx       logo Apple + barre 280 × 2 px (courbe dans logic/macos/bootProgress)
+│   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
 │   │       │       ├── Wallpaper.tsx        fond d'écran (assets/photo-1511300636408-a63a89df3482.avif, Unsplash)
@@ -94,7 +94,7 @@ portfolio-frontend/
 │   │   ├── musicSession.ts   musique coupée ou non et volume, gardés pour la session (sessionStorage)
 │   │   ├── localeStorage.ts  choix de langue gardé dans localStorage
 │   │   ├── notesStore.ts     contrat NotesStore + localNotesStore (localStorage), à doubler d'un lib/api/notes.ts
-│   │   ├── loaderSession.ts  loader déjà vu dans la session (sessionStorage) + page révélée (déclenche l'entrée du nom)
+│   │   ├── loaderSession.ts  page révélée par le loader (déclenche l'entrée du nom)
 │   │   ├── callRingSession.ts  sonnerie du CallWidget déjà coupée dans la session (sessionStorage)
 │   │   ├── notesBookStorage.ts  changements de l'app Notes du faux macOS (localStorage)
 │   │   ├── macDisplaySession.ts  luminosité et mode sombre du faux macOS, gardés pour la session (sessionStorage)
@@ -114,7 +114,7 @@ portfolio-frontend/
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
 │   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),
 │   │   │                     contextMenu (position du menu), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
-│   │   │                     navigationHistory, bootProgress, terminal, calendar (Calendrier : grille, horaires, rendez-vous), clock (horloge de la barre de menus),
+│   │   │                     navigationHistory, terminal, calendar (Calendrier : grille, horaires, rendez-vous), clock (horloge de la barre de menus),
 │   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesBook (Notes), photoAlbums (Photos),
 │   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
@@ -192,7 +192,7 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 ## État du chantier
 
 ```
-Fait           Hero + HomeHeader · Projects · About + CallWidget · Experience · DedicatedTeam · Services · PinNote · CoinLoader · FinalCoinRain
+Fait           Hero + HomeHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CallSection · CoinLoader · FinalCoinRain
                MouseTrail · ContextCursor · PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
 Écrit, pas monté   Process

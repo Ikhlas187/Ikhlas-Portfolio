@@ -6,7 +6,7 @@ export const LOADER = {
   roles: ['DEVELOPER', 'DESIGNER', 'CREATIVE'],
 }
 
-export const LOADER_LABELS: Localized<{ label: string; skip: string }> = {
-  en: { label: 'loading', skip: 'Click to enter' },
-  fr: { label: 'chargement', skip: 'Cliquer pour entrer' },
+export const LOADER_LABELS: Localized<{ label: string }> = {
+  en: { label: 'loading' },
+  fr: { label: 'chargement' },
 }

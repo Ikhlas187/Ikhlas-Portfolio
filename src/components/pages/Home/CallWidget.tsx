@@ -6,6 +6,7 @@ import { useLocale } from '@/lib/LocaleProvider'
 import { CALL_WIDGET } from '@/data/about'
 import { sendContactMessage } from '@/lib/api/contact'
 import { isCallSilenced, markCallSilenced } from '@/lib/callRingSession'
+import '@/components/pages/Home/About.css'
 
 gsap.registerPlugin(useGSAP)
 

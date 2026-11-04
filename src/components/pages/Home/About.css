@@ -76,13 +76,7 @@
   }
 }
 
-/* ---- Widget « appel entrant » (moitié droite) ---- */
-/* Le wrapper porte l'animation d'arrivée GSAP, la pastille garde sa vibration CSS sans conflit de transform. */
-.about__call-wrap {
-  margin: auto; /* centré dans l'espace restant à droite */
-  align-self: center;
-}
-
+/* ---- Widget « appel entrant » (CallSection, en fin de home) ---- */
 .about__call {
   display: flex;
   flex-direction: column;
@@ -300,11 +294,6 @@
   .about__row {
     flex-direction: column;
     gap: 1.6rem;
-  }
-
-  .about__call-wrap {
-    align-self: flex-start;
-    margin: 2.5rem 0 0;
   }
 }
 

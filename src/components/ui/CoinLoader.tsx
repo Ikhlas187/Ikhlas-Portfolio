@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import CoinPile from '@/components/ui/CoinPile'
-import { Button } from '@/components/ui/button'
 import { useLenis } from '@/lib/LenisProvider'
-import { hasSeenLoader, markLoaderRevealed, markLoaderSeen } from '@/lib/loaderSession'
+import { markLoaderRevealed } from '@/lib/loaderSession'
 import { useLocale } from '@/lib/LocaleProvider'
 import { LOADER, LOADER_LABELS } from '@/data/loader'
-import { buildRain, isRevealCycle, rainKeyframes, rowsForCycle, type CoinRainTiming } from '@/logic/coinRain/coinRain'
+import { buildRain, rainKeyframes, rowsForCycle, type CoinRainTiming } from '@/logic/coinRain/coinRain'
 
 const TIMING: CoinRainTiming = {
   cycle: 8,
@@ -19,8 +18,6 @@ const TIMING: CoinRainTiming = {
   wipeFrom: 0.85,
   wipeTo: 0.93,
 }
-const FIRST_VISIT_DROPS = 3
-const RETURN_VISIT_DROPS = 1
 const EXIT_TOTAL_MS = 1400
 
 function isReducedMotion() {
@@ -31,22 +28,18 @@ export default function CoinLoader() {
   const lenis = useLenis()
   const { locale } = useLocale()
   const [isStatic] = useState(isReducedMotion)
-  const [minDrops] = useState(() => (hasSeenLoader() ? RETURN_VISIT_DROPS : FIRST_VISIT_DROPS))
   const [isLoaded, setIsLoaded] = useState(() => document.readyState === 'complete')
-  const [cycleIndex, setCycleIndex] = useState(0)
-  const [hasFirstDropEnded, setHasFirstDropEnded] = useState(false)
-  const [isSkipRequested, setIsSkipRequested] = useState(false)
+  const [hasDropEnded, setHasDropEnded] = useState(false)
   const [isDone, setIsDone] = useState(false)
   const [isGone, setIsGone] = useState(false)
-  const isLoadedRef = useRef(isLoaded)
 
-  const rows = rowsForCycle(LOADER.rows, LOADER.roles, isStatic ? 0 : cycleIndex)
+  // Une seule chute : les 3 rangées posées, on entre dans le site (dès que la page a fini de charger).
+  const rows = rowsForCycle(LOADER.rows, LOADER.roles, 0)
   const rowsKey = rows.join('|')
   const coins = useMemo(() => buildRain(rowsKey.split('|'), TIMING), [rowsKey])
   const keyframes = useMemo(() => rainKeyframes(coins, TIMING), [coins])
 
   useEffect(() => {
-    isLoadedRef.current = isLoaded
     if (isLoaded) return
     const onLoad = () => setIsLoaded(true)
     window.addEventListener('load', onLoad)
@@ -54,25 +47,17 @@ export default function CoinLoader() {
   }, [isLoaded])
 
   useEffect(() => {
-    if (isStatic || isDone) return
-    const wipeTimer = window.setTimeout(() => {
-      setHasFirstDropEnded(true)
-      if (isRevealCycle(cycleIndex, minDrops) && isLoadedRef.current) setIsDone(true)
-    }, TIMING.wipeFrom * TIMING.cycle * 1000)
-    const cycleTimer = window.setTimeout(() => setCycleIndex((index) => index + 1), TIMING.cycle * 1000)
-    return () => {
-      window.clearTimeout(wipeTimer)
-      window.clearTimeout(cycleTimer)
-    }
-  }, [cycleIndex, isStatic, isDone, minDrops])
+    if (isStatic) return
+    const timer = window.setTimeout(() => setHasDropEnded(true), TIMING.wipeFrom * TIMING.cycle * 1000)
+    return () => window.clearTimeout(timer)
+  }, [isStatic])
 
   useEffect(() => {
-    if (isLoaded && (isStatic || isSkipRequested)) setIsDone(true)
-  }, [isLoaded, isStatic, isSkipRequested])
+    if (isLoaded && (isStatic || hasDropEnded)) setIsDone(true)
+  }, [isLoaded, isStatic, hasDropEnded])
 
   useEffect(() => {
     if (!isDone) return
-    markLoaderSeen()
     markLoaderRevealed()
     const timer = window.setTimeout(() => setIsGone(true), isStatic ? 620 : EXIT_TOTAL_MS)
     return () => window.clearTimeout(timer)
@@ -86,8 +71,6 @@ export default function CoinLoader() {
 
   if (isGone) return null
 
-  const isSkipVisible = hasFirstDropEnded && minDrops > 1 && !isDone
-
   return (
     <div
       aria-hidden={isDone}
@@ -95,7 +78,6 @@ export default function CoinLoader() {
       className={`fixed inset-0 z-[100] flex flex-col items-center justify-center gap-[26px] bg-black transition-opacity duration-500 ease-in-out ${isDone ? 'pointer-events-none opacity-0' : 'opacity-100'} ${isStatic ? 'delay-[120ms]' : 'delay-[650ms]'}`}
     >
       <CoinPile
-        key={cycleIndex}
         coins={coins}
         keyframes={keyframes}
         cycleSeconds={TIMING.cycle}
@@ -108,13 +90,6 @@ export default function CoinLoader() {
       >
         {LOADER_LABELS[locale].label}
       </span>
-      <Button
-        variant="ghost"
-        onClick={() => setIsSkipRequested(true)}
-        className={`absolute bottom-10 cursor-pointer text-xs tracking-[0.14em] text-white/60 uppercase transition-opacity duration-500 hover:text-white ${isSkipVisible ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
-      >
-        {LOADER_LABELS[locale].skip}
-      </Button>
     </div>
   )
 }
