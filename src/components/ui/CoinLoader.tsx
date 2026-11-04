@@ -4,7 +4,7 @@ import { useLenis } from '@/lib/LenisProvider'
 import { markLoaderRevealed } from '@/lib/loaderSession'
 import { useLocale } from '@/lib/LocaleProvider'
 import { LOADER, LOADER_LABELS } from '@/data/loader'
-import { buildRain, rainKeyframes, rowsForCycle, type CoinRainTiming } from '@/logic/coinRain/coinRain'
+import { buildRain, pileSettledAt, rainKeyframes, rowsForCycle, type CoinRainTiming } from '@/logic/coinRain/coinRain'
 
 const TIMING: CoinRainTiming = {
   cycle: 8,
@@ -19,6 +19,8 @@ const TIMING: CoinRainTiming = {
   wipeTo: 0.93,
 }
 const EXIT_TOTAL_MS = 1400
+// Temps de lecture des 3 rangées posées avant l'entrée dans le site.
+const SETTLED_HOLD_MS = 600
 
 function isReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -48,9 +50,9 @@ export default function CoinLoader() {
 
   useEffect(() => {
     if (isStatic) return
-    const timer = window.setTimeout(() => setHasDropEnded(true), TIMING.wipeFrom * TIMING.cycle * 1000)
+    const timer = window.setTimeout(() => setHasDropEnded(true), pileSettledAt(coins, TIMING) * 1000 + SETTLED_HOLD_MS)
     return () => window.clearTimeout(timer)
-  }, [isStatic])
+  }, [isStatic, coins])
 
   useEffect(() => {
     if (isLoaded && (isStatic || hasDropEnded)) setIsDone(true)

@@ -60,7 +60,8 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
-│   │       │   ├── FinalCoinRain.tsx    fin de page : IKHLAS / AGBETI retombent une dernière fois, comme dans le loader
+│   │       │   ├── Footer.tsx           footer de la réf. haufsess.com : BookingCalendar (créneau = email pré-rempli), contact, LinkedIn, nom, copyright
+│   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), partagé par HeroName et Footer
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacBook/             scène 3D (r3f) chargée à la demande : capot qui s'ouvre puis plongée dans l'écran au scroll
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
@@ -192,7 +193,7 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 ## État du chantier
 
 ```
-Fait           Hero + HomeHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CallSection · CoinLoader · FinalCoinRain
+Fait           Hero + HomeHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CallSection · CoinLoader · Footer
                MouseTrail · ContextCursor · PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
 Écrit, pas monté   Process

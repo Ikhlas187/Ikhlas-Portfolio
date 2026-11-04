@@ -8,7 +8,7 @@ import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
 import Services from '@/components/pages/Home/Services'
 import PinNote from '@/components/pages/Home/PinNote'
 import CallSection from '@/components/pages/Home/CallSection'
-import FinalCoinRain from '@/components/pages/Home/FinalCoinRain'
+import Footer from '@/components/pages/Home/Footer'
 import { useLocale } from '@/lib/LocaleProvider'
 
 // three.js et la scène 3D partent dans un chunk à part, hors du bundle principal.
@@ -45,7 +45,7 @@ export default function HomePage() {
       <Services />
       <PinNote />
       <CallSection />
-      <FinalCoinRain />
+      <Footer />
     </main>
   )
 }
