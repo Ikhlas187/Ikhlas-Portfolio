@@ -84,8 +84,8 @@ export default function PinNote() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <div className="flex flex-col items-start gap-1">
             <motion.div
-              initial={{ opacity: 0, rotate: 0 }}
-              whileInView={{ opacity: 1, rotate: 3 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.6, ease: INK_EASE }}
               className="flex origin-left flex-col items-start gap-1"
