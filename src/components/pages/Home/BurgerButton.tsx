@@ -30,7 +30,7 @@ export default function BurgerButton({ isOpen, onToggle }: BurgerButtonProps) {
           transition={{ type: 'spring', stiffness: 500, damping: 60, mass: 1 }}
           className="flex"
         >
-          <Icon className="size-7" strokeWidth={1.75} aria-hidden="true" />
+          <Icon className="size-9" strokeWidth={1.75} aria-hidden="true" />
         </motion.span>
       </AnimatePresence>
     </button>
