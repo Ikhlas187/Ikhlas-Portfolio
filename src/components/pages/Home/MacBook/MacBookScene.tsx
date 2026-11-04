@@ -35,7 +35,7 @@ export default function MacBookScene({ motion, isShutDown, isReducedMotion, ...m
         <StudioEnvironment motion={motion} stage={stage} isReducedMotion={isReducedMotion} />
       </Suspense>
       <group scale={WORLD_SCALE}>
-        <FloorGlow motion={motion} stage={stage} />
+        <FloorGlow />
         <Suspense fallback={null}>
           <MacBookModel motion={motion} screenAnchor={screenAnchor} isShutDown={isShutDown} {...modelProps} />
         </Suspense>
