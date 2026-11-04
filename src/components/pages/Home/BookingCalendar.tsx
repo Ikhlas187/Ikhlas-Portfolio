@@ -10,8 +10,17 @@ import { dateKey, formatClock, keyToDate, meetingSlots, monthCells, shiftMonth }
 
 const LOCALE_TAGS = { en: 'en-US', fr: 'fr-FR' } as const
 
-/* Calendrier de réservation du footer (réf. haufsess.com) : un créneau ouvre un email pré-rempli. */
-export default function BookingCalendar() {
+export type BookingSlot = { date: string; time: string }
+
+type BookingCalendarProps = {
+  // Sans onSlotSelect (footer), un créneau ouvre un email pré-rempli ; avec (carte d'appel), il se sélectionne.
+  selectedSlot?: BookingSlot | null
+  onSlotSelect?: (slot: BookingSlot | null) => void
+  className?: string
+}
+
+/* Calendrier de réservation (réf. footer haufsess.com), partagé par le footer et la carte d'appel. */
+export default function BookingCalendar({ selectedSlot = null, onSlotSelect, className }: BookingCalendarProps) {
   const { locale } = useLocale()
   const copy = FOOTER[locale].booking
   const localeTag = LOCALE_TAGS[locale]
@@ -41,10 +50,16 @@ export default function BookingCalendar() {
       .filter((cell) => cell.isInMonth)
       .map((cell) => cell.key)
     setSelectedKey(firstBookableDay(nextKeys, todayKey))
+    onSlotSelect?.(null)
+  }
+
+  const selectDay = (key: string) => {
+    setSelectedKey(key)
+    onSlotSelect?.(null)
   }
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-[8px] bg-white px-5 pt-5 text-black">
+    <div className={cn('flex h-full flex-col overflow-hidden rounded-[8px] bg-white px-5 pt-5 text-black', className)}>
       <div className="flex items-center justify-between border-b border-black/10 pb-3">
         <p className="text-[16px] font-semibold capitalize">
           {monthName} <span className="font-medium text-black/50">{view.year}</span>
@@ -87,7 +102,7 @@ export default function BookingCalendar() {
               type="button"
               disabled={!isBookable}
               aria-pressed={isSelected}
-              onClick={() => setSelectedKey(cell.key)}
+              onClick={() => selectDay(cell.key)}
               className={cn(
                 'relative flex aspect-square items-center justify-center rounded-[8px] text-[14px]',
                 isBookable && 'cursor-pointer bg-black/8 font-medium hover:bg-black/15',
@@ -128,6 +143,24 @@ export default function BookingCalendar() {
           <ul aria-label={copy.slotsLabel} className="flex max-h-[140px] flex-col gap-2 overflow-y-auto pb-5">
             {meetingSlots().map((slot) => {
               const time = formatClock(slot, isHour12)
+              if (onSlotSelect) {
+                const isSlotSelected = selectedSlot?.date === mailDate && selectedSlot.time === time
+                return (
+                  <li key={slot}>
+                    <button
+                      type="button"
+                      aria-pressed={isSlotSelected}
+                      onClick={() => onSlotSelect({ date: mailDate, time })}
+                      className={cn(
+                        'flex h-9 w-full cursor-pointer items-center justify-center rounded-[8px] border text-[14px]',
+                        isSlotSelected ? 'border-black bg-black text-white' : 'border-black/15 hover:border-black',
+                      )}
+                    >
+                      {time}
+                    </button>
+                  </li>
+                )
+              }
               return (
                 <li key={slot}>
                   <a

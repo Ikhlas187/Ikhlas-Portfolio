@@ -21,6 +21,8 @@ type CallWidgetContent = {
   ariaDecline: string
   ariaAccept: string
   ariaCloseForm: string
+  pickSlotHint: string
+  callRequest: string
 }
 
 const COMPRINT = { link: 'Comprint', href: 'https://comprint.bj' }
@@ -99,15 +101,17 @@ export const CALL_WIDGET: Localized<CallWidgetContent> = {
     messageLabel: 'Your message',
     messagePlaceholder: 'Hi Ikhlas, let’s talk about…',
     sendLabels: {
-      idle: 'Send',
-      sending: 'Sending…',
-      sent: 'Sent, thank you!',
+      idle: 'Call',
+      sending: 'Calling…',
+      sent: 'Request sent, talk soon!',
       error: 'Failed, retry',
     },
     ariaReopen: 'Reopen the call card',
     ariaDecline: 'Decline the call',
-    ariaAccept: 'Answer: write a message',
-    ariaCloseForm: 'Close the form',
+    ariaAccept: 'Answer: book a call',
+    ariaCloseForm: 'Close the booking',
+    pickSlotHint: 'Pick a time slot first',
+    callRequest: 'Call request: {date} at {time}',
   },
   fr: {
     initials: 'IK',
@@ -118,14 +122,16 @@ export const CALL_WIDGET: Localized<CallWidgetContent> = {
     messageLabel: 'Votre message',
     messagePlaceholder: 'Bonjour Ikhlas, parlons de…',
     sendLabels: {
-      idle: 'Envoyer',
-      sending: 'Envoi…',
-      sent: 'Envoyé, merci !',
+      idle: 'Appeler',
+      sending: 'Appel…',
+      sent: 'Demande envoyée, à très vite !',
       error: 'Échec, réessayer',
     },
     ariaReopen: 'Rouvrir la carte d’appel',
     ariaDecline: 'Refuser l’appel',
-    ariaAccept: 'Répondre : écrire un message',
-    ariaCloseForm: 'Fermer le formulaire',
+    ariaAccept: 'Répondre : réserver un appel',
+    ariaCloseForm: 'Fermer la réservation',
+    pickSlotHint: 'Choisissez d’abord un créneau',
+    callRequest: 'Demande d’appel : {date} à {time}',
   },
 }
