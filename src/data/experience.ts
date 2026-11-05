@@ -35,7 +35,7 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
     presentLabel: 'Present',
     items: [
       {
-        company: 'Cyberka',
+        company: 'Cyberka, Paris',
         role: 'Frontend Developer',
         period: CYBERKA_PERIOD,
         highlights: [],
@@ -71,7 +71,7 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
     presentLabel: "Aujourd'hui",
     items: [
       {
-        company: 'Cyberka',
+        company: 'Cyberka, Paris',
         role: 'Développeur frontend',
         period: CYBERKA_PERIOD,
         highlights: [],
