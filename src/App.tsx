@@ -6,7 +6,6 @@ import LenisProvider from '@/lib/LenisProvider'
 import LocaleProvider from '@/lib/LocaleProvider'
 import MusicProvider from '@/lib/MusicProvider'
 import PageTransition from '@/components/ui/PageTransition'
-import MouseTrail from '@/components/ui/MouseTrail'
 import ContextCursor from '@/components/ui/ContextCursor'
 import CoinLoader from '@/components/ui/CoinLoader'
 import MusicToggle from '@/components/ui/MusicToggle'
@@ -83,7 +82,6 @@ export default function App() {
         <MusicProvider>
           <BrowserRouter>
             <LenisProvider>
-              <MouseTrail />
               <ContextCursor />
               <AnimatedRoutes />
               <MusicToggle />

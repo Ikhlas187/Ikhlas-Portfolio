@@ -20,7 +20,7 @@ portfolio-frontend/
 │                             repos/snapshot.mjs (instantané des repos, secrets filtrés, voir tools/README.md §4)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
-│   ├── App.tsx               providers (Helmet, Locale, Music, Router, Lenis) + MouseTrail + ContextCursor + routes animées + MusicToggle
+│   ├── App.tsx               providers (Helmet, Locale, Music, Router, Lenis) + ContextCursor + routes animées + MusicToggle
 │   ├── index.css             Tailwind + shadcn + reset (@layer base) + variables shadcn branchées sur les tokens
 │   ├── tokens.css            toutes les CSS vars du portfolio (couleurs, typo, espacements, easings)
 │   ├── components/
@@ -29,7 +29,6 @@ portfolio-frontend/
 │   │   │   ├── select.tsx          shadcn (Base UI), restylé crème/noir (boîte du sélecteur de langue)
 │   │   │   ├── textarea.tsx, input.tsx  shadcn, restylés sans bordure (champs de PinNote)
 │   │   │   ├── PageTransition.tsx  fondu + volet noir entre routes
-│   │   │   ├── MouseTrail.tsx      traînée canvas « feutre », blend difference
 │   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet)
 │   │   │   ├── MusicToggle.tsx     bouton son fixe en bas à gauche (z-95) : barres d'égaliseur, coupe / relance la musique de fond
 │   │   │   └── CoinLoader.tsx      écran de chargement : une seule chute de pièces IKHLAS / AGBETI / DEVELOPER, puis entrée automatique, sans bouton (+ CoinPile, FlatCoin, SolidCoin)
@@ -193,7 +192,7 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 
 ```
 Fait           Hero + HomeHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CallSection · CoinLoader · Footer
-               MouseTrail · ContextCursor · PageTransition · Lenis
+               ContextCursor · PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
 Écrit, pas monté   Process
 À faire        Menu (3 barres verticales) entre DedicatedTeam et Services
