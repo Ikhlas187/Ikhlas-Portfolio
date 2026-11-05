@@ -15,9 +15,9 @@ export default function Footer() {
   const copy = FOOTER[locale]
 
   return (
-    <footer className="bg-black px-3 pt-20 pb-8 text-white min-[810px]:px-6">
+    <footer className="bg-white px-3 pt-20 pb-8 text-black min-[810px]:px-6">
       <div className="mx-auto flex max-w-[1800px] flex-col-reverse gap-12 min-[1200px]:flex-row">
-        <div className="h-[575px] w-full max-w-[400px] shrink-0">
+        <div className="h-[575px] w-full max-w-[400px] shrink-0 overflow-hidden rounded-[8px] shadow-(--note-form-shadow)">
           <BookingCalendar />
         </div>
         <div className="flex min-w-0 flex-1 flex-col">
@@ -41,7 +41,7 @@ export default function Footer() {
             <FaLinkedin className="size-[18px]" aria-hidden="true" />
           </a>
           <div className="mt-auto pt-[78px]">
-            <NameMark name={HERO[locale].name} className="text-white" />
+            <NameMark name={HERO[locale].name} className="text-black" />
           </div>
           <p className="mt-[61px] font-sans text-[16px] leading-[1.2] font-medium tracking-[-0.05em]">{copy.copyright}</p>
         </div>
