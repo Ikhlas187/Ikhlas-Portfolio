@@ -290,8 +290,8 @@
 
   /* Polices réellement chargées (index.css), plus de familles fantômes */
   --font-display: 'Plus Jakarta Sans', 'Helvetica Neue', sans-serif;
-  /* Espace entre 2 sections de la home, comme le gap de 48 px de haufsess.com. */
-  --section-gap: 48px;
+  /* Espace entre 2 sections de la home : le gap de 48 px de haufsess.com + 10 px. */
+  --section-gap: 58px;
 
   --font-body: 'Inter', 'Helvetica Neue', sans-serif;
 
