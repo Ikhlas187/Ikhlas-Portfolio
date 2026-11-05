@@ -161,14 +161,14 @@ Déploiement  Vercel
 Source unique : `src/tokens.css`.
 
 ```
-Encre   --color-black #0A0A0A    Crème  --color-white #F5F2EE
+Encre   --color-black #0A0A0A    Fond   --color-white #FBFBFB (blanc de haufsess.com)
 Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
-Accent  --color-accent #E8530A   Alt    --color-accent-alt #00E5A0
+Accent  --color-accent = encre #0A0A0A (plus d'orange)   Alt    --color-accent-alt #00E5A0
 Display --font-display Plus Jakarta Sans 400 (nom du hero, titres de section : Experiences, services…), comme haufsess.com
 Body    --font-body Inter 500 (tout le reste)
 ```
 
-2 familles, celles de haufsess.com : Plus Jakarta Sans pour les titres, Inter pour le texte. Un titre de section fait 28 / 36 / 40 px (paliers 810 et 1200), comme Experiences. Espace entre 2 sections : `--section-gap` (58 px : les 48 px de la réf. + 10), en padding-top de chaque section. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; l'orange reste un accent ponctuel.
+2 familles, celles de haufsess.com : Plus Jakarta Sans pour les titres, Inter pour le texte. Un titre de section fait 28 / 36 / 40 px (paliers 810 et 1200), comme Experiences. Espace entre 2 sections : `--section-gap` (58 px : les 48 px de la réf. + 10), en padding-top de chaque section. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; plus d'orange sur le site.
 
 Langue du site : anglais et français, via le sélecteur du header. Tout texte affiché (data/, alt, aria-label) existe dans les 2 langues : chaque export de `data/` est un `Localized<T>` (`{ en, fr }`), lu dans un composant par `useLocale()` puis `DATA[locale]`. L'anglais fait référence ; `index.html` reste en anglais. Pièces du loader (IKHLAS / AGBETI / métiers) et noms propres identiques dans les 2 langues.
 

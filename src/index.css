@@ -164,7 +164,7 @@
   width: 2px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-black);
+  background: var(--color-white);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-accent);

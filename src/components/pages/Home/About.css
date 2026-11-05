@@ -88,8 +88,8 @@
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: var(--color-accent);
-  color: var(--color-white);
+  background: var(--color-white);
+  color: var(--color-black);
   font-family: var(--font-display);
   font-size: 18px;
   letter-spacing: 0.04em;
