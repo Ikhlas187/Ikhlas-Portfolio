@@ -15,7 +15,7 @@ export default function Services() {
   return (
     <section id="services" className="bg-white px-3 pt-(--section-gap) text-black min-[810px]:px-4 min-[1200px]:px-8">
       <div className="mx-auto max-w-[1800px]">
-        <div className="bg-white pb-8 min-[810px]:sticky min-[810px]:top-16 min-[810px]:z-10 min-[810px]:h-[160px] min-[810px]:pb-0">
+        <div className="pb-8 min-[810px]:sticky min-[810px]:top-16 min-[810px]:h-[160px] min-[810px]:pb-0">
           <h2 className="font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em] min-[810px]:text-[36px] min-[1200px]:text-[40px]">
             {section.title}
           </h2>
