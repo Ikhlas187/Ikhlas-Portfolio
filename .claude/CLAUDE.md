@@ -61,7 +61,7 @@ portfolio-frontend/
 │   │       │   ├── Footer.tsx           footer de la réf. haufsess.com : BookingCalendar (créneau = email pré-rempli), contact, LinkedIn, nom, copyright
 │   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), partagé par HeroName et Footer
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
-│   │       │   ├── MacOSSection.tsx     section macOS (réf. maquette Framer IFRI) : l'écran « Selected works » (WorksScreen) rétrécit au scroll et se loge dans l'écran du Mac (cadre noir, encoche), puis s'efface sur le bureau ; bouton Allumer après extinction
+│   │       │   ├── MacOSSection.tsx     section macOS (réf. maquette Framer IFRI), sans sticky : l'écran « Selected works » (WorksScreen) rétrécit (1 à 0,5) et descend au scroll, en ressort, jusqu'à finir caché sous la dalle du Mac (cadre noir, encoche), centré dessus ; bouton Allumer après extinction
 │   │       │   ├── WorksScreen.tsx      1er écran de MacOSSection : l'intercalaire « Selected works » dans un écran à cadre noir
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
@@ -119,7 +119,7 @@ portfolio-frontend/
 │   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
-│   │   ├── scrollFade/       opacité de 1 à 0 entre 2 avancées du scroll (fondu de WorksScreen)
+│   │   ├── screenDock/       échelle et descente de WorksScreen selon l'avancée du scroll, écart entre 2 centres
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
 │   │   ├── booking/          bookableDay (jours ouvrés à venir), bookingMail (mailto du footer), callRequest (message de la carte d'appel)
 │   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
