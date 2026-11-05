@@ -34,8 +34,7 @@ export default function HomePage() {
       <Hero />
       {SHOULD_SHOW_PROJECTS && <Projects />}
       <MacOSSection />
-      {/* SplitText remplace les lignes du texte dans le DOM : on remonte la section pour la redécouper dans la nouvelle langue. */}
-      <About key={locale} />
+      <About />
       <Experience />
       {SHOULD_SHOW_SKILLS && <DedicatedTeam />}
       <Services />
