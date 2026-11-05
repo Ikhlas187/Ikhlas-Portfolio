@@ -7,7 +7,8 @@ export type YearMonth = {
 
 export type ExperiencePeriod = {
   start: YearMonth
-  end: YearMonth
+  // null : poste en cours (« Present » / « Aujourd'hui »).
+  end: YearMonth | null
 }
 
 export type ExperienceItem = {
@@ -19,9 +20,11 @@ export type ExperienceItem = {
 
 type ExperienceContent = {
   title: string
+  presentLabel: string
   items: ExperienceItem[]
 }
 
+const CYBERKA_PERIOD = { start: { year: 2026, month: 5 }, end: null }
 const ZSQUARES_PERIOD = { start: { year: 2026, month: 8 }, end: { year: 2026, month: 9 } }
 const COMPRINT_PERIOD = { start: { year: 2025, month: 12 }, end: { year: 2026, month: 3 } }
 const SOCIALOOP_PERIOD = { start: { year: 2025, month: 7 }, end: { year: 2025, month: 9 } }
@@ -29,10 +32,17 @@ const SOCIALOOP_PERIOD = { start: { year: 2025, month: 7 }, end: { year: 2025, m
 export const EXPERIENCE: Localized<ExperienceContent> = {
   en: {
     title: 'Experiences',
+    presentLabel: 'Present',
     items: [
       {
+        company: 'Cyberka',
+        role: 'Frontend Developer',
+        period: CYBERKA_PERIOD,
+        highlights: [],
+      },
+      {
         company: 'Zsquares Sol Inc, Dallas',
-        role: 'Developer',
+        role: 'Automation Developer',
         period: ZSQUARES_PERIOD,
         highlights: [
           'Set up a WhatsApp agent for customer service.',
@@ -47,7 +57,7 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
       },
       {
         company: 'Socialoop EU, London',
-        role: 'Developer',
+        role: 'Automation Developer',
         period: SOCIALOOP_PERIOD,
         highlights: [
           'Worked with design teams to build intuitive user interfaces.',
@@ -58,10 +68,17 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
   },
   fr: {
     title: 'Expériences',
+    presentLabel: "Aujourd'hui",
     items: [
       {
+        company: 'Cyberka',
+        role: 'Développeur frontend',
+        period: CYBERKA_PERIOD,
+        highlights: [],
+      },
+      {
         company: 'Zsquares Sol Inc, Dallas',
-        role: 'Développeur',
+        role: 'Développeur automatisation',
         period: ZSQUARES_PERIOD,
         highlights: [
           "Mise en place d'un agent WhatsApp pour le service client.",
@@ -76,7 +93,7 @@ export const EXPERIENCE: Localized<ExperienceContent> = {
       },
       {
         company: 'Socialoop EU, Londres',
-        role: 'Développeur',
+        role: 'Développeur automatisation',
         period: SOCIALOOP_PERIOD,
         highlights: [
           'Collaboration avec les équipes de conception pour créer des interfaces utilisateur intuitives.',

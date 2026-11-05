@@ -8,6 +8,6 @@ function formatYearMonth({ year, month }: YearMonth, locale: string) {
   return new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric', timeZone: 'UTC' }).format(date)
 }
 
-export function formatExperiencePeriod({ start, end }: ExperiencePeriod, locale: string) {
-  return formatYearMonth(start, locale) + PERIOD_SEPARATOR + formatYearMonth(end, locale)
+export function formatExperiencePeriod({ start, end }: ExperiencePeriod, locale: string, presentLabel: string) {
+  return formatYearMonth(start, locale) + PERIOD_SEPARATOR + (end ? formatYearMonth(end, locale) : presentLabel)
 }

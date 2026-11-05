@@ -16,7 +16,7 @@ export default function Experience() {
           <div aria-hidden className="hidden min-[1200px]:block min-[1200px]:w-px min-[1200px]:flex-1" />
           <ul className="flex w-full flex-col items-start gap-1 min-[1200px]:w-px min-[1200px]:flex-[1.5_0_0]">
             {experience.items.map((item) => (
-              <ExperienceRow key={item.company} item={item} locale={locale} />
+              <ExperienceRow key={item.company} item={item} locale={locale} presentLabel={experience.presentLabel} />
             ))}
           </ul>
         </div>
