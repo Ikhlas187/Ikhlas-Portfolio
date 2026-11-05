@@ -24,7 +24,7 @@ export default function CallBooking({ onClose }: CallBookingProps) {
         type="button"
         aria-label={copy.ariaCloseForm}
         onClick={onClose}
-        className="absolute top-3 right-3 z-10 flex size-10 cursor-pointer items-center justify-center rounded-full bg-(--color-call-decline) text-white"
+        className="absolute right-4 bottom-4 z-10 flex size-10 cursor-pointer items-center justify-center rounded-full bg-(--color-call-decline) text-white"
       >
         <X className="size-5" strokeWidth={2.4} aria-hidden="true" />
       </button>

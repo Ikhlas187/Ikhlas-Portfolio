@@ -6,8 +6,8 @@ export const SITE = {
   name: 'Ikhlas Olamidé',
   url: 'https://ikhlas.studio',
   email: 'olaagb40@gmail.com',
-  // Lien de réservation Cal.com (utilisateur/type d'événement) : à remplacer par le vrai lien une fois le compte créé.
-  calLink: 'ikhlas-agbeti/30min',
+  // Lien de réservation Cal.com (utilisateur/type d'événement), rendez-vous de 30 min avec Google Meet.
+  calLink: 'ikhlas-agbeti-znpiai/30min',
   socials: {
     github: 'https://github.com/Ikhlas187',
     linkedin: 'https://www.linkedin.com/in/ikhlas-agbeti-28b866349/',
