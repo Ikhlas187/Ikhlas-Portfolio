@@ -50,7 +50,7 @@ portfolio-frontend/
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
 │   │       │   ├── techIcons.ts         table techno vers { Icon, color }
-│   │       │   ├── Services             4 rangées, révélation encre (réf. kaiseisadatoki-v4)
+│   │       │   ├── Services.tsx         pile de services collée au scroll (réf. oddlymade.webflow.io) : titre à 64 px, rangées à 224 px puis +64 px chacune ; ServiceRow.tsx = photo, numéro, titre + description, liste d'outils
 │   │       │   ├── PinNote.tsx          tableau de notes épinglées en fin de home (réf. tpdapson.com), Tailwind
 │   │       │   ├── NoteForm.tsx         carte formulaire : note, prénom facultatif, couleur, bouton Pin note
 │   │       │   ├── StickyNote.tsx       une note carrée inclinée + punaise lucide Pin
