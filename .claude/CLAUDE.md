@@ -44,7 +44,7 @@ portfolio-frontend/
 │   │       │   ├── Interlude.tsx        intercalaire « Selected works » + ellipse dessinée
 │   │       │   ├── ProjectBoard.tsx     une planche projet
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
-│   │       │   ├── CallWidget.tsx       widget « appel entrant » + formulaire de contact
+│   │       │   ├── CallWidget.tsx       widget « appel entrant » : le vert ouvre CallBooking (réservation Cal.com intégrée, lien SITE.calLink : Google Meet, agendas et mails gérés par Cal.com)
 │   │       │   ├── CallSection.tsx      section du CallWidget, en fin de home sous PinNote
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
@@ -120,7 +120,7 @@ portfolio-frontend/
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
 │   │   ├── screenDock/       échelle et descente de WorksScreen selon l'avancée du scroll, écart entre 2 centres
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
-│   │   ├── booking/          bookableDay (jours ouvrés à venir), bookingMail (mailto du footer), callRequest (message de la carte d'appel)
+│   │   ├── booking/          bookableDay (jours ouvrés à venir), bookingMail (mailto du footer)
 │   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
 │   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur

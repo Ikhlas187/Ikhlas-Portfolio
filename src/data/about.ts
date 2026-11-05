@@ -12,17 +12,10 @@ type CallWidgetContent = {
   initials: string
   greeting: string
   name: string
-  emailLabel: string
-  emailPlaceholder: string
-  messageLabel: string
-  messagePlaceholder: string
-  sendLabels: Record<'idle' | 'sending' | 'sent' | 'error', string>
   ariaReopen: string
   ariaDecline: string
   ariaAccept: string
   ariaCloseForm: string
-  pickSlotHint: string
-  callRequest: string
 }
 
 const COMPRINT = { link: 'Comprint', href: 'https://comprint.bj' }
@@ -96,42 +89,18 @@ export const CALL_WIDGET: Localized<CallWidgetContent> = {
     initials: 'IK',
     greeting: 'Hey',
     name: 'I’m Ikhlas',
-    emailLabel: 'Your email',
-    emailPlaceholder: 'you@example.com',
-    messageLabel: 'Your message',
-    messagePlaceholder: 'Hi Ikhlas, let’s talk about…',
-    sendLabels: {
-      idle: 'Call',
-      sending: 'Calling…',
-      sent: 'Request sent, talk soon!',
-      error: 'Failed, retry',
-    },
     ariaReopen: 'Reopen the call card',
     ariaDecline: 'Decline the call',
     ariaAccept: 'Answer: book a call',
     ariaCloseForm: 'Close the booking',
-    pickSlotHint: 'Pick a time slot first',
-    callRequest: 'Call request: {date} at {time}',
   },
   fr: {
     initials: 'IK',
     greeting: 'Salut',
     name: 'Moi, c’est Ikhlas',
-    emailLabel: 'Votre e-mail',
-    emailPlaceholder: 'vous@exemple.com',
-    messageLabel: 'Votre message',
-    messagePlaceholder: 'Bonjour Ikhlas, parlons de…',
-    sendLabels: {
-      idle: 'Appeler',
-      sending: 'Appel…',
-      sent: 'Demande envoyée, à très vite !',
-      error: 'Échec, réessayer',
-    },
     ariaReopen: 'Rouvrir la carte d’appel',
     ariaDecline: 'Refuser l’appel',
     ariaAccept: 'Répondre : réserver un appel',
     ariaCloseForm: 'Fermer la réservation',
-    pickSlotHint: 'Choisissez d’abord un créneau',
-    callRequest: 'Demande d’appel : {date} à {time}',
   },
 }
