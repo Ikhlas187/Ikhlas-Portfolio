@@ -13,7 +13,8 @@ import Footer from '@/components/pages/Home/Footer'
 import { useLocale } from '@/lib/LocaleProvider'
 
 // Sections masquées pour l'instant, gardées pour y revenir : passer à true pour les réafficher.
-const SHOULD_SHOW_PROJECTS = true
+// Projects : l'intercalaire « Selected works » vit maintenant dans MacOSSection (WorksScreen).
+const SHOULD_SHOW_PROJECTS = false
 const SHOULD_SHOW_SKILLS = false
 
 // À venir : menu 3 barres verticales entre DedicatedTeam et Services, CTA de fin (réf. momdesign.fr).
