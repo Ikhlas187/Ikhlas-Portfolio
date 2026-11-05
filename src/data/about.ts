@@ -9,6 +9,7 @@ type AboutContent = {
 }
 
 type CallWidgetContent = {
+  title: string
   initials: string
   greeting: string
   name: string
@@ -86,6 +87,7 @@ export const ABOUT: Localized<AboutContent> = {
 
 export const CALL_WIDGET: Localized<CallWidgetContent> = {
   en: {
+    title: 'Book a call with me',
     initials: 'IK',
     greeting: 'Hey',
     name: 'I’m Ikhlas',
@@ -95,6 +97,7 @@ export const CALL_WIDGET: Localized<CallWidgetContent> = {
     ariaCloseForm: 'Close the booking',
   },
   fr: {
+    title: 'Prendre rendez-vous avec moi',
     initials: 'IK',
     greeting: 'Salut',
     name: 'Moi, c’est Ikhlas',
