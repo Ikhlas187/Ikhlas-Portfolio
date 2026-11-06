@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { SHOWCASE_HIDDEN, SHOWCASE_ORDER } from '@/data/projectShowcase'
 import { fetchRepoIndex, fetchRepoSnapshot } from '@/lib/api/repos'
+import { showcaseRepos } from '@/logic/macos/repoShowcase/repoShowcase'
 import { buildRepoTree, type RepoTreeDir } from '@/logic/macos/repoTree/repoTree'
 import type { RepoSummary } from '@/types/repo'
 
@@ -30,7 +32,7 @@ export default function MacReposProvider({ children }: { children: ReactNode }) 
     fetchRepoIndex()
       .then((repos) => {
         if (!isCurrent) return
-        setIndex(repos)
+        setIndex(showcaseRepos(repos, SHOWCASE_ORDER, SHOWCASE_HIDDEN))
         setIndexStatus('ready')
       })
       .catch(() => isCurrent && setIndexStatus('error'))

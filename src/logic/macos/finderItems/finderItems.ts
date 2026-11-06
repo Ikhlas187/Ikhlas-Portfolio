@@ -11,9 +11,10 @@ export type FinderAppItem = FinderItemBase & { kind: 'app'; app: DockApp; logo: 
 export type FinderItem = FinderNodeItem | FinderAppItem
 
 export type SortColumn = 'name' | 'size' | 'kind' | 'dateAdded'
-export type SortOrder = { column: SortColumn; isAscending: boolean }
+// 'manual' : ordre des données tel quel (dossier Projets trié pour les recruteurs), tant qu'aucune colonne n'est cliquée.
+export type SortOrder = { column: SortColumn | 'manual'; isAscending: boolean }
 
-export const DEFAULT_SORT_ORDER: SortOrder = { column: 'name', isAscending: true }
+export const DEFAULT_SORT_ORDER: SortOrder = { column: 'manual', isAscending: true }
 
 export function nodeItem(node: FsNode, path: string[]): FinderNodeItem {
   return {
@@ -37,8 +38,10 @@ function compareNames(left: FinderItem, right: FinderItem) {
 
 // À égalité sur la colonne triée, le nom départage toujours dans l'ordre alphabétique.
 export function sortItems(items: FinderItem[], order: SortOrder, kindLabels: Record<FinderItemKind, string>) {
+  const { column } = order
+  if (column === 'manual') return items
   const compareColumn = (left: FinderItem, right: FinderItem) => {
-    switch (order.column) {
+    switch (column) {
       case 'name':
         return compareNames(left, right)
       case 'size':

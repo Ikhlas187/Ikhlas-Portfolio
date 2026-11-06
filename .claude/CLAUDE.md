@@ -68,7 +68,7 @@ portfolio-frontend/
 │   │       │       ├── Dock*.tsx                interface Giant Sur à l'identique
 │   │       │       ├── DesktopIcons.tsx, DesktopItem.tsx   icônes du bureau tirées du dossier Bureau du Finder (Projets, Skills, Certifications, CV.pdf)
 │   │       │       ├── MacReposProvider.tsx  repos GitHub du dossier Projets (useMacRepos) : liste au démarrage du bureau, arbre d'un repo à sa 1re ouverture
-│   │       │       ├── RepoContextMenu.tsx   clic droit sur un dossier de repo : Ouvrir avec VS Code, Voir dans le navigateur, Voir sur GitHub (mention Privé)
+│   │       │       ├── RepoContextMenu.tsx   clic droit sur un dossier de repo : Ouvrir avec VS Code, Exécuter (data/projectShowcase REPO_RUNS : app web dans Safari), Voir sur GitHub (mention Privé)
 │   │       │       ├── VSCode/              app VS Code (Dark Modern) : titre, barre d'activité, explorateur, onglets, éditeur coloré (highlight.js), barre d'état
 │   │       │       ├── Window.tsx           cadre commun de toutes les fenêtres, copié du Safari de mihrimatrix/macos-clone-react : rayon 26 px, barre d'outils 52 px, pastilles 13 px à 21/21 px
 │   │       │       ├── frameClasses.ts      classes du cadre partagées (outil en capsule de verre, champ de recherche, barre d'outils)
@@ -102,6 +102,7 @@ portfolio-frontend/
 │   │   ├── cursor.ts         libellés de la bulle du curseur contextuel, par valeur de data-cursor
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
 │   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
+│   │   ├── projectShowcase.ts  ordre des repos pour les recruteurs, repos masqués, façon d'exécuter chaque projet
 │   │   ├── macbook.ts        libellés de la section macOS (aria-label, Allumer)
 │   │   └── music.ts          aria-label du bouton son (Couper / Mettre la musique)
 │   ├── logic/
@@ -111,7 +112,7 @@ portfolio-frontend/
 │   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
 │   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),
-│   │   │                     contextMenu (position du menu), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
+│   │   │                     contextMenu (position du menu), repoShowcase (tri recruteurs), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
 │   │   │                     navigationHistory, terminal, calendar (Calendrier : grille, horaires, rendez-vous), clock (horloge de la barre de menus),
 │   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesBook (Notes), photoAlbums (Photos),
 │   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)

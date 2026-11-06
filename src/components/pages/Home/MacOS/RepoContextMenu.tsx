@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Code, ExternalLink, Globe, Lock } from 'lucide-react'
+import { Code, ExternalLink, Lock, Play } from 'lucide-react'
 import { MACOS } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
 import type { Point } from '@/logic/macos/windowBounds/windowBounds'
@@ -9,7 +9,8 @@ type RepoContextMenuProps = {
   repo: RepoSummary
   position: Point
   onOpenInVSCode: () => void
-  onOpenInBrowser: () => void
+  isRunnable: boolean
+  onRun: () => void
   onOpenOnGitHub: () => void
   onClose: () => void
 }
@@ -25,7 +26,8 @@ export default function RepoContextMenu({
   repo,
   position,
   onOpenInVSCode,
-  onOpenInBrowser,
+  isRunnable,
+  onRun,
   onOpenOnGitHub,
   onClose,
 }: RepoContextMenuProps) {
@@ -67,12 +69,12 @@ export default function RepoContextMenu({
       <button
         type="button"
         role="menuitem"
-        disabled={!repo.homepageUrl}
-        onClick={run(onOpenInBrowser)}
+        disabled={!isRunnable}
+        onClick={run(onRun)}
         className={ITEM}
       >
-        <Globe strokeWidth={2} className={ICON} />
-        {texts.openInBrowser}
+        <Play strokeWidth={2} className={ICON} />
+        {texts.run}
       </button>
       <button type="button" role="menuitem" onClick={run(onOpenOnGitHub)} className={ITEM}>
         <ExternalLink strokeWidth={2} className={ICON} />

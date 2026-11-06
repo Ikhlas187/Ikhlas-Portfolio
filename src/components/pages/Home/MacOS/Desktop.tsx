@@ -22,6 +22,7 @@ import VSCode from '@/components/pages/Home/MacOS/VSCode/VSCode'
 import type { WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
 import type { DockApp, MenuAction } from '@/data/giantSur'
 import { ABOUT_PATH, CV_PATH, DESKTOP_PATH, MACOS, PROJECTS_PATH, type FinderViewMode, type FsNode } from '@/data/macos'
+import { REPO_RUNS } from '@/data/projectShowcase'
 import { useLocale } from '@/lib/LocaleProvider'
 import type { MacDisplay } from '@/lib/macDisplaySession'
 import { contextMenuPosition, screenPoint } from '@/logic/macos/contextMenu/contextMenu'
@@ -127,6 +128,11 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
     launch('vscode', repo ? { repo, file, requestId: nextRequestId() } : undefined)
 
   const openInBrowser = (url: string) => launch('browser', { url, requestId: nextRequestId() })
+  // « Exécuter » : une app web s'ouvre dans Safari ; les sessions de programmes rejouées viendront avec leur app.
+  const runRepo = (name: string) => {
+    const repoRun = REPO_RUNS[name]
+    if (repoRun?.kind === 'web') openInBrowser(repoRun.url)
+  }
 
   const openPath = (path: string[]) => {
     const node = findNode(root, path)
@@ -319,7 +325,8 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
           repo={repoMenu.repo}
           position={repoMenu.position}
           onOpenInVSCode={() => openInVSCode(repoMenu.repo.name)}
-          onOpenInBrowser={() => repoMenu.repo.homepageUrl && openInBrowser(repoMenu.repo.homepageUrl)}
+          isRunnable={Boolean(REPO_RUNS[repoMenu.repo.name])}
+          onRun={() => runRepo(repoMenu.repo.name)}
           onOpenOnGitHub={() => window.open(repoMenu.repo.githubUrl, '_blank', 'noopener,noreferrer')}
           onClose={closeRepoMenu}
         />

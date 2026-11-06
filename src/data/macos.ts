@@ -197,7 +197,7 @@ type MacOSTexts = {
     retry: string
     empty: string
     openInVSCode: string
-    openInBrowser: string
+    run: string
     openOnGitHub: string
     private: string
   }
@@ -552,7 +552,7 @@ export const MACOS: Localized<MacOSTexts> = {
       retry: 'Try again',
       empty: 'This folder is empty.',
       openInVSCode: 'Open with VS Code',
-      openInBrowser: 'View in Browser',
+      run: 'Run',
       openOnGitHub: 'View on GitHub',
       private: 'Private',
     },
@@ -861,7 +861,7 @@ export const MACOS: Localized<MacOSTexts> = {
       retry: 'Réessayer',
       empty: 'Ce dossier est vide.',
       openInVSCode: 'Ouvrir avec VS Code',
-      openInBrowser: 'Voir dans le navigateur',
+      run: 'Exécuter',
       openOnGitHub: 'Voir sur GitHub',
       private: 'Privé',
     },
