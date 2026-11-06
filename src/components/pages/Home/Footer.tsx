@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import CallWidget from '@/components/pages/Home/CallWidget'
 import FooterLinkColumn from '@/components/pages/Home/FooterLinkColumn'
-import NameMark from '@/components/pages/Home/NameMark'
 import { FOOTER } from '@/data/footer'
-import { HERO } from '@/data/hero'
-import { SITE } from '@/data/site'
 import { useLocale } from '@/lib/LocaleProvider'
 import { footerPath } from '@/logic/footerShape/footerShape'
 
@@ -17,7 +14,7 @@ const SHOULDER_RADIUS = 16
 type Size = { width: number; height: number }
 
 /* Footer (réf. cosmoq.framer.website) : carte noire bordée, avec en haut une encoche en U qui épouse exactement
-   l'appel entrant (ou la carte de réservation une fois ouverte), puis accroche, nom géant, liens et copyright. */
+   l'appel entrant (ou la carte de réservation une fois ouverte), puis liens et copyright. */
 export default function Footer() {
   const { locale } = useLocale()
   const copy = FOOTER[locale]
@@ -74,26 +71,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="relative flex flex-col items-center px-5 pt-16 text-center min-[810px]:px-10 min-[810px]:pt-20">
-          <h3 className="max-w-[760px] font-heading text-[36px] leading-[1.1] font-normal tracking-[-0.03em] min-[810px]:text-[56px]">
-            {copy.heading}
-          </h3>
-          <p className="mt-5 max-w-[460px] font-sans text-[16px] leading-[1.5] font-normal text-white/60">{copy.subheading}</p>
-          <a
-            href={`mailto:${SITE.email}`}
-            className="mt-8 inline-flex h-12 cursor-pointer items-center rounded-full border border-white/20 bg-white/10 px-6 font-sans text-[16px] font-medium text-white transition-colors duration-200 hover:bg-white hover:text-black"
-          >
-            {copy.ctaLabel}
-          </a>
-        </div>
-
-        {/* Nom géant en dégradé avec un halo derrière, comme le mot lumineux de la réf. */}
-        <div aria-hidden="true" className="relative mt-12 overflow-hidden px-5 min-[810px]:px-10">
-          <div className="pointer-events-none absolute inset-x-[10%] top-1/3 h-1/2 rounded-[50%] bg-white/10 blur-3xl" />
-          <NameMark name={HERO[locale].name} className="bg-linear-to-b from-white to-white/10 bg-clip-text text-transparent" />
-        </div>
-
-        <div className="relative grid grid-cols-2 gap-x-6 gap-y-10 px-5 pt-12 pb-12 min-[810px]:grid-cols-4 min-[810px]:px-10">
+        <div className="relative grid grid-cols-2 gap-x-6 gap-y-10 px-5 pt-14 pb-12 min-[810px]:grid-cols-4 min-[810px]:px-10">
           {copy.columns.map((column) => (
             <FooterLinkColumn key={column.title} column={column} />
           ))}

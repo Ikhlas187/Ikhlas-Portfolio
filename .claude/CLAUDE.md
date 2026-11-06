@@ -56,8 +56,8 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
-│   │       │   ├── Footer.tsx           footer (réf. cosmoq.framer.website) : titre « Book a call with me », carte noire bordée avec encoche en U qui épouse le CallWidget (ou sa carte Cal.com), accroche, nom géant en dégradé, 4 colonnes de liens (FooterLinkColumn), copyright
-│   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), partagé par HeroName et Footer
+│   │       │   ├── Footer.tsx           footer (réf. cosmoq.framer.website) : titre « Book a call with me », carte noire bordée avec encoche en U qui épouse le CallWidget (ou sa carte Cal.com), 4 colonnes de liens (FooterLinkColumn), copyright
+│   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), utilisé par HeroName
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS (réf. maquette Framer IFRI), sans sticky : l'écran « Selected works » (WorksScreen) rétrécit (1 à 0,5) et descend au scroll, en ressort, jusqu'à finir caché sous la dalle du Mac (cadre noir, encoche), centré dessus ; bouton Allumer après extinction
 │   │       │   ├── WorksScreen.tsx      1er écran de MacOSSection : l'intercalaire « Selected works » dans un écran à cadre noir

@@ -7,9 +7,6 @@ export type FooterColumn = { title: string; links: FooterLink[] }
 
 type FooterContent = {
   callTitle: string
-  heading: string
-  subheading: string
-  ctaLabel: string
   columns: FooterColumn[]
   copyright: string
   credit: string
@@ -20,9 +17,6 @@ const EMAIL_LINK = `mailto:${SITE.email}`
 export const FOOTER: Localized<FooterContent> = {
   en: {
     callTitle: 'Book a call with me',
-    heading: 'Let’s build what comes next',
-    subheading: 'Fast, readable products with character in every pixel. Tell me about yours.',
-    ctaLabel: 'Write to me',
     columns: [
       {
         title: 'Navigation',
@@ -63,9 +57,6 @@ export const FOOTER: Localized<FooterContent> = {
   },
   fr: {
     callTitle: 'Prendre rendez-vous avec moi',
-    heading: 'Construisons la suite ensemble',
-    subheading: 'Des produits rapides et lisibles, avec du caractère dans chaque pixel. Parlez-moi du vôtre.',
-    ctaLabel: 'M’écrire',
     columns: [
       {
         title: 'Navigation',
