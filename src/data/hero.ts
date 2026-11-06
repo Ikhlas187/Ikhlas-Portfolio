@@ -9,7 +9,6 @@ type HeroContent = {
 }
 
 type HeaderContent = {
-  avatarInitials: string
   avatarLabel: string
   homeLink: NavLink
   navLabel: string
@@ -34,7 +33,6 @@ export const HERO: Localized<HeroContent> = {
 
 export const HEADER: Localized<HeaderContent> = {
   en: {
-    avatarInitials: 'IA',
     avatarLabel: 'Ikhlas Agbeti',
     homeLink: { label: 'Welcome', href: '/' },
     navLabel: 'Main',
@@ -42,7 +40,6 @@ export const HEADER: Localized<HeaderContent> = {
     closeMenuLabel: 'Close menu',
   },
   fr: {
-    avatarInitials: 'IA',
     avatarLabel: 'Ikhlas Agbeti',
     homeLink: { label: 'Accueil', href: '/' },
     navLabel: 'Principale',

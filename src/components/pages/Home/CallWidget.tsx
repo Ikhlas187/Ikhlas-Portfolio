@@ -1,3 +1,4 @@
+import avatarUrl from '@/assets/avatar.webp'
 import { useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
@@ -125,7 +126,7 @@ export default function CallWidget() {
           onClick={reopen}
           aria-label={isClosed ? callWidget.ariaReopen : 'Ikhlas'}
         >
-          {callWidget.initials}
+          <img src={avatarUrl} alt="" className="size-full object-cover" />
         </button>
         <span className="about__call-text">
           <span className="about__call-dots" aria-hidden="true">

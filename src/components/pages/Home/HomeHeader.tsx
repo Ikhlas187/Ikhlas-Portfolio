@@ -1,3 +1,4 @@
+import avatarUrl from '@/assets/avatar.webp'
 import { useRef, useState } from 'react'
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
 import NavPill from '@/components/pages/Home/NavPill'
@@ -40,13 +41,11 @@ export default function HomeHeader() {
     >
       <div className="mx-auto flex max-w-[1800px] flex-col px-3 py-5 min-[810px]:px-4">
         <div className="flex w-full items-center justify-center gap-2.5 max-[809px]:h-[47px]">
-          <span
-            role="img"
-            aria-label={header.avatarLabel}
-            className="flex h-[43px] w-[38px] shrink-0 items-center justify-center rounded-[49px] bg-black font-sans text-[15px] font-medium tracking-[-0.02em] text-white min-[810px]:size-[57px] min-[810px]:text-[20px]"
-          >
-            {header.avatarInitials}
-          </span>
+          <img
+            src={avatarUrl}
+            alt={header.avatarLabel}
+            className="h-[43px] w-[38px] shrink-0 rounded-[49px] bg-black object-cover min-[810px]:size-[57px]"
+          />
 
           <nav aria-label={header.navLabel} className="hidden flex-1 items-center gap-4 min-[810px]:flex">
             {links.map((link) => (

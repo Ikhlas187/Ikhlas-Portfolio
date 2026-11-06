@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUp, Search } from 'lucide-react'
-import IAEmblem from '@/components/pages/Home/MacOS/IAEmblem'
+import avatarUrl from '@/assets/avatar.webp'
 import FinderWindow from '@/components/pages/Home/MacOS/FinderWindow'
 import type { WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
 import { Input } from '@/components/ui/input'
@@ -55,9 +55,7 @@ export default function Messages({ frame }: MessagesProps) {
             {texts.search}
           </p>
           <div className="flex items-center gap-[10px] rounded-[8px] bg-(--macos-selection) px-[8px] py-[8px] text-(--macos-icon-glyph)">
-            <span className="flex size-[36px] shrink-0 items-center justify-center rounded-full bg-linear-to-b from-(--color-accent) to-(--macos-icon-photos-to)">
-              <IAEmblem className="text-[15px]" />
-            </span>
+            <img src={avatarUrl} alt="" className="size-[36px] shrink-0 rounded-full object-cover" />
             <span className="min-w-0">
               <span className="block truncate font-semibold">{texts.contactName}</span>
               <span className="block truncate text-[11px] opacity-80">{lastBubble?.text}</span>

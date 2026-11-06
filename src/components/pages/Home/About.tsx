@@ -1,5 +1,7 @@
 import { useLocale } from '@/lib/LocaleProvider'
 import { ABOUT, type AboutSegment } from '@/data/about'
+import portraitUrl from '@/assets/about-portrait.webp'
+import FadeInImage from '@/components/pages/Home/FadeInImage'
 import '@/components/pages/Home/About.css'
 
 function renderSegment(segment: AboutSegment, key: number) {
@@ -15,7 +17,7 @@ function renderSegment(segment: AboutSegment, key: number) {
   return <em key={key}>{segment.quote}</em>
 }
 
-/* Section About (réf. abhijitrout.in/#about) : planche claire, récit poussé à gauche, texte seul sans animation. */
+/* Section About (réf. abhijitrout.in/#about) : récit à gauche, sans animation, portrait d'Ikhlas à droite. */
 export default function About() {
   const { locale } = useLocale()
   const about = ABOUT[locale]
@@ -32,6 +34,8 @@ export default function About() {
             <p key={i}>{paragraph.map(renderSegment)}</p>
           ))}
         </div>
+
+        <FadeInImage src={portraitUrl} alt={about.photoAlt} loading="lazy" className="about__photo" />
       </div>
     </section>
   )

@@ -77,7 +77,7 @@ portfolio-frontend/
 │   │       │       ├── FinderWindow.tsx     Window + palette claire du Finder pour l'intérieur des apps ; intérieurs de Calendrier et Photos copiés de frvky.online
 │   │       │       ├── Browser/, Notes/     Safari (contour de mihrimatrix, intérieur Google) et Notes (copie de mihrimatrix, notes d'Ikhlas)
 │   │       │       ├── DockLink.tsx, dockLinkLogos.ts   liens GitHub et LinkedIn après le séparateur du Dock
-│   │       │       ├── AppleLogo.tsx, IAEmblem.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
+│   │       │       ├── AppleLogo.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
 │   │       │       ├── Music/               app Musique : « Batman » de Bedry joué sur le lecteur partagé (progression, durée réelle), autres pistes en aperçu indisponible
 │   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
 │   │       ├── Projects/ Project/ About/ Contact/   coquilles vides

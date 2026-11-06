@@ -5,11 +5,11 @@ export type AboutSegment = string | { highlight: string } | { link: string; href
 type AboutContent = {
   kicker: string
   label: string
+  photoAlt: string
   paragraphs: AboutSegment[][]
 }
 
 type CallWidgetContent = {
-  initials: string
   greeting: string
   name: string
   ariaReopen: string
@@ -25,6 +25,7 @@ export const ABOUT: Localized<AboutContent> = {
   en: {
     kicker: 'Inside my little life',
     label: 'About',
+    photoAlt: 'Ikhlas standing arms crossed in front of a building at night, in black and white',
     paragraphs: [
       [
         'I first stumbled into code at 16, tinkering with HTML and small scripts between school assignments. Though I went on to study software engineering at IFRI, curiosity always had a quiet, persistent pull. I spent my evenings building side projects, ',
@@ -55,6 +56,7 @@ export const ABOUT: Localized<AboutContent> = {
   fr: {
     kicker: 'Un peu de ma vie',
     label: 'À propos',
+    photoAlt: 'Ikhlas debout, bras croisés devant un bâtiment de nuit, en noir et blanc',
     paragraphs: [
       [
         'J’ai découvert le code à 16 ans, en bricolant du HTML et de petits scripts entre deux devoirs. J’ai ensuite étudié le génie logiciel à l’IFRI, mais la curiosité m’a toujours attiré, doucement et sans relâche. Je passais mes soirées à construire des projets perso, ',
@@ -86,7 +88,6 @@ export const ABOUT: Localized<AboutContent> = {
 
 export const CALL_WIDGET: Localized<CallWidgetContent> = {
   en: {
-    initials: 'IK',
     greeting: 'Hey',
     name: 'I’m Ikhlas',
     ariaReopen: 'Reopen the call card',
@@ -95,7 +96,6 @@ export const CALL_WIDGET: Localized<CallWidgetContent> = {
     ariaCloseForm: 'Close the booking',
   },
   fr: {
-    initials: 'IK',
     greeting: 'Salut',
     name: 'Moi, c’est Ikhlas',
     ariaReopen: 'Rouvrir la carte d’appel',
