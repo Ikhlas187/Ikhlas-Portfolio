@@ -1,0 +1,22 @@
+# Columinst (Qt Widgets + SQLite + Charts) compilé pour WebAssembly. Lancé par build.sh, qui donne COLUMINST_SRC.
+cmake_minimum_required(VERSION 3.21)
+project(columinst LANGUAGES CXX)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC_SEARCH_PATHS ${COLUMINST_SRC})
+find_package(Qt6 REQUIRED COMPONENTS Widgets Sql Charts Svg)
+# Même liste de fichiers que Columinst.pro.
+set(NAMES card card_dialog dialog homepage mainwindow openprojectdialog project_dialog statswidget tableau tagswidget timewidget translationmanager)
+set(SOURCES ${COLUMINST_SRC}/main.cpp ${COLUMINST_SRC}/Resources.qrc)
+foreach(name ${NAMES})
+  list(APPEND SOURCES ${COLUMINST_SRC}/${name}.cpp ${COLUMINST_SRC}/${name}.h)
+endforeach()
+foreach(form card_dialog dialog mainwindow openprojectdialog project_dialog tableau)
+  list(APPEND SOURCES ${COLUMINST_SRC}/${form}.ui)
+endforeach()
+qt_add_executable(columinst ${SOURCES})
+target_include_directories(columinst PRIVATE ${COLUMINST_SRC})
+target_link_libraries(columinst PRIVATE Qt6::Widgets Qt6::Sql Qt6::Charts Qt6::Svg)
+# Asyncify : les QDialog::exec() de l'app attendent l'utilisateur sans bloquer le navigateur.
+target_link_options(columinst PRIVATE -sASYNCIFY -Os)

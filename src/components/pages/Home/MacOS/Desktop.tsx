@@ -16,6 +16,7 @@ import Photos from '@/components/pages/Home/MacOS/Photos/Photos'
 import Preview from '@/components/pages/Home/MacOS/Preview/Preview'
 import RepoContextMenu, { REPO_CONTEXT_MENU_SIZE } from '@/components/pages/Home/MacOS/RepoContextMenu'
 import Settings from '@/components/pages/Home/MacOS/Settings/Settings'
+import QtRunner from '@/components/pages/Home/MacOS/Runner/QtRunner'
 import Runner from '@/components/pages/Home/MacOS/Runner/Runner'
 import Terminal from '@/components/pages/Home/MacOS/Terminal/Terminal'
 import { useMacFiles } from '@/components/pages/Home/MacOS/useMacFiles'
@@ -71,6 +72,7 @@ const WINDOW_SIZES: Record<Exclude<AppId, 'preview'>, Size> = {
   calendar: { width: 439, height: 732 },
   vscode: { width: 1140, height: 720 },
   runner: { width: 720, height: 460 },
+  qtRunner: { width: 1400, height: 860 },
 }
 
 type PreviewNode = Exclude<FsNode, { kind: 'folder' } | { kind: 'code' }>
@@ -135,6 +137,7 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
     const repoRun = REPO_RUNS[name]
     if (repoRun?.kind === 'web') openInBrowser(repoRun.url)
     if (repoRun?.kind === 'wasm') launch('runner', { repo: name, requestId: nextRequestId() })
+    if (repoRun?.kind === 'qt') launch('qtRunner', { repo: name, requestId: nextRequestId() })
   }
 
   const openPath = (path: string[]) => {
@@ -290,6 +293,8 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
         return <Calendar key={window.id} frame={frame} />
       case 'vscode':
         return <VSCode key={window.id} frame={frame} onOpenInBrowser={openInBrowser} />
+      case 'qtRunner':
+        return <QtRunner key={window.id} frame={frame} repo={window.payload.repo ?? ''} />
       case 'runner':
         return <Runner key={window.id} frame={frame} repo={window.payload.repo ?? ''} />
       case 'about':

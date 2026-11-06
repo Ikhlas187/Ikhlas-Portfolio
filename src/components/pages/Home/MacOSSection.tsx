@@ -78,7 +78,9 @@ export default function MacOSSection() {
     frameRef.current = frame
     if (!frame) return
     const handleWheel = (event: WheelEvent) => {
-      if (canAncestorScroll(event.target, frame, event)) event.stopPropagation()
+      // data-wheel-capture : zone qui gère la molette elle-même (app Qt dessinée dans un canvas).
+      const isCaptured = event.target instanceof Element && event.target.closest('[data-wheel-capture]')
+      if (isCaptured || canAncestorScroll(event.target, frame, event)) event.stopPropagation()
     }
     frame.addEventListener('wheel', handleWheel, { passive: false })
     return () => frame.removeEventListener('wheel', handleWheel)

@@ -166,6 +166,7 @@ export type AppName =
   | 'calendar'
   | 'vscode'
   | 'runner'
+  | 'qtRunner'
 
 type MacOSTexts = {
   appNames: Record<AppName, string>
@@ -513,6 +514,7 @@ export const MACOS: Localized<MacOSTexts> = {
       calendar: 'Calendar',
       vscode: 'Code',
       runner: 'Run',
+      qtRunner: 'Run',
     },
     boot: { label: 'Starting up' },
     windowControls: { close: 'Close', minimize: 'Minimize', zoom: 'Full screen' },
@@ -830,6 +832,7 @@ export const MACOS: Localized<MacOSTexts> = {
       calendar: 'Calendrier',
       vscode: 'Code',
       runner: 'Exécution',
+      qtRunner: 'Exécution',
     },
     boot: { label: 'Démarrage' },
     windowControls: { close: 'Fermer', minimize: 'Placer dans le Dock', zoom: 'Plein écran' },

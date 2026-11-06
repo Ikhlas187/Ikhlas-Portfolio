@@ -24,10 +24,11 @@ export const SHOWCASE_ORDER = [
 export const SHOWCASE_HIDDEN = ['JavaScript', 'React-tutoriel-', 'Podia-Project', 'Landing-Page-']
 
 // « Exécuter » : une app web s'ouvre dans le Safari du Mac ; un programme compilé en WebAssembly tourne pour de vrai
-// dans l'app Exécution (module chargé seulement au clic, voir tools/runs/).
+// dans l'app Exécution, en terminal (wasm) ou avec ses fenêtres Qt (qt). Chargé seulement au clic, voir tools/runs/.
 export type RepoRun =
   | { kind: 'web'; url: string }
   | { kind: 'wasm'; module: string; hint: Localized<string> }
+  | { kind: 'qt'; loader: string; script: string; entry: string; hint: Localized<string> }
 
 export const REPO_RUNS: Record<string, RepoRun> = {
   'Ikhlas-Portfolio': { kind: 'web', url: 'https://ikhlas-dev.vercel.app' },
@@ -41,6 +42,16 @@ export const REPO_RUNS: Record<string, RepoRun> = {
     hint: {
       en: 'MediPass, C++ and SQLite compiled to WebAssembly. Demo logins: admin / demo1234 (choice 1) or docteur / demo1234 (choice 2).',
       fr: 'MediPass, C++ et SQLite compilés en WebAssembly. Comptes de démo : admin / demo1234 (choix 1) ou docteur / demo1234 (choix 2).',
+    },
+  },
+  Columinst: {
+    kind: 'qt',
+    loader: '/runs/columinst/qtloader.js',
+    script: '/runs/columinst/columinst.js',
+    entry: 'columinst_entry',
+    hint: {
+      en: 'Columinst, a Qt C++ task manager compiled to WebAssembly (8.5 MB). Its SQLite database lives in this tab only.',
+      fr: 'Columinst, gestionnaire de tâches Qt C++ compilé en WebAssembly (8,5 Mo). Sa base SQLite vit seulement dans cet onglet.',
     },
   },
 }
