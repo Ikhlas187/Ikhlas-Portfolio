@@ -7,6 +7,15 @@ gsap.registerPlugin(ScrollTrigger)
 
 const LenisContext = createContext<Lenis | null>(null)
 
+// Défilement des liens internes : entre 1 et 2,4 s, plus long quand la section est loin.
+const ANCHOR_MIN_SECONDS = 1
+const ANCHOR_MAX_SECONDS = 2.4
+const ANCHOR_PX_PER_SECOND = 4000
+
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+}
+
 /* Smooth scroll Lenis cadencé par gsap.ticker, pour que ScrollTrigger reste synchronisé. */
 export default function LenisProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null)
@@ -38,7 +47,12 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
       const target = document.querySelector<HTMLElement>(hash)
       if (!target) return
       event.preventDefault()
-      lenisInstance.scrollTo(target)
+      // Démarrage et arrivée progressifs, durée selon la distance : on voit la page défiler jusqu'à la section.
+      const distance = Math.abs(target.getBoundingClientRect().top)
+      lenisInstance.scrollTo(target, {
+        duration: Math.min(ANCHOR_MAX_SECONDS, ANCHOR_MIN_SECONDS + distance / ANCHOR_PX_PER_SECOND),
+        easing: easeInOutCubic,
+      })
     }
     document.addEventListener('click', onAnchorClick)
 
