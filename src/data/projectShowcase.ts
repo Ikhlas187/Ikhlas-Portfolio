@@ -1,3 +1,5 @@
+import type { Localized } from '@/data/locale'
+
 // Projets du dossier Projets du faux macOS, dans l'ordre qui intéresse un recruteur (produit complet, stack actuelle,
 // projets en ligne d'abord). Les repos absents de cette liste passent après, du plus récent au plus ancien.
 export const SHOWCASE_ORDER = [
@@ -21,8 +23,11 @@ export const SHOWCASE_ORDER = [
 // Exercices et tutoriels : sans intérêt pour un recruteur, retirés du dossier.
 export const SHOWCASE_HIDDEN = ['JavaScript', 'React-tutoriel-', 'Podia-Project', 'Landing-Page-']
 
-// « Exécuter » : une app web s'ouvre dans le Safari du Mac, un programme rejoue sa vraie session dans l'app Exécution.
-export type RepoRun = { kind: 'web'; url: string } | { kind: 'session'; file: string }
+// « Exécuter » : une app web s'ouvre dans le Safari du Mac ; un programme compilé en WebAssembly tourne pour de vrai
+// dans l'app Exécution (module chargé seulement au clic, voir tools/runs/).
+export type RepoRun =
+  | { kind: 'web'; url: string }
+  | { kind: 'wasm'; module: string; hint: Localized<string> }
 
 export const REPO_RUNS: Record<string, RepoRun> = {
   'Ikhlas-Portfolio': { kind: 'web', url: 'https://ikhlas-dev.vercel.app' },
@@ -30,4 +35,12 @@ export const REPO_RUNS: Record<string, RepoRun> = {
   'github-user': { kind: 'web', url: 'https://github-user-red.vercel.app' },
   'john-website': { kind: 'web', url: 'https://john-website-peach.vercel.app' },
   'components-hole': { kind: 'web', url: 'https://my-project-pied-xi.vercel.app' },
+  Groupe_15_POO: {
+    kind: 'wasm',
+    module: '/runs/medipass/medipass.mjs',
+    hint: {
+      en: 'MediPass, C++ and SQLite compiled to WebAssembly. Demo logins: admin / demo1234 (choice 1) or docteur / demo1234 (choice 2).',
+      fr: 'MediPass, C++ et SQLite compilés en WebAssembly. Comptes de démo : admin / demo1234 (choix 1) ou docteur / demo1234 (choix 2).',
+    },
+  },
 }

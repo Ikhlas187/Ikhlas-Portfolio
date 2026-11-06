@@ -165,6 +165,7 @@ export type AppName =
   | 'music'
   | 'calendar'
   | 'vscode'
+  | 'runner'
 
 type MacOSTexts = {
   appNames: Record<AppName, string>
@@ -191,6 +192,7 @@ type MacOSTexts = {
     sizeUnits: { bytes: string; kb: string; mb: string; decimal: string }
   }
   preview: { page: string }
+  runner: { loading: string; exited: string; error: string; restart: string; inputLabel: string }
   repos: {
     loading: string
     loadError: string
@@ -510,6 +512,7 @@ export const MACOS: Localized<MacOSTexts> = {
       music: 'Music',
       calendar: 'Calendar',
       vscode: 'Code',
+      runner: 'Run',
     },
     boot: { label: 'Starting up' },
     windowControls: { close: 'Close', minimize: 'Minimize', zoom: 'Full screen' },
@@ -546,6 +549,13 @@ export const MACOS: Localized<MacOSTexts> = {
       sizeUnits: { bytes: 'bytes', kb: 'KB', mb: 'MB', decimal: '.' },
     },
     preview: { page: 'Page 1 of 1' },
+    runner: {
+      loading: 'Loading the program…',
+      exited: 'Program finished.',
+      error: 'The program could not be loaded.',
+      restart: 'Run again',
+      inputLabel: 'Program input',
+    },
     repos: {
       loading: 'Loading…',
       loadError: 'This folder could not be loaded.',
@@ -819,6 +829,7 @@ export const MACOS: Localized<MacOSTexts> = {
       music: 'Musique',
       calendar: 'Calendrier',
       vscode: 'Code',
+      runner: 'Exécution',
     },
     boot: { label: 'Démarrage' },
     windowControls: { close: 'Fermer', minimize: 'Placer dans le Dock', zoom: 'Plein écran' },
@@ -855,6 +866,13 @@ export const MACOS: Localized<MacOSTexts> = {
       sizeUnits: { bytes: 'octets', kb: 'Ko', mb: 'Mo', decimal: ',' },
     },
     preview: { page: 'Page 1 sur 1' },
+    runner: {
+      loading: 'Chargement du programme…',
+      exited: 'Programme terminé.',
+      error: 'Le programme n’a pas pu être chargé.',
+      restart: 'Relancer',
+      inputLabel: 'Saisie du programme',
+    },
     repos: {
       loading: 'Chargement…',
       loadError: 'Impossible de charger ce dossier.',

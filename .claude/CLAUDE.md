@@ -15,9 +15,11 @@ portfolio-frontend/
 │   └── skills/               31 skills front : design, UI, animation, a11y, shadcn, React, Remotion
 ├── public/                   servi tel quel
 │   ├── giantsur/             images du clone Giant Sur (icônes du Dock, + vscode-logo.svg)
+│   ├── runs/                 programmes compilés en WebAssembly pour l'app Exécution (medipass/ : C++ + SQLite, base de démo fictive), écrits par tools/runs/
 │   └── repos/                instantané des repos GitHub d'Ikhlas (index.json + <repo>.json), écrit par pnpm repos:snapshot
 ├── tools/                    hors app : manga.py, video/ (Remotion), sources/ (photos brutes, ignoré par git),
-│                             repos/snapshot.mjs (instantané des repos, secrets filtrés, voir tools/README.md §4)
+│                             repos/snapshot.mjs (instantané des repos, secrets filtrés, voir tools/README.md §4),
+│                             runs/medipass/ (build.sh Emscripten, web_stdin.cpp, make_demo_db.py : base de démo fictive, jamais la vraie)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
 │   ├── App.tsx               providers (Helmet, Locale, Music, Router, Lenis) + ContextCursor + routes animées + MusicToggle
@@ -68,13 +70,14 @@ portfolio-frontend/
 │   │       │       ├── Dock*.tsx                interface Giant Sur à l'identique
 │   │       │       ├── DesktopIcons.tsx, DesktopItem.tsx   icônes du bureau tirées du dossier Bureau du Finder (Projets, Skills, Certifications, CV.pdf)
 │   │       │       ├── MacReposProvider.tsx  repos GitHub du dossier Projets (useMacRepos) : liste au démarrage du bureau, arbre d'un repo à sa 1re ouverture
-│   │       │       ├── RepoContextMenu.tsx   clic droit sur un dossier de repo : Ouvrir avec VS Code, Exécuter (data/projectShowcase REPO_RUNS : app web dans Safari), Voir sur GitHub (mention Privé)
+│   │       │       ├── RepoContextMenu.tsx   clic droit sur un dossier de repo : Ouvrir avec VS Code, Exécuter (data/projectShowcase REPO_RUNS : app web dans Safari, programme WebAssembly dans Runner/), Voir sur GitHub (mention Privé)
 │   │       │       ├── VSCode/              app VS Code (Dark Modern) : titre, barre d'activité, explorateur, onglets, éditeur coloré (highlight.js), barre d'état
 │   │       │       ├── Window.tsx           cadre commun de toutes les fenêtres, copié du Safari de mihrimatrix/macos-clone-react : rayon 26 px, barre d'outils 52 px, pastilles 13 px à 21/21 px
 │   │       │       ├── frameClasses.ts      classes du cadre partagées (outil en capsule de verre, champ de recherche, barre d'outils)
 │   │       │       ├── useGenie.ts, dockTarget.ts   effet génie (fenêtre copiée en bandes trapézoïdales aspirées dans l'icône du Dock)
 │   │       │       ├── ControlCenter*.tsx   centre de contrôle : bascules, luminosité (voile noir), son (volume du lecteur partagé), mode sombre ([data-macos-theme] dans tokens.css)
 │   │       │       ├── FinderWindow.tsx     Window + palette claire du Finder pour l'intérieur des apps ; intérieurs de Calendrier et Photos copiés de frvky.online
+│   │       │       ├── Runner/              app Exécution : charge au clic un programme compilé en WebAssembly (public/runs/) et le fait tourner comme un terminal (stdout caractère par caractère, saisie au clavier)
 │   │       │       ├── Browser/, Notes/     Safari (contour de mihrimatrix, intérieur Google) et Notes (copie de mihrimatrix, notes d'Ikhlas)
 │   │       │       ├── DockLink.tsx, dockLinkLogos.ts   liens GitHub et LinkedIn après le séparateur du Dock
 │   │       │       ├── AppleLogo.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
@@ -112,7 +115,7 @@ portfolio-frontend/
 │   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
 │   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),
-│   │   │                     contextMenu (position du menu), repoShowcase (tri recruteurs), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
+│   │   │                     contextMenu (position du menu), repoShowcase (tri recruteurs), terminalScreen (lignes + ligne en cours de l'app Exécution), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
 │   │   │                     navigationHistory, terminal, calendar (Calendrier : grille, horaires, rendez-vous), clock (horloge de la barre de menus),
 │   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesBook (Notes), photoAlbums (Photos),
 │   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)

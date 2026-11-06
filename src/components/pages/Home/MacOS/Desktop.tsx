@@ -16,6 +16,7 @@ import Photos from '@/components/pages/Home/MacOS/Photos/Photos'
 import Preview from '@/components/pages/Home/MacOS/Preview/Preview'
 import RepoContextMenu, { REPO_CONTEXT_MENU_SIZE } from '@/components/pages/Home/MacOS/RepoContextMenu'
 import Settings from '@/components/pages/Home/MacOS/Settings/Settings'
+import Runner from '@/components/pages/Home/MacOS/Runner/Runner'
 import Terminal from '@/components/pages/Home/MacOS/Terminal/Terminal'
 import { useMacFiles } from '@/components/pages/Home/MacOS/useMacFiles'
 import VSCode from '@/components/pages/Home/MacOS/VSCode/VSCode'
@@ -69,6 +70,7 @@ const WINDOW_SIZES: Record<Exclude<AppId, 'preview'>, Size> = {
   music: { width: 900, height: 560 },
   calendar: { width: 439, height: 732 },
   vscode: { width: 1140, height: 720 },
+  runner: { width: 720, height: 460 },
 }
 
 type PreviewNode = Exclude<FsNode, { kind: 'folder' } | { kind: 'code' }>
@@ -128,10 +130,11 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
     launch('vscode', repo ? { repo, file, requestId: nextRequestId() } : undefined)
 
   const openInBrowser = (url: string) => launch('browser', { url, requestId: nextRequestId() })
-  // « Exécuter » : une app web s'ouvre dans Safari ; les sessions de programmes rejouées viendront avec leur app.
+  // « Exécuter » : une app web s'ouvre dans Safari, un programme WebAssembly dans l'app Exécution.
   const runRepo = (name: string) => {
     const repoRun = REPO_RUNS[name]
     if (repoRun?.kind === 'web') openInBrowser(repoRun.url)
+    if (repoRun?.kind === 'wasm') launch('runner', { repo: name, requestId: nextRequestId() })
   }
 
   const openPath = (path: string[]) => {
@@ -287,6 +290,8 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
         return <Calendar key={window.id} frame={frame} />
       case 'vscode':
         return <VSCode key={window.id} frame={frame} onOpenInBrowser={openInBrowser} />
+      case 'runner':
+        return <Runner key={window.id} frame={frame} repo={window.payload.repo ?? ''} />
       case 'about':
         return <AboutThisMac key={window.id} frame={frame} onMoreInfo={() => openPath(CV_PATH)} />
     }
