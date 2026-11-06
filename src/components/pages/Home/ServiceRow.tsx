@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import FadeInImage from '@/components/pages/Home/FadeInImage'
 import type { Service } from '@/data/services'
 import { unsplashPhotoUrl } from '@/logic/unsplashPhotoUrl/unsplashPhotoUrl'
 
@@ -19,7 +20,7 @@ export default function ServiceRow({ service, toolsLabel, stickyTop }: ServiceRo
       style={{ '--row-top': `${stickyTop}px` } as CSSProperties}
       className="grid grid-cols-1 gap-6 border-t border-black/20 bg-white pt-6 pb-10 min-[810px]:sticky min-[810px]:top-(--row-top) min-[810px]:grid-cols-[286fr_906fr] min-[810px]:pb-0"
     >
-      <img
+      <FadeInImage
         src={unsplashPhotoUrl(service.photo, PHOTO_WIDTH)}
         alt={service.alt}
         loading="lazy"

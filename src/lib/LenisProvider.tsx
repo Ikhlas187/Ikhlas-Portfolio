@@ -29,7 +29,21 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
     })
     gsap.ticker.lagSmoothing(0)
 
+    // Liens internes (#about, #services…) : même glissement que la molette au lieu d'un saut. Lenis 1.0 n'a pas d'option anchors.
+    const onAnchorClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) return
+      const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]')
+      const hash = link?.getAttribute('href')
+      if (!hash || hash === '#') return
+      const target = document.querySelector<HTMLElement>(hash)
+      if (!target) return
+      event.preventDefault()
+      lenisInstance.scrollTo(target)
+    }
+    document.addEventListener('click', onAnchorClick)
+
     return () => {
+      document.removeEventListener('click', onAnchorClick)
       gsap.ticker.remove(ticker)
       lenisInstance.destroy()
     }

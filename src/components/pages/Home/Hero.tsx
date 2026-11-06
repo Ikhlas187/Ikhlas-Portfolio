@@ -1,4 +1,5 @@
 import HomeHeader from '@/components/pages/Home/HomeHeader'
+import FadeInImage from '@/components/pages/Home/FadeInImage'
 import HeroName from '@/components/pages/Home/HeroName'
 import { useLocale } from '@/lib/LocaleProvider'
 import { HERO } from '@/data/hero'
@@ -21,7 +22,7 @@ export default function Hero() {
               </p>
             </div>
             <div className="w-full min-[810px]:w-px min-[810px]:flex-1">
-              <img
+              <FadeInImage
                 src={unsplashPhotoUrl(hero.photoId, 1400)}
                 alt={hero.photoAlt}
                 className="h-[398px] w-full rounded-[8px] object-cover object-center min-[810px]:aspect-video min-[810px]:h-auto min-[810px]:max-h-[700px]"
