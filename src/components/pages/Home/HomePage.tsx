@@ -8,7 +8,6 @@ import Experience from '@/components/pages/Home/Experience'
 import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
 import Services from '@/components/pages/Home/Services'
 import PinNote from '@/components/pages/Home/PinNote'
-import CallSection from '@/components/pages/Home/CallSection'
 import Footer from '@/components/pages/Home/Footer'
 import { useLocale } from '@/lib/LocaleProvider'
 
@@ -39,7 +38,6 @@ export default function HomePage() {
       {SHOULD_SHOW_SKILLS && <DedicatedTeam />}
       <Services />
       <PinNote />
-      <CallSection />
       <Footer />
     </main>
   )

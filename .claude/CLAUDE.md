@@ -44,8 +44,7 @@ portfolio-frontend/
 │   │       │   ├── Interlude.tsx        intercalaire « Selected works » + ellipse dessinée
 │   │       │   ├── ProjectBoard.tsx     une planche projet
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
-│   │       │   ├── CallWidget.tsx       widget « appel entrant » : le vert ouvre CallBooking (réservation Cal.com intégrée, lien SITE.calLink : Google Meet, agendas et mails gérés par Cal.com)
-│   │       │   ├── CallSection.tsx      section du CallWidget, en fin de home sous PinNote
+│   │       │   ├── CallWidget.tsx       widget « appel entrant », posé dans l'encoche du footer : le vert ouvre CallBooking (réservation Cal.com intégrée, lien SITE.calLink : Google Meet, agendas et mails gérés par Cal.com)
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
@@ -57,7 +56,7 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
-│   │       │   ├── Footer.tsx           footer de la réf. haufsess.com : BookingCalendar (créneau = email pré-rempli), contact, LinkedIn, nom, copyright
+│   │       │   ├── Footer.tsx           footer (réf. cosmoq.framer.website) : titre « Book a call with me », carte noire bordée avec encoche en U qui épouse le CallWidget (ou sa carte Cal.com), accroche, nom géant en dégradé, 4 colonnes de liens (FooterLinkColumn), copyright
 │   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), partagé par HeroName et Footer
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS (réf. maquette Framer IFRI), sans sticky : l'écran « Selected works » (WorksScreen) rétrécit (1 à 0,5) et descend au scroll, en ressort, jusqu'à finir caché sous la dalle du Mac (cadre noir, encoche), centré dessus ; bouton Allumer après extinction
@@ -119,8 +118,8 @@ portfolio-frontend/
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
 │   │   ├── screenDock/       échelle et descente de WorksScreen selon l'avancée du scroll, écart entre 2 centres
+│   │   ├── footerShape/      contour SVG du footer : rectangle arrondi + encoche en U en haut au centre
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
-│   │   ├── booking/          bookableDay (jours ouvrés à venir), bookingMail (mailto du footer)
 │   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
 │   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
@@ -191,7 +190,7 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 ## État du chantier
 
 ```
-Fait           Hero + HomeHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CallSection · CoinLoader · Footer
+Fait           Hero + HomeHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CoinLoader · Footer
                ContextCursor · PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
 Écrit, pas monté   Process

@@ -10,7 +10,7 @@ export default function Hero() {
   const hero = HERO[locale]
 
   return (
-    <div className="bg-white pt-[72px] text-black">
+    <div id="top" className="bg-white pt-[72px] text-black">
       <HomeHeader />
       <div className="mx-auto max-w-[1800px] px-3 pt-5 pb-16 min-[810px]:px-4 min-[810px]:pt-6 min-[1200px]:px-5 min-[1200px]:pb-12">
         <section className="flex flex-col justify-center gap-12 min-[810px]:justify-start min-[810px]:gap-16 min-[1200px]:h-[90vh] min-[1200px]:max-h-[900px] min-[1200px]:min-h-[720px] min-[1200px]:gap-7">

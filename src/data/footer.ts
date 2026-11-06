@@ -1,64 +1,107 @@
 import type { Localized } from '@/data/locale'
+import { SITE } from '@/data/site'
 
-export type BookingMailLabels = { subject: string; body: string }
+export type FooterLink = { label: string; href: string; isExternal?: boolean }
+
+export type FooterColumn = { title: string; links: FooterLink[] }
 
 type FooterContent = {
-  pitch: string
-  contactLine: string
-  emailLabel: string
-  githubLabel: string
-  linkedinLabel: string
+  callTitle: string
+  heading: string
+  subheading: string
+  ctaLabel: string
+  columns: FooterColumn[]
   copyright: string
-  booking: {
-    previousMonthLabel: string
-    nextMonthLabel: string
-    weekDays: string[]
-    hour12Label: string
-    hour24Label: string
-    slotsLabel: string
-    mail: BookingMailLabels
-  }
+  credit: string
 }
+
+const EMAIL_LINK = `mailto:${SITE.email}`
 
 export const FOOTER: Localized<FooterContent> = {
   en: {
-    pitch: "Let's talk about your project, wherever you are.",
-    contactLine: 'Prefer to skip the call? Write to me by email or find me on GitHub.',
-    emailLabel: 'olaagb40@gmail.com',
-    githubLabel: 'GitHub',
-    linkedinLabel: 'LinkedIn',
-    copyright: '© 2026 Ikhlas Agbeti.',
-    booking: {
-      previousMonthLabel: 'Previous month',
-      nextMonthLabel: 'Next month',
-      weekDays: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
-      hour12Label: '12h',
-      hour24Label: '24h',
-      slotsLabel: 'Available times',
-      mail: {
-        subject: 'Call request · {date}',
-        body: 'Hi Ikhlas,\n\nI would like to book a call on {date} at {time}.\n\n',
+    callTitle: 'Book a call with me',
+    heading: 'Let’s build what comes next',
+    subheading: 'Fast, readable products with character in every pixel. Tell me about yours.',
+    ctaLabel: 'Write to me',
+    columns: [
+      {
+        title: 'Navigation',
+        links: [
+          { label: 'Home', href: '#top' },
+          { label: 'About', href: '#about' },
+          { label: 'Experiences', href: '#experience' },
+          { label: 'Services', href: '#services' },
+        ],
       },
-    },
+      {
+        title: 'Services',
+        links: [
+          { label: 'SaaS Development', href: '#services' },
+          { label: 'Showcase Sites & Portfolios', href: '#services' },
+          { label: 'Frontend Engineering', href: '#services' },
+          { label: 'AI & Automation', href: '#services' },
+        ],
+      },
+      {
+        title: 'Contact',
+        links: [
+          { label: SITE.email, href: EMAIL_LINK },
+          { label: 'Book a call', href: '#contact' },
+          { label: 'Pin a note', href: '#notes' },
+        ],
+      },
+      {
+        title: 'Social',
+        links: [
+          { label: 'GitHub', href: SITE.socials.github, isExternal: true },
+          { label: 'LinkedIn', href: SITE.socials.linkedin, isExternal: true },
+        ],
+      },
+    ],
+    copyright: '© 2026 Ikhlas Agbeti. All rights reserved.',
+    credit: 'Designed & built by Ikhlas',
   },
   fr: {
-    pitch: 'Parlons de votre projet, où que vous soyez.',
-    contactLine: "Vous préférez éviter l'appel ? Écrivez-moi par email ou retrouvez-moi sur GitHub.",
-    emailLabel: 'olaagb40@gmail.com',
-    githubLabel: 'GitHub',
-    linkedinLabel: 'LinkedIn',
-    copyright: '© 2026 Ikhlas Agbeti.',
-    booking: {
-      previousMonthLabel: 'Mois précédent',
-      nextMonthLabel: 'Mois suivant',
-      weekDays: ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'],
-      hour12Label: '12h',
-      hour24Label: '24h',
-      slotsLabel: 'Créneaux disponibles',
-      mail: {
-        subject: "Demande d'appel · {date}",
-        body: "Bonjour Ikhlas,\n\nJe souhaiterais réserver un appel le {date} à {time}.\n\n",
+    callTitle: 'Prendre rendez-vous avec moi',
+    heading: 'Construisons la suite ensemble',
+    subheading: 'Des produits rapides et lisibles, avec du caractère dans chaque pixel. Parlez-moi du vôtre.',
+    ctaLabel: 'M’écrire',
+    columns: [
+      {
+        title: 'Navigation',
+        links: [
+          { label: 'Accueil', href: '#top' },
+          { label: 'À propos', href: '#about' },
+          { label: 'Expériences', href: '#experience' },
+          { label: 'Services', href: '#services' },
+        ],
       },
-    },
+      {
+        title: 'Services',
+        links: [
+          { label: 'Développement SaaS', href: '#services' },
+          { label: 'Sites Vitrines & Portfolios', href: '#services' },
+          { label: 'Intégration Frontend', href: '#services' },
+          { label: 'IA & Automatisation', href: '#services' },
+        ],
+      },
+      {
+        title: 'Contact',
+        links: [
+          { label: SITE.email, href: EMAIL_LINK },
+          { label: 'Prendre rendez-vous', href: '#contact' },
+          { label: 'Épingler une note', href: '#notes' },
+        ],
+      },
+      {
+        title: 'Réseaux',
+        links: [
+          { label: 'GitHub', href: SITE.socials.github, isExternal: true },
+          { label: 'LinkedIn', href: SITE.socials.linkedin, isExternal: true },
+        ],
+      },
+    ],
+    copyright: '© 2026 Ikhlas Agbeti. Tous droits réservés.',
+    credit: 'Conçu et développé par Ikhlas',
   },
 }
