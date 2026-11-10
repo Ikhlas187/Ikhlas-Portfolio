@@ -19,7 +19,7 @@ export default function CallBooking({ onClose }: CallBookingProps) {
   }, [])
 
   return (
-    <div className="relative w-[400px] max-w-full overflow-hidden rounded-[8px] bg-white text-black shadow-(--note-form-shadow) min-[810px]:w-[800px]">
+    <div className="relative w-full overflow-hidden rounded-[8px] bg-white text-black shadow-(--note-form-shadow)">
       <button
         type="button"
         aria-label={copy.ariaCloseForm}

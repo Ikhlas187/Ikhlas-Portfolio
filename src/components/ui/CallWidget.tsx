@@ -16,9 +16,13 @@ gsap.registerPlugin(useGSAP)
 const RING_SHAKES = 3
 const RING_SHAKE_X = [0, -4, 4, -4, 4, -2, 2, 0]
 const RING_PERIOD_REPEAT_DELAY = 2.9
-// Bascule pastille ↔ calendrier : la hauteur suit en douceur, la carte monte en fondu, la pastille s'efface en se réduisant.
+// Bascule pastille ↔ calendrier : le bloc change vraiment de taille (pas un scale), pour que l'encoche du footer suive à chaque image.
 const SWAP_EASE = [0.22, 1, 0.36, 1] as const
 const SWAP_TRANSITION = { duration: 0.45, ease: SWAP_EASE }
+// Taille de la carte de réservation (CallBooking) : 800 × 586, moins large si la fenêtre est étroite.
+const BOOKING_WIDTH_PX = 800
+const BOOKING_HEIGHT_PX = 586
+const BOOKING_SIDE_GAP_PX = 48
 
 type CallWidgetProps = {
   // Fourni : répondre lance cette action (page de réservation sur mobile) au lieu de déplier la carte sur place.
@@ -98,14 +102,24 @@ export default function CallWidget({ onAccept }: CallWidgetProps) {
 
   return (
     <MotionConfig reducedMotion="user">
-    <motion.div layout transition={{ layout: SWAP_TRANSITION }} className="relative flex justify-center">
-      <AnimatePresence initial={false} mode="popLayout">
+    <motion.div
+      initial={false}
+      animate={
+        isFormOpen
+          ? { width: Math.min(BOOKING_WIDTH_PX, window.innerWidth - BOOKING_SIDE_GAP_PX), height: BOOKING_HEIGHT_PX }
+          : { width: 'auto', height: 'auto' }
+      }
+      transition={SWAP_TRANSITION}
+      className="relative flex justify-center"
+    >
+      <AnimatePresence initial={false}>
         {isFormOpen && (
           <motion.div
             key="booking"
-            initial={{ opacity: 0, y: 24, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1, transition: { ...SWAP_TRANSITION, delay: 0.08 } }}
-            exit={{ opacity: 0, y: 16, scale: 0.97, transition: { duration: 0.25, ease: SWAP_EASE } }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0, transition: { ...SWAP_TRANSITION, delay: 0.12 } }}
+            exit={{ opacity: 0, y: 12, transition: { duration: 0.2, ease: SWAP_EASE } }}
+            className="absolute top-0 left-1/2 w-[min(800px,calc(100vw-48px))] -translate-x-1/2"
           >
             <CallBooking onClose={() => setIsFormOpen(false)} />
           </motion.div>
