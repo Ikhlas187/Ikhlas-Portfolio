@@ -60,13 +60,14 @@ portfolio-frontend/
 │   │       │   ├── NameMark.tsx         nom géant en <text> SVG (viewBox de la réf. ; pas de foreignObject, que Safari iPhone ne met pas à l'échelle), utilisé par HeroName
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS : le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
-│   │       │   ├── ProjectsShowcase.tsx  projets de la home (sous le Mac sur ordinateur, juste après le hero sur téléphone) : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, Efreeshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui fait défiler les projets vers la gauche au scroll vertical, bouton Voir mes certifications ; sur téléphone ni Mac ni tableau de notes
+│   │       │   ├── ProjectsShowcase.tsx  téléphone seulement, à la place du Mac : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, Efreeshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui défile vers la gauche au scroll vertical, puis CertificationsButton ; ni Mac ni tableau de notes sur téléphone
+│   │       │   ├── CertificationsButton.tsx  « Voir mes certifications » : sous les projets sur téléphone, sous le MacBook sur ordinateur (fondu à la fin du rétrécissement)
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
 │   │       │       ├── Wallpaper.tsx        fond d'écran (assets/photo-1511300636408-a63a89df3482.avif, Unsplash)
 │   │       │       ├── Dock*.tsx                interface Giant Sur à l'identique
-│   │       │       ├── DesktopIcons.tsx, DesktopItem.tsx   icônes du bureau tirées du dossier Bureau du Finder (Projets, Skills, Certifications, CV.pdf)
+│   │       │       ├── DesktopIcons.tsx, DesktopItem.tsx   icônes du bureau tirées du dossier Bureau du Finder (Projets, Certifications, CV.pdf)
 │   │       │       ├── MacReposProvider.tsx  repos GitHub du dossier Projets (useMacRepos) : liste au démarrage du bureau, arbre d'un repo à sa 1re ouverture
 │   │       │       ├── RepoContextMenu.tsx   clic droit sur un dossier de repo : Ouvrir avec VS Code, Exécuter (data/projectShowcase REPO_RUNS : app web dans Safari, programme WebAssembly dans Runner/), Voir sur GitHub (mention Privé)
 │   │       │       ├── VSCode/              app VS Code (Dark Modern) : titre, barre d'activité, explorateur, onglets, éditeur coloré (highlight.js), barre d'état

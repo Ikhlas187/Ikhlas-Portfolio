@@ -18,7 +18,6 @@ const FAVORITE_ICONS: Record<FinderFavorite['id'], LucideIcon> = {
   documents: File,
   downloads: CircleArrowDown,
   projects: Folder,
-  skills: Folder,
   certifications: Folder,
 }
 

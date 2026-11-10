@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useScroll, useTransform } from 'framer-motion'
 import { Power } from 'lucide-react'
+import CertificationsButton from '@/components/pages/Home/CertificationsButton'
 import MacOS from '@/components/pages/Home/MacOS/MacOS'
 import { Button } from '@/components/ui/button'
 import { MACBOOK } from '@/data/macbook'
@@ -41,9 +42,11 @@ export default function MacOSSection() {
   const text = MACBOOK[locale]
   const [scale, setScale] = useState(1)
   const [isPoweredOn, setIsPoweredOn] = useState(true)
+  const [deviceHeight, setDeviceHeight] = useState(0)
   const frameRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const revealZoneRef = useRef<HTMLDivElement>(null)
+  const deviceRef = useRef<HTMLDivElement>(null)
   const coverScale = useMotionValue(1)
   const viewportAspect = useMotionValue(SCREEN_ASPECT)
   const lenis = useLenis()
@@ -52,6 +55,9 @@ export default function MacOSSection() {
   const { scrollYProgress: revealProgress } = useScroll({ target: revealZoneRef, offset: ['start start', 'end end'] })
   const deviceScale = useTransform([revealProgress, coverScale], ([progress, cover]: number[]) => revealScale(progress, cover))
   const backdropOpacity = useTransform(revealProgress, revealBackdropOpacity)
+  // Bouton des certifications sous l'appareil : n'apparaît qu'à la fin du rétrécissement.
+  const buttonOpacity = useTransform(revealProgress, (progress) => Math.min(1, Math.max(0, (progress - 0.8) / 0.2)))
+  const buttonEvents = useTransform(buttonOpacity, (opacity) => (opacity > 0.5 ? 'auto' : 'none'))
   const screenAspect = useTransform([revealProgress, viewportAspect], ([progress, aspect]: number[]) =>
     revealAspect(progress, aspect, SCREEN_ASPECT),
   )
@@ -66,6 +72,7 @@ export default function MacOSSection() {
     if (!section || !frame) return
     const observer = new ResizeObserver(() => {
       setScale(frame.clientWidth / SCREEN_WIDTH_PX)
+      setDeviceHeight(deviceRef.current?.offsetHeight ?? 0)
       const viewport = { width: window.innerWidth, height: window.innerHeight }
       coverScale.set(revealCoverScale(frame.offsetWidth, viewport.width))
       viewportAspect.set(viewport.width / viewport.height)
@@ -110,6 +117,7 @@ export default function MacOSSection() {
             <motion.div aria-hidden="true" style={{ opacity: backdropOpacity }} className="absolute inset-0 bg-black" />
             {/* Dalle = 835/1162 du 1er écran, cadre de 10 px et rayon 28 px à 1440, proportionnels à la largeur (cqw). */}
             <motion.div
+              ref={deviceRef}
               style={{ scale: deviceScale }}
               className="@container relative w-[calc(min(1162px,100%-40px)*835/1162)]"
             >
@@ -146,6 +154,13 @@ export default function MacOSSection() {
                   )}
                 </motion.div>
               </div>
+            </motion.div>
+            {/* Hors du flux : l'appareil reste centré, donc le plein écran aussi. */}
+            <motion.div
+              style={{ opacity: buttonOpacity, pointerEvents: buttonEvents, top: `calc(50% + ${deviceHeight / 2 + 28}px)` }}
+              className="absolute left-1/2 -translate-x-1/2"
+            >
+              <CertificationsButton />
             </motion.div>
           </div>
         </div>

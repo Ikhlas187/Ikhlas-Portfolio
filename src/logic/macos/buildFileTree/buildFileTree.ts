@@ -66,36 +66,6 @@ export function buildFileTree({ texts, repos, roles, cv, year }: FileTreeSources
     children: repos.map(repoFolder),
   }
 
-  const rolesFolder: FsFolder = {
-    kind: 'folder',
-    id: 'roles',
-    name: texts.folders.roles,
-    date: year,
-    children: roles.map((role) => ({
-      kind: 'text',
-      id: role.id,
-      name: `${role.name}.txt`,
-      date: year,
-      content: bulletList(role.name, role.stack),
-    })),
-  }
-
-  const skillFiles: FsNode[] = cv.skillGroups.map((group) => ({
-    kind: 'text',
-    id: group.id,
-    name: `${group.name}.txt`,
-    date: year,
-    content: bulletList(group.name, group.skills),
-  }))
-
-  const skills: FsFolder = {
-    kind: 'folder',
-    id: 'skills',
-    name: texts.folders.skills,
-    date: year,
-    children: roles.length > 0 ? [...skillFiles, rolesFolder] : skillFiles,
-  }
-
   const certifications: FsFolder = {
     kind: 'folder',
     id: 'certifications',
@@ -123,7 +93,7 @@ export function buildFileTree({ texts, repos, roles, cv, year }: FileTreeSources
         id: 'desktop',
         name: texts.folders.desktop,
         date: year,
-        children: [projectsFolder, skills, certifications, cvFile],
+        children: [projectsFolder, certifications, cvFile],
       },
       {
         kind: 'folder',

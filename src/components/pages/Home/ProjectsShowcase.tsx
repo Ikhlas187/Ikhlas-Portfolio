@@ -1,16 +1,12 @@
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import CertificationsButton from '@/components/pages/Home/CertificationsButton'
 import ProjectSlide from '@/components/pages/Home/ProjectSlide'
 import SectionHeading from '@/components/pages/Home/SectionHeading'
-import { buttonVariants } from '@/components/ui/button'
 import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
-import { ROUTES } from '@/data/routes'
 import { useLocale } from '@/lib/LocaleProvider'
-import { cn } from '@/lib/utils'
 
-/* Projets de la home (sous le Mac sur ordinateur, à sa place sur téléphone) : un projet par écran, section collée,
+/* Projets de la home sur téléphone (à la place du Mac) : un projet par écran, section collée,
    le scroll vers le bas fait défiler les projets vers la gauche ; puis lien vers les certifications. */
 export default function ProjectsShowcase() {
   const { locale } = useLocale()
@@ -38,14 +34,8 @@ export default function ProjectsShowcase() {
           </motion.ul>
         </div>
       </div>
-      <div className="mt-8 px-3 min-[810px]:flex min-[810px]:justify-center">
-        <Link
-          to={ROUTES.CERTIFICATIONS}
-          className={cn(buttonVariants(), 'h-12 w-full gap-2 rounded-full font-sans text-[16px] min-[810px]:w-auto min-[810px]:px-8')}
-        >
-          {text.certificationsLink}
-          <ArrowRight aria-hidden="true" />
-        </Link>
+      <div className="mt-8 px-3">
+        <CertificationsButton />
       </div>
     </section>
   )

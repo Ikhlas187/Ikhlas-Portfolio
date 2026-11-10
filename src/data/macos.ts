@@ -26,7 +26,7 @@ export type FsNode = FsFolder | FsFile
 export type FinderLocation = { kind: 'folder'; path: string[] } | { kind: 'recents' } | { kind: 'applications' }
 
 export type FinderFavorite = {
-  id: 'recents' | 'applications' | 'desktop' | 'documents' | 'downloads' | 'projects' | 'skills' | 'certifications'
+  id: 'recents' | 'applications' | 'desktop' | 'documents' | 'downloads' | 'projects' | 'certifications'
   location: FinderLocation
 }
 
@@ -53,7 +53,7 @@ export type CalendarEvent = {
 
 export type MacFileTexts = {
   folders: Record<
-    'home' | 'desktop' | 'documents' | 'downloads' | 'projects' | 'skills' | 'roles' | 'certifications' | 'trash',
+    'home' | 'desktop' | 'documents' | 'downloads' | 'projects' | 'certifications' | 'trash',
     string
   >
   about: { name: string; lines: string[] }
@@ -72,8 +72,6 @@ export const MAC_FILE_TEXTS: Localized<MacFileTexts> = {
       documents: 'Documents',
       downloads: 'Downloads',
       projects: 'Projects',
-      skills: 'Skills',
-      roles: 'Roles',
       certifications: 'Certifications',
       trash: 'Trash',
     },
@@ -102,8 +100,6 @@ export const MAC_FILE_TEXTS: Localized<MacFileTexts> = {
       documents: 'Documents',
       downloads: 'Téléchargements',
       projects: 'Projets',
-      skills: 'Skills',
-      roles: 'Rôles',
       certifications: 'Certifications',
       trash: 'Corbeille',
     },
@@ -133,7 +129,6 @@ export const DESKTOP_PATH = ['desktop']
 export const CV_PATH = ['desktop', 'cv']
 export const ABOUT_PATH = ['documents', 'about']
 export const PROJECTS_PATH = ['desktop', 'projects']
-export const SKILLS_PATH = ['desktop', 'skills']
 export const CERTIFICATIONS_PATH = ['desktop', 'certifications']
 
 export const FINDER_FAVORITES: FinderFavorite[] = [
@@ -143,7 +138,6 @@ export const FINDER_FAVORITES: FinderFavorite[] = [
   { id: 'documents', location: { kind: 'folder', path: ['documents'] } },
   { id: 'downloads', location: { kind: 'folder', path: ['downloads'] } },
   { id: 'projects', location: { kind: 'folder', path: PROJECTS_PATH } },
-  { id: 'skills', location: { kind: 'folder', path: SKILLS_PATH } },
   { id: 'certifications', location: { kind: 'folder', path: CERTIFICATIONS_PATH } },
 ]
 

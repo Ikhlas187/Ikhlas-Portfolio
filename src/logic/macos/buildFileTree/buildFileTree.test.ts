@@ -13,8 +13,6 @@ const texts: MacFileTexts = {
     documents: 'Documents',
     downloads: 'Downloads',
     projects: 'Projects',
-    skills: 'Skills',
-    roles: 'Roles',
     certifications: 'Certifications',
     trash: 'Trash',
   },
@@ -87,14 +85,13 @@ const sources: FileTreeSources = {
 }
 
 describe('buildFileTree', () => {
-  it('pose sur le Bureau les dossiers Projects, Skills, Certifications et le CV, rien d’autre', () => {
+  it('pose sur le Bureau les dossiers Projects, Certifications et le CV, rien d’autre (plus de Skills)', () => {
     const tree = buildFileTree(sources)
 
     const desktop = findNode(tree, ['desktop'])
 
     expect(desktop?.kind === 'folder' && desktop.children.map((node) => node.name)).toEqual([
       'Projects',
-      'Skills',
       'Certifications',
       'CV.pdf',
     ])
@@ -144,42 +141,6 @@ describe('buildFileTree', () => {
     const repo = findNode(tree, ['desktop', 'projects', 'portfolio-backend'])
 
     expect(repo?.kind === 'folder' && [repo.children, repo.repo?.isLoaded]).toEqual([[], false])
-  })
-
-  it('crée un fichier par groupe de compétences du CV, puis le dossier des rôles', () => {
-    const tree = buildFileTree(sources)
-
-    const skills = findNode(tree, ['desktop', 'skills'])
-
-    expect(skills?.kind === 'folder' && skills.children.map((node) => node.name)).toEqual([
-      'Frontend.txt',
-      'Methods.txt',
-      'Roles',
-    ])
-  })
-
-  it('liste les compétences d’un groupe sous son nom', () => {
-    const tree = buildFileTree(sources)
-
-    const frontend = findNode(tree, ['desktop', 'skills', 'frontend'])
-
-    expect(frontend?.kind === 'text' && frontend.content).toBe('Frontend\n\n· React\n· Next.js')
-  })
-
-  it('garde un fichier par rôle dans Skills/Roles', () => {
-    const tree = buildFileTree(sources)
-
-    const roles = findNode(tree, ['desktop', 'skills', 'roles'])
-
-    expect(roles?.kind === 'folder' && roles.children.map((node) => node.name)).toEqual(['Frontend.txt', 'Backend.txt'])
-  })
-
-  it('omet le dossier des rôles quand il n’y en a aucun', () => {
-    const sourcesWithoutRoles: FileTreeSources = { ...sources, roles: [] }
-
-    const skills = findNode(buildFileTree(sourcesWithoutRoles), ['desktop', 'skills'])
-
-    expect(skills?.kind === 'folder' && skills.children.map((node) => node.name)).toEqual(['Frontend.txt', 'Methods.txt'])
   })
 
   it('crée un PDF de certificat par certification, au nom du titulaire du CV', () => {
