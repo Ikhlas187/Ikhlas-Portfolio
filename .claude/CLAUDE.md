@@ -70,6 +70,7 @@ portfolio-frontend/
 │   │       │       ├── DesktopIcons.tsx, DesktopItem.tsx   icônes du bureau tirées du dossier Bureau du Finder (Projets, Certifications, CV.pdf)
 │   │       │       ├── MacReposProvider.tsx  repos GitHub du dossier Projets (useMacRepos) : liste au démarrage du bureau, arbre d'un repo à sa 1re ouverture
 │   │       │       ├── RepoContextMenu.tsx   clic droit sur un dossier de repo : Ouvrir avec VS Code, Exécuter (data/projectShowcase REPO_RUNS : app web dans Safari, programme WebAssembly dans Runner/), Voir sur GitHub (mention Privé)
+│   │       │       ├── Finder/RepoReadme.tsx  README sous les fichiers d'un projet (racine du dossier) : résumé (fiche SHOWCASE_PROJECTS, sinon 1er paragraphe du README.md via logic/macos/readmeSummary), services ou langage, année, liens (Safari du Mac, GitHub), captures ; Efreeshop = CODELESS_PROJECTS, dossier sans code ouvert seulement dans Safari, EtuDocs = repo d'équipe (EXTERNAL_REPOS de tools/repos)
 │   │       │       ├── VSCode/              app VS Code (Dark Modern) : titre, barre d'activité, explorateur, onglets, éditeur coloré (highlight.js), barre d'état
 │   │       │       ├── Window.tsx           cadre commun de toutes les fenêtres, copié du Safari de mihrimatrix/macos-clone-react : rayon 26 px, barre d'outils 52 px, pastilles 13 px à 21/21 px
 │   │       │       ├── frameClasses.ts      classes du cadre partagées (outil en capsule de verre, champ de recherche, barre d'outils)

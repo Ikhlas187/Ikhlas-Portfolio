@@ -270,6 +270,7 @@ export default function Desktop({ display, onDisplayChange, onRestart, onShutdow
             onOpenFile={openPath}
             onOpenApp={openApp}
             onRepoContextMenu={showRepoMenu}
+            onRunRepo={runRepo}
           />
         )
       case 'browser':

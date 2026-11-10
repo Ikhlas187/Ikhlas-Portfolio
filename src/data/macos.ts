@@ -197,6 +197,10 @@ type MacOSTexts = {
     run: string
     openOnGitHub: string
     private: string
+    // Encart README sous les fichiers d'un projet.
+    readme: string
+    openInSafari: string
+    language: string
   }
   vscode: {
     activity: { explorer: string; search: string; sourceControl: string; run: string; extensions: string; accounts: string; manage: string }
@@ -561,6 +565,9 @@ export const MACOS: Localized<MacOSTexts> = {
       run: 'Run',
       openOnGitHub: 'View on GitHub',
       private: 'Private',
+      readme: 'README.md',
+      openInSafari: 'Open in Safari',
+      language: 'Language',
     },
     vscode: {
       activity: {
@@ -879,6 +886,9 @@ export const MACOS: Localized<MacOSTexts> = {
       run: 'Exécuter',
       openOnGitHub: 'Voir sur GitHub',
       private: 'Privé',
+      readme: 'README.md',
+      openInSafari: 'Ouvrir dans Safari',
+      language: 'Langage',
     },
     vscode: {
       activity: {

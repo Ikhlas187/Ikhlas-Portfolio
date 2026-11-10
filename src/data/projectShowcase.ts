@@ -1,8 +1,11 @@
 import type { Localized } from '@/data/locale'
+import type { RepoSummary } from '@/types/repo'
 
 // Projets du dossier Projets du faux macOS, dans l'ordre qui intéresse un recruteur (produit complet, stack actuelle,
 // projets en ligne d'abord). Les repos absents de cette liste passent après, du plus récent au plus ancien.
 export const SHOWCASE_ORDER = [
+  'Efreeshop',
+  'ETUDOCS',
   'Ikhlas-Portfolio',
   'kommit-frontend',
   'kommit-backend',
@@ -20,6 +23,21 @@ export const SHOWCASE_ORDER = [
   'New-Projet-Int-grateur',
 ]
 
+// Projets sans code consultable (repo privé d'une autre équipe) : un dossier qui ne s'ouvre que dans le Safari du Mac.
+export const CODELESS_PROJECTS: RepoSummary[] = [
+  {
+    name: 'Efreeshop',
+    description: null,
+    language: 'TypeScript',
+    visibility: 'private',
+    githubUrl: '',
+    homepageUrl: 'https://www.e-freeshop.com',
+    branch: 'main',
+    updatedAt: '2026-07-12T00:00:00Z',
+    fileCount: 0,
+  },
+]
+
 // Exercices et tutoriels : sans intérêt pour un recruteur, retirés du dossier.
 export const SHOWCASE_HIDDEN = ['JavaScript', 'React-tutoriel-', 'Podia-Project', 'Landing-Page-']
 
@@ -31,6 +49,7 @@ export type RepoRun =
   | { kind: 'qt'; loader: string; script: string; entry: string; hint: Localized<string> }
 
 export const REPO_RUNS: Record<string, RepoRun> = {
+  Efreeshop: { kind: 'web', url: 'https://www.e-freeshop.com' },
   'Ikhlas-Portfolio': { kind: 'web', url: 'https://ikhlas-dev.vercel.app' },
   'medicastock-react': { kind: 'web', url: 'https://medicastock-react.vercel.app' },
   'github-user': { kind: 'web', url: 'https://github-user-red.vercel.app' },

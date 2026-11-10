@@ -66,6 +66,17 @@
     "fileCount": 125
   },
   {
+    "name": "ETUDOCS",
+    "description": null,
+    "language": "JavaScript",
+    "visibility": "public",
+    "githubUrl": "https://github.com/thelord00229/ETUDOCS",
+    "homepageUrl": null,
+    "branch": "main",
+    "updatedAt": "2026-07-02T21:09:33Z",
+    "fileCount": 434
+  },
+  {
     "name": "medicastock-react",
     "description": null,
     "language": "JavaScript",

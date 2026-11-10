@@ -85,7 +85,12 @@ doit porter aucun jeton.
 ```bash
 gh auth status        # gh doit être connecté au compte Ikhlas187
 pnpm repos:snapshot   # réécrit public/repos/ en entier
+pnpm repos:snapshot --only ETUDOCS   # ne refait que ces repos, garde les autres lignes de index.json
 ```
+
+Repos d'autres comptes : `EXTERNAL_REPOS` en tête du script (EtuDocs, `thelord00229/ETUDOCS`, repo
+d'équipe public). Efreeshop, repo privé d'une autre équipe, n'a pas d'instantané : il est déclaré à la
+main dans `CODELESS_PROJECTS` (`src/data/projectShowcase.ts`) et ne s'ouvre que dans le Safari du Mac.
 
 Le script `tools/repos/snapshot.mjs` lit l'arbre de chaque repo
 (`gh api repos/Ikhlas187/<repo>/git/trees/<branche>?recursive=1`) puis le contenu des

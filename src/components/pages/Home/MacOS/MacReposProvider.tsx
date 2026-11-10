@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { SHOWCASE_HIDDEN, SHOWCASE_ORDER } from '@/data/projectShowcase'
+import { CODELESS_PROJECTS, SHOWCASE_HIDDEN, SHOWCASE_ORDER } from '@/data/projectShowcase'
 import { fetchRepoIndex, fetchRepoSnapshot } from '@/lib/api/repos'
 import { showcaseRepos } from '@/logic/macos/repoShowcase/repoShowcase'
 import { buildRepoTree, type RepoTreeDir } from '@/logic/macos/repoTree/repoTree'
@@ -32,7 +32,7 @@ export default function MacReposProvider({ children }: { children: ReactNode }) 
     fetchRepoIndex()
       .then((repos) => {
         if (!isCurrent) return
-        setIndex(showcaseRepos(repos, SHOWCASE_ORDER, SHOWCASE_HIDDEN))
+        setIndex(showcaseRepos([...repos, ...CODELESS_PROJECTS], SHOWCASE_ORDER, SHOWCASE_HIDDEN))
         setIndexStatus('ready')
       })
       .catch(() => isCurrent && setIndexStatus('error'))
@@ -49,6 +49,12 @@ export default function MacReposProvider({ children }: { children: ReactNode }) 
   const requestRepo = useCallback((name: string) => {
     if (requested.current.has(name)) return
     requested.current.add(name)
+    // Projet sans code : dossier vide, seul son README s'affiche.
+    if (CODELESS_PROJECTS.some((project) => project.name === name)) {
+      setTrees((loaded) => ({ ...loaded, [name]: { kind: 'dir', name: '', path: '', children: [] } }))
+      setStatuses((current) => ({ ...current, [name]: 'ready' }))
+      return
+    }
     setStatuses((current) => ({ ...current, [name]: 'loading' }))
     fetchRepoSnapshot(name)
       .then((snapshot) => {

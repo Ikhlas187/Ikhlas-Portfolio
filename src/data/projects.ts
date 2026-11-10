@@ -185,6 +185,8 @@ export type ShowcaseShot = { src: string; alt: string }
 // cover = photo de présentation, en portrait sur téléphone et en paysage sur ordinateur.
 export type ShowcaseProject = {
   slug: string
+  // Nom du dossier du projet dans le dossier Projects du Mac.
+  repo: string
   name: string
   services: string[]
   description: string
@@ -201,6 +203,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
   en: [
     {
       slug: 'efreeshop',
+      repo: 'Efreeshop',
       name: 'Efreeshop',
       services: ['Web platform', 'Marketplace'],
       description:
@@ -217,6 +220,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
     },
     {
       slug: 'etudocs',
+      repo: 'ETUDOCS',
       name: 'EtuDocs',
       services: ['Web app', 'Full stack'],
       description:
@@ -235,6 +239,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
   fr: [
     {
       slug: 'efreeshop',
+      repo: 'Efreeshop',
       name: 'Efreeshop',
       services: ['Plateforme web', 'Marketplace'],
       description:
@@ -251,6 +256,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
     },
     {
       slug: 'etudocs',
+      repo: 'ETUDOCS',
       name: 'EtuDocs',
       services: ['Application web', 'Full stack'],
       description:

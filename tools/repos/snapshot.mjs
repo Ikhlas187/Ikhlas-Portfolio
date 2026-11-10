@@ -1,9 +1,10 @@
 // Instantané des repos GitHub d'Ikhlas pour le dossier Projects du faux macOS.
 // Lancé à la main : `pnpm repos:snapshot`. Écrit public/repos/<repo>.json et public/repos/index.json.
+// `pnpm repos:snapshot --only ETUDOCS` ne refait que ces repos et met à jour leur ligne de index.json.
 // Voir tools/README.md, section « Instantané des repos ».
 
 import { execFile } from 'node:child_process'
-import { mkdir, rm, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
@@ -12,6 +13,9 @@ const run = promisify(execFile)
 
 const OWNER = 'Ikhlas187'
 const EXCLUDED_REPOS = new Set(['entourage-plus', OWNER])
+// Repos d'équipe publics, hors du compte d'Ikhlas, auxquels il a contribué.
+const EXTERNAL_REPOS = [{ owner: 'thelord00229', name: 'ETUDOCS' }]
+const REPO_FIELDS = 'name,isFork,isPrivate,isEmpty,diskUsage,homepageUrl,description,primaryLanguage,defaultBranchRef,pushedAt,updatedAt'
 const OUT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../public/repos')
 const MAX_FILE_BYTES = 150 * 1024
 const MAX_REPO_JSON_BYTES = 4 * 1024 * 1024
@@ -120,7 +124,7 @@ function decodeText(buffer) {
 
 async function snapshotRepo(repo) {
   const branch = repo.defaultBranchRef.name
-  const tree = JSON.parse(await gh(['api', `repos/${OWNER}/${repo.name}/git/trees/${encodeURIComponent(branch)}?recursive=1`]))
+  const tree = JSON.parse(await gh(['api', `repos/${repo.owner}/${repo.name}/git/trees/${encodeURIComponent(branch)}?recursive=1`]))
   const removedForSecret = []
   const entries = []
 
@@ -147,7 +151,7 @@ async function snapshotRepo(repo) {
 
   const toFetch = entries.filter((entry) => entry.type === 'file' && !entry.omitted)
   await mapLimit(toFetch, CONCURRENCY, async (entry) => {
-    const raw = await gh(['api', '-H', 'Accept: application/vnd.github.raw', `repos/${OWNER}/${repo.name}/git/blobs/${entry.sha}`], true)
+    const raw = await gh(['api', '-H', 'Accept: application/vnd.github.raw', `repos/${repo.owner}/${repo.name}/git/blobs/${entry.sha}`], true)
     const text = decodeText(raw)
     if (text === null) {
       entry.omitted = 'binary'
@@ -198,16 +202,22 @@ function applyContentBudget(entries) {
 }
 
 async function main() {
-  const repos = JSON.parse(
-    await gh(['repo', 'list', OWNER, '--limit', '100', '--json', 'name,isFork,isPrivate,isEmpty,diskUsage,homepageUrl,description,primaryLanguage,defaultBranchRef,pushedAt,updatedAt']),
+  const onlyIndex = process.argv.indexOf('--only')
+  const only = onlyIndex === -1 ? null : new Set(process.argv.slice(onlyIndex + 1))
+  const ownRepos = JSON.parse(await gh(['repo', 'list', OWNER, '--limit', '100', '--json', REPO_FIELDS])).map((repo) => ({ ...repo, owner: OWNER }))
+  const externalRepos = await Promise.all(
+    EXTERNAL_REPOS.map(async ({ owner, name }) => ({ ...JSON.parse(await gh(['repo', 'view', `${owner}/${name}`, '--json', REPO_FIELDS])), owner })),
   )
+  const repos = [...ownRepos, ...externalRepos].filter((repo) => !only || only.has(repo.name))
   const selected = repos.filter((repo) => !repo.isFork && !repo.isEmpty && repo.diskUsage > 0 && repo.defaultBranchRef && !EXCLUDED_REPOS.has(repo.name))
   const skipped = repos.filter((repo) => !selected.includes(repo)).map((repo) => repo.name)
 
-  await rm(OUT_DIR, { recursive: true, force: true })
+  // --only : on garde les autres instantanés et les autres lignes de l'index.
+  const previousIndex = only ? JSON.parse(await readFile(path.join(OUT_DIR, 'index.json'), 'utf8')) : []
+  if (!only) await rm(OUT_DIR, { recursive: true, force: true })
   await mkdir(OUT_DIR, { recursive: true })
 
-  const index = []
+  const index = previousIndex.filter((entry) => !only.has(entry.name))
   const report = []
   for (const repo of selected) {
     process.stdout.write(`${repo.name}… `)
@@ -220,7 +230,7 @@ async function main() {
       description: repo.description || null,
       language: repo.primaryLanguage?.name ?? null,
       visibility: repo.isPrivate ? 'private' : 'public',
-      githubUrl: `https://github.com/${OWNER}/${repo.name}`,
+      githubUrl: `https://github.com/${repo.owner}/${repo.name}`,
       homepageUrl: repo.homepageUrl || null,
       branch: snapshot.branch,
       updatedAt: repo.pushedAt || repo.updatedAt,

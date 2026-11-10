@@ -16,6 +16,7 @@ import FinderList from '@/components/pages/Home/MacOS/Finder/FinderList'
 import FinderSearch from '@/components/pages/Home/MacOS/Finder/FinderSearch'
 import FinderSidebar from '@/components/pages/Home/MacOS/Finder/FinderSidebar'
 import FinderStatus from '@/components/pages/Home/MacOS/Finder/FinderStatus'
+import RepoReadme from '@/components/pages/Home/MacOS/Finder/RepoReadme'
 import { useMacRepos, type LoadStatus } from '@/components/pages/Home/MacOS/MacReposProvider'
 import { useMacFiles } from '@/components/pages/Home/MacOS/useMacFiles'
 import Window, { type WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
@@ -54,6 +55,7 @@ type FinderProps = {
   onOpenFile: (path: string[]) => void
   onOpenApp: (app: DockApp) => void
   onRepoContextMenu: (repo: RepoSummary, event: MouseEvent<HTMLElement>) => void
+  onRunRepo: (name: string) => void
 }
 
 const TOOL_BUTTON =
@@ -74,6 +76,7 @@ export default function Finder({
   onOpenFile,
   onOpenApp,
   onRepoContextMenu,
+  onRunRepo,
 }: FinderProps) {
   const { locale } = useLocale()
   const texts = MACOS[locale].finder
@@ -90,6 +93,11 @@ export default function Finder({
   const repos = useMacRepos()
   const { requestRepo } = repos
   const repoName = repoNameAt(location)
+  // À la racine d'un projet : son README s'affiche sous les fichiers.
+  const readmeRepo =
+    repoName && location.kind === 'folder' && location.path.length === PROJECTS_PATH.length + 1
+      ? repos.index.find((repo) => repo.name === repoName)
+      : undefined
   const isProjectsFolder = location.kind === 'folder' && location.path.join('/') === PROJECTS_PATH.join('/')
 
   useEffect(() => {
@@ -236,24 +244,29 @@ export default function Finder({
             status={loadStatus}
             onRetry={() => (repoName ? requestRepo(repoName) : repos.reloadIndex())}
           />
-        ) : viewMode === 'icons' ? (
-          <FinderGrid
-            items={items}
-            selectedKey={selectedKey}
-            onSelect={setSelectedKey}
-            onOpen={openItem}
-            onContextMenu={showContextMenu}
-          />
         ) : (
-          <FinderList
-            items={items}
-            selectedKey={selectedKey}
-            sortOrder={sortOrder}
-            onSort={sortBy}
-            onSelect={setSelectedKey}
-            onOpen={openItem}
-            onContextMenu={showContextMenu}
-          />
+          <>
+            {viewMode === 'icons' ? (
+              <FinderGrid
+                items={items}
+                selectedKey={selectedKey}
+                onSelect={setSelectedKey}
+                onOpen={openItem}
+                onContextMenu={showContextMenu}
+              />
+            ) : (
+              <FinderList
+                items={items}
+                selectedKey={selectedKey}
+                sortOrder={sortOrder}
+                onSort={sortBy}
+                onSelect={setSelectedKey}
+                onOpen={openItem}
+                onContextMenu={showContextMenu}
+              />
+            )}
+            {readmeRepo && <RepoReadme repo={readmeRepo} onRun={() => onRunRepo(readmeRepo.name)} />}
+          </>
         )}
       </div>
     </Window>

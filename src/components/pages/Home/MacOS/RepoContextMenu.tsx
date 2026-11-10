@@ -48,6 +48,9 @@ export default function RepoContextMenu({
     }
   }, [onClose])
 
+  // Projet sans code (repo privé d'une autre équipe) : ni VS Code ni GitHub, seulement Exécuter.
+  const hasCode = repo.githubUrl !== ''
+
   const run = (action: () => void) => () => {
     action()
     onClose()
@@ -61,7 +64,7 @@ export default function RepoContextMenu({
       style={{ left: position.x, top: position.y, width: REPO_CONTEXT_MENU_SIZE.width }}
       className="absolute z-50 flex flex-col rounded-[10px] border border-(--macos-context-menu-border) bg-(--macos-context-menu-bg) p-[5px] text-[13px] text-(--macos-context-menu-text) shadow-(--macos-context-menu-shadow) backdrop-blur-[30px] backdrop-saturate-[1.8]"
     >
-      <button type="button" role="menuitem" autoFocus onClick={run(onOpenInVSCode)} className={ITEM}>
+      <button type="button" role="menuitem" autoFocus disabled={!hasCode} onClick={run(onOpenInVSCode)} className={ITEM}>
         <Code strokeWidth={2} className={ICON} />
         {texts.openInVSCode}
       </button>
@@ -76,7 +79,7 @@ export default function RepoContextMenu({
         <Play strokeWidth={2} className={ICON} />
         {texts.run}
       </button>
-      <button type="button" role="menuitem" onClick={run(onOpenOnGitHub)} className={ITEM}>
+      <button type="button" role="menuitem" disabled={!hasCode} onClick={run(onOpenOnGitHub)} className={ITEM}>
         <ExternalLink strokeWidth={2} className={ICON} />
         <span className="flex-1">{texts.openOnGitHub}</span>
         {repo.visibility === 'private' && (
