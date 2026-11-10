@@ -1,13 +1,14 @@
 import efreeshopComponents from '@/assets/projects/efreeshop/components.webp'
 import efreeshopHero from '@/assets/projects/efreeshop/hero.webp'
-import efreeshopMobile from '@/assets/projects/efreeshop/mobile.webp'
+import efreeshopCoverLandscape from '@/assets/projects/efreeshop/cover-landscape.webp'
+import efreeshopCoverPortrait from '@/assets/projects/efreeshop/cover-portrait.webp'
 import efreeshopPricing from '@/assets/projects/efreeshop/pricing.webp'
 import efreeshopSell from '@/assets/projects/efreeshop/sell.webp'
 import etudocsFaq from '@/assets/projects/etudocs/faq.webp'
 import etudocsFeatures from '@/assets/projects/etudocs/features.webp'
 import etudocsHero from '@/assets/projects/etudocs/hero.webp'
 import etudocsLogin from '@/assets/projects/etudocs/login.webp'
-import etudocsMobile from '@/assets/projects/etudocs/mobile.webp'
+import etudocsCover from '@/assets/projects/etudocs/cover.webp'
 import type { Localized } from '@/data/locale'
 
 export type ProjectPhoto = { id: string; alt: string }
@@ -180,7 +181,8 @@ export const PROJECTS_SECTION: Localized<ProjectsSection> = {
 
 export type ShowcaseShot = { src: string; alt: string }
 
-// Projets du mobile et de leur page : captures des vrais sites (src/assets/projects/), cover = capture au format téléphone.
+// Projets de la home et de leur page : captures 4K des vrais sites (src/assets/projects/) ;
+// cover = photo de présentation, en portrait sur téléphone et en paysage sur ordinateur.
 export type ShowcaseProject = {
   slug: string
   name: string
@@ -188,7 +190,7 @@ export type ShowcaseProject = {
   description: string
   year: string
   link: { label: string; href: string }
-  cover: ShowcaseShot
+  cover: { portrait: string; landscape: string; alt: string }
   shots: ShowcaseShot[]
 }
 
@@ -205,7 +207,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         'Freemium platform of UI resources for frontend developers in Africa and beyond: React components, templates and digital products to browse, copy or sell, with Mobile Money payments built in.',
       year: '2026',
       link: { label: 'Visit e-freeshop.com', href: EFREESHOP_URL },
-      cover: { src: efreeshopMobile, alt: 'EFREEshop home page on a phone' },
+      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'EFREEshop app icon on a phone' },
       shots: [
         { src: efreeshopHero, alt: 'EFREEshop home page: the n°1 platform to sell components, templates and digital products' },
         { src: efreeshopComponents, alt: 'Premium components section with a React code sample' },
@@ -221,7 +223,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         'Built at the HACKBYIFRI 2026 hackathon: students request their administrative documents online, follow each validation step in real time, and download authentic documents checked by QR code.',
       year: '2026',
       link: { label: 'See the code on GitHub', href: ETUDOCS_URL },
-      cover: { src: etudocsMobile, alt: 'EtuDocs home page on a phone' },
+      cover: { portrait: etudocsCover, landscape: etudocsCover, alt: 'Two graduating students in cap and gown' },
       shots: [
         { src: etudocsHero, alt: 'EtuDocs home page with a preview of the student dashboard' },
         { src: etudocsFeatures, alt: 'Features: available documents, real-time tracking, authentic documents' },
@@ -239,7 +241,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         'Plateforme freemium de ressources UI pour les développeurs frontend africains et du monde entier : composants React, templates et produits digitaux à parcourir, copier ou vendre, avec paiement Mobile Money intégré.',
       year: '2026',
       link: { label: 'Voir e-freeshop.com', href: EFREESHOP_URL },
-      cover: { src: efreeshopMobile, alt: 'Accueil d’EFREEshop sur un téléphone' },
+      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Icône de l’app EFREEshop sur un téléphone' },
       shots: [
         { src: efreeshopHero, alt: 'Accueil d’EFREEshop : la plateforme n°1 pour vendre composants, templates et produits digitaux' },
         { src: efreeshopComponents, alt: 'Section des composants premium avec un exemple de code React' },
@@ -255,7 +257,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         'Réalisé au hackathon HACKBYIFRI 2026 : les étudiants demandent leurs documents administratifs en ligne, suivent chaque étape de validation en temps réel et téléchargent des documents authentifiés par QR code.',
       year: '2026',
       link: { label: 'Voir le code sur GitHub', href: ETUDOCS_URL },
-      cover: { src: etudocsMobile, alt: 'Accueil d’EtuDocs sur un téléphone' },
+      cover: { portrait: etudocsCover, landscape: etudocsCover, alt: 'Deux étudiants diplômés en toge et toque' },
       shots: [
         { src: etudocsHero, alt: 'Accueil d’EtuDocs avec un aperçu du tableau de bord étudiant' },
         { src: etudocsFeatures, alt: 'Fonctionnalités : documents disponibles, suivi en temps réel, documents authentiques' },

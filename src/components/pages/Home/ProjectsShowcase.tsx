@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import MobileProjectCard from '@/components/pages/Home/MobileProjectCard'
+import ProjectSlide from '@/components/pages/Home/ProjectSlide'
 import SectionHeading from '@/components/pages/Home/SectionHeading'
 import { buttonVariants } from '@/components/ui/button'
 import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
@@ -10,9 +10,9 @@ import { ROUTES } from '@/data/routes'
 import { useLocale } from '@/lib/LocaleProvider'
 import { cn } from '@/lib/utils'
 
-/* Projets sur mobile, à la place du Mac : un projet par écran, section collée, le scroll vers le bas fait défiler
-   les projets vers la gauche ; puis lien vers les certifications. */
-export default function MobileProjects() {
+/* Projets de la home (sous le Mac sur ordinateur, à sa place sur téléphone) : un projet par écran, section collée,
+   le scroll vers le bas fait défiler les projets vers la gauche ; puis lien vers les certifications. */
+export default function ProjectsShowcase() {
   const { locale } = useLocale()
   const projects = SHOWCASE_PROJECTS[locale]
   const text = PROJECT_PAGE[locale]
@@ -23,7 +23,7 @@ export default function MobileProjects() {
 
   return (
     <section id="projects" className="bg-white pt-(--section-gap) pb-4 text-black">
-      <div className="px-3 pb-6">
+      <div className="px-3 pb-6 min-[810px]:px-4 min-[1200px]:px-5">
         <SectionHeading title={text.sectionTitle} />
       </div>
       {/* 1 hauteur d'écran par projet : le temps de faire passer chacun. */}
@@ -32,16 +32,16 @@ export default function MobileProjects() {
           <motion.ul style={{ x }} className="flex h-full">
             {projects.map((project) => (
               <li key={project.slug} className="h-full w-screen shrink-0">
-                <MobileProjectCard project={project} />
+                <ProjectSlide project={project} />
               </li>
             ))}
           </motion.ul>
         </div>
       </div>
-      <div className="mt-8 px-3">
+      <div className="mt-8 px-3 min-[810px]:flex min-[810px]:justify-center">
         <Link
           to={ROUTES.CERTIFICATIONS}
-          className={cn(buttonVariants(), 'h-12 w-full gap-2 rounded-full font-sans text-[16px]')}
+          className={cn(buttonVariants(), 'h-12 w-full gap-2 rounded-full font-sans text-[16px] min-[810px]:w-auto min-[810px]:px-8')}
         >
           {text.certificationsLink}
           <ArrowRight aria-hidden="true" />

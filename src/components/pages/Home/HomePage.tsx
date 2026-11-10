@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import Hero from '@/components/pages/Home/Hero'
 import Projects from '@/components/pages/Home/Projects'
 import MacOSSection from '@/components/pages/Home/MacOSSection'
-import MobileProjects from '@/components/pages/Home/MobileProjects'
+import ProjectsShowcase from '@/components/pages/Home/ProjectsShowcase'
 import About from '@/components/pages/Home/About'
 import Experience from '@/components/pages/Home/Experience'
 import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
@@ -43,8 +43,9 @@ export default function HomePage() {
     <main className="bg-black">
       <Hero />
       {SHOULD_SHOW_PROJECTS && <Projects />}
-      {/* Mobile (réf. haufsess.com) : projets en défilement horizontal à la place du Mac, pas de tableau de notes. */}
-      {isMobile ? <MobileProjects /> : <MacOSSection />}
+      {/* Téléphone (réf. haufsess.com) : pas de Mac ni de tableau de notes, les projets suivent directement le hero. */}
+      {!isMobile && <MacOSSection />}
+      <ProjectsShowcase />
       <About />
       <Experience />
       {SHOULD_SHOW_SKILLS && <DedicatedTeam />}

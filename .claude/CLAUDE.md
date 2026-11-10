@@ -57,10 +57,10 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
-│   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), utilisé par HeroName
+│   │       │   ├── NameMark.tsx         nom géant en <text> SVG (viewBox de la réf. ; pas de foreignObject, que Safari iPhone ne met pas à l'échelle), utilisé par HeroName
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS : le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
-│   │       │   ├── MobileProjects.tsx   mobile < 810px, à la place du Mac : « Selected Projects », un projet par écran (MobileProjectCard : SHOWCASE_PROJECTS de data/projects.ts, EFREEshop et EtuDocs, captures des vrais sites dans src/assets/projects/), section collée qui fait défiler les projets vers la gauche au scroll vertical (data/projects.ts), bouton Voir mes certifications ; le tableau de notes (PinNote) n'est pas monté sur mobile
+│   │       │   ├── ProjectsShowcase.tsx  projets de la home (sous le Mac sur ordinateur, juste après le hero sur téléphone) : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, EFREEshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui fait défiler les projets vers la gauche au scroll vertical, bouton Voir mes certifications ; sur téléphone ni Mac ni tableau de notes
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
