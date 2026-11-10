@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import MobileProjectCard from '@/components/pages/Home/MobileProjectCard'
 import SectionHeading from '@/components/pages/Home/SectionHeading'
 import { buttonVariants } from '@/components/ui/button'
-import { PROJECT_PAGE, PROJECTS } from '@/data/projects'
+import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
 import { ROUTES } from '@/data/routes'
 import { useLocale } from '@/lib/LocaleProvider'
 import { cn } from '@/lib/utils'
@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils'
    les projets vers la gauche ; puis lien vers les certifications. */
 export default function MobileProjects() {
   const { locale } = useLocale()
-  const projects = PROJECTS[locale]
+  const projects = SHOWCASE_PROJECTS[locale]
   const text = PROJECT_PAGE[locale]
   const trackRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] })
@@ -31,7 +31,7 @@ export default function MobileProjects() {
         <div className="sticky top-0 h-svh overflow-hidden">
           <motion.ul style={{ x }} className="flex h-full">
             {projects.map((project) => (
-              <li key={project.name} className="h-full w-screen shrink-0">
+              <li key={project.slug} className="h-full w-screen shrink-0">
                 <MobileProjectCard project={project} />
               </li>
             ))}

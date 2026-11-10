@@ -4,22 +4,19 @@ import { ChevronRight } from 'lucide-react'
 import BackPill from '@/components/ui/BackPill'
 import Footer from '@/components/ui/Footer'
 import SiteHeader from '@/components/ui/SiteHeader'
-import { PROJECT_PAGE, PROJECTS } from '@/data/projects'
+import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
 import { useLenis } from '@/lib/LenisProvider'
 import { useLocale } from '@/lib/LocaleProvider'
-import { projectSlug } from '@/logic/macos/projectSlug/projectSlug'
-import { projectServices } from '@/logic/projects/projectServices/projectServices'
-import { unsplashPhotoUrl } from '@/logic/unsplashPhotoUrl/unsplashPhotoUrl'
 
-/* Page d'un projet (réf. haufsess.com) : Retour, titre, description, services et année, photos empilées, projet suivant. */
+/* Page d'un projet (réf. haufsess.com) : Retour, titre, description, services, année et lien, captures empilées, projet suivant. */
 export default function ProjectPage() {
   const { slug } = useParams()
   const { locale } = useLocale()
   const lenis = useLenis()
   const { hash } = useLocation()
-  const projects = PROJECTS[locale]
+  const projects = SHOWCASE_PROJECTS[locale]
   const text = PROJECT_PAGE[locale]
-  const index = projects.findIndex((project) => projectSlug(project.name) === slug)
+  const index = projects.findIndex((project) => project.slug === slug)
 
   useEffect(() => {
     // Retour de la page de réservation : /…#contact ramène au footer, sinon haut de page.
@@ -30,7 +27,7 @@ export default function ProjectPage() {
   if (index < 0) return <Navigate to="/" replace />
   const project = projects[index]
   const nextProject = projects[(index + 1) % projects.length]
-  const services = projectServices(project.eyebrow)
+  const { services } = project
 
   return (
     <div className="bg-white pt-[72px] text-black">
@@ -55,15 +52,23 @@ export default function ProjectPage() {
           )}
           <div className="flex flex-col gap-1">
             <dt className="text-[14px] tracking-normal">{text.year}</dt>
-            <dd>{project.date}</dd>
+            <dd>{project.year}</dd>
+          </div>
+          <div className="flex flex-col gap-1">
+            <dt className="text-[14px] tracking-normal">{text.link}</dt>
+            <dd>
+              <a href={project.link.href} target="_blank" rel="noreferrer" className="cursor-pointer underline underline-offset-4">
+                {project.link.label}
+              </a>
+            </dd>
           </div>
         </dl>
         <div className="mt-12 flex flex-col gap-3 min-[810px]:gap-4">
-          {project.photos.map((photo) => (
+          {project.shots.map((shot) => (
             <img
-              key={photo.id}
-              src={unsplashPhotoUrl(photo.id, 1600)}
-              alt={photo.alt}
+              key={shot.src}
+              src={shot.src}
+              alt={shot.alt}
               loading="lazy"
               className="w-full rounded-[8px] bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] object-cover"
             />
@@ -71,7 +76,7 @@ export default function ProjectPage() {
         </div>
         <div className="flex justify-end py-16">
           <Link
-            to={`/projects/${projectSlug(nextProject.name)}`}
+            to={`/projects/${nextProject.slug}`}
             className="inline-flex cursor-pointer items-center gap-1 font-sans text-[20px] leading-[1.2] font-medium tracking-[-0.02em] underline underline-offset-4"
           >
             {nextProject.name}

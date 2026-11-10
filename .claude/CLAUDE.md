@@ -60,7 +60,7 @@ portfolio-frontend/
 │   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), utilisé par HeroName
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS : le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
-│   │       │   ├── MobileProjects.tsx   mobile < 810px, à la place du Mac : « Selected Projects », un projet par écran (MobileProjectCard), section collée qui fait défiler les projets vers la gauche au scroll vertical (data/projects.ts), bouton Voir mes certifications ; le tableau de notes (PinNote) n'est pas monté sur mobile
+│   │       │   ├── MobileProjects.tsx   mobile < 810px, à la place du Mac : « Selected Projects », un projet par écran (MobileProjectCard : SHOWCASE_PROJECTS de data/projects.ts, EFREEshop et EtuDocs, captures des vrais sites dans src/assets/projects/), section collée qui fait défiler les projets vers la gauche au scroll vertical (data/projects.ts), bouton Voir mes certifications ; le tableau de notes (PinNote) n'est pas monté sur mobile
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
@@ -81,7 +81,7 @@ portfolio-frontend/
 │   │       │       ├── AppleLogo.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
 │   │       │       ├── Music/               app Musique : « Batman » de Bedry joué sur le lecteur partagé (progression, durée réelle), autres pistes en aperçu indisponible
 │   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
-│   │       ├── Project/          page d'un projet /projects/:slug (réf. haufsess.com) : Retour, titre, description, services, année, photos empilées, projet suivant
+│   │       ├── Project/          page d'un projet /projects/:slug (réf. haufsess.com) : Retour, titre, description, services, année, lien, captures empilées, projet suivant
 │   │       ├── Booking/          /book, mobile : ouverte par le bouton vert du CallWidget du footer, flèche de retour en haut (vers /…#contact d'où l'on vient), calendrier Cal.com dessous
 │   │       ├── Certifications/   /certifications : photo du certificat (src/assets/certifications/<id>.webp|jpg|png, sinon emplacement « Photo à venir »), titre et année dessous
 │   │       ├── Projects/ About/ Contact/   coquilles vides
@@ -124,7 +124,6 @@ portfolio-frontend/
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
 │   │   ├── screenReveal/     échelle, proportion et fond noir du Mac plein écran qui rétrécit au scroll
-│   │   ├── projects/         projectServices (services d'un projet tirés de son eyebrow)
 │   │   ├── sectionHref/      lien #section tel quel sur la home, /#section ailleurs
 │   │   ├── footerShape/      contour SVG du footer : rectangle arrondi + encoche en U en haut au centre
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)

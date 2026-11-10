@@ -1,3 +1,13 @@
+import efreeshopComponents from '@/assets/projects/efreeshop/components.webp'
+import efreeshopHero from '@/assets/projects/efreeshop/hero.webp'
+import efreeshopMobile from '@/assets/projects/efreeshop/mobile.webp'
+import efreeshopPricing from '@/assets/projects/efreeshop/pricing.webp'
+import efreeshopSell from '@/assets/projects/efreeshop/sell.webp'
+import etudocsFaq from '@/assets/projects/etudocs/faq.webp'
+import etudocsFeatures from '@/assets/projects/etudocs/features.webp'
+import etudocsHero from '@/assets/projects/etudocs/hero.webp'
+import etudocsLogin from '@/assets/projects/etudocs/login.webp'
+import etudocsMobile from '@/assets/projects/etudocs/mobile.webp'
 import type { Localized } from '@/data/locale'
 
 export type ProjectPhoto = { id: string; alt: string }
@@ -168,6 +178,94 @@ export const PROJECTS_SECTION: Localized<ProjectsSection> = {
   fr: { interludeTitle: ['TRAVAUX', 'CHOISIS'], dateLabel: 'Date :' },
 }
 
+export type ShowcaseShot = { src: string; alt: string }
+
+// Projets du mobile et de leur page : captures des vrais sites (src/assets/projects/), cover = capture au format téléphone.
+export type ShowcaseProject = {
+  slug: string
+  name: string
+  services: string[]
+  description: string
+  year: string
+  link: { label: string; href: string }
+  cover: ShowcaseShot
+  shots: ShowcaseShot[]
+}
+
+const EFREESHOP_URL = 'https://www.e-freeshop.com'
+const ETUDOCS_URL = 'https://github.com/thelord00229/ETUDOCS'
+
+export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
+  en: [
+    {
+      slug: 'efreeshop',
+      name: 'EFREEshop',
+      services: ['Web platform', 'Marketplace'],
+      description:
+        'Freemium platform of UI resources for frontend developers in Africa and beyond: React components, templates and digital products to browse, copy or sell, with Mobile Money payments built in.',
+      year: '2026',
+      link: { label: 'Visit e-freeshop.com', href: EFREESHOP_URL },
+      cover: { src: efreeshopMobile, alt: 'EFREEshop home page on a phone' },
+      shots: [
+        { src: efreeshopHero, alt: 'EFREEshop home page: the n°1 platform to sell components, templates and digital products' },
+        { src: efreeshopComponents, alt: 'Premium components section with a React code sample' },
+        { src: efreeshopSell, alt: 'Sell your creations section: open a shop, get paid by Mobile Money' },
+        { src: efreeshopPricing, alt: 'Pricing: Free, Pro and Creator plans in CFA francs' },
+      ],
+    },
+    {
+      slug: 'etudocs',
+      name: 'EtuDocs',
+      services: ['Web app', 'Full stack'],
+      description:
+        'Built at the HACKBYIFRI 2026 hackathon: students request their administrative documents online, follow each validation step in real time, and download authentic documents checked by QR code.',
+      year: '2026',
+      link: { label: 'See the code on GitHub', href: ETUDOCS_URL },
+      cover: { src: etudocsMobile, alt: 'EtuDocs home page on a phone' },
+      shots: [
+        { src: etudocsHero, alt: 'EtuDocs home page with a preview of the student dashboard' },
+        { src: etudocsFeatures, alt: 'Features: available documents, real-time tracking, authentic documents' },
+        { src: etudocsFaq, alt: 'Frequently asked questions next to the dashboard' },
+        { src: etudocsLogin, alt: 'EtuDocs sign-in page' },
+      ],
+    },
+  ],
+  fr: [
+    {
+      slug: 'efreeshop',
+      name: 'EFREEshop',
+      services: ['Plateforme web', 'Marketplace'],
+      description:
+        'Plateforme freemium de ressources UI pour les développeurs frontend africains et du monde entier : composants React, templates et produits digitaux à parcourir, copier ou vendre, avec paiement Mobile Money intégré.',
+      year: '2026',
+      link: { label: 'Voir e-freeshop.com', href: EFREESHOP_URL },
+      cover: { src: efreeshopMobile, alt: 'Accueil d’EFREEshop sur un téléphone' },
+      shots: [
+        { src: efreeshopHero, alt: 'Accueil d’EFREEshop : la plateforme n°1 pour vendre composants, templates et produits digitaux' },
+        { src: efreeshopComponents, alt: 'Section des composants premium avec un exemple de code React' },
+        { src: efreeshopSell, alt: 'Section vendre ses créations : ouvrir son stand, être payé par Mobile Money' },
+        { src: efreeshopPricing, alt: 'Tarifs : offres Free, Pro et Créateur en francs CFA' },
+      ],
+    },
+    {
+      slug: 'etudocs',
+      name: 'EtuDocs',
+      services: ['Application web', 'Full stack'],
+      description:
+        'Réalisé au hackathon HACKBYIFRI 2026 : les étudiants demandent leurs documents administratifs en ligne, suivent chaque étape de validation en temps réel et téléchargent des documents authentifiés par QR code.',
+      year: '2026',
+      link: { label: 'Voir le code sur GitHub', href: ETUDOCS_URL },
+      cover: { src: etudocsMobile, alt: 'Accueil d’EtuDocs sur un téléphone' },
+      shots: [
+        { src: etudocsHero, alt: 'Accueil d’EtuDocs avec un aperçu du tableau de bord étudiant' },
+        { src: etudocsFeatures, alt: 'Fonctionnalités : documents disponibles, suivi en temps réel, documents authentiques' },
+        { src: etudocsFaq, alt: 'Questions fréquentes à côté du tableau de bord' },
+        { src: etudocsLogin, alt: 'Page de connexion d’EtuDocs' },
+      ],
+    },
+  ],
+}
+
 type ProjectPageText = {
   sectionTitle: string
   certificationsLink: string
@@ -175,6 +273,7 @@ type ProjectPageText = {
   description: string
   services: string
   year: string
+  link: string
 }
 
 // Version mobile de la home (liste de projets en défilement horizontal) et page d'un projet (réf. haufsess.com).
@@ -186,6 +285,7 @@ export const PROJECT_PAGE: Localized<ProjectPageText> = {
     description: 'Description',
     services: 'Services',
     year: 'Year',
+    link: 'Link',
   },
   fr: {
     sectionTitle: 'Projets choisis',
@@ -194,5 +294,6 @@ export const PROJECT_PAGE: Localized<ProjectPageText> = {
     description: 'Description',
     services: 'Services',
     year: 'Année',
+    link: 'Lien',
   },
 }
