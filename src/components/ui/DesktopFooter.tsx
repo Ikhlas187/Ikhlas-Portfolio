@@ -13,8 +13,7 @@ const SHOULDER_RADIUS = 16
 
 type Size = { width: number; height: number }
 
-/* Footer bureau (réf. cosmoq.framer.website) : carte noire bordée, avec en haut une encoche en U qui épouse exactement
-   l'appel entrant (ou la carte de réservation une fois ouverte), puis liens et copyright. */
+// Footer bureau (réf. cosmoq.framer.website) : carte noire dont l'encoche en U épouse l'appel entrant ou sa réservation.
 export default function DesktopFooter() {
   const { locale } = useLocale()
   const copy = FOOTER[locale]

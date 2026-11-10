@@ -14,6 +14,8 @@ type NotesSection = {
   pinLabel: string
   pinnedStatus: string
   emptyStatus: string
+  // Refus du contrôle des notes ou du serveur.
+  rejectedStatus: { tooLong: string; blockedWord: string; link: string; tooMany: string; unavailable: string }
   seeMoreLabel: string
   anonymous: string
   boardLabel: string
@@ -33,6 +35,13 @@ export const NOTES_SECTION: Localized<NotesSection> = {
     pinLabel: 'Pin note',
     pinnedStatus: 'Your note is on the board. Thank you!',
     emptyStatus: 'Write a few words first.',
+    rejectedStatus: {
+      tooLong: 'Keep it to 100 characters.',
+      blockedWord: 'Some words aren’t allowed here. Please rephrase.',
+      link: 'Links aren’t allowed on the board.',
+      tooMany: 'You’ve pinned a lot in a short time. Try again in a minute.',
+      unavailable: 'The board can’t be reached right now. Try again in a moment.',
+    },
     seeMoreLabel: 'See more notes',
     anonymous: 'Anonymous',
     boardLabel: 'Pinned notes',
@@ -50,6 +59,13 @@ export const NOTES_SECTION: Localized<NotesSection> = {
     pinLabel: 'Épingler',
     pinnedStatus: 'Votre note est au tableau. Merci !',
     emptyStatus: 'Écrivez quelques mots d’abord.',
+    rejectedStatus: {
+      tooLong: '100 caractères au maximum.',
+      blockedWord: 'Certains mots ne sont pas acceptés ici. Reformulez, s’il vous plaît.',
+      link: 'Les liens ne sont pas acceptés sur le tableau.',
+      tooMany: 'Vous avez épinglé beaucoup de notes d’affilée. Réessayez dans une minute.',
+      unavailable: 'Le tableau est injoignable pour le moment. Réessayez dans un instant.',
+    },
     seeMoreLabel: 'Voir plus de notes',
     anonymous: 'Anonyme',
     boardLabel: 'Notes épinglées',

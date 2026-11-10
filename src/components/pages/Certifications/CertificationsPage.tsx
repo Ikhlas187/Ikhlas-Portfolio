@@ -19,9 +19,14 @@ export default function CertificationsPage() {
   const certifications = CV[locale].certifications
 
   useEffect(() => {
-    // Retour de la page de réservation : /…#contact ramène au footer, sinon haut de page.
+    // Retour de la réservation (/…#contact) : saut au footer une image plus tard, quand la page a sa hauteur.
     const target = hash ? document.querySelector<HTMLElement>(hash) : null
-    lenis?.scrollTo(target ?? 0, { immediate: true })
+    if (!target) {
+      lenis?.scrollTo(0, { immediate: true })
+      return
+    }
+    const frame = requestAnimationFrame(() => target.scrollIntoView())
+    return () => cancelAnimationFrame(frame)
   }, [lenis, hash])
 
   return (

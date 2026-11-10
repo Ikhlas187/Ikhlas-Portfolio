@@ -1,8 +1,7 @@
 import type { Localized } from '@/data/locale'
 import type { RepoSummary } from '@/types/repo'
 
-// Projets du dossier Projets du faux macOS, dans l'ordre qui intéresse un recruteur (produit complet, stack actuelle,
-// projets en ligne d'abord). Les repos absents de cette liste passent après, du plus récent au plus ancien.
+// Ordre du dossier Projects pour un recruteur ; les repos absents passent après, du plus récent au plus ancien.
 export const SHOWCASE_ORDER = [
   'Efreeshop',
   'ETUDOCS',
@@ -41,8 +40,7 @@ export const CODELESS_PROJECTS: RepoSummary[] = [
 // Exercices et tutoriels : sans intérêt pour un recruteur, retirés du dossier.
 export const SHOWCASE_HIDDEN = ['JavaScript', 'React-tutoriel-', 'Podia-Project', 'Landing-Page-']
 
-// « Exécuter » : une app web s'ouvre dans le Safari du Mac ; un programme compilé en WebAssembly tourne pour de vrai
-// dans l'app Exécution, en terminal (wasm) ou avec ses fenêtres Qt (qt). Chargé seulement au clic, voir tools/runs/.
+// « Exécuter » : app web dans le Safari du Mac, ou programme WebAssembly (tools/runs/) dans l'app Exécution.
 export type RepoRun =
   | { kind: 'web'; url: string }
   | { kind: 'wasm'; module: string; hint: Localized<string> }

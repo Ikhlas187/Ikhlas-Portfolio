@@ -1,4 +1,4 @@
-// Forme d'une note épinglée : contrat à reprendre tel quel le jour où portfolio-backend stocke les notes.
+// Forme d'une note épinglée : contrat entre le site et api/notes.ts (fonction Vercel, base Neon).
 export const NOTE_COLORS = ['pink', 'yellow', 'orange', 'green', 'blue'] as const
 
 export type NoteColor = (typeof NOTE_COLORS)[number]
@@ -10,3 +10,7 @@ export type PinnedNote = {
   color: NoteColor
   createdAt: string
 }
+
+// Refus renvoyé par api/notes.ts (champ error) : ceux de la modération, trop de notes d'affilée, serveur injoignable.
+export type NoteRejection = 'empty' | 'tooLong' | 'blockedWord' | 'link'
+export type NotesError = NoteRejection | 'tooMany' | 'unavailable'

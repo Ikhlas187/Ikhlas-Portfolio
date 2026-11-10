@@ -5,17 +5,17 @@ import ProjectSlide from '@/components/pages/Home/ProjectSlide'
 import SectionHeading from '@/components/pages/Home/SectionHeading'
 import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
 import { useLocale } from '@/lib/LocaleProvider'
+import { showcaseOffsetVw } from '@/logic/showcaseTrack/showcaseTrack'
 
-/* Projets de la home sur téléphone (à la place du Mac) : un projet par écran, section collée,
-   le scroll vers le bas fait défiler les projets vers la gauche ; puis lien vers les certifications. */
+// Projets du téléphone, à la place du Mac : section collée où le scroll vertical fait défiler les projets vers la gauche.
 export default function ProjectsShowcase() {
   const { locale } = useLocale()
   const projects = SHOWCASE_PROJECTS[locale]
   const text = PROJECT_PAGE[locale]
   const trackRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] })
-  // Fonction plutôt que plage : framer-motion confierait l'animation au navigateur (ScrollTimeline), qui calcule mal la plage.
-  const x = useTransform(scrollYProgress, (progress) => `${-Math.min(1, Math.max(0, progress)) * (projects.length - 1) * 100}vw`)
+  // Fonction plutôt que plage : framer-motion passerait sinon par ScrollTimeline, qui calcule mal la plage.
+  const x = useTransform(scrollYProgress, (progress) => `${showcaseOffsetVw(progress, projects.length)}vw`)
 
   return (
     <section id="projects" className="bg-white pt-(--section-gap) pb-4 text-black">

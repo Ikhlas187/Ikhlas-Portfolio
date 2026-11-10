@@ -40,10 +40,19 @@ describe('shouldHideHeader', () => {
 })
 
 describe('nextUpwardTravel', () => {
-  it('cumule la remontée et repart de 0 quand on redescend', () => {
-    const travelAfterScrollUp = nextUpwardTravel(100, 900, 860)
-    const travelAfterScrollDown = nextUpwardTravel(140, 860, 880)
+  it('cumule la remontée', () => {
+    const previousTravel = 100
 
-    expect([travelAfterScrollUp, travelAfterScrollDown]).toEqual([140, 0])
+    const travelAfterScrollUp = nextUpwardTravel(previousTravel, 900, 860)
+
+    expect(travelAfterScrollUp).toBe(140)
+  })
+
+  it('repart de 0 quand on redescend', () => {
+    const previousTravel = 140
+
+    const travelAfterScrollDown = nextUpwardTravel(previousTravel, 860, 880)
+
+    expect(travelAfterScrollDown).toBe(0)
   })
 })

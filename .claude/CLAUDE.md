@@ -199,7 +199,7 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 ## État du chantier
 
 ```
-Fait           Hero + HomeHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CoinLoader · Footer
+Fait           Hero + SiteHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CoinLoader · Footer
                ContextCursor · PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
 Écrit, pas monté   Process

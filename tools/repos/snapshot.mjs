@@ -1,7 +1,4 @@
-// Instantané des repos GitHub d'Ikhlas pour le dossier Projects du faux macOS.
-// Lancé à la main : `pnpm repos:snapshot`. Écrit public/repos/<repo>.json et public/repos/index.json.
-// `pnpm repos:snapshot --only ETUDOCS` ne refait que ces repos et met à jour leur ligne de index.json.
-// Voir tools/README.md, section « Instantané des repos ».
+// Instantané des repos GitHub pour le dossier Projects du Mac : usage dans tools/README.md, section 4.
 
 import { execFile } from 'node:child_process'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'

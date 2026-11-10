@@ -4,23 +4,23 @@ import { FaLinkedinIn } from 'react-icons/fa6'
 import { SiGithub } from 'react-icons/si'
 import CallWidget from '@/components/ui/CallWidget'
 import { FOOTER } from '@/data/footer'
+import { HERO } from '@/data/hero'
 import { ROUTES } from '@/data/routes'
 import { SITE } from '@/data/site'
 import { useLocale } from '@/lib/LocaleProvider'
 import { sectionHref } from '@/logic/sectionHref/sectionHref'
 
 // Logos de marque des réseaux (react-icons, comme le Dock du Mac) et icône lucide pour l'e-mail.
-const SOCIAL_LINKS = [
-  { href: SITE.socials.github, label: 'GitHub', Logo: SiGithub },
-  { href: SITE.socials.linkedin, label: 'LinkedIn', Logo: FaLinkedinIn },
-  { href: `mailto:${SITE.email}`, label: SITE.email, Logo: Mail },
+const SOCIAL_LOGOS = [
+  { href: SITE.socials.github, Logo: SiGithub },
+  { href: SITE.socials.linkedin, Logo: FaLinkedinIn },
+  { href: `mailto:${SITE.email}`, Logo: Mail },
 ]
 
 const LINK_CLASS =
   'cursor-pointer font-sans text-[14px] leading-[1.5] font-light [overflow-wrap:anywhere] text-white/65 transition-colors hover:text-white'
 
-/* Footer mobile (réf. cashless.africa) : prise de rendez-vous, puis bloc noir pleine largeur avec nom, réseaux en icônes,
-   rubriques à titre en petites capitales et copyright. */
+// Footer mobile (réf. cashless.africa) : rendez-vous, puis bloc noir avec nom, réseaux, rubriques et copyright.
 export default function MobileFooter() {
   const { locale } = useLocale()
   const copy = FOOTER[locale]
@@ -28,6 +28,11 @@ export default function MobileFooter() {
   const isHome = pathname === '/'
   const navigate = useNavigate()
   const columns = copy.columns.filter((column) => !column.links.some((link) => link.isExternal))
+  const socialLabels = copy.columns.flatMap((column) => column.links).filter((link) => link.isExternal)
+  const socialLinks = SOCIAL_LOGOS.map((social) => ({
+    ...social,
+    label: socialLabels.find((link) => link.href === social.href)?.label ?? SITE.email,
+  }))
 
   return (
     <footer id="contact">
@@ -36,9 +41,9 @@ export default function MobileFooter() {
         <CallWidget onAccept={() => navigate(ROUTES.BOOKING, { state: { from: pathname } })} />
       </div>
       <div className="bg-black px-6 pt-16 pb-24 text-white">
-        <p className="font-heading text-[32px] leading-none tracking-[-0.04em]">Ikhlas A.</p>
+        <p className="font-heading text-[32px] leading-none tracking-[-0.04em]">{HERO[locale].name}</p>
         <ul className="mt-6 flex items-center gap-5">
-          {SOCIAL_LINKS.map(({ href, label, Logo }) => (
+          {socialLinks.map(({ href, label, Logo }) => (
             <li key={href}>
               <a
                 href={href}

@@ -7,11 +7,12 @@ import RollingLabel from '@/components/pages/Home/RollingLabel'
 import StickyNote from '@/components/pages/Home/StickyNote'
 import { NOTES_SECTION, WELCOME_NOTES } from '@/data/notes'
 import { useLocale } from '@/lib/LocaleProvider'
-import { localNotesStore } from '@/lib/notesStore'
+import { NotesRequestError } from '@/lib/api/notes'
+import { notesStore } from '@/lib/notesStore'
 import { cn } from '@/lib/utils'
 import { createPinnedNote, type NoteDraft } from '@/logic/notes/draft/draft'
 import { hasMoreNotes, visibleNotes, type NotesLayout } from '@/logic/notes/page/page'
-import type { PinnedNote } from '@/types/note'
+import type { NotesError, PinnedNote } from '@/types/note'
 
 // 7 emplacements du tableau de la réf. (left/top en % du tableau), rotation en grille puis sur le tableau.
 const BOARD_SLOTS = [
@@ -57,9 +58,11 @@ export default function PinNote() {
 
   useEffect(() => {
     let isMounted = true
-    localNotesStore.listNotes().then((notes) => {
-      if (isMounted) setVisitorNotes(notes)
-    })
+    // Tableau injoignable : seuls les mots d'accueil restent affichés.
+    notesStore
+      .listNotes()
+      .then((notes) => isMounted && setVisitorNotes(notes))
+      .catch(() => undefined)
     return () => {
       isMounted = false
     }
@@ -68,14 +71,20 @@ export default function PinNote() {
   const allNotes = [...visitorNotes, ...WELCOME_NOTES[locale]]
   const shownNotes = visibleNotes(allNotes, step, layout)
 
-  async function handlePin(draft: NoteDraft) {
+  async function handlePin(draft: NoteDraft): Promise<NotesError | null> {
     const note = createPinnedNote(draft, crypto.randomUUID(), new Date().toISOString())
-    if (!note) return
-    const savedNote = await localNotesStore.pinNote(note)
+    if (!note) return 'empty'
+    let savedNote: PinnedNote
+    try {
+      savedNote = await notesStore.pinNote(note)
+    } catch (error) {
+      return error instanceof NotesRequestError ? error.reason : 'unavailable'
+    }
     setVisitorNotes((notes) => [savedNote, ...notes])
     setPaging({ layout, step: 0 })
     setJustPinnedId(savedNote.id)
     if (!isReducedMotion) animateBoard(boardRef.current, { x: BOARD_SHAKE_X }, BOARD_SHAKE_TRANSITION)
+    return null
   }
 
   return (

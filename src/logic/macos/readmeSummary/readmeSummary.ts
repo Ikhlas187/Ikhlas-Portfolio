@@ -1,3 +1,5 @@
+import type { RepoEntry } from '@/types/repo'
+
 // 1er paragraphe de texte d'un README Markdown, sans titres, badges, images, HTML ni mise en forme ; null s'il n'y en a pas.
 const MAX_LENGTH = 420
 
@@ -23,4 +25,10 @@ export function readmeSummary(markdown: string) {
     if (text.length >= 40) return text.length > MAX_LENGTH ? `${text.slice(0, MAX_LENGTH).replace(/\s+\S*$/, '')}…` : text
   }
   return null
+}
+
+// Résumé du README.md à la racine d'un repo, d'après les entrées de son instantané.
+export function repoReadmeSummary(entries: RepoEntry[]) {
+  const readme = entries.find((entry) => entry.type === 'file' && /^readme\.md$/i.test(entry.path))
+  return readme?.type === 'file' && readme.content ? readmeSummary(readme.content) : null
 }

@@ -181,8 +181,7 @@ export const PROJECTS_SECTION: Localized<ProjectsSection> = {
 
 export type ShowcaseShot = { src: string; alt: string }
 
-// Projets de la home et de leur page : captures 4K des vrais sites (src/assets/projects/) ;
-// cover = photo de présentation, en portrait sur téléphone et en paysage sur ordinateur.
+// Projets du téléphone et du Mac : captures 4K des vrais sites, cover en portrait (téléphone) et paysage (ordinateur).
 export type ShowcaseProject = {
   slug: string
   // Nom du dossier du projet dans le dossier Projects du Mac.
@@ -227,7 +226,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         'Built at the HACKBYIFRI 2026 hackathon: students request their administrative documents online, follow each validation step in real time, and download authentic documents checked by QR code.',
       year: '2026',
       link: { label: 'See the code on GitHub', href: ETUDOCS_URL },
-      cover: { portrait: etudocsCover, landscape: etudocsCover, alt: 'Two graduating students in cap and gown' },
+      cover: { portrait: etudocsCover, landscape: etudocsCover, alt: '2 graduating students in cap and gown' },
       shots: [
         { src: etudocsHero, alt: 'EtuDocs home page with a preview of the student dashboard' },
         { src: etudocsFeatures, alt: 'Features: available documents, real-time tracking, authentic documents' },
@@ -263,7 +262,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         'Réalisé au hackathon HACKBYIFRI 2026 : les étudiants demandent leurs documents administratifs en ligne, suivent chaque étape de validation en temps réel et téléchargent des documents authentifiés par QR code.',
       year: '2026',
       link: { label: 'Voir le code sur GitHub', href: ETUDOCS_URL },
-      cover: { portrait: etudocsCover, landscape: etudocsCover, alt: 'Deux étudiants diplômés en toge et toque' },
+      cover: { portrait: etudocsCover, landscape: etudocsCover, alt: '2 étudiants diplômés en toge et toque' },
       shots: [
         { src: etudocsHero, alt: 'Accueil d’EtuDocs avec un aperçu du tableau de bord étudiant' },
         { src: etudocsFeatures, alt: 'Fonctionnalités : documents disponibles, suivi en temps réel, documents authentiques' },

@@ -27,13 +27,13 @@ export const SITE_META: Localized<{ title: string; description: string }> = {
 
 export const NAV_LINKS: Localized<NavLink[]> = {
   en: [
-    { label: 'Projects', href: '/projects' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'About', href: '#about' },
+    { label: 'Contact', href: '#contact' },
   ],
   fr: [
-    { label: 'Projets', href: '/projects' },
-    { label: 'À propos', href: '/about' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Projets', href: '#projects' },
+    { label: 'À propos', href: '#about' },
+    { label: 'Contact', href: '#contact' },
   ],
 }

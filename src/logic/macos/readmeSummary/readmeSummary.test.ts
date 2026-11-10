@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { readmeSummary } from '@/logic/macos/readmeSummary/readmeSummary'
+import { readmeSummary, repoReadmeSummary } from '@/logic/macos/readmeSummary/readmeSummary'
+import type { RepoEntry } from '@/types/repo'
 
 describe('readmeSummary', () => {
   it('saute titres, badges et listes pour garder le 1er vrai paragraphe, sans mise en forme', () => {
@@ -32,6 +33,27 @@ describe('readmeSummary', () => {
     const markdown = '# Titre\n\n- un\n- deux'
 
     const summary = readmeSummary(markdown)
+
+    expect(summary).toBeNull()
+  })
+})
+
+describe('repoReadmeSummary', () => {
+  it('lit le README.md de la racine, pas celui d’un sous-dossier', () => {
+    const entries: RepoEntry[] = [
+      { path: 'frontend/README.md', type: 'file', size: 10, content: 'Un README de sous-dossier qui ne doit pas servir.' },
+      { path: 'README.md', type: 'file', size: 10, content: 'Gestionnaire de tâches en C++ avec Qt et SQLite.' },
+    ]
+
+    const summary = repoReadmeSummary(entries)
+
+    expect(summary).toBe('Gestionnaire de tâches en C++ avec Qt et SQLite.')
+  })
+
+  it('rend null sans README', () => {
+    const entries: RepoEntry[] = [{ path: 'src', type: 'dir' }]
+
+    const summary = repoReadmeSummary(entries)
 
     expect(summary).toBeNull()
   })

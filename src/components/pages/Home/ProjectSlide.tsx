@@ -4,8 +4,7 @@ import type { ShowcaseProject } from '@/data/projects'
 
 type ProjectSlideProps = { project: ShowcaseProject }
 
-/* Un projet en plein écran : photo de présentation (portrait sur téléphone, paysage sur ordinateur),
-   et en bas « Nom ◆ Service » (réf. haufsess.com) sur un dégradé qui garde le texte lisible. */
+// Un projet en plein écran, « Nom ◆ Service » en bas (réf. haufsess.com) sur un dégradé qui le garde lisible.
 export default function ProjectSlide({ project }: ProjectSlideProps) {
   const [service] = project.services
 

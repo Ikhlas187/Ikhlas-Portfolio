@@ -9,7 +9,7 @@ import { NAV_LINKS } from '@/data/site'
 import { useLocale } from '@/lib/LocaleProvider'
 import { nextUpwardTravel, shouldHideHeader } from '@/logic/headerVisibility/headerVisibility'
 
-// Sur le Mac plein écran ([data-header-guard]) : le header ne revient qu'après une vraie remontée, pour ne pas cacher sa barre de menus.
+// Sur le Mac plein écran ([data-header-guard]), il faut remonter plus pour ne pas cacher sa barre de menus.
 const GUARD_REVEAL_DISTANCE_PX = 320
 // Le header revenu en remontant repart seul quand le scroll s'arrête, sauf tout en haut, au survol ou menu ouvert.
 const IDLE_HIDE_DELAY_MS = 1500

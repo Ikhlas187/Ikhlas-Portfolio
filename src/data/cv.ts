@@ -1,7 +1,7 @@
 import type { Localized } from '@/data/locale'
 import { SITE } from '@/data/site'
 
-// CV d'Ikhlas : affiché dans l'Aperçu du faux macOS (CV.pdf) et source des dossiers Skills et Certifications.
+// CV d'Ikhlas : CV.pdf de l'Aperçu du Mac, source du dossier Certifications et de la page Certifications.
 
 export type CvSkillGroup = { id: string; name: string; skills: string[] }
 // Photo du certificat : src/assets/certifications/<id>.webp (export des PDF reçus).

@@ -6,7 +6,7 @@ import Window, { type WindowFrameProps } from '@/components/pages/Home/MacOS/Win
 import { MACOS } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
 import { readNotesChanges, saveNotesChanges } from '@/lib/notesBookStorage'
-import { localNotesStore } from '@/lib/notesStore'
+import { notesStore } from '@/lib/notesStore'
 import {
   ALL_NOTES,
   DEFAULT_FOLDER,
@@ -38,7 +38,10 @@ export default function Notes({ frame }: NotesProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   useEffect(() => {
-    localNotesStore.listNotes().then(setPinnedNotes)
+    notesStore
+      .listNotes()
+      .then(setPinnedNotes)
+      .catch(() => undefined)
   }, [])
 
   useEffect(() => saveNotesChanges(changes), [changes])

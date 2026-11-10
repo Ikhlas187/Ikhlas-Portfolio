@@ -28,3 +28,13 @@ export function revealAspect(progress: number, viewportAspect: number, restAspec
 export function revealBackdropOpacity(progress: number) {
   return 1 - clampProgress(progress * 2)
 }
+
+// Bouton des certifications sous l'appareil : invisible, puis en fondu sur les 20 derniers % de la course.
+export function revealButtonOpacity(progress: number) {
+  return clampProgress((progress - 0.8) / 0.2)
+}
+
+// Coins de l'écran : droits en plein écran (0), arrondis à leur valeur normale dans l'appareil (1).
+export function revealCornerFactor(progress: number) {
+  return clampProgress(progress)
+}

@@ -9,6 +9,7 @@ import { NOTE_COLOR_CLASSES } from '@/components/pages/Home/noteColorClasses'
 import { NOTES_SECTION } from '@/data/notes'
 import { useLocale } from '@/lib/LocaleProvider'
 import { cn } from '@/lib/utils'
+import { noteRejection } from '@/logic/notes/moderation/moderation'
 import {
   NOTE_AUTHOR_MAX_LENGTH,
   NOTE_TEXT_MAX_LENGTH,
@@ -17,13 +18,14 @@ import {
   limitNoteText,
   type NoteDraft,
 } from '@/logic/notes/draft/draft'
-import type { NoteColor } from '@/types/note'
+import type { NoteColor, NotesError } from '@/types/note'
 
 type NoteFormProps = {
-  onPin: (draft: NoteDraft) => Promise<void>
+  // Rend la raison du refus, null quand la note est épinglée.
+  onPin: (draft: NoteDraft) => Promise<NotesError | null>
 }
 
-type Status = 'idle' | 'pinned' | 'empty'
+type Status = 'idle' | 'pinned' | NotesError
 
 export default function NoteForm({ onPin }: NoteFormProps) {
   const { locale } = useLocale()
@@ -42,9 +44,18 @@ export default function NoteForm({ onPin }: NoteFormProps) {
       setStatus('empty')
       return
     }
+    const rejection = noteRejection(text, author)
+    if (rejection) {
+      setStatus(rejection)
+      return
+    }
     setIsPinning(true)
-    await onPin(draft)
+    const error = await onPin(draft)
     setIsPinning(false)
+    if (error) {
+      setStatus(error)
+      return
+    }
     setText('')
     setStatus('pinned')
   }
@@ -96,6 +107,7 @@ export default function NoteForm({ onPin }: NoteFormProps) {
       <p aria-live="polite" className="-mt-1 text-[13px] leading-[1.3] text-gray-400 empty:hidden">
         {status === 'pinned' && copy.pinnedStatus}
         {status === 'empty' && copy.emptyStatus}
+        {status !== 'idle' && status !== 'pinned' && status !== 'empty' && copy.rejectedStatus[status]}
       </p>
     </form>
   )

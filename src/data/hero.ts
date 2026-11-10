@@ -34,14 +34,14 @@ export const HERO: Localized<HeroContent> = {
 export const HEADER: Localized<HeaderContent> = {
   en: {
     avatarLabel: 'Ikhlas Agbeti',
-    homeLink: { label: 'Welcome', href: '/' },
+    homeLink: { label: 'Welcome', href: '#top' },
     navLabel: 'Main',
     openMenuLabel: 'Open menu',
     closeMenuLabel: 'Close menu',
   },
   fr: {
     avatarLabel: 'Ikhlas Agbeti',
-    homeLink: { label: 'Accueil', href: '/' },
+    homeLink: { label: 'Accueil', href: '#top' },
     navLabel: 'Principale',
     openMenuLabel: 'Ouvrir le menu',
     closeMenuLabel: 'Fermer le menu',

@@ -19,9 +19,14 @@ export default function ProjectPage() {
   const index = projects.findIndex((project) => project.slug === slug)
 
   useEffect(() => {
-    // Retour de la page de réservation : /…#contact ramène au footer, sinon haut de page.
+    // Retour de la réservation (/…#contact) : saut au footer une image plus tard, quand la page a sa hauteur.
     const target = hash ? document.querySelector<HTMLElement>(hash) : null
-    lenis?.scrollTo(target ?? 0, { immediate: true })
+    if (!target) {
+      lenis?.scrollTo(0, { immediate: true })
+      return
+    }
+    const frame = requestAnimationFrame(() => target.scrollIntoView())
+    return () => cancelAnimationFrame(frame)
   }, [lenis, slug, hash])
 
   if (index < 0) return <Navigate to="/" replace />
@@ -70,7 +75,7 @@ export default function ProjectPage() {
               src={shot.src}
               alt={shot.alt}
               loading="lazy"
-              className="w-full rounded-[8px] bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] object-cover"
+              className="aspect-[1440/900] w-full rounded-[8px] bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] object-cover"
             />
           ))}
         </div>

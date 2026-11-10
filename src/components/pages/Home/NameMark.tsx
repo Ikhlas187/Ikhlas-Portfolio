@@ -5,10 +5,7 @@ type NameMarkProps = {
   className?: string
 }
 
-// viewBox 1136 x 269 de la réf. ; le nom est un <text> SVG et non du HTML dans un foreignObject :
-// Safari sur iPhone ne met pas à l'échelle le contenu d'un foreignObject, le nom débordait du cadre.
-// Ligne de base à 261 comme la réf. ; x décalé de 8,5 : l'interlettrage négatif laisse sinon le nom décalé vers la droite.
-// Partagé par le hero et le footer, comme sur la réf.
+// <text> SVG et non foreignObject : Safari iPhone ne met pas à l'échelle le HTML d'un foreignObject.
 export default function NameMark({ name, className }: NameMarkProps) {
   return (
     <svg viewBox="0 0 1136 269" className={cn('block h-auto w-full overflow-hidden', className)} role="img" aria-label={name}>

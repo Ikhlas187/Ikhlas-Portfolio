@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { revealAspect, revealBackdropOpacity, revealCoverScale, revealScale } from '@/logic/screenReveal/screenReveal'
+import {
+  revealAspect,
+  revealBackdropOpacity,
+  revealButtonOpacity,
+  revealCornerFactor,
+  revealCoverScale,
+  revealScale,
+} from '@/logic/screenReveal/screenReveal'
 
 describe('revealCoverScale', () => {
   it("agrandit l'écran jusqu'à la largeur de la fenêtre", () => {
@@ -49,5 +56,25 @@ describe('revealBackdropOpacity', () => {
     const opacities = progresses.map(revealBackdropOpacity)
 
     expect(opacities).toEqual([1, 0.5, 0, 0])
+  })
+})
+
+describe('revealButtonOpacity', () => {
+  it('reste invisible puis apparaît sur la fin de la course', () => {
+    const progresses = [0, 0.8, 0.9, 1]
+
+    const opacities = progresses.map(revealButtonOpacity)
+
+    expect(opacities.map((opacity) => Number(opacity.toFixed(2)))).toEqual([0, 0, 0.5, 1])
+  })
+})
+
+describe('revealCornerFactor', () => {
+  it('suit la course, borné entre 0 et 1', () => {
+    const progresses = [-1, 0.4, 2]
+
+    const factors = progresses.map(revealCornerFactor)
+
+    expect(factors).toEqual([0, 0.4, 1])
   })
 })

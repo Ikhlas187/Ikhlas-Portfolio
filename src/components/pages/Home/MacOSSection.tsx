@@ -10,7 +10,15 @@ import { PROJECT_PAGE } from '@/data/projects'
 import { useLenis } from '@/lib/LenisProvider'
 import { useLocale } from '@/lib/LocaleProvider'
 import { canScrollBy } from '@/logic/scrollCapture/scrollCapture'
-import { revealAspect, revealBackdropOpacity, revealCoverScale, revealScale } from '@/logic/screenReveal/screenReveal'
+import { easeInOutCubic } from '@/logic/easing/easing'
+import {
+  revealAspect,
+  revealBackdropOpacity,
+  revealButtonOpacity,
+  revealCornerFactor,
+  revealCoverScale,
+  revealScale,
+} from '@/logic/screenReveal/screenReveal'
 
 // Taille logique du bureau macOS, réduite à la largeur de la section.
 const SCREEN_WIDTH_PX = 1512
@@ -34,9 +42,6 @@ function canAncestorScroll(target: EventTarget | null, boundary: HTMLElement, ev
 // Retour de l'écran à sa place quand on éteint le Mac en plein écran.
 const REVEAL_SCROLL_SECONDS = 1.6
 
-function easeInOutCubic(t: number) {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
-}
 
 /* Section macOS : le Mac arrive plein écran et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl). */
 export default function MacOSSection() {
@@ -58,7 +63,7 @@ export default function MacOSSection() {
   const deviceScale = useTransform([revealProgress, coverScale], ([progress, cover]: number[]) => revealScale(progress, cover))
   const backdropOpacity = useTransform(revealProgress, revealBackdropOpacity)
   // Bouton des certifications sous l'appareil : n'apparaît qu'à la fin du rétrécissement.
-  const buttonOpacity = useTransform(revealProgress, (progress) => Math.min(1, Math.max(0, (progress - 0.8) / 0.2)))
+  const buttonOpacity = useTransform(revealProgress, revealButtonOpacity)
   const buttonEvents = useTransform(buttonOpacity, (opacity) => (opacity > 0.5 ? 'auto' : 'none'))
   const screenAspect = useTransform([revealProgress, viewportAspect], ([progress, aspect]: number[]) =>
     revealAspect(progress, aspect, SCREEN_ASPECT),
@@ -66,7 +71,7 @@ export default function MacOSSection() {
   // Bureau macOS : 1512 px de large, sa hauteur suit la proportion de l'écran.
   const desktopHeight = useTransform(screenAspect, (aspect) => SCREEN_WIDTH_PX / aspect)
   // Coins de l'écran droits en plein écran, arrondis dans l'appareil.
-  const screenRadius = useTransform(revealProgress, (progress) => `calc(100cqw * ${(18 / 835) * Math.min(1, Math.max(0, progress))})`)
+  const screenRadius = useTransform(revealProgress, (progress) => `calc(100cqw * ${(18 / 835) * revealCornerFactor(progress)})`)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -109,6 +114,7 @@ export default function MacOSSection() {
   return (
     <section
       ref={sectionRef}
+      id="projects"
       aria-label={text.sectionLabel}
       className="relative bg-white px-[20px] pt-(--section-gap)"
     >

@@ -5,7 +5,7 @@ import { REPO_RUNS } from '@/data/projectShowcase'
 import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
 import { fetchRepoSnapshot } from '@/lib/api/repos'
 import { useLocale } from '@/lib/LocaleProvider'
-import { readmeSummary } from '@/logic/macos/readmeSummary/readmeSummary'
+import { repoReadmeSummary } from '@/logic/macos/readmeSummary/readmeSummary'
 import type { RepoSummary } from '@/types/repo'
 
 type RepoReadmeProps = { repo: RepoSummary; onRun: () => void }
@@ -13,8 +13,7 @@ type RepoReadmeProps = { repo: RepoSummary; onRun: () => void }
 const LINK =
   'inline-flex cursor-pointer items-center gap-[5px] text-(--macos-finder-text) underline underline-offset-[3px] hover:opacity-70'
 
-/* README d'un projet sous ses fichiers, comme sur GitHub : résumé, services, année, liens et captures
-   (mêmes infos que la page projet du téléphone quand le projet y figure). */
+// README d'un projet sous ses fichiers, comme sur GitHub, avec les infos de sa page projet quand il en a une.
 export default function RepoReadme({ repo, onRun }: RepoReadmeProps) {
   const { locale } = useLocale()
   const texts = MACOS[locale].repos
@@ -23,16 +22,11 @@ export default function RepoReadme({ repo, onRun }: RepoReadmeProps) {
   const [readme, setReadme] = useState<string | null>(null)
   const hasCode = repo.githubUrl !== ''
 
-  // Sans fiche projet : le résumé vient du README.md du repo, lu dans son instantané.
   useEffect(() => {
     if (showcase || !hasCode) return
     let isCurrent = true
     fetchRepoSnapshot(repo.name)
-      .then((snapshot) => {
-        const file = snapshot.entries.find((entry) => entry.type === 'file' && /^readme\.md$/i.test(entry.path))
-        const summary = file?.type === 'file' && file.content ? readmeSummary(file.content) : null
-        if (isCurrent) setReadme(summary)
-      })
+      .then((snapshot) => isCurrent && setReadme(repoReadmeSummary(snapshot.entries)))
       .catch(() => isCurrent && setReadme(null))
     return () => {
       isCurrent = false

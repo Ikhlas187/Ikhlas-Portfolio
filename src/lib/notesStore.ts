@@ -1,6 +1,7 @@
+import { apiNotesStore } from '@/lib/api/notes'
 import { NOTE_COLORS, type PinnedNote } from '@/types/note'
 
-// Contrat de stockage des notes : une implémentation lib/api/notes.ts (portfolio-backend) pourra remplacer localNotesStore.
+// Contrat de stockage des notes : localNotesStore (ce navigateur) ou apiNotesStore (lib/api/notes.ts, partagé).
 export type NotesStore = {
   listNotes: () => Promise<PinnedNote[]>
   pinNote: (note: PinnedNote) => Promise<PinnedNote>
@@ -41,3 +42,6 @@ export const localNotesStore: NotesStore = {
     return note
   },
 }
+
+// Notes partagées (api/notes.ts) une fois VITE_SHARED_NOTES=true et DATABASE_URL posés dans Vercel ; sinon ce navigateur.
+export const notesStore: NotesStore = import.meta.env.VITE_SHARED_NOTES === 'true' ? apiNotesStore : localNotesStore
