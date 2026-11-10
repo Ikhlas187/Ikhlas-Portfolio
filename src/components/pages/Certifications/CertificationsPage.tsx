@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Award } from 'lucide-react'
 import BackPill from '@/components/ui/BackPill'
 import Footer from '@/components/ui/Footer'
@@ -23,12 +24,15 @@ function photoOf(id: string) {
 export default function CertificationsPage() {
   const { locale } = useLocale()
   const lenis = useLenis()
+  const { hash } = useLocation()
   const text = CERTIFICATIONS_PAGE[locale]
   const certifications = CV[locale].certifications
 
   useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true })
-  }, [lenis])
+    // Retour de la page de réservation : /…#contact ramène au footer, sinon haut de page.
+    const target = hash ? document.querySelector<HTMLElement>(hash) : null
+    lenis?.scrollTo(target ?? 0, { immediate: true })
+  }, [lenis, hash])
 
   return (
     <div className="bg-white pt-[72px] text-black">

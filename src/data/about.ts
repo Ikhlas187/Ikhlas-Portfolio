@@ -16,6 +16,9 @@ type CallWidgetContent = {
   ariaDecline: string
   ariaAccept: string
   ariaCloseForm: string
+  // Page de réservation ouverte sur mobile par le bouton vert.
+  bookingTitle: string
+  ariaBack: string
 }
 
 const COMPRINT = { link: 'Comprint', href: 'https://comprint.bj' }
@@ -94,6 +97,8 @@ export const CALL_WIDGET: Localized<CallWidgetContent> = {
     ariaDecline: 'Decline the call',
     ariaAccept: 'Answer: book a call',
     ariaCloseForm: 'Close the booking',
+    bookingTitle: 'Book a call with me',
+    ariaBack: 'Back',
   },
   fr: {
     greeting: 'Salut',
@@ -102,5 +107,7 @@ export const CALL_WIDGET: Localized<CallWidgetContent> = {
     ariaDecline: 'Refuser l’appel',
     ariaAccept: 'Répondre : réserver un appel',
     ariaCloseForm: 'Fermer la réservation',
+    bookingTitle: 'Prendre rendez-vous avec moi',
+    ariaBack: 'Retour',
   },
 }

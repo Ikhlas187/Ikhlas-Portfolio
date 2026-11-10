@@ -13,6 +13,7 @@ import HomePage from '@/components/pages/Home/HomePage'
 import ProjectsPage from '@/components/pages/Projects/ProjectsPage'
 import ProjectPage from '@/components/pages/Project/ProjectPage'
 import CertificationsPage from '@/components/pages/Certifications/CertificationsPage'
+import BookingPage from '@/components/pages/Booking/BookingPage'
 import AboutPage from '@/components/pages/About/AboutPage'
 import ContactPage from '@/components/pages/Contact/ContactPage'
 import NotFoundPage from '@/components/pages/NotFound/NotFoundPage'
@@ -52,6 +53,14 @@ function AnimatedRoutes() {
           element={
             <PageTransition>
               <CertificationsPage />
+            </PageTransition>
+          }
+        />
+        <Route
+          path={ROUTES.BOOKING}
+          element={
+            <PageTransition>
+              <BookingPage />
             </PageTransition>
           }
         />

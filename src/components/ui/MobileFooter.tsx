@@ -1,9 +1,10 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Mail } from 'lucide-react'
 import { FaLinkedinIn } from 'react-icons/fa6'
 import { SiGithub } from 'react-icons/si'
 import CallWidget from '@/components/ui/CallWidget'
 import { FOOTER } from '@/data/footer'
+import { ROUTES } from '@/data/routes'
 import { SITE } from '@/data/site'
 import { useLocale } from '@/lib/LocaleProvider'
 import { sectionHref } from '@/logic/sectionHref/sectionHref'
@@ -23,14 +24,16 @@ const LINK_CLASS =
 export default function MobileFooter() {
   const { locale } = useLocale()
   const copy = FOOTER[locale]
-  const isHome = useLocation().pathname === '/'
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
+  const navigate = useNavigate()
   const columns = copy.columns.filter((column) => !column.links.some((link) => link.isExternal))
 
   return (
     <footer id="contact">
       <div className="flex flex-col items-center gap-6 bg-white px-3 pt-12 pb-12 text-black">
         <h2 className="text-center font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em]">{copy.callTitle}</h2>
-        <CallWidget />
+        <CallWidget onAccept={() => navigate(ROUTES.BOOKING, { state: { from: pathname } })} />
       </div>
       <div className="bg-black px-6 pt-16 pb-24 text-white">
         <p className="font-heading text-[32px] leading-none tracking-[-0.04em]">Ikhlas A.</p>

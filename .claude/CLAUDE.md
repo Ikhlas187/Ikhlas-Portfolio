@@ -82,6 +82,7 @@ portfolio-frontend/
 │   │       │       ├── Music/               app Musique : « Batman » de Bedry joué sur le lecteur partagé (progression, durée réelle), autres pistes en aperçu indisponible
 │   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
 │   │       ├── Project/          page d'un projet /projects/:slug (réf. haufsess.com) : Retour, titre, description, services, année, photos empilées, projet suivant
+│   │       ├── Booking/          /book, mobile : ouverte par le bouton vert du CallWidget du footer, flèche de retour en haut (vers /…#contact d'où l'on vient), calendrier Cal.com dessous
 │   │       ├── Certifications/   /certifications : photo du certificat (src/assets/certifications/<id>.webp|jpg|png, sinon emplacement « Photo à venir »), titre et année dessous
 │   │       ├── Projects/ About/ Contact/   coquilles vides
 │   │       └── NotFound/     404

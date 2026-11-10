@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 import BackPill from '@/components/ui/BackPill'
 import Footer from '@/components/ui/Footer'
@@ -16,13 +16,16 @@ export default function ProjectPage() {
   const { slug } = useParams()
   const { locale } = useLocale()
   const lenis = useLenis()
+  const { hash } = useLocation()
   const projects = PROJECTS[locale]
   const text = PROJECT_PAGE[locale]
   const index = projects.findIndex((project) => projectSlug(project.name) === slug)
 
   useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true })
-  }, [lenis, slug])
+    // Retour de la page de réservation : /…#contact ramène au footer, sinon haut de page.
+    const target = hash ? document.querySelector<HTMLElement>(hash) : null
+    lenis?.scrollTo(target ?? 0, { immediate: true })
+  }, [lenis, slug, hash])
 
   if (index < 0) return <Navigate to="/" replace />
   const project = projects[index]

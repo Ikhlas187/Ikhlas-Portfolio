@@ -20,8 +20,13 @@ const RING_PERIOD_REPEAT_DELAY = 2.9
 const SWAP_EASE = [0.22, 1, 0.36, 1] as const
 const SWAP_TRANSITION = { duration: 0.45, ease: SWAP_EASE }
 
+type CallWidgetProps = {
+  // Fourni : répondre lance cette action (page de réservation sur mobile) au lieu de déplier la carte sur place.
+  onAccept?: () => void
+}
+
 /* Widget « appel entrant » (réf. abhijitrout.in) : refuser replie la pastille sur l'avatar, répondre déplie le formulaire. */
-export default function CallWidget() {
+export default function CallWidget({ onAccept }: CallWidgetProps) {
   const { locale } = useLocale()
   const callWidget = CALL_WIDGET[locale]
   const pillRef = useRef<HTMLDivElement>(null)
@@ -89,7 +94,7 @@ export default function CallWidget() {
     collapseTlRef.current?.reverse()
   }
 
-  const openBooking = () => setIsFormOpen(true)
+  const openBooking = () => (onAccept ? onAccept() : setIsFormOpen(true))
 
   return (
     <MotionConfig reducedMotion="user">
