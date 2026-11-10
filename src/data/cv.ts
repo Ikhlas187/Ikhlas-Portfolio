@@ -4,7 +4,7 @@ import { SITE } from '@/data/site'
 // CV d'Ikhlas : affiché dans l'Aperçu du faux macOS (CV.pdf) et source des dossiers Skills et Certifications.
 
 export type CvSkillGroup = { id: string; name: string; skills: string[] }
-// year : à remplir avec l'année du certificat ; photo : src/assets/certifications/<id>.(webp|jpg|png).
+// Photo du certificat : src/assets/certifications/<id>.webp (export des PDF reçus).
 export type CvCertification = { id: string; title: string; issuer: string; year?: string }
 export type CvExperience = { role: string; company: string; period: string; tasks: string[] }
 export type CvProject = { name: string; summary: string; stack: string }
@@ -110,13 +110,14 @@ export const CV: Localized<CvContent> = {
       { degree: 'Baccalauréat, series D', school: '', period: '2024' },
     ],
     certifications: [
-      { id: 'python-mind-luster', title: 'Python', issuer: 'Mind Luster' },
-      { id: 'sql-intermediate', title: 'SQL Intermediate', issuer: 'Sololearn' },
-      { id: 'web-development', title: 'Web Development', issuer: 'Sololearn' },
-      { id: 'python-developer', title: 'Python Developer', issuer: 'Sololearn' },
-      { id: 'make-basics', title: 'Make Academy Basics', issuer: 'Make' },
-      { id: 'make-intermediate', title: 'Make Academy Intermediate', issuer: 'Make' },
-      { id: 'make-advanced', title: 'Make Academy Advanced', issuer: 'Make' },
+      { id: 'make-advanced', title: 'Make Advanced', issuer: 'Make', year: '2026' },
+      { id: 'python-developer', title: 'Python Developer', issuer: 'Sololearn', year: '2025' },
+      { id: 'make-basics', title: 'Make Basics', issuer: 'Make', year: '2025' },
+      { id: 'sql-intermediate', title: 'SQL Intermediate', issuer: 'Sololearn', year: '2025' },
+      { id: 'introduction-to-sql', title: 'Introduction to SQL', issuer: 'Sololearn', year: '2025' },
+      { id: 'python-3-migration', title: 'Python Applications: Migrating to Python 3.x', issuer: 'Mind Luster', year: '2025' },
+      { id: 'practical-html-css', title: 'Practical HTML and CSS', issuer: 'Mind Luster', year: '2025' },
+      { id: 'html-css-javascript', title: 'HTML, CSS and JavaScript', issuer: 'Mind Luster', year: '2025' },
     ],
     languages: [
       { name: 'French', level: 'Advanced' },
@@ -197,13 +198,14 @@ export const CV: Localized<CvContent> = {
       { degree: 'Baccalauréat D', school: '', period: '2024' },
     ],
     certifications: [
-      { id: 'python-mind-luster', title: 'Python', issuer: 'Mind Luster' },
-      { id: 'sql-intermediate', title: 'SQL Intermédiaire', issuer: 'Sololearn' },
-      { id: 'web-development', title: 'Web Development', issuer: 'Sololearn' },
-      { id: 'python-developer', title: 'Python Developer', issuer: 'Sololearn' },
-      { id: 'make-basics', title: 'Make Academy Basics', issuer: 'Make' },
-      { id: 'make-intermediate', title: 'Make Academy Intermédiaire', issuer: 'Make' },
-      { id: 'make-advanced', title: 'Make Academy Advanced', issuer: 'Make' },
+      { id: 'make-advanced', title: 'Make Advanced', issuer: 'Make', year: '2026' },
+      { id: 'python-developer', title: 'Python Developer', issuer: 'Sololearn', year: '2025' },
+      { id: 'make-basics', title: 'Make Basics', issuer: 'Make', year: '2025' },
+      { id: 'sql-intermediate', title: 'SQL Intermédiaire', issuer: 'Sololearn', year: '2025' },
+      { id: 'introduction-to-sql', title: 'Introduction au SQL', issuer: 'Sololearn', year: '2025' },
+      { id: 'python-3-migration', title: 'Applications Python : migrer vers Python 3.x', issuer: 'Mind Luster', year: '2025' },
+      { id: 'practical-html-css', title: 'HTML et CSS en pratique', issuer: 'Mind Luster', year: '2025' },
+      { id: 'html-css-javascript', title: 'HTML, CSS et JavaScript', issuer: 'Mind Luster', year: '2025' },
     ],
     languages: [
       { name: 'Français', level: 'Avancé' },
