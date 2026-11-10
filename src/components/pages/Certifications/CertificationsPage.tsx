@@ -4,21 +4,11 @@ import { Award } from 'lucide-react'
 import BackPill from '@/components/ui/BackPill'
 import Footer from '@/components/ui/Footer'
 import SiteHeader from '@/components/ui/SiteHeader'
+import { CERTIFICATION_PHOTOS } from '@/data/certificationPhotos'
 import { CERTIFICATIONS_PAGE } from '@/data/certifications'
 import { CV } from '@/data/cv'
 import { useLenis } from '@/lib/LenisProvider'
 import { useLocale } from '@/lib/LocaleProvider'
-
-// Photo d'un certificat : src/assets/certifications/<id de la certification>.(webp|jpg|jpeg|png).
-const PHOTOS = import.meta.glob<string>('/src/assets/certifications/*.{webp,jpg,jpeg,png}', {
-  eager: true,
-  import: 'default',
-})
-
-function photoOf(id: string) {
-  const path = Object.keys(PHOTOS).find((file) => file.split('/').pop()?.split('.')[0] === id)
-  return path ? PHOTOS[path] : undefined
-}
 
 /* Certifications l'une sous l'autre : photo du certificat, titre et année dessous. */
 export default function CertificationsPage() {
@@ -44,7 +34,7 @@ export default function CertificationsPage() {
         </h1>
         <ul className="mt-10 flex flex-col gap-12">
           {certifications.map((certification) => {
-            const photo = photoOf(certification.id)
+            const photo = CERTIFICATION_PHOTOS[certification.id]
             return (
               <li key={certification.id} className="flex flex-col gap-3">
                 {photo ? (

@@ -60,7 +60,7 @@ portfolio-frontend/
 │   │       │   ├── NameMark.tsx         nom géant en <text> SVG (viewBox de la réf. ; pas de foreignObject, que Safari iPhone ne met pas à l'échelle), utilisé par HeroName
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS : le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
-│   │       │   ├── ProjectsShowcase.tsx  projets de la home (sous le Mac sur ordinateur, juste après le hero sur téléphone) : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, EFREEshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui fait défiler les projets vers la gauche au scroll vertical, bouton Voir mes certifications ; sur téléphone ni Mac ni tableau de notes
+│   │       │   ├── ProjectsShowcase.tsx  projets de la home (sous le Mac sur ordinateur, juste après le hero sur téléphone) : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, Efreeshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui fait défiler les projets vers la gauche au scroll vertical, bouton Voir mes certifications ; sur téléphone ni Mac ni tableau de notes
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
@@ -83,7 +83,7 @@ portfolio-frontend/
 │   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
 │   │       ├── Project/          page d'un projet /projects/:slug (réf. haufsess.com) : Retour, titre, description, services, année, lien, captures empilées, projet suivant
 │   │       ├── Booking/          /book, mobile : ouverte par le bouton vert du CallWidget du footer, flèche de retour en haut (vers /…#contact d'où l'on vient), calendrier Cal.com dessous
-│   │       ├── Certifications/   /certifications : les 8 vrais certificats (src/assets/certifications/<id>.webp, exportés des PDF ; liste dans data/cv.ts, aussi utilisée par le Mac), titre et année dessous
+│   │       ├── Certifications/   /certifications : les 8 vrais certificats (src/assets/certifications/<id>.webp, exportés des PDF ; liste dans data/cv.ts ; images par id dans data/certificationPhotos.ts, aussi ouvertes dans l'Aperçu du Mac), titre et année dessous
 │   │       ├── Projects/ About/ Contact/   coquilles vides
 │   │       └── NotFound/     404
 │   ├── lib/

@@ -201,15 +201,15 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
   en: [
     {
       slug: 'efreeshop',
-      name: 'EFREEshop',
+      name: 'Efreeshop',
       services: ['Web platform', 'Marketplace'],
       description:
         'Freemium platform of UI resources for frontend developers in Africa and beyond: React components, templates and digital products to browse, copy or sell, with Mobile Money payments built in.',
       year: '2026',
       link: { label: 'Visit e-freeshop.com', href: EFREESHOP_URL },
-      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'EFREEshop app icon on a phone' },
+      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Efreeshop Explore page: the community’s components, templates and themes' },
       shots: [
-        { src: efreeshopHero, alt: 'EFREEshop home page: the n°1 platform to sell components, templates and digital products' },
+        { src: efreeshopHero, alt: 'Efreeshop home page: the n°1 platform to sell components, templates and digital products' },
         { src: efreeshopComponents, alt: 'Premium components section with a React code sample' },
         { src: efreeshopSell, alt: 'Sell your creations section: open a shop, get paid by Mobile Money' },
         { src: efreeshopPricing, alt: 'Pricing: Free, Pro and Creator plans in CFA francs' },
@@ -235,15 +235,15 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
   fr: [
     {
       slug: 'efreeshop',
-      name: 'EFREEshop',
+      name: 'Efreeshop',
       services: ['Plateforme web', 'Marketplace'],
       description:
         'Plateforme freemium de ressources UI pour les développeurs frontend africains et du monde entier : composants React, templates et produits digitaux à parcourir, copier ou vendre, avec paiement Mobile Money intégré.',
       year: '2026',
       link: { label: 'Voir e-freeshop.com', href: EFREESHOP_URL },
-      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Icône de l’app EFREEshop sur un téléphone' },
+      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Page Explorer d’Efreeshop : composants, templates et thèmes de la communauté' },
       shots: [
-        { src: efreeshopHero, alt: 'Accueil d’EFREEshop : la plateforme n°1 pour vendre composants, templates et produits digitaux' },
+        { src: efreeshopHero, alt: 'Accueil d’Efreeshop : la plateforme n°1 pour vendre composants, templates et produits digitaux' },
         { src: efreeshopComponents, alt: 'Section des composants premium avec un exemple de code React' },
         { src: efreeshopSell, alt: 'Section vendre ses créations : ouvrir son stand, être payé par Mobile Money' },
         { src: efreeshopPricing, alt: 'Tarifs : offres Free, Pro et Créateur en francs CFA' },

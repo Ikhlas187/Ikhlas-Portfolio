@@ -105,7 +105,7 @@ export function buildFileTree({ texts, repos, roles, cv, year }: FileTreeSources
       kind: 'pdf',
       id: certification.id,
       name: `${certification.title}.pdf`,
-      date: year,
+      date: certification.year ?? year,
       document: { type: 'certificate', certification, holder: cv.name, labels: cv.certificate },
     })),
   }

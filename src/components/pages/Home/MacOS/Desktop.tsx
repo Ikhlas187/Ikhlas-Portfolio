@@ -82,7 +82,8 @@ const PREVIEW_SIZES: Record<PreviewNode['kind'], Size> = {
   image: { width: 840, height: 600 },
   pdf: { width: 700, height: 800 },
 }
-const CERTIFICATE_PREVIEW_SIZE: Size = { width: 640, height: 500 }
+// Taille qui montre le vrai certificat en entier (680 px de large, proportions A4 paysage ou Make).
+const CERTIFICATE_PREVIEW_SIZE: Size = { width: 760, height: 660 }
 
 const previewSize = (node: PreviewNode) =>
   node.kind === 'pdf' && node.document.type === 'certificate' ? CERTIFICATE_PREVIEW_SIZE : PREVIEW_SIZES[node.kind]

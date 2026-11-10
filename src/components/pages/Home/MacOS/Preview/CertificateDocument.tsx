@@ -1,11 +1,23 @@
 import { Award } from 'lucide-react'
+import { CERTIFICATION_PHOTOS } from '@/data/certificationPhotos'
 import type { PdfDocument } from '@/data/macos'
 
 type CertificateDocumentProps = { document: Extract<PdfDocument, { type: 'certificate' }> }
 
-// Carte de certificat sans date : seules la formation, l'organisme et le titulaire sont connus.
+// Le vrai certificat (image exportée du PDF) ; à défaut, une carte avec la formation, l'organisme et le titulaire.
 export default function CertificateDocument({ document }: CertificateDocumentProps) {
   const { certification, holder, labels } = document
+  const photo = CERTIFICATION_PHOTOS[certification.id]
+
+  if (photo) {
+    return (
+      <img
+        src={photo}
+        alt={certification.title}
+        className="mx-auto w-[680px] max-w-[calc(100%-48px)] shrink-0 bg-(--macos-paper) shadow-(--macos-shadow-window)"
+      />
+    )
+  }
 
   return (
     <article className="mx-auto flex aspect-[297/210] w-[540px] shrink-0 bg-(--macos-paper) p-[14px] text-(--macos-paper-ink) shadow-(--macos-shadow-window)">
