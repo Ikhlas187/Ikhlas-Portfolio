@@ -290,7 +290,7 @@ export const PROJECT_PAGE: Localized<ProjectPageText> = {
     link: 'Link',
   },
   fr: {
-    sectionTitle: 'Projets choisis',
+    sectionTitle: 'Projets sélectionnés',
     certificationsLink: 'Voir mes certifications',
     back: 'Retour',
     description: 'Description',

@@ -3,8 +3,10 @@ import { motion, useMotionValue, useScroll, useTransform } from 'framer-motion'
 import { Power } from 'lucide-react'
 import CertificationsButton from '@/components/pages/Home/CertificationsButton'
 import MacOS from '@/components/pages/Home/MacOS/MacOS'
+import SectionHeading from '@/components/pages/Home/SectionHeading'
 import { Button } from '@/components/ui/button'
 import { MACBOOK } from '@/data/macbook'
+import { PROJECT_PAGE } from '@/data/projects'
 import { useLenis } from '@/lib/LenisProvider'
 import { useLocale } from '@/lib/LocaleProvider'
 import { canScrollBy } from '@/logic/scrollCapture/scrollCapture'
@@ -110,6 +112,10 @@ export default function MacOSSection() {
       aria-label={text.sectionLabel}
       className="relative bg-white px-[20px] pt-(--section-gap)"
     >
+      {/* Titre de section de la réf. haufsess.com, vu juste avant que l'écran du Mac monte en plein écran. */}
+      <div className="pb-10 text-black">
+        <SectionHeading title={PROJECT_PAGE[locale].sectionTitle} />
+      </div>
       <div className="flex flex-col items-center">
         {/* Zone de 2 hauteurs de fenêtre : la 1re pour arriver, la 2e collée pendant que l'écran rétrécit. */}
         <div ref={revealZoneRef} data-header-guard className="relative z-[2] -mx-[20px] h-[200vh] self-stretch overflow-clip">
