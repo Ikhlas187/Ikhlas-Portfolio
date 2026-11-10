@@ -104,7 +104,7 @@ portfolio-frontend/
 │   │   ├── macDisplaySession.ts  luminosité et mode sombre du faux macOS, gardés pour la session (sessionStorage)
 │   │   └── utils.ts          cn() de shadcn, ne pas déplacer
 │   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, experience, services, roles, process, loader, notes
-│   │   ├── cv.ts             CV d'Ikhlas : CV.pdf de l'Aperçu, fichiers des dossiers Skills et Certifications
+│   │   ├── cv.ts             CV d'Ikhlas : CV.pdf de l'Aperçu, dossier Certifications du Mac et page Certifications
 │   │   ├── cursor.ts         libellés de la bulle du curseur contextuel, par valeur de data-cursor
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
 │   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
