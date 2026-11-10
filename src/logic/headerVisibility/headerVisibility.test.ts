@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { shouldHideHeader } from '@/logic/headerVisibility/headerVisibility'
+import { nextUpwardTravel, shouldHideHeader } from '@/logic/headerVisibility/headerVisibility'
 
 describe('shouldHideHeader', () => {
   it('cache le header quand on descend', () => {
@@ -24,5 +24,26 @@ describe('shouldHideHeader', () => {
     const stillWhileHidden = { previousScrollY: 400, scrollY: 400, isHidden: true }
 
     expect(shouldHideHeader(stillWhileHidden)).toBe(true)
+  })
+
+  it('reste caché tant que la remontée exigée n’est pas atteinte', () => {
+    const shortScrollUp = { previousScrollY: 900, scrollY: 860, isHidden: true, upwardTravel: 120, revealDistance: 320 }
+
+    expect(shouldHideHeader(shortScrollUp)).toBe(true)
+  })
+
+  it('réaffiche le header une fois la remontée exigée atteinte', () => {
+    const longScrollUp = { previousScrollY: 900, scrollY: 860, isHidden: true, upwardTravel: 340, revealDistance: 320 }
+
+    expect(shouldHideHeader(longScrollUp)).toBe(false)
+  })
+})
+
+describe('nextUpwardTravel', () => {
+  it('cumule la remontée et repart de 0 quand on redescend', () => {
+    const travelAfterScrollUp = nextUpwardTravel(100, 900, 860)
+    const travelAfterScrollDown = nextUpwardTravel(140, 860, 880)
+
+    expect([travelAfterScrollUp, travelAfterScrollDown]).toEqual([140, 0])
   })
 })

@@ -4,7 +4,8 @@ import { SITE } from '@/data/site'
 // CV d'Ikhlas : affiché dans l'Aperçu du faux macOS (CV.pdf) et source des dossiers Skills et Certifications.
 
 export type CvSkillGroup = { id: string; name: string; skills: string[] }
-export type CvCertification = { id: string; title: string; issuer: string }
+// year : à remplir avec l'année du certificat ; photo : src/assets/certifications/<id>.(webp|jpg|png).
+export type CvCertification = { id: string; title: string; issuer: string; year?: string }
 export type CvExperience = { role: string; company: string; period: string; tasks: string[] }
 export type CvProject = { name: string; summary: string; stack: string }
 export type CvEducation = { degree: string; school: string; period: string }

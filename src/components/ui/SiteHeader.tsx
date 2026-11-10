@@ -1,32 +1,70 @@
 import avatarUrl from '@/assets/avatar.webp'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
-import NavPill from '@/components/pages/Home/NavPill'
-import LanguageSelect from '@/components/pages/Home/LanguageSelect'
-import BurgerButton from '@/components/pages/Home/BurgerButton'
+import NavPill from '@/components/ui/NavPill'
+import LanguageSelect from '@/components/ui/LanguageSelect'
+import BurgerButton from '@/components/ui/BurgerButton'
 import { HEADER } from '@/data/hero'
 import { NAV_LINKS } from '@/data/site'
 import { useLocale } from '@/lib/LocaleProvider'
-import { shouldHideHeader } from '@/logic/headerVisibility/headerVisibility'
+import { nextUpwardTravel, shouldHideHeader } from '@/logic/headerVisibility/headerVisibility'
 
-/* Header fixe (réf. haufsess.com) : disparaît en fondu en descendant, revient dès qu'on remonte. Sous le CoinLoader (z-100). */
-export default function HomeHeader() {
+// Sur le Mac plein écran ([data-header-guard]) : le header ne revient qu'après une vraie remontée, pour ne pas cacher sa barre de menus.
+const GUARD_REVEAL_DISTANCE_PX = 320
+// Le header revenu en remontant repart seul quand le scroll s'arrête, sauf tout en haut, au survol ou menu ouvert.
+const IDLE_HIDE_DELAY_MS = 1500
+
+function isOverHeaderGuard() {
+  const guard = document.querySelector('[data-header-guard]')
+  if (!guard) return false
+  const rect = guard.getBoundingClientRect()
+  return rect.top <= 0 && rect.bottom > 0
+}
+
+/* Header fixe (réf. haufsess.com) : disparaît en fondu en descendant, revient quand on remonte. Sous le CoinLoader (z-100). */
+export default function SiteHeader() {
   const { locale } = useLocale()
   const header = HEADER[locale]
   const links = [header.homeLink, ...NAV_LINKS[locale]]
   const { scrollY } = useScroll()
   const [isHidden, setIsHidden] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const isHovered = useRef(false)
+  const isMenuOpenRef = useRef(false)
+  const hideTimer = useRef(0)
   const previousScrollY = useRef(0)
+  const upwardTravel = useRef(0)
+
+  const scheduleIdleHide = () => {
+    window.clearTimeout(hideTimer.current)
+    hideTimer.current = window.setTimeout(() => {
+      if (isHovered.current || isMenuOpenRef.current || scrollY.get() <= 0) return
+      upwardTravel.current = 0
+      setIsHidden(true)
+    }, IDLE_HIDE_DELAY_MS)
+  }
+
+  useEffect(() => {
+    isMenuOpenRef.current = isMenuOpen
+    if (!isMenuOpen && !isHidden) scheduleIdleHide()
+  }, [isMenuOpen])
+
+  useEffect(() => () => window.clearTimeout(hideTimer.current), [])
 
   useMotionValueEvent(scrollY, 'change', (currentScrollY) => {
+    const isGuarded = isOverHeaderGuard()
+    upwardTravel.current = nextUpwardTravel(upwardTravel.current, previousScrollY.current, currentScrollY)
     const nextIsHidden = shouldHideHeader({
       previousScrollY: previousScrollY.current,
       scrollY: currentScrollY,
       isHidden,
+      upwardTravel: upwardTravel.current,
+      revealDistance: isGuarded ? GUARD_REVEAL_DISTANCE_PX : 0,
     })
     previousScrollY.current = currentScrollY
     if (nextIsHidden !== isHidden) setIsHidden(nextIsHidden)
+    if (nextIsHidden) window.clearTimeout(hideTimer.current)
+    else scheduleIdleHide()
   })
 
   const isVisible = !isHidden || isMenuOpen
@@ -37,6 +75,13 @@ export default function HomeHeader() {
       initial={false}
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+      onPointerEnter={() => {
+        isHovered.current = true
+      }}
+      onPointerLeave={() => {
+        isHovered.current = false
+        if (!isHidden) scheduleIdleHide()
+      }}
       className={`fixed inset-x-0 top-0 z-[90] bg-white ${isVisible ? '' : 'pointer-events-none'}`}
     >
       <div className="mx-auto flex max-w-[1800px] flex-col px-3 py-5 min-[810px]:px-4">

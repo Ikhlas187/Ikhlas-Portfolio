@@ -167,3 +167,32 @@ export const PROJECTS_SECTION: Localized<ProjectsSection> = {
   en: { interludeTitle: ['SELECTED', 'WORKS'], dateLabel: 'Date:' },
   fr: { interludeTitle: ['TRAVAUX', 'CHOISIS'], dateLabel: 'Date :' },
 }
+
+type ProjectPageText = {
+  sectionTitle: string
+  certificationsLink: string
+  back: string
+  description: string
+  services: string
+  year: string
+}
+
+// Version mobile de la home (liste de projets en défilement horizontal) et page d'un projet (réf. haufsess.com).
+export const PROJECT_PAGE: Localized<ProjectPageText> = {
+  en: {
+    sectionTitle: 'Selected Projects',
+    certificationsLink: 'See my certifications',
+    back: 'Back',
+    description: 'Description',
+    services: 'Services',
+    year: 'Year',
+  },
+  fr: {
+    sectionTitle: 'Projets choisis',
+    certificationsLink: 'Voir mes certifications',
+    back: 'Retour',
+    description: 'Description',
+    services: 'Services',
+    year: 'Année',
+  },
+}

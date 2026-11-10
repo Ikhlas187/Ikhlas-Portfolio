@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import CallWidget from '@/components/pages/Home/CallWidget'
-import FooterLinkColumn from '@/components/pages/Home/FooterLinkColumn'
+import CallWidget from '@/components/ui/CallWidget'
+import FooterLinkColumn from '@/components/ui/FooterLinkColumn'
 import { FOOTER } from '@/data/footer'
 import { useLocale } from '@/lib/LocaleProvider'
 import { footerPath } from '@/logic/footerShape/footerShape'
@@ -13,9 +13,9 @@ const SHOULDER_RADIUS = 16
 
 type Size = { width: number; height: number }
 
-/* Footer (réf. cosmoq.framer.website) : carte noire bordée, avec en haut une encoche en U qui épouse exactement
+/* Footer bureau (réf. cosmoq.framer.website) : carte noire bordée, avec en haut une encoche en U qui épouse exactement
    l'appel entrant (ou la carte de réservation une fois ouverte), puis liens et copyright. */
-export default function Footer() {
+export default function DesktopFooter() {
   const { locale } = useLocale()
   const copy = FOOTER[locale]
   const cardRef = useRef<HTMLDivElement>(null)
@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="relative grid grid-cols-2 gap-x-6 gap-y-10 px-5 pt-14 pb-12 min-[810px]:grid-cols-4 min-[810px]:px-10">
+        <div className="relative grid grid-cols-1 gap-x-6 gap-y-10 px-5 pt-14 pb-12 min-[480px]:grid-cols-2 min-[810px]:grid-cols-4 min-[810px]:px-10">
           {copy.columns.map((column) => (
             <FooterLinkColumn key={column.title} column={column} />
           ))}

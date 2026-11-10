@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useScroll, useTransform } from 'framer-motion'
 import { Power } from 'lucide-react'
-import WorksScreen from '@/components/pages/Home/WorksScreen'
 import MacOS from '@/components/pages/Home/MacOS/MacOS'
 import { Button } from '@/components/ui/button'
 import { MACBOOK } from '@/data/macbook'
+import { useLenis } from '@/lib/LenisProvider'
 import { useLocale } from '@/lib/LocaleProvider'
 import { canScrollBy } from '@/logic/scrollCapture/scrollCapture'
-import { DOCK_START_VIEWPORT_RATIO, dockDistance, dockOffset, dockScale } from '@/logic/screenDock/screenDock'
+import { revealAspect, revealBackdropOpacity, revealCoverScale, revealScale } from '@/logic/screenReveal/screenReveal'
 
 // Taille logique du bureau macOS, réduite à la largeur de la section.
 const SCREEN_WIDTH_PX = 1512
 const SCREEN_HEIGHT_PX = 982
+const SCREEN_ASPECT = SCREEN_WIDTH_PX / SCREEN_HEIGHT_PX
 
 function canAncestorScroll(target: EventTarget | null, boundary: HTMLElement, event: WheelEvent) {
   for (let node = target instanceof Element ? target : null; node && node !== boundary; node = node.parentElement) {
@@ -27,11 +28,14 @@ function canAncestorScroll(target: EventTarget | null, boundary: HTMLElement, ev
   return false
 }
 
-// Ressort de la maquette Framer IFRI sur l'échelle et la descente du 1er écran.
-const DOCK_SPRING = { stiffness: 500, damping: 60, mass: 1 }
+// Retour de l'écran à sa place quand on éteint le Mac en plein écran.
+const REVEAL_SCROLL_SECONDS = 1.6
 
-/* Section macOS (réf. maquette Framer IFRI-Comotorage) : l'écran « Selected works » rétrécit et descend au scroll,
-   sous le Mac qui défile normalement, jusqu'à finir caché derrière la dalle, centré dessus. */
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+}
+
+/* Section macOS : le Mac arrive plein écran et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl). */
 export default function MacOSSection() {
   const { locale } = useLocale()
   const text = MACBOOK[locale]
@@ -39,39 +43,46 @@ export default function MacOSSection() {
   const [isPoweredOn, setIsPoweredOn] = useState(true)
   const frameRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
-  const dockRangeRef = useRef<HTMLDivElement>(null)
-  const worksBoxRef = useRef<HTMLDivElement>(null)
-  const dockDistancePx = useMotionValue(0)
+  const revealZoneRef = useRef<HTMLDivElement>(null)
+  const coverScale = useMotionValue(1)
+  const viewportAspect = useMotionValue(SCREEN_ASPECT)
+  const lenis = useLenis()
 
-  // Course : du haut du 1er écran à 76,6 % de la fenêtre (départ de la réf.) au bas de la zone touchant le bas de la fenêtre.
-  const { scrollYProgress } = useScroll({
-    target: dockRangeRef,
-    offset: [
-      [0, DOCK_START_VIEWPORT_RATIO],
-      [1, 1],
-    ],
-  })
-  // Fonctions plutôt que plages : framer-motion confierait l'animation au navigateur (ScrollTimeline), qui calcule mal la plage.
-  const worksScale = useSpring(useTransform(scrollYProgress, dockScale), DOCK_SPRING)
-  const worksY = useSpring(
-    useTransform([scrollYProgress, dockDistancePx], ([progress, distance]: number[]) => dockOffset(progress, distance)),
-    DOCK_SPRING,
+  // Réf. cafedelmar.nl : l'écran du Mac arrive plein écran, reste collé, puis rétrécit jusqu'à sa place dans l'appareil.
+  const { scrollYProgress: revealProgress } = useScroll({ target: revealZoneRef, offset: ['start start', 'end end'] })
+  const deviceScale = useTransform([revealProgress, coverScale], ([progress, cover]: number[]) => revealScale(progress, cover))
+  const backdropOpacity = useTransform(revealProgress, revealBackdropOpacity)
+  const screenAspect = useTransform([revealProgress, viewportAspect], ([progress, aspect]: number[]) =>
+    revealAspect(progress, aspect, SCREEN_ASPECT),
   )
+  // Bureau macOS : 1512 px de large, sa hauteur suit la proportion de l'écran.
+  const desktopHeight = useTransform(screenAspect, (aspect) => SCREEN_WIDTH_PX / aspect)
+  // Coins de l'écran droits en plein écran, arrondis dans l'appareil.
+  const screenRadius = useTransform(revealProgress, (progress) => `calc(100cqw * ${(18 / 835) * Math.min(1, Math.max(0, progress))})`)
 
   useEffect(() => {
     const section = sectionRef.current
     const frame = frameRef.current
-    const worksBox = worksBoxRef.current
-    if (!section || !frame || !worksBox) return
+    if (!section || !frame) return
     const observer = new ResizeObserver(() => {
       setScale(frame.clientWidth / SCREEN_WIDTH_PX)
-      // Les 2 boîtes ne sont jamais transformées : leur écart ne dépend pas du scroll.
-      dockDistancePx.set(dockDistance(worksBox.getBoundingClientRect(), frame.getBoundingClientRect()))
+      const viewport = { width: window.innerWidth, height: window.innerHeight }
+      coverScale.set(revealCoverScale(frame.offsetWidth, viewport.width))
+      viewportAspect.set(viewport.width / viewport.height)
     })
     observer.observe(section)
     observer.observe(frame)
     return () => observer.disconnect()
-  }, [dockDistancePx])
+  }, [coverScale, viewportAspect])
+
+  // Éteindre en plein écran fait défiler jusqu'au bout de la zone : on voit l'écran rejoindre l'appareil.
+  const shutdown = () => {
+    setIsPoweredOn(false)
+    const zone = revealZoneRef.current
+    if (!zone || !lenis || revealProgress.get() >= 1) return
+    const target = window.scrollY + zone.getBoundingClientRect().bottom - window.innerHeight
+    lenis.scrollTo(target, { duration: REVEAL_SCROLL_SECONDS, easing: easeInOutCubic })
+  }
 
   // Une fenêtre qui peut encore défiler garde la molette ; sinon la page défile.
   const attachWheelCapture = useCallback((frame: HTMLDivElement | null) => {
@@ -92,49 +103,50 @@ export default function MacOSSection() {
       aria-label={text.sectionLabel}
       className="relative bg-white px-[20px] pt-(--section-gap)"
     >
-      {/* Zone de la course : commence au haut du 1er écran, finit sous la place réservée au pied de l'appareil. */}
-      <div ref={dockRangeRef} className="flex flex-col items-center gap-[46px]">
-        {/* 1er écran : 1162 px max comme la réf., boîte fixe dans le flux, seul son contenu est transformé. */}
-        <div ref={worksBoxRef} aria-hidden="true" className="pointer-events-none relative z-[1] aspect-[1512/982] w-[min(1162px,100%)]">
-          <motion.div style={{ y: worksY, scale: worksScale }} className="absolute inset-0 will-change-transform">
-            <WorksScreen />
-          </motion.div>
-        </div>
-        {/* Dalle = 815/1162 du 1er écran (réf.), cadre régulier de 10 px et rayon 28 px à 1440, proportionnels à la largeur (cqw).
-            Dessous, la place du pied de l'appareil de la réf. : en fin de course la dalle commence au même y que la sienne (114 px à 1440).
-            Notre dalle est 47 px plus haute (1512/982 contre 815/482), d'où 257 px sous l'écran au lieu de 304 (257 - 10 px de cadre). */}
-        <div className="@container relative z-[2] mb-[calc(min(1162px,100%)*247/1162)] w-[calc(min(1162px,100%)*835/1162)]">
-          <div className="relative w-full rounded-[calc(100cqw*28/835)] bg-black p-[calc(100cqw*10/835)] shadow-(--macos-screen-shadow)">
-            <div
-              ref={attachWheelCapture}
-              data-mouse-trail="off"
-              className="relative aspect-[1512/982] w-full overflow-hidden rounded-t-[calc(100cqw*18/835)] rounded-b-[3px] bg-black select-none"
+      <div className="flex flex-col items-center">
+        {/* Zone de 2 hauteurs de fenêtre : la 1re pour arriver, la 2e collée pendant que l'écran rétrécit. */}
+        <div ref={revealZoneRef} data-header-guard className="relative z-[2] -mx-[20px] h-[200vh] self-stretch overflow-clip">
+          <div className="sticky top-0 flex h-screen items-center justify-center">
+            <motion.div aria-hidden="true" style={{ opacity: backdropOpacity }} className="absolute inset-0 bg-black" />
+            {/* Dalle = 835/1162 du 1er écran, cadre de 10 px et rayon 28 px à 1440, proportionnels à la largeur (cqw). */}
+            <motion.div
+              style={{ scale: deviceScale }}
+              className="@container relative w-[calc(min(1162px,100%-40px)*835/1162)]"
             >
-              <div
-                className="absolute top-0 left-0 origin-top-left"
-                style={{ width: SCREEN_WIDTH_PX, height: SCREEN_HEIGHT_PX, transform: `scale(${scale})` }}
-              >
-                <MacOS isPoweredOn={isPoweredOn} onShutdown={() => setIsPoweredOn(false)} />
-                {/* Encoche de la caméra (MacBook Pro 14 : ~186 × 32 pt sur 1512), coins du haut incurvés vers le cadre. */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute top-0 left-1/2 z-[60] flex h-[32px] w-[186px] -translate-x-1/2 items-center justify-center rounded-b-[12px] bg-black before:absolute before:top-0 before:-left-[10px] before:size-[10px] before:bg-[radial-gradient(circle_at_0_100%,transparent_10px,var(--color-black)_10.5px)] after:absolute after:top-0 after:-right-[10px] after:size-[10px] after:bg-[radial-gradient(circle_at_100%_100%,transparent_10px,var(--color-black)_10.5px)]"
+              <div className="relative w-full rounded-[calc(100cqw*28/835)] bg-black p-[calc(100cqw*10/835)] shadow-(--macos-screen-shadow)">
+                <motion.div
+                  ref={attachWheelCapture}
+                  data-mouse-trail="off"
+                  style={{ aspectRatio: screenAspect, borderTopLeftRadius: screenRadius, borderTopRightRadius: screenRadius }}
+                  className="relative w-full overflow-hidden rounded-b-[3px] bg-black select-none"
                 >
-                  <span className="size-[7px] rounded-full bg-(--color-gray-300) ring-1 ring-(--color-gray-200)" />
-                </div>
-              </div>
-              {!isPoweredOn && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Button
-                    onClick={() => setIsPoweredOn(true)}
-                    className="h-10 gap-2 rounded-full bg-white px-5 text-black hover:bg-white/90"
+                  <motion.div
+                    className="absolute top-0 left-0 origin-top-left"
+                    style={{ width: SCREEN_WIDTH_PX, height: desktopHeight, scale }}
                   >
-                    <Power className="size-4" aria-hidden="true" />
-                    {text.powerOn}
-                  </Button>
-                </div>
-              )}
-            </div>
+                    <MacOS isPoweredOn={isPoweredOn} onShutdown={shutdown} />
+                    {/* Encoche de la caméra (MacBook Pro 14 : ~186 × 32 pt sur 1512), coins du haut incurvés vers le cadre. */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute top-0 left-1/2 z-[60] flex h-[32px] w-[186px] -translate-x-1/2 items-center justify-center rounded-b-[12px] bg-black before:absolute before:top-0 before:-left-[10px] before:size-[10px] before:bg-[radial-gradient(circle_at_0_100%,transparent_10px,var(--color-black)_10.5px)] after:absolute after:top-0 after:-right-[10px] after:size-[10px] after:bg-[radial-gradient(circle_at_100%_100%,transparent_10px,var(--color-black)_10.5px)]"
+                    >
+                      <span className="size-[7px] rounded-full bg-(--color-gray-300) ring-1 ring-(--color-gray-200)" />
+                    </div>
+                  </motion.div>
+                  {!isPoweredOn && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Button
+                        onClick={() => setIsPoweredOn(true)}
+                        className="h-10 gap-2 rounded-full bg-white px-5 text-black hover:bg-white/90"
+                      >
+                        <Power className="size-4" aria-hidden="true" />
+                        {text.powerOn}
+                      </Button>
+                    </div>
+                  )}
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import HomeHeader from '@/components/pages/Home/HomeHeader'
+import SiteHeader from '@/components/ui/SiteHeader'
 import FadeInImage from '@/components/pages/Home/FadeInImage'
 import HeroName from '@/components/pages/Home/HeroName'
 import { useLocale } from '@/lib/LocaleProvider'
@@ -12,7 +12,7 @@ export default function Hero() {
 
   return (
     <div id="top" className="bg-white pt-[72px] text-black">
-      <HomeHeader />
+      <SiteHeader />
       <div className="mx-auto max-w-[1800px] px-3 pt-5 pb-16 min-[810px]:px-4 min-[810px]:pt-6 min-[1200px]:px-5 min-[1200px]:pb-12">
         <section className="flex flex-col justify-center gap-12 min-[810px]:justify-start min-[810px]:gap-16 min-[1200px]:h-[90vh] min-[1200px]:max-h-[900px] min-[1200px]:min-h-[720px] min-[1200px]:gap-7">
           <div className="flex w-full flex-col gap-8 overflow-clip min-[810px]:flex-row min-[810px]:items-start min-[810px]:justify-end min-[810px]:gap-6 min-[1200px]:gap-0">

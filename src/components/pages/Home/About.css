@@ -5,9 +5,6 @@
   color: var(--color-black);
   font-family: var(--font-body);
   padding: var(--section-gap) 7% 0;
-  /* Remonte d'un quart l'espace sous le Mac (réserve de fin d'animation de MacOSSection, 247/1162 de sa largeur, + --section-gap)
-     sans toucher à cette réserve, qui règle la fin de l'animation. */
-  margin-top: calc(-0.25 * (min(1162px, 100vw - 40px) * 247 / 1162 + var(--section-gap)));
   position: relative;
 }
 

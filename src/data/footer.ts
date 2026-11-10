@@ -1,7 +1,8 @@
 import type { Localized } from '@/data/locale'
 import { SITE } from '@/data/site'
 
-export type FooterLink = { label: string; href: string; isExternal?: boolean }
+// isDesktopOnly : lien vers une section absente sur mobile (tableau de notes).
+export type FooterLink = { label: string; href: string; isExternal?: boolean; isDesktopOnly?: boolean }
 
 export type FooterColumn = { title: string; links: FooterLink[] }
 
@@ -41,7 +42,7 @@ export const FOOTER: Localized<FooterContent> = {
         links: [
           { label: SITE.email, href: EMAIL_LINK },
           { label: 'Book a call', href: '#contact' },
-          { label: 'Pin a note', href: '#notes' },
+          { label: 'Pin a note', href: '#notes', isDesktopOnly: true },
         ],
       },
       {
@@ -81,7 +82,7 @@ export const FOOTER: Localized<FooterContent> = {
         links: [
           { label: SITE.email, href: EMAIL_LINK },
           { label: 'Prendre rendez-vous', href: '#contact' },
-          { label: 'Épingler une note', href: '#notes' },
+          { label: 'Épingler une note', href: '#notes', isDesktopOnly: true },
         ],
       },
       {

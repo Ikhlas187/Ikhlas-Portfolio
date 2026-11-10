@@ -1,18 +1,20 @@
 import { useEffect, useRef } from 'react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLocation } from 'react-router-dom'
 import Hero from '@/components/pages/Home/Hero'
 import Projects from '@/components/pages/Home/Projects'
 import MacOSSection from '@/components/pages/Home/MacOSSection'
+import MobileProjects from '@/components/pages/Home/MobileProjects'
 import About from '@/components/pages/Home/About'
 import Experience from '@/components/pages/Home/Experience'
 import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
 import Services from '@/components/pages/Home/Services'
 import PinNote from '@/components/pages/Home/PinNote'
-import Footer from '@/components/pages/Home/Footer'
+import Footer from '@/components/ui/Footer'
 import { useLocale } from '@/lib/LocaleProvider'
+import { MOBILE_QUERY, useMediaQuery } from '@/lib/useMediaQuery'
 
 // Sections masquées pour l'instant, gardées pour y revenir : passer à true pour les réafficher.
-// Projects : l'intercalaire « Selected works » vit maintenant dans MacOSSection (WorksScreen).
 const SHOULD_SHOW_PROJECTS = false
 const SHOULD_SHOW_SKILLS = false
 
@@ -20,6 +22,15 @@ const SHOULD_SHOW_SKILLS = false
 export default function HomePage() {
   const { locale } = useLocale()
   const previousLocale = useRef(locale)
+  const isMobile = useMediaQuery(MOBILE_QUERY)
+  const { hash } = useLocation()
+
+  // Arrivée par /#section (bouton Retour, liens du footer depuis une autre page) : saut direct à la section.
+  useEffect(() => {
+    if (!hash) return
+    const frame = requestAnimationFrame(() => document.querySelector(hash)?.scrollIntoView())
+    return () => cancelAnimationFrame(frame)
+  }, [hash])
 
   // Les textes traduits changent la hauteur des sections : les déclencheurs placés plus bas doivent être recalculés.
   useEffect(() => {
@@ -32,12 +43,13 @@ export default function HomePage() {
     <main className="bg-black">
       <Hero />
       {SHOULD_SHOW_PROJECTS && <Projects />}
-      <MacOSSection />
+      {/* Mobile (réf. haufsess.com) : projets en défilement horizontal à la place du Mac, pas de tableau de notes. */}
+      {isMobile ? <MobileProjects /> : <MacOSSection />}
       <About />
       <Experience />
       {SHOULD_SHOW_SKILLS && <DedicatedTeam />}
       <Services />
-      <PinNote />
+      {!isMobile && <PinNote />}
       <Footer />
     </main>
   )

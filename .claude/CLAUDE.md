@@ -35,19 +35,17 @@ portfolio-frontend/
 │   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet)
 │   │   │   ├── MusicToggle.tsx     bouton son fixe en bas à gauche (z-95) : barres d'égaliseur, coupe / relance la musique de fond
 │   │   │   └── CoinLoader.tsx      écran de chargement : une seule chute de pièces IKHLAS / AGBETI / DEVELOPER, puis entrée automatique, sans bouton (+ CoinPile, FlatCoin, SolidCoin)
+│   │   │   ├── SiteHeader.tsx      header fixe z-90 de toutes les pages : fondu au scroll, revient en remontant puis repart seul après 1,5 s d'arrêt ; sur le Mac plein écran ([data-header-guard]) il faut remonter 320 px ; menu mobile < 810px (NavPill, LanguageSelect, BurgerButton)
+│   │   │   ├── Footer.tsx          footer de toutes les pages : DesktopFooter (réf. cosmoq.framer.website, carte noire à encoche en U qui épouse le CallWidget + CallBooking Cal.com, colonnes FooterLinkColumn) ou MobileFooter < 810px (réf. cashless.africa : prise de rendez-vous, puis bloc noir pleine largeur, nom, réseaux en icônes, rubriques en petites capitales, copyright) ; liens /#section hors de la home
+│   │   │   └── BackPill.tsx        bouton « ← Retour » des pages projet et certifications (réf. haufsess.com)
 │   │   └── pages/            un dossier par écran
 │   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
 │   │       │   ├── Hero.tsx             1er écran (réf. haufsess.com) : tagline + photo + nom géant
-│   │       │   ├── HomeHeader.tsx       header fixe z-90, fondu au scroll, menu mobile < 810px
-│   │       │   ├── NavPill.tsx          pill de nav, survol en ressort (--pill-hover)
-│   │       │   ├── LanguageSelect.tsx   sélecteur English / Français (shadcn Select), boîte de la réf.
-│   │       │   ├── BurgerButton.tsx     Menu / X lucide du header mobile
 │   │       │   ├── HeroName.tsx         nom en SVG mis à l'échelle de la largeur, entrée en ressort
 │   │       │   ├── Projects             pile de planches (réf. galerie Behance S. Baldeon)
 │   │       │   ├── Interlude.tsx        intercalaire « Selected works » + ellipse dessinée
 │   │       │   ├── ProjectBoard.tsx     une planche projet
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
-│   │       │   ├── CallWidget.tsx       widget « appel entrant », posé dans l'encoche du footer : le vert ouvre CallBooking (réservation Cal.com intégrée, lien SITE.calLink : Google Meet, agendas et mails gérés par Cal.com)
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
@@ -59,11 +57,10 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
-│   │       │   ├── Footer.tsx           footer (réf. cosmoq.framer.website) : titre « Book a call with me », carte noire bordée avec encoche en U qui épouse le CallWidget (ou sa carte Cal.com), 4 colonnes de liens (FooterLinkColumn), copyright
 │   │       │   ├── NameMark.tsx         nom géant en SVG (viewBox de la réf.), utilisé par HeroName
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
-│   │       │   ├── MacOSSection.tsx     section macOS (réf. maquette Framer IFRI), sans sticky : l'écran « Selected works » (WorksScreen) rétrécit (1 à 0,5) et descend au scroll, en ressort, jusqu'à finir caché sous la dalle du Mac (cadre noir, encoche), centré dessus ; bouton Allumer après extinction
-│   │       │   ├── WorksScreen.tsx      1er écran de MacOSSection : l'intercalaire « Selected works » dans un écran à cadre noir
+│   │       │   ├── MacOSSection.tsx     section macOS : le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
+│   │       │   ├── MobileProjects.tsx   mobile < 810px, à la place du Mac : « Selected Projects », un projet par écran (MobileProjectCard), section collée qui fait défiler les projets vers la gauche au scroll vertical (data/projects.ts), bouton Voir mes certifications ; le tableau de notes (PinNote) n'est pas monté sur mobile
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
 │   │       │       ├── MenuBar*.tsx, useMinuteClock.ts   barre de menus du 1er macOS (logo Apple, menus de data/giantSur.ts)
@@ -84,13 +81,16 @@ portfolio-frontend/
 │   │       │       ├── AppleLogo.tsx, TrafficLights.tsx, FileIcon.tsx, AboutThisMac.tsx, useMacFiles.ts
 │   │       │       ├── Music/               app Musique : « Batman » de Bedry joué sur le lecteur partagé (progression, durée réelle), autres pistes en aperçu indisponible
 │   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
-│   │       ├── Projects/ Project/ About/ Contact/   coquilles vides
+│   │       ├── Project/          page d'un projet /projects/:slug (réf. haufsess.com) : Retour, titre, description, services, année, photos empilées, projet suivant
+│   │       ├── Certifications/   /certifications : photo du certificat (src/assets/certifications/<id>.webp|jpg|png, sinon emplacement « Photo à venir »), titre et année dessous
+│   │       ├── Projects/ About/ Contact/   coquilles vides
 │   │       └── NotFound/     404
 │   ├── lib/
 │   │   ├── api/contact.ts    envoi du formulaire de contact (FormSubmit)
 │   │   ├── api/repos.ts      lecture de public/repos/ (index et instantané d'un repo), une requête par fichier et par session
 │   │   ├── highlightCode.ts  coloration highlight.js : cœur et grammaires importés à la demande
 │   │   ├── LenisProvider.tsx smooth scroll Lenis branché sur gsap.ticker + ScrollTrigger
+│   │   ├── useMediaQuery.ts  useMediaQuery + MOBILE_QUERY (< 810px : version mobile de la home)
 │   │   ├── LocaleProvider.tsx locale en | fr partagée (useLocale), met à jour <html lang>
 │   │   ├── MusicProvider.tsx un seul Audio pour tout le site (useMusic) : musique de fond au 1er geste après le loader + app Musique du Mac
 │   │   ├── musicSession.ts   musique coupée ou non et volume, gardés pour la session (sessionStorage)
@@ -113,7 +113,7 @@ portfolio-frontend/
 │   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
 │   │   ├── experiencePeriod/ période d'une expérience écrite selon la langue
 │   │   ├── cursorKind/       valeur de data-cursor vers type de bulle (view, scroll), inconnue = pas de bulle
-│   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll
+│   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll, remontée exigée avant de le réafficher (plus longue sur le Mac)
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
 │   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),
 │   │   │                     contextMenu (position du menu), repoShowcase (tri recruteurs), terminalScreen (lignes + ligne en cours de l'app Exécution), counterScale (écran Qt à sa vraie taille affichée), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
@@ -122,7 +122,9 @@ portfolio-frontend/
 │   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
-│   │   ├── screenDock/       échelle et descente de WorksScreen selon l'avancée du scroll, écart entre 2 centres
+│   │   ├── screenReveal/     échelle, proportion et fond noir du Mac plein écran qui rétrécit au scroll
+│   │   ├── projects/         projectServices (services d'un projet tirés de son eyebrow)
+│   │   ├── sectionHref/      lien #section tel quel sur la home, /#section ailleurs
 │   │   ├── footerShape/      contour SVG du footer : rectangle arrondi + encoche en U en haut au centre
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
 │   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
