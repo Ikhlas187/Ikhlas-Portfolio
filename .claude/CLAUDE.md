@@ -85,7 +85,7 @@ portfolio-frontend/
 │   │       │       └── Browser/ Calendar/ Finder/ Mail/ Messages/ Music/ Notes/ Photos/ Preview/ Settings/ Terminal/ VSCode/   une app par dossier
 │   │       ├── Project/          page d'un projet /projects/:slug (réf. haufsess.com) : Retour, titre, description, services, année, lien, captures empilées, projet suivant
 │   │       ├── Booking/          /book, mobile : ouverte par le bouton vert du CallWidget du footer, flèche de retour en haut (vers /…#contact d'où l'on vient), calendrier Cal.com dessous
-│   │       ├── Certifications/   /certifications : les 8 vrais certificats (src/assets/certifications/<id>.webp, exportés des PDF ; liste dans data/cv.ts ; images par id dans data/certificationPhotos.ts, aussi ouvertes dans l'Aperçu du Mac), titre et année dessous
+│   │       ├── Certifications/   /certifications : grille 2 colonnes sur ordinateur (1 sur téléphone), les 8 vrais certificats (src/assets/certifications/<id>.webp, exportés des PDF ; liste dans data/cv.ts ; images par id dans data/certificationPhotos.ts, aussi ouvertes dans l'Aperçu du Mac), titre et année dessous
 │   │       ├── Projects/ About/ Contact/   coquilles vides
 │   │       └── NotFound/     404
 │   ├── lib/
