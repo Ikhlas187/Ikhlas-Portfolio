@@ -1,9 +1,9 @@
 // Notes épinglées partagées entre tous les visiteurs : fonction Vercel (GET liste, POST épingle) sur la base Neon.
-// DATABASE_URL est une variable d'environnement du projet Vercel, jamais dans le code.
+// DATABASE_URL vient de Vercel ; imports locaux en .js : la fonction tourne en modules ES sans bundler.
 import { createHash, randomUUID } from 'node:crypto'
 import { neon } from '@neondatabase/serverless'
-import { noteRejection } from '../src/logic/notes/moderation/moderation'
-import { NOTE_COLORS, type NoteColor, type PinnedNote } from '../src/types/note'
+import { noteRejection } from '../src/logic/notes/moderation/moderation.js'
+import { NOTE_COLORS, type NoteColor, type PinnedNote } from '../src/types/note.js'
 
 // Le tableau n'affiche que les plus récentes.
 const NOTES_LIMIT = 30
