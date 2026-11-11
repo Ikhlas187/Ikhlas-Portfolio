@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import CoinPile from '@/components/ui/CoinPile'
 import { useLenis } from '@/lib/LenisProvider'
-import { markLoaderRevealed } from '@/lib/loaderSession'
+import { markLoaderGone, markLoaderRevealed } from '@/lib/loaderSession'
 import { useLocale } from '@/lib/LocaleProvider'
 import { LOADER, LOADER_LABELS } from '@/data/loader'
 import { buildRain, pileSettledAt, rainKeyframes, rowsForCycle, type CoinRainTiming } from '@/logic/coinRain/coinRain'
@@ -19,6 +19,9 @@ const TIMING: CoinRainTiming = {
   wipeTo: 0.93,
 }
 const EXIT_TOTAL_MS = 1400
+// Fin du fondu du voile : délai CSS (650 ou 120 ms) + 500 ms de transition.
+const VEIL_GONE_MS = 1150
+const STATIC_VEIL_GONE_MS = 620
 // Temps de lecture des 3 rangées posées avant l'entrée dans le site.
 const SETTLED_HOLD_MS = 600
 
@@ -61,8 +64,12 @@ export default function CoinLoader() {
   useEffect(() => {
     if (!isDone) return
     markLoaderRevealed()
+    const veilTimer = window.setTimeout(markLoaderGone, isStatic ? STATIC_VEIL_GONE_MS : VEIL_GONE_MS)
     const timer = window.setTimeout(() => setIsGone(true), isStatic ? 620 : EXIT_TOTAL_MS)
-    return () => window.clearTimeout(timer)
+    return () => {
+      window.clearTimeout(veilTimer)
+      window.clearTimeout(timer)
+    }
   }, [isDone, isStatic])
 
   useEffect(() => {

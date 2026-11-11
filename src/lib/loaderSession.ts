@@ -18,3 +18,24 @@ export function subscribeLoaderReveal(listener: () => void) {
     revealListeners.delete(listener)
   }
 }
+
+// Voile du loader entièrement effacé : la page est visible, le hero peut lancer son entrée.
+let isPageVisible = false
+const visibleListeners = new Set<() => void>()
+
+export function isLoaderGone() {
+  return isPageVisible
+}
+
+export function markLoaderGone() {
+  if (isPageVisible) return
+  isPageVisible = true
+  visibleListeners.forEach((listener) => listener())
+}
+
+export function subscribeLoaderGone(listener: () => void) {
+  visibleListeners.add(listener)
+  return () => {
+    visibleListeners.delete(listener)
+  }
+}

@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import { isLoaderRevealed, subscribeLoaderReveal } from '@/lib/loaderSession'
+import { isLoaderGone, subscribeLoaderGone } from '@/lib/loaderSession'
 import { heroExit } from '@/logic/heroExit/heroExit'
 
 type HeroTitleProps = {
@@ -13,21 +13,21 @@ const STAGGER = 0.1
 const TEXT_CLASSES = "uppercase antialiased [font-feature-settings:'ss07'] [font-optical-sizing:none] text-balance"
 
 export default function HeroTitle({ name, role }: HeroTitleProps) {
-  const isRevealed = useSyncExternalStore(subscribeLoaderReveal, isLoaderRevealed)
+  const isPageVisible = useSyncExternalStore(subscribeLoaderGone, isLoaderGone)
   const shouldReduceMotion = useReducedMotion()
   const { scrollY } = useScroll()
-  const exitFilter = useTransform(scrollY, (y) => `blur(${heroExit(y, window.innerHeight).blur}px)`)
-  const exitScale = useTransform(scrollY, (y) => heroExit(y, window.innerHeight).scale)
+  const exitFilter = useTransform(scrollY, (y) => `blur(${heroExit(y, { width: window.innerWidth, height: window.innerHeight }).blur}px)`)
+  const exitScale = useTransform(scrollY, (y) => heroExit(y, { width: window.innerWidth, height: window.innerHeight }).scale)
   const words = name.split(' ')
 
   const hidden = shouldReduceMotion
     ? { opacity: 0.001 }
     : { opacity: 0.001, filter: 'blur(10px)', y: 10, scale: 0.95 }
   const visible = shouldReduceMotion ? { opacity: 1 } : { opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }
-  // Délais de la réf., comptés depuis la sortie du loader (ou le montage s'il est déjà sorti).
+  // Délais de la réf., comptés depuis l'effacement complet du loader (ou le montage s'il a déjà disparu).
   const reveal = (index: number) => ({
     initial: hidden,
-    animate: isRevealed ? visible : hidden,
+    animate: isPageVisible ? visible : hidden,
     transition: { type: 'spring' as const, bounce: 0, duration: 1.8, restDelta: 0.001, delay: NAME_DELAY + index * STAGGER },
   })
 
