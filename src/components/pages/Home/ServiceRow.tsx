@@ -19,7 +19,7 @@ export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }
   return (
     <article
       style={{ '--row-top': `${stickyTop}px` } as CSSProperties}
-      className="grid grid-cols-1 gap-6 border-t border-black/20 bg-white pt-6 pb-10 min-[810px]:sticky min-[810px]:top-(--row-top) min-[810px]:grid-cols-[286fr_906fr] min-[810px]:pb-0"
+      className="grid grid-cols-1 gap-6 border-t border-black/20 bg-white pt-6 pb-10 min-[810px]:sticky min-[810px]:top-(--row-top) min-[810px]:grid-cols-[286fr_906fr] min-[810px]:pb-6"
     >
       <FadeInImage
         src={unsplashPhotoUrl(service.photo, PHOTO_WIDTH)}
@@ -27,14 +27,15 @@ export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }
         loading="lazy"
         className="h-[260px] w-full object-cover min-[810px]:h-[329px]"
       />
-      <div className="grid grid-cols-1 gap-4 min-[810px]:grid-cols-[194fr_388fr_291fr]">
-        <p className={ROW_HEADING}>{service.num}</p>
-        <div className="flex flex-col gap-4">
-          <h3 className={ROW_HEADING}>{service.title}</h3>
-          <p className="max-w-[360px] font-sans text-[16px] leading-[1.5] font-normal text-black/60">{service.desc}</p>
-        </div>
+      {/* Ordinateur : numéro | titre puis outils dessous | paragraphe à droite. Téléphone : numéro, titre, paragraphe, outils. */}
+      <div className="grid grid-cols-1 gap-4 min-[810px]:grid-cols-[194fr_388fr_291fr] min-[810px]:grid-rows-[auto_1fr] min-[810px]:gap-x-6">
+        <p className={`${ROW_HEADING} min-[810px]:row-span-2`}>{service.num}</p>
+        <h3 className={`${ROW_HEADING} min-[810px]:col-start-2`}>{service.title}</h3>
+        <p className="max-w-[360px] font-sans text-[16px] leading-[1.5] font-normal text-black/60 min-[810px]:col-start-3 min-[810px]:row-span-2 min-[810px]:row-start-1">
+          {service.desc}
+        </p>
         {/* Outils (réf. haufsess.com, section Tools) : titre, tuiles noires du logo en blanc, trait de fin. */}
-        <div className="flex flex-col gap-6">
+        <div className="mt-4 flex max-w-[360px] flex-col gap-6 min-[810px]:col-start-2 min-[810px]:row-start-2 min-[810px]:mt-2">
           <p className="font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em]">{toolsLabel}</p>
           <ul className="grid grid-cols-5 gap-3 border-b-2 border-black pb-6">
             {service.tools.map((tool) => {
