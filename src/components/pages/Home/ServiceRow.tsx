@@ -13,7 +13,6 @@ type ServiceRowProps = {
 
 const PHOTO_WIDTH = 640
 const ROW_HEADING = 'font-sans text-[26px] leading-[1.15] font-medium tracking-[-0.04em] min-[810px]:text-[32px]'
-const TOOL_ITEM = 'border-t border-black/20 py-2 font-sans text-[18px] leading-[1.5] tracking-[-0.02em]'
 
 /* Une rangée de la pile de services (réf. oddlymade.webflow.io) : collée en haut, 64 px sous la précédente. */
 export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }: ServiceRowProps) {
@@ -34,8 +33,8 @@ export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }
           <h3 className={ROW_HEADING}>{service.title}</h3>
           <p className="max-w-[360px] font-sans text-[16px] leading-[1.5] font-normal text-black/60">{service.desc}</p>
         </div>
-        {/* Téléphone (réf. haufsess.com, section Tools) : titre, tuiles noires du logo en blanc, trait de fin. */}
-        <div className="flex flex-col gap-6 min-[810px]:hidden">
+        {/* Outils (réf. haufsess.com, section Tools) : titre, tuiles noires du logo en blanc, trait de fin. */}
+        <div className="flex flex-col gap-6">
           <p className="font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em]">{toolsLabel}</p>
           <ul className="grid grid-cols-5 gap-3 border-b-2 border-black pb-6">
             {service.tools.map((tool) => {
@@ -48,14 +47,6 @@ export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }
             })}
           </ul>
         </div>
-        <ul className="hidden flex-col border-b border-black/20 min-[810px]:flex">
-          <li className="py-2 font-sans text-[18px] leading-[1.5] font-medium tracking-[-0.02em]">{toolsLabel}</li>
-          {service.tools.map((tool) => (
-            <li key={tool} className={TOOL_ITEM}>
-              {toolNames[tool]}
-            </li>
-          ))}
-        </ul>
       </div>
     </article>
   )
