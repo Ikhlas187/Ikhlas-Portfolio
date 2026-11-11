@@ -34,18 +34,15 @@ export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }
           <h3 className={ROW_HEADING}>{service.title}</h3>
           <p className="max-w-[360px] font-sans text-[16px] leading-[1.5] font-normal text-black/60">{service.desc}</p>
         </div>
-        {/* Téléphone (réf. haufsess.com, section Tools) : titre et trait, logos fixes, trait de fin. */}
+        {/* Téléphone (réf. haufsess.com, section Tools) : titre, tuiles noires du logo en blanc, trait de fin. */}
         <div className="flex flex-col gap-6 min-[810px]:hidden">
-          <div className="flex items-center gap-2">
-            <p className="shrink-0 font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em]">{toolsLabel}</p>
-            <span aria-hidden="true" className="h-[2px] flex-1 bg-black" />
-          </div>
-          <ul className="grid grid-cols-5 gap-4 border-b-2 border-black pb-6">
+          <p className="font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em]">{toolsLabel}</p>
+          <ul className="grid grid-cols-5 gap-3 border-b-2 border-black pb-6">
             {service.tools.map((tool) => {
               const Logo = TOOL_LOGOS[tool]
               return (
-                <li key={tool} className="flex aspect-square items-center justify-center">
-                  <Logo role="img" aria-label={toolNames[tool]} strokeWidth={1.5} className="size-full text-black" />
+                <li key={tool} className="flex aspect-square items-center justify-center rounded-[22%] bg-black p-[20%] text-white">
+                  <Logo role="img" aria-label={toolNames[tool]} className="size-full" />
                 </li>
               )
             })}
