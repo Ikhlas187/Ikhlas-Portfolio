@@ -33,10 +33,6 @@ export function isSearchQuery(input: string): boolean {
   return address !== '' && (!address.includes('.') || /\s/.test(address))
 }
 
-export function isGoogleHome(page: BrowserPage): boolean {
-  return page.kind === 'google' && page.query === ''
-}
-
 // Une saisie vide ne mène nulle part : la barre d'adresse l'ignore.
 export function resolveBrowserAddress(input: string, context: BrowserAddressContext): BrowserPage | null {
   const address = input.trim()

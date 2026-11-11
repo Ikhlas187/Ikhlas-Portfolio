@@ -1,13 +1,7 @@
-import { ABOUT, type AboutSegment } from '@/data/about'
+import { ABOUT } from '@/data/about'
 import { MACOS } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
-
-function segmentText(segment: AboutSegment) {
-  if (typeof segment === 'string') return segment
-  if ('highlight' in segment) return segment.highlight
-  if ('link' in segment) return segment.link
-  return segment.quote
-}
+import { segmentText } from '@/logic/macos/aboutSegment/aboutSegment'
 
 export default function BrowserAboutPage() {
   const { locale } = useLocale()

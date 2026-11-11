@@ -1,15 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useScroll, useTransform } from 'framer-motion'
 import { Power } from 'lucide-react'
 import CertificationsButton from '@/components/pages/Home/CertificationsButton'
-import MacOS from '@/components/pages/Home/MacOS/MacOS'
 import SectionHeading from '@/components/pages/Home/SectionHeading'
 import { Button } from '@/components/ui/button'
 import { MACBOOK } from '@/data/macbook'
 import { PROJECT_PAGE } from '@/data/projects'
 import { useLenis } from '@/lib/LenisProvider'
 import { useLocale } from '@/lib/LocaleProvider'
-import { canScrollBy } from '@/logic/scrollCapture/scrollCapture'
+import { isScrollableBy } from '@/logic/scrollCapture/scrollCapture'
 import { easeInOutCubic } from '@/logic/easing/easing'
 import {
   revealAspect,
@@ -19,6 +18,9 @@ import {
   revealCoverScale,
   revealScale,
 } from '@/logic/screenReveal/screenReveal'
+
+// Le faux macOS (apps, arborescence, éditeur) n'est chargé que sur ordinateur, à l'affichage de la section.
+const MacOS = lazy(() => import('@/components/pages/Home/MacOS/MacOS'))
 
 // Taille logique du bureau macOS, réduite à la largeur de la section.
 const SCREEN_WIDTH_PX = 1512
@@ -34,12 +36,12 @@ function wheelTargetState(target: EventTarget | null, boundary: HTMLElement, eve
     const overflowsX = /(auto|scroll)/.test(style.overflowX) && node.scrollWidth > node.clientWidth + 1
     if (!overflowsY && !overflowsX) continue
     isInScrollArea = true
-    const canScroll =
-      (overflowsY && canScrollBy({ offset: node.scrollTop, contentSize: node.scrollHeight, viewportSize: node.clientHeight }, event.deltaY)) ||
-      (overflowsX && canScrollBy({ offset: node.scrollLeft, contentSize: node.scrollWidth, viewportSize: node.clientWidth }, event.deltaX))
-    if (canScroll) return { isInScrollArea, canScroll }
+    const isScrollable =
+      (overflowsY && isScrollableBy({ offset: node.scrollTop, contentSize: node.scrollHeight, viewportSize: node.clientHeight }, event.deltaY)) ||
+      (overflowsX && isScrollableBy({ offset: node.scrollLeft, contentSize: node.scrollWidth, viewportSize: node.clientWidth }, event.deltaX))
+    if (isScrollable) return { isInScrollArea, isScrollable }
   }
-  return { isInScrollArea, canScroll: false }
+  return { isInScrollArea, isScrollable: false }
 }
 
 // Retour de l'écran à sa place quand on éteint le Mac en plein écran.
@@ -110,10 +112,10 @@ export default function MacOSSection() {
       const isCaptured = event.target instanceof Element && event.target.closest('[data-wheel-capture]')
       if (isCaptured) return event.stopPropagation()
       // Au bout d'un README ou d'une liste, la molette s'arrête là au lieu de faire défiler la page.
-      const { isInScrollArea, canScroll } = wheelTargetState(event.target, frame, event)
+      const { isInScrollArea, isScrollable } = wheelTargetState(event.target, frame, event)
       if (!isInScrollArea) return
       event.stopPropagation()
-      if (!canScroll) event.preventDefault()
+      if (!isScrollable) event.preventDefault()
     }
     frame.addEventListener('wheel', handleWheel, { passive: false })
     return () => frame.removeEventListener('wheel', handleWheel)
@@ -152,7 +154,9 @@ export default function MacOSSection() {
                     className="absolute top-0 left-0 origin-top-left"
                     style={{ width: SCREEN_WIDTH_PX, height: desktopHeight, scale }}
                   >
-                    <MacOS isPoweredOn={isPoweredOn} onShutdown={shutdown} />
+                    <Suspense fallback={null}>
+                      <MacOS isPoweredOn={isPoweredOn} onShutdown={shutdown} />
+                    </Suspense>
                     {/* Encoche de la caméra (MacBook Pro 14 : ~186 × 32 pt sur 1512), coins du haut incurvés vers le cadre. */}
                     <div
                       aria-hidden="true"

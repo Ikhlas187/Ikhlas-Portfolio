@@ -13,24 +13,14 @@ import Window, { type WindowFrameProps } from '@/components/pages/Home/MacOS/Win
 import { MACOS } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
 import { codeLanguage } from '@/logic/macos/codeLanguage/codeLanguage'
-import { NO_EDITOR_TABS, closeEditorTab, openEditorTab, type EditorTabs } from '@/logic/macos/editorTabs/editorTabs'
+import { NO_EDITOR_TABS, closeEditorTab, openEditorTab } from '@/logic/macos/editorTabs/editorTabs'
 import { ancestorPaths, findRepoNode } from '@/logic/macos/repoTree/repoTree'
 import type { TextPosition } from '@/logic/macos/textPosition/textPosition'
-import type { WindowPayload } from '@/logic/macos/windowManager/windowManager'
+import { fileName, workspaceFor } from '@/logic/macos/vscodeWorkspace/vscodeWorkspace'
 
 type VSCodeProps = { frame: WindowFrameProps; onOpenInBrowser: (url: string) => void }
 
-type Workspace = { repo: string | null; tabs: EditorTabs; expanded: ReadonlySet<string> }
-
 const START_POSITION: TextPosition = { line: 1, column: 1 }
-
-function workspaceFor({ repo, file }: WindowPayload): Workspace {
-  return {
-    repo: repo ?? null,
-    tabs: file ? openEditorTab(NO_EDITOR_TABS, file) : NO_EDITOR_TABS,
-    expanded: new Set(file ? ancestorPaths(file) : []),
-  }
-}
 
 // VS Code (thème Dark Modern) : explorateur du repo, onglets, éditeur coloré en lecture seule, barre d'état.
 export default function VSCode({ frame, onOpenInBrowser }: VSCodeProps) {
@@ -82,7 +72,7 @@ export default function VSCode({ frame, onOpenInBrowser }: VSCodeProps) {
       return { ...current, expanded: next }
     })
 
-  const title = activePath && repoName ? `${activePath.split('/').at(-1)} — ${repoName}` : (repoName ?? texts.welcomeTitle)
+  const title = activePath && repoName ? `${fileName(activePath)} — ${repoName}` : (repoName ?? texts.welcomeTitle)
 
   return (
     <Window {...frame} title={title} hasToolbarRow={false} contentClassName="bg-(--macos-vscode-editor)">
@@ -137,7 +127,7 @@ export default function VSCode({ frame, onOpenInBrowser }: VSCodeProps) {
         </div>
         <VSCodeStatusBar
           repo={summary}
-          languageLabel={activeFile?.content !== undefined ? (language?.label ?? null) : null}
+          languageLabel={activeFile?.content !== undefined ? (language ? (language.label ?? texts.plainText) : null) : null}
           position={activeFile?.content !== undefined ? position : null}
           onOpenHomepage={onOpenInBrowser}
         />

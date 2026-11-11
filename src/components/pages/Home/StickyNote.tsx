@@ -6,6 +6,7 @@ import { noteSignature } from '@/logic/notes/draft/draft'
 import { noteSway } from '@/logic/notes/sway/sway'
 import { noteTextSize, type NoteTextSize } from '@/logic/notes/textSize/textSize'
 import type { PinnedNote } from '@/types/note'
+import { Button } from '@/components/ui/button'
 
 const TEXT_SIZE_CLASSES: Record<NoteTextSize, string> = {
   large: 'text-[9cqw] leading-[1.2]',
@@ -65,15 +66,15 @@ export default function StickyNote({
         </figcaption>
       </figure>
       {onRemove && (
-        <button
-          type="button"
+        <Button
+          variant="plain"
           onClick={onRemove}
           aria-label={removeLabel}
           title={removeLabel}
-          className="absolute top-[4cqw] right-[4cqw] z-10 flex size-[13cqw] min-h-6 min-w-6 cursor-pointer items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-110"
+          className="absolute top-[4cqw] right-[4cqw] z-10 size-[13cqw] min-h-6 min-w-6 rounded-full bg-black text-white transition-transform hover:scale-110"
         >
           <X aria-hidden="true" strokeWidth={2.4} className="size-1/2" />
-        </button>
+        </Button>
       )}
       <motion.span
         aria-hidden="true"

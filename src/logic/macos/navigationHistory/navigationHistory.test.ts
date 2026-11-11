@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
-  canGoBack,
-  canGoForward,
+  isBackAvailable,
+  isForwardAvailable,
   createHistory,
   currentEntry,
   goBack,
@@ -14,8 +14,8 @@ describe('navigationHistory', () => {
     const freshHistory = createHistory('desktop')
 
     expect(currentEntry(freshHistory)).toBe('desktop')
-    expect(canGoBack(freshHistory)).toBe(false)
-    expect(canGoForward(freshHistory)).toBe(false)
+    expect(isBackAvailable(freshHistory)).toBe(false)
+    expect(isForwardAvailable(freshHistory)).toBe(false)
   })
 
   it('revient en arrière puis repart en avant', () => {
@@ -34,7 +34,7 @@ describe('navigationHistory', () => {
     const historyInDownloads = pushEntry(historyBackOnDesktop, 'downloads')
 
     expect(historyInDownloads.entries).toEqual(['desktop', 'downloads'])
-    expect(canGoForward(historyInDownloads)).toBe(false)
+    expect(isForwardAvailable(historyInDownloads)).toBe(false)
   })
 
   it('ne bouge pas quand on recule au début', () => {

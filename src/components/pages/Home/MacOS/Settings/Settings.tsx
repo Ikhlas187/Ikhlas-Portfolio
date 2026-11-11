@@ -15,7 +15,7 @@ export default function Settings({ frame, isDarkMode }: SettingsProps) {
   const texts = MACOS[locale].settings
 
   return (
-    <FinderWindow frame={frame} title={texts.title} canZoom={false}>
+    <FinderWindow frame={frame} title={texts.title} isZoomable={false}>
       <div className="absolute inset-0 overflow-y-auto px-[28px] py-[22px]">
         <div className="divide-y divide-(--macos-separator) rounded-[10px] border border-(--macos-separator) bg-(--macos-field)">
           <div className={ROW}>

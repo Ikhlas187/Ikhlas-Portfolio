@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { collectImages, findNode, nodesAlongPath } from '@/logic/macos/fileTree/fileTree'
+import { collectImages, findNode } from '@/logic/macos/fileTree/fileTree'
 import type { FsFolder } from '@/data/macos'
 
 const photo = {
@@ -38,14 +38,6 @@ describe('findNode', () => {
     const throughFile = ['projects', 'nevora', 'readme', 'inside']
 
     expect(findNode(home, throughFile)).toBeNull()
-  })
-})
-
-describe('nodesAlongPath', () => {
-  it('liste les dossiers de la racine jusqu’au dossier courant', () => {
-    const nevoraPath = ['projects', 'nevora']
-
-    expect(nodesAlongPath(home, nevoraPath).map((node) => node.name)).toEqual(['ikhlas', 'Projects', 'NEVORA'])
   })
 })
 

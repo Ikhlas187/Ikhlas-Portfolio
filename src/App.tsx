@@ -1,5 +1,5 @@
+import { lazy, Suspense, type ReactNode } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
 import { AnimatePresence } from 'framer-motion'
 
 import LenisProvider from '@/lib/LenisProvider'
@@ -10,84 +10,44 @@ import ContextCursor from '@/components/ui/ContextCursor'
 import CoinLoader from '@/components/ui/CoinLoader'
 import MusicToggle from '@/components/ui/MusicToggle'
 import HomePage from '@/components/pages/Home/HomePage'
-import ProjectsPage from '@/components/pages/Projects/ProjectsPage'
-import ProjectPage from '@/components/pages/Project/ProjectPage'
-import CertificationsPage from '@/components/pages/Certifications/CertificationsPage'
-import BookingPage from '@/components/pages/Booking/BookingPage'
-import AboutPage from '@/components/pages/About/AboutPage'
-import ContactPage from '@/components/pages/Contact/ContactPage'
-import NotFoundPage from '@/components/pages/NotFound/NotFoundPage'
 import { ROUTES } from '@/data/routes'
+
+// Hors accueil, chaque page est un fichier JS à part, chargé à la 1re visite.
+const ProjectsPage = lazy(() => import('@/components/pages/Projects/ProjectsPage'))
+const ProjectPage = lazy(() => import('@/components/pages/Project/ProjectPage'))
+const CertificationsPage = lazy(() => import('@/components/pages/Certifications/CertificationsPage'))
+const BookingPage = lazy(() => import('@/components/pages/Booking/BookingPage'))
+const AboutPage = lazy(() => import('@/components/pages/About/AboutPage'))
+const ContactPage = lazy(() => import('@/components/pages/Contact/ContactPage'))
+const NotFoundPage = lazy(() => import('@/components/pages/NotFound/NotFoundPage'))
+
+const PAGES: { path: string; page: ReactNode }[] = [
+  { path: ROUTES.HOME, page: <HomePage /> },
+  { path: ROUTES.PROJECTS, page: <ProjectsPage /> },
+  { path: ROUTES.PROJECT, page: <ProjectPage /> },
+  { path: ROUTES.CERTIFICATIONS, page: <CertificationsPage /> },
+  { path: ROUTES.BOOKING, page: <BookingPage /> },
+  { path: ROUTES.ABOUT, page: <AboutPage /> },
+  { path: ROUTES.CONTACT, page: <ContactPage /> },
+  { path: '*', page: <NotFoundPage /> },
+]
 
 function AnimatedRoutes() {
   const location = useLocation()
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route
-          path={ROUTES.HOME}
-          element={
-            <PageTransition>
-              <HomePage />
-            </PageTransition>
-          }
-        />
-        <Route
-          path={ROUTES.PROJECTS}
-          element={
-            <PageTransition>
-              <ProjectsPage />
-            </PageTransition>
-          }
-        />
-        <Route
-          path={ROUTES.PROJECT}
-          element={
-            <PageTransition>
-              <ProjectPage />
-            </PageTransition>
-          }
-        />
-        <Route
-          path={ROUTES.CERTIFICATIONS}
-          element={
-            <PageTransition>
-              <CertificationsPage />
-            </PageTransition>
-          }
-        />
-        <Route
-          path={ROUTES.BOOKING}
-          element={
-            <PageTransition>
-              <BookingPage />
-            </PageTransition>
-          }
-        />
-        <Route
-          path={ROUTES.ABOUT}
-          element={
-            <PageTransition>
-              <AboutPage />
-            </PageTransition>
-          }
-        />
-        <Route
-          path={ROUTES.CONTACT}
-          element={
-            <PageTransition>
-              <ContactPage />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <PageTransition>
-              <NotFoundPage />
-            </PageTransition>
-          }
-        />
+        {PAGES.map(({ path, page }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              <PageTransition>
+                <Suspense fallback={null}>{page}</Suspense>
+              </PageTransition>
+            }
+          />
+        ))}
       </Routes>
     </AnimatePresence>
   )
@@ -95,19 +55,17 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <HelmetProvider>
-      <LocaleProvider>
-        <MusicProvider>
-          <BrowserRouter>
-            <LenisProvider>
-              <ContextCursor />
-              <AnimatedRoutes />
-              <MusicToggle />
-              <CoinLoader />
-            </LenisProvider>
-          </BrowserRouter>
-        </MusicProvider>
-      </LocaleProvider>
-    </HelmetProvider>
+    <LocaleProvider>
+      <MusicProvider>
+        <BrowserRouter>
+          <LenisProvider>
+            <ContextCursor />
+            <AnimatedRoutes />
+            <MusicToggle />
+            <CoinLoader />
+          </LenisProvider>
+        </BrowserRouter>
+      </MusicProvider>
+    </LocaleProvider>
   )
 }

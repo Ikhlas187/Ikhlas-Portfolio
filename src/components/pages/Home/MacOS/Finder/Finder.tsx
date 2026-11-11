@@ -35,10 +35,10 @@ import {
   type FinderItem,
   type SortColumn,
 } from '@/logic/macos/finderItems/finderItems'
-import { folderLocation } from '@/logic/macos/finderLocation/finderLocation'
+import { folderLocation, repoNameAt } from '@/logic/macos/finderLocation/finderLocation'
 import {
-  canGoBack,
-  canGoForward,
+  isBackAvailable,
+  isForwardAvailable,
   createHistory,
   currentEntry,
   goBack,
@@ -60,13 +60,6 @@ type FinderProps = {
 
 const TOOL_BUTTON =
   'flex h-[28px] cursor-pointer items-center justify-center gap-[2px] rounded-[6px] px-[6px] text-(--macos-finder-tool) hover:bg-(--macos-finder-hover) disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent'
-
-// Dossier d'un repo dans Bureau/Projets/<repo>/… : son nom, sinon null.
-function repoNameAt(location: FinderLocation) {
-  if (location.kind !== 'folder' || location.path.length < 3) return null
-  const isInProjects = PROJECTS_PATH.every((id, index) => location.path[index] === id)
-  return isInProjects ? location.path[PROJECTS_PATH.length] : null
-}
 
 export default function Finder({
   frame,
@@ -92,7 +85,7 @@ export default function Finder({
   const location = currentEntry(history)
   const repos = useMacRepos()
   const { requestRepo } = repos
-  const repoName = repoNameAt(location)
+  const repoName = repoNameAt(location, PROJECTS_PATH)
   // À la racine d'un projet : son README s'affiche sous les fichiers.
   const readmeRepo =
     repoName && location.kind === 'folder' && location.path.length === PROJECTS_PATH.length + 1
@@ -183,7 +176,7 @@ export default function Finder({
           <button
             type="button"
             aria-label={texts.back}
-            disabled={!canGoBack(history)}
+            disabled={!isBackAvailable(history)}
             onClick={() => step(goBack)}
             className={cn(TOOL_BUTTON, 'w-[28px] px-0')}
           >
@@ -192,7 +185,7 @@ export default function Finder({
           <button
             type="button"
             aria-label={texts.forward}
-            disabled={!canGoForward(history)}
+            disabled={!isForwardAvailable(history)}
             onClick={() => step(goForward)}
             className={cn(TOOL_BUTTON, 'w-[28px] px-0')}
           >

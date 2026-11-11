@@ -30,7 +30,7 @@ import {
   selectTab,
   updateActiveSession,
 } from '@/logic/macos/browserTabs/browserTabs'
-import { canGoBack, canGoForward } from '@/logic/macos/navigationHistory/navigationHistory'
+import { isBackAvailable, isForwardAvailable } from '@/logic/macos/navigationHistory/navigationHistory'
 
 type BrowserProps = { frame: WindowFrameProps }
 
@@ -110,8 +110,8 @@ export default function Browser({ frame }: BrowserProps) {
           address={address}
           isLoading={isLoading}
           isBookmarked={isBookmarked(bookmarks, address)}
-          canGoBack={canGoBack(session.history)}
-          canGoForward={canGoForward(session.history)}
+          isBackAvailable={isBackAvailable(session.history)}
+          isForwardAvailable={isForwardAvailable(session.history)}
           onBack={() => setTabs((current) => updateActiveSession(current, goBackInSession))}
           onForward={() => setTabs((current) => updateActiveSession(current, goForwardInSession))}
           onReload={() => setTabs((current) => updateActiveSession(current, reloadSession))}

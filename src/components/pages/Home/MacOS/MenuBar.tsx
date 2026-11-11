@@ -3,8 +3,9 @@ import { cn } from '@/lib/utils'
 import AppleLogo from '@/components/pages/Home/MacOS/AppleLogo'
 import MenuBarClock from '@/components/pages/Home/MacOS/MenuBarClock'
 import MenuBarTitle from '@/components/pages/Home/MacOS/MenuBarTitle'
-import { GIANT_SUR, type GiantSurMenu, type MenuAction } from '@/data/giantSur'
+import { GIANT_SUR, type MenuAction } from '@/data/giantSur'
 import { useLocale } from '@/lib/LocaleProvider'
+import { withAppName } from '@/logic/macos/appMenu/appMenu'
 
 type MenuBarProps = {
   activeMenuId: string
@@ -18,11 +19,6 @@ type MenuBarProps = {
 }
 
 const STATUS_ITEM = 'flex h-full items-center px-[8px]'
-
-function withAppName(menu: GiantSurMenu, appName: string): GiantSurMenu {
-  const fill = (text: string) => text.replaceAll('{app}', appName)
-  return { ...menu, label: fill(menu.label), items: menu.items.map((item) => ({ ...item, title: fill(item.title) })) }
-}
 
 export default function MenuBar({
   activeMenuId,

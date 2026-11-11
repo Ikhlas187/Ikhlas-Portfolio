@@ -14,6 +14,10 @@ Les imports de paquets externes (`react`, `zod`…) restent des specifiers nus.
 
 Le dossier `e2e/` est à la racine du repo, donc **hors de `src/`, donc hors de portée de l'alias**. Un import entre fichiers de `e2e/` se fait en relatif : c'est la seule option, `@/` ne peut pas les atteindre.
 
+## Exception : `@import` dans un fichier CSS
+
+`src/index.css` importe `./tokens.css` en relatif : `vite-tsconfig-paths` ne résout l'alias que pour le JS et le TS, et `@import '@/tokens.css'` fait échouer le build. Seule exception dans `src/`.
+
 ## Où l'alias est câblé
 
 `paths` dans le `tsconfig`, et `vite-tsconfig-paths` pour que Vite et Vitest le résolvent. Quand un import en `@/` ne résout pas, vérifier ces 2 réglages avant de retomber sur un chemin relatif.

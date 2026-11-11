@@ -3,7 +3,6 @@ import {
   browserPageAddress,
   googleEmbedUrl,
   googlePublicUrl,
-  isGoogleHome,
   isSearchQuery,
   resolveBrowserAddress,
 } from '@/logic/macos/browserAddress/browserAddress'
@@ -95,16 +94,6 @@ describe('googlePublicUrl', () => {
     const query = 'react portfolio'
 
     expect(googlePublicUrl(query, 'en')).toBe('https://www.google.com/search?hl=en&q=react+portfolio')
-  })
-})
-
-describe('isGoogleHome', () => {
-  it.each([
-    [{ kind: 'google' as const, query: '' }, true],
-    [{ kind: 'google' as const, query: 'react' }, false],
-    [{ kind: 'about' as const }, false],
-  ])('%o est l’accueil de Google : %s', (page, isHome) => {
-    expect(isGoogleHome(page)).toBe(isHome)
   })
 })
 

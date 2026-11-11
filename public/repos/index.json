@@ -11,50 +11,6 @@
     "fileCount": 496
   },
   {
-    "name": "portfolio-backend",
-    "description": null,
-    "language": "TypeScript",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/portfolio-backend",
-    "homepageUrl": null,
-    "branch": "dev",
-    "updatedAt": "2026-10-11T16:31:45Z",
-    "fileCount": 32
-  },
-  {
-    "name": "kommit-frontend",
-    "description": null,
-    "language": "TypeScript",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/kommit-frontend",
-    "homepageUrl": null,
-    "branch": "dev",
-    "updatedAt": "2026-10-11T13:23:32Z",
-    "fileCount": 39
-  },
-  {
-    "name": "kommit-perso",
-    "description": null,
-    "language": "Python",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/kommit-perso",
-    "homepageUrl": null,
-    "branch": "dev",
-    "updatedAt": "2026-10-11T13:14:11Z",
-    "fileCount": 24
-  },
-  {
-    "name": "kommit-backend",
-    "description": null,
-    "language": "TypeScript",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/kommit-backend",
-    "homepageUrl": null,
-    "branch": "dev",
-    "updatedAt": "2026-10-11T13:14:06Z",
-    "fileCount": 39
-  },
-  {
     "name": "components-hole",
     "description": "Regroupement de mes composants react ",
     "language": "JavaScript",
@@ -88,39 +44,6 @@
     "fileCount": 58
   },
   {
-    "name": "john-website",
-    "description": null,
-    "language": "CSS",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/john-website",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2026-06-17T15:30:10Z",
-    "fileCount": 39
-  },
-  {
-    "name": "Groupe_5_Java",
-    "description": "Dépot pour le projet Java concernant l'application de gestion de budget ",
-    "language": "Java",
-    "visibility": "public",
-    "githubUrl": "https://github.com/Ikhlas187/Groupe_5_Java",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2026-02-21T12:26:04Z",
-    "fileCount": 55
-  },
-  {
-    "name": "New-Projet-Int-grateur",
-    "description": null,
-    "language": null,
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/New-Projet-Int-grateur",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2026-01-25T23:08:15Z",
-    "fileCount": 37
-  },
-  {
     "name": "github-user",
     "description": null,
     "language": "JavaScript",
@@ -130,28 +53,6 @@
     "branch": "main",
     "updatedAt": "2026-01-03T17:00:42Z",
     "fileCount": 22
-  },
-  {
-    "name": "JavaScript",
-    "description": "j'ai décidé de mettre la plupart de mes projets que j'ai fait lors de mon apprentissage en plus de mon résumé de cours complet personnel ",
-    "language": "JavaScript",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/JavaScript",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2025-12-15T12:12:12Z",
-    "fileCount": 40
-  },
-  {
-    "name": "MediPass",
-    "description": "Projet de gestion d'un hopital en console avec C++ ",
-    "language": null,
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/MediPass",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2025-12-15T11:57:31Z",
-    "fileCount": 2
   },
   {
     "name": "Columinst",
@@ -165,17 +66,6 @@
     "fileCount": 53
   },
   {
-    "name": "Gestionnaire_de_contacts",
-    "description": null,
-    "language": "C++",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/Gestionnaire_de_contacts",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2025-12-15T00:46:20Z",
-    "fileCount": 11
-  },
-  {
     "name": "Groupe_15_POO",
     "description": null,
     "language": "C",
@@ -185,38 +75,5 @@
     "branch": "main",
     "updatedAt": "2025-12-02T21:13:31Z",
     "fileCount": 87
-  },
-  {
-    "name": "Landing-Page-",
-    "description": "Exercice de création d'un site de vente de casque pour apprendre à faire des landingas pages",
-    "language": "CSS",
-    "visibility": "private",
-    "githubUrl": "https://github.com/Ikhlas187/Landing-Page-",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2025-10-22T00:25:36Z",
-    "fileCount": 8
-  },
-  {
-    "name": "React-tutoriel-",
-    "description": "Projet react openclassroom",
-    "language": "JavaScript",
-    "visibility": "public",
-    "githubUrl": "https://github.com/Ikhlas187/React-tutoriel-",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2025-08-28T22:09:28Z",
-    "fileCount": 36
-  },
-  {
-    "name": "Podia-Project",
-    "description": "Exercice de création du site Podia ",
-    "language": "HTML",
-    "visibility": "public",
-    "githubUrl": "https://github.com/Ikhlas187/Podia-Project",
-    "homepageUrl": null,
-    "branch": "main",
-    "updatedAt": "2025-08-25T19:31:58Z",
-    "fileCount": 19
   }
 ]

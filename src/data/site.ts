@@ -14,17 +14,6 @@ export const SITE = {
   },
 }
 
-export const SITE_META: Localized<{ title: string; description: string }> = {
-  en: {
-    title: 'Ikhlas Olamidé · Creative Designer & Developer',
-    description: 'Creative designer and developer focused on branding and memorable web experiences.',
-  },
-  fr: {
-    title: 'Ikhlas Olamidé · Designer & Développeur Créatif',
-    description: 'Designer & Développeur Créatif spécialisé en branding et expériences web mémorables.',
-  },
-}
-
 export const NAV_LINKS: Localized<NavLink[]> = {
   en: [
     { label: 'Projects', href: '#projects' },

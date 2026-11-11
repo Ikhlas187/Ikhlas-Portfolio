@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { useLocale } from '@/lib/LocaleProvider'
 import { HEADER } from '@/data/hero'
+import { Button } from '@/components/ui/button'
 
 type BurgerButtonProps = {
   isOpen: boolean
@@ -13,13 +14,13 @@ export default function BurgerButton({ isOpen, onToggle }: BurgerButtonProps) {
   const Icon = isOpen ? X : Menu
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="plain"
       onClick={onToggle}
       aria-expanded={isOpen}
       aria-controls="home-mobile-nav"
       aria-label={isOpen ? HEADER[locale].closeMenuLabel : HEADER[locale].openMenuLabel}
-      className="relative flex size-8 shrink-0 cursor-pointer items-center justify-center text-black"
+      className="relative size-8 rounded-none text-black"
     >
       <AnimatePresence initial={false} mode="popLayout">
         <motion.span
@@ -33,6 +34,6 @@ export default function BurgerButton({ isOpen, onToggle }: BurgerButtonProps) {
           <Icon className="size-9" strokeWidth={1.75} aria-hidden="true" />
         </motion.span>
       </AnimatePresence>
-    </button>
+    </Button>
   )
 }

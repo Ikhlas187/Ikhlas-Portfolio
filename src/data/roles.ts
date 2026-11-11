@@ -67,8 +67,3 @@ export const ROLES: Localized<Role[]> = {
     { id: 'wordpress', name: 'Développeur WordPress', color: 'var(--color-black)', rot: 1, stack: ['WordPress', 'Next.js', 'PHP'] },
   ],
 }
-
-export const SKILLS_SECTION: Localized<{ title: string }> = {
-  en: { title: 'Skills' },
-  fr: { title: 'Compétences' },
-}

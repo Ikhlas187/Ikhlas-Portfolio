@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 
 type TrafficLightsProps = {
   isFocused: boolean
-  canZoom: boolean
+  isZoomable: boolean
   onClose: () => void
   onMinimize: () => void
   onZoom: () => void
@@ -17,7 +17,7 @@ const GLYPH = 'size-[8px] text-(--macos-glyph) opacity-0 group-hover/lights:opac
 const IDLE = 'bg-(--macos-frame-line) shadow-[inset_0_0_0_0.5px_var(--macos-frame-line)] group-hover/lights:shadow-(--macos-frame-light-ring)'
 
 // Pastilles du Safari de mihrimatrix/macos-clone-react : 13 px, écart de 8 px, symboles visibles au survol du groupe.
-export default function TrafficLights({ isFocused, canZoom, onClose, onMinimize, onZoom }: TrafficLightsProps) {
+export default function TrafficLights({ isFocused, isZoomable, onClose, onMinimize, onZoom }: TrafficLightsProps) {
   const { locale } = useLocale()
   const labels = MACOS[locale].windowControls
   const idle = !isFocused && IDLE
@@ -44,7 +44,7 @@ export default function TrafficLights({ isFocused, canZoom, onClose, onMinimize,
         type="button"
         aria-label={labels.zoom}
         onClick={onZoom}
-        disabled={!canZoom}
+        disabled={!isZoomable}
         className={cn(
           LIGHT,
           'bg-(--macos-zoom)',

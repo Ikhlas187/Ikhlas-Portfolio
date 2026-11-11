@@ -26,7 +26,8 @@ export type HighlightLanguage =
   | 'dockerfile'
   | 'makefile'
 
-export type CodeLanguage = { label: string; highlight: HighlightLanguage | null }
+// label null : texte brut, libellé traduit par l'app (data/macos.ts).
+export type CodeLanguage = { label: string | null; highlight: HighlightLanguage | null }
 
 // Famille d'icône de l'explorateur : chaque famille a son icône et sa couleur dans l'app VS Code.
 export type FileIconKind =
@@ -46,7 +47,7 @@ export type FileIconKind =
   | 'pdf'
   | 'text'
 
-const PLAIN_TEXT: CodeLanguage = { label: 'Plain Text', highlight: null }
+const PLAIN_TEXT: CodeLanguage = { label: null, highlight: null }
 
 const BY_EXTENSION: Record<string, CodeLanguage> = {
   ts: { label: 'TypeScript', highlight: 'typescript' },

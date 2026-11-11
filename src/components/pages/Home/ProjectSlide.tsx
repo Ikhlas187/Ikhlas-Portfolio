@@ -12,7 +12,7 @@ export default function ProjectSlide({ project }: ProjectSlideProps) {
     <Link to={`/projects/${project.slug}`} className="relative block size-full cursor-pointer bg-black">
       <picture>
         <source media="(min-width: 810px)" srcSet={project.cover.landscape} />
-        <img src={project.cover.portrait} alt={project.cover.alt} className="size-full object-cover object-[50%_15%]" />
+        <img loading="lazy" decoding="async" src={project.cover.portrait} alt={project.cover.alt} className="size-full object-cover object-[50%_15%]" />
       </picture>
       <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/70 to-transparent px-4 pt-24 pb-[88px] min-[810px]:px-10">
         <p className="flex items-center gap-2 font-sans text-[22px] min-[810px]:text-[32px] leading-[1.2] font-medium tracking-[-0.02em] text-white">

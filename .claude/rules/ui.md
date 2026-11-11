@@ -20,7 +20,7 @@ Comment on construit l'interface dans ce projet. Impératifs, valables **partout
 
 ## Exception : les sections existantes de la home
 
-Les sections déjà écrites dans `components/pages/Home/` (Projects, About, DedicatedTeam, Services, Process) gardent leur `.css` BEM appairé. On ne les migre pas en Tailwind. Un nouveau morceau ajouté **dans** une de ces sections suit le `.css` de la section, pour ne pas mélanger 2 systèmes dans le même bloc. Tout le reste du nouveau code suit les règles ci-dessus.
+La section About de `components/pages/Home/` (et le widget d'appel `ui/CallWidget.tsx` qui partage `About.css`) garde son `.css` BEM appairé. On ne les migre pas en Tailwind. Un nouveau morceau ajouté **dans** une de ces sections suit le `.css` de la section, pour ne pas mélanger 2 systèmes dans le même bloc. Tout le reste du nouveau code suit les règles ci-dessus.
 
 ## Exception : les apps du faux macOS
 

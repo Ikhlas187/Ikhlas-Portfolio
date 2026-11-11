@@ -1,5 +1,5 @@
 import ServiceRow from '@/components/pages/Home/ServiceRow'
-import { SERVICES, SERVICES_SECTION } from '@/data/services'
+import { SERVICES, SERVICES_SECTION, TOOL_NAMES } from '@/data/services'
 import { useLocale } from '@/lib/LocaleProvider'
 
 // Pile collée en haut (réf. oddlymade.webflow.io) : titre à 64 px, 1re rangée à 224 px, chaque suivante 64 px plus bas.
@@ -25,6 +25,7 @@ export default function Services() {
             key={service.num}
             service={service}
             toolsLabel={section.toolsLabel}
+            toolNames={TOOL_NAMES[locale]}
             stickyTop={HEADER_TOP + HEADER_HEIGHT + index * ROW_STEP}
           />
         ))}

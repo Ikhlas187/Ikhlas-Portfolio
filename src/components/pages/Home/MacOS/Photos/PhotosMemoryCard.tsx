@@ -30,7 +30,7 @@ export default function PhotosMemoryCard({ album, items, countLabel, onOpen }: P
       onClick={onOpen}
       className="relative h-[160px] w-[256px] shrink-0 cursor-pointer overflow-hidden rounded-[12px] bg-(--macos-photos-tile) text-left"
     >
-      <img
+      <img loading="lazy" decoding="async"
         src={unsplashPhotoUrl(items[index].photoId, 600)}
         alt=""
         draggable={false}

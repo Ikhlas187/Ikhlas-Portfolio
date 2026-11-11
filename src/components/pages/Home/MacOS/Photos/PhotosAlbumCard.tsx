@@ -10,7 +10,7 @@ export default function PhotosAlbumCard({ label, items, onOpen }: PhotosAlbumCar
     <button type="button" onClick={onOpen} className="cursor-pointer text-left">
       <div className="aspect-square overflow-hidden rounded-[8px] bg-(--macos-photos-tile)">
         {cover && (
-          <img
+          <img loading="lazy" decoding="async"
             src={unsplashPhotoUrl(cover.photoId, 600)}
             alt={label}
             draggable={false}

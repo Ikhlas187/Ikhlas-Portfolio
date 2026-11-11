@@ -23,7 +23,7 @@ import { useMacFiles } from '@/components/pages/Home/MacOS/useMacFiles'
 import VSCode from '@/components/pages/Home/MacOS/VSCode/VSCode'
 import type { WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
 import type { DockApp, MenuAction } from '@/data/giantSur'
-import { ABOUT_PATH, CV_PATH, DESKTOP_PATH, MACOS, PROJECTS_PATH, type FinderViewMode, type FsNode } from '@/data/macos'
+import { ABOUT_PATH, CV_PATH, DESKTOP_PATH, MACOS, PROJECTS_PATH, type FinderViewMode } from '@/data/macos'
 import { REPO_RUNS } from '@/data/projectShowcase'
 import { useLocale } from '@/lib/LocaleProvider'
 import type { MacDisplay } from '@/lib/macDisplaySession'
@@ -41,6 +41,7 @@ import {
   type OpenWindowRequest,
 } from '@/logic/macos/windowManager/windowManager'
 import type { RepoSummary } from '@/types/repo'
+import { previewSize } from '@/logic/macos/previewSize/previewSize'
 
 type DesktopProps = {
   display: MacDisplay
@@ -74,19 +75,6 @@ const WINDOW_SIZES: Record<Exclude<AppId, 'preview'>, Size> = {
   runner: { width: 720, height: 460 },
   qtRunner: { width: 1400, height: 860 },
 }
-
-type PreviewNode = Exclude<FsNode, { kind: 'folder' } | { kind: 'code' }>
-
-const PREVIEW_SIZES: Record<PreviewNode['kind'], Size> = {
-  text: { width: 600, height: 500 },
-  image: { width: 840, height: 600 },
-  pdf: { width: 700, height: 800 },
-}
-// Taille qui montre le vrai certificat en entier (680 px de large, proportions A4 paysage ou Make).
-const CERTIFICATE_PREVIEW_SIZE: Size = { width: 760, height: 660 }
-
-const previewSize = (node: PreviewNode) =>
-  node.kind === 'pdf' && node.document.type === 'certificate' ? CERTIFICATE_PREVIEW_SIZE : PREVIEW_SIZES[node.kind]
 
 const reducer = windowManagerReducer(MACOS_SCREEN)
 

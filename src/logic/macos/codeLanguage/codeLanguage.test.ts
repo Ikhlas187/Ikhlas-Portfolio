@@ -35,8 +35,8 @@ describe('codeLanguage', () => {
     const unknownPaths = ['LICENSE', 'notes.xyz']
 
     expect(unknownPaths.map(codeLanguage)).toEqual([
-      { label: 'Plain Text', highlight: null },
-      { label: 'Plain Text', highlight: null },
+      { label: null, highlight: null },
+      { label: null, highlight: null },
     ])
   })
 })

@@ -141,8 +141,6 @@ export const FINDER_FAVORITES: FinderFavorite[] = [
   { id: 'certifications', location: { kind: 'folder', path: CERTIFICATIONS_PATH } },
 ]
 
-export const FINDER_LOCATIONS: FinderLocation[] = [{ kind: 'folder', path: [] }]
-
 export const BROWSER_HOST = 'ikhlas.studio'
 
 export type AppName =
@@ -218,6 +216,7 @@ type MacOSTexts = {
     // {line} et {column} sont remplacés par la position du curseur.
     position: string
     spaces: string
+    plainText: string
     encoding: string
     lineEnding: string
     privateRepo: string
@@ -597,6 +596,7 @@ export const MACOS: Localized<MacOSTexts> = {
       },
       position: 'Ln {line}, Col {column}',
       spaces: 'Spaces: 2',
+      plainText: 'Plain Text',
       encoding: 'UTF-8',
       lineEnding: 'LF',
       privateRepo: 'Private repository',
@@ -918,6 +918,7 @@ export const MACOS: Localized<MacOSTexts> = {
       },
       position: 'Ln {line}, Col {column}',
       spaces: 'Espaces : 2',
+      plainText: 'Texte brut',
       encoding: 'UTF-8',
       lineEnding: 'LF',
       privateRepo: 'Dépôt privé',

@@ -9,7 +9,24 @@ import { promisify } from 'node:util'
 const run = promisify(execFile)
 
 const OWNER = 'Ikhlas187'
-const EXCLUDED_REPOS = new Set(['entourage-plus', OWNER])
+// Repos jamais publiés dans public/repos/ (souvent privés) : ceux retirés du Mac (SHOWCASE_HIDDEN de data/projectShowcase.ts) en font partie.
+const EXCLUDED_REPOS = new Set([
+  'entourage-plus',
+  OWNER,
+  'JavaScript',
+  'React-tutoriel-',
+  'Podia-Project',
+  'Landing-Page-',
+  'kommit-frontend',
+  'kommit-backend',
+  'kommit-perso',
+  'portfolio-backend',
+  'john-website',
+  'Groupe_5_Java',
+  'Gestionnaire_de_contacts',
+  'New-Projet-Int-grateur',
+  'MediPass',
+])
 // Repos d'équipe publics, hors du compte d'Ikhlas, auxquels il a contribué.
 const EXTERNAL_REPOS = [{ owner: 'thelord00229', name: 'ETUDOCS' }]
 const REPO_FIELDS = 'name,isFork,isPrivate,isEmpty,diskUsage,homepageUrl,description,primaryLanguage,defaultBranchRef,pushedAt,updatedAt'

@@ -14,7 +14,7 @@ describe('brightnessShade', () => {
     expect(brightnessShade(lowestBrightness)).toBe(0.85)
   })
 
-  it('assombrit proportionnellement entre les deux', () => {
+  it('assombrit proportionnellement entre les 2 bornes', () => {
     const halfBrightness = 0.5
 
     expect(brightnessShade(halfBrightness)).toBe(0.425)

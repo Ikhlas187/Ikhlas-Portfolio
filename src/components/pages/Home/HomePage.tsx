@@ -1,27 +1,16 @@
-import { useEffect, useRef } from 'react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import Hero from '@/components/pages/Home/Hero'
-import Projects from '@/components/pages/Home/Projects'
 import MacOSSection from '@/components/pages/Home/MacOSSection'
 import ProjectsShowcase from '@/components/pages/Home/ProjectsShowcase'
 import About from '@/components/pages/Home/About'
 import Experience from '@/components/pages/Home/Experience'
-import DedicatedTeam from '@/components/pages/Home/DedicatedTeam'
 import Services from '@/components/pages/Home/Services'
 import PinNote from '@/components/pages/Home/PinNote'
 import Footer from '@/components/ui/Footer'
-import { useLocale } from '@/lib/LocaleProvider'
 import { MOBILE_QUERY, useMediaQuery } from '@/lib/useMediaQuery'
 
-// Sections masquées pour l'instant, gardées pour y revenir : passer à true pour les réafficher.
-const SHOULD_SHOW_PROJECTS = false
-const SHOULD_SHOW_SKILLS = false
-
-// À venir : menu 3 barres verticales entre DedicatedTeam et Services, CTA de fin (réf. momdesign.fr).
 export default function HomePage() {
-  const { locale } = useLocale()
-  const previousLocale = useRef(locale)
   const isMobile = useMediaQuery(MOBILE_QUERY)
   const { hash } = useLocation()
 
@@ -32,25 +21,16 @@ export default function HomePage() {
     return () => cancelAnimationFrame(frame)
   }, [hash])
 
-  // Les textes traduits changent la hauteur des sections : les déclencheurs placés plus bas doivent être recalculés.
-  useEffect(() => {
-    if (previousLocale.current === locale) return
-    previousLocale.current = locale
-    ScrollTrigger.refresh()
-  }, [locale])
-
   return (
     <main className="bg-black">
       {/* Borne le hero collé : il reste sous la section qui le recouvre, puis repart avec elle. */}
       <div>
         <Hero />
-        {SHOULD_SHOW_PROJECTS && <Projects />}
         {/* Ordinateur : le Mac (bouton des certifications dessous) ; téléphone (réf. haufsess.com) : les projets à sa place, pas de tableau de notes. */}
         {isMobile ? <ProjectsShowcase /> : <MacOSSection />}
       </div>
       <About />
       <Experience />
-      {SHOULD_SHOW_SKILLS && <DedicatedTeam />}
       <Services />
       {!isMobile && <PinNote />}
       <Footer />

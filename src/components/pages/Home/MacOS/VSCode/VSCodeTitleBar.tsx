@@ -4,7 +4,6 @@ type VSCodeTitleBarProps = { label: string }
 
 const DECOR = 'size-[16px] text-(--macos-vscode-icon)'
 
-// Barre de titre de VS Code sur macOS : poignée de la fenêtre, centre de commande au milieu.
 export default function VSCodeTitleBar({ label }: VSCodeTitleBarProps) {
   return (
     <div

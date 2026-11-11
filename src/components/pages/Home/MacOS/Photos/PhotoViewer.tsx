@@ -120,7 +120,7 @@ export default function PhotoViewer({ items, index, onNavigate, onClose }: Photo
                   thumbIndex === index ? 'opacity-100 ring-2 ring-(--macos-photos-text)' : 'opacity-50',
                 )}
               >
-                <img
+                <img loading="lazy" decoding="async"
                   src={unsplashPhotoUrl(thumb.photoId, 120)}
                   alt=""
                   draggable={false}

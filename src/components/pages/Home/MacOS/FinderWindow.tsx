@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 type FinderWindowProps = {
   frame: WindowFrameProps
   title: string
-  canZoom?: boolean
+  isZoomable?: boolean
   // undefined : titre en gras à gauche, comme le Finder. null : titre centré, sans outils.
   toolbar?: ReactNode | null
   sidebar?: ReactNode
@@ -23,7 +23,7 @@ const LIGHT_SCHEME =
 export default function FinderWindow({
   frame,
   title,
-  canZoom,
+  isZoomable,
   toolbar,
   sidebar,
   sidebarClassName,
@@ -44,7 +44,7 @@ export default function FinderWindow({
     <Window
       {...frame}
       title={title}
-      canZoom={canZoom}
+      isZoomable={isZoomable}
       sidebarClassName={cn('w-[152px] bg-(--macos-finder-sidebar)', sidebarClassName)}
       titleBarClassName={titleBarClassName}
       contentClassName={cn('bg-(--macos-finder-window)', contentClassName)}

@@ -20,7 +20,7 @@ export default function FileIcon({ item, className }: FileIconProps) {
   if (item.node.kind === 'image') {
     return (
       <span className={cn('flex size-full items-center justify-center', className)}>
-        <img
+        <img loading="lazy" decoding="async"
           src={unsplashPhotoUrl(item.node.photoId, 160)}
           alt=""
           draggable={false}

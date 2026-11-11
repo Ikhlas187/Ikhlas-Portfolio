@@ -10,8 +10,8 @@ type BrowserToolbarProps = {
   address: string
   isLoading: boolean
   isBookmarked: boolean
-  canGoBack: boolean
-  canGoForward: boolean
+  isBackAvailable: boolean
+  isForwardAvailable: boolean
   onBack: () => void
   onForward: () => void
   onReload: () => void
@@ -25,8 +25,8 @@ export default function BrowserToolbar({
   address,
   isLoading,
   isBookmarked,
-  canGoBack,
-  canGoForward,
+  isBackAvailable,
+  isForwardAvailable,
   onBack,
   onForward,
   onReload,
@@ -49,13 +49,13 @@ export default function BrowserToolbar({
         event.currentTarget.querySelector('input')?.blur()
       }}
     >
-      <button type="button" aria-label={texts.back} disabled={!canGoBack} onClick={onBack} className={FRAME_TOOL}>
+      <button type="button" aria-label={texts.back} disabled={!isBackAvailable} onClick={onBack} className={FRAME_TOOL}>
         <ChevronLeft strokeWidth={FRAME_ICON_STROKE} />
       </button>
       <button
         type="button"
         aria-label={texts.forward}
-        disabled={!canGoForward}
+        disabled={!isForwardAvailable}
         onClick={onForward}
         className={FRAME_TOOL}
       >

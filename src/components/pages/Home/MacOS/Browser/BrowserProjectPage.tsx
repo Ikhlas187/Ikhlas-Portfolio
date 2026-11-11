@@ -21,14 +21,14 @@ export default function BrowserProjectPage({ slug }: BrowserProjectPageProps) {
           {PROJECTS_SECTION[locale].dateLabel} {project.date}
         </p>
       </div>
-      <img
+      <img loading="lazy" decoding="async"
         src={unsplashPhotoUrl(cover.id, 1400)}
         alt={cover.alt}
         className="mt-[28px] aspect-[16/7] w-full rounded-[10px] object-cover"
       />
       <div className="mt-[12px] grid grid-cols-3 gap-[12px]">
         {photos.map((photo) => (
-          <img
+          <img loading="lazy" decoding="async"
             key={photo.id}
             src={unsplashPhotoUrl(photo.id, 600)}
             alt={photo.alt}

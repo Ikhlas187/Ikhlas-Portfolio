@@ -3,6 +3,7 @@ import VSCodeFileIcon from '@/components/pages/Home/MacOS/VSCode/VSCodeFileIcon'
 import { MACOS } from '@/data/macos'
 import { useLocale } from '@/lib/LocaleProvider'
 import { cn } from '@/lib/utils'
+import { fileName } from '@/logic/macos/vscodeWorkspace/vscodeWorkspace'
 
 type VSCodeTabsProps = {
   paths: string[]
@@ -10,8 +11,6 @@ type VSCodeTabsProps = {
   onSelect: (path: string) => void
   onClose: (path: string) => void
 }
-
-const fileName = (path: string) => path.slice(path.lastIndexOf('/') + 1)
 
 export default function VSCodeTabs({ paths, activePath, onSelect, onClose }: VSCodeTabsProps) {
   const { locale } = useLocale()

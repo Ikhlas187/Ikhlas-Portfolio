@@ -11,7 +11,6 @@ type DockLinkProps = {
   onMouseLeave: () => void
 }
 
-// Lien externe du Dock : tuile sombre arrondie avec le logo, ouvre le profil dans un nouvel onglet.
 export default function DockLink({ id, title, href, width, onMouseEnter, onMouseLeave }: DockLinkProps) {
   const { Logo, className } = DOCK_LINK_LOGOS[id]
 

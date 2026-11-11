@@ -1,10 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import Lenis from '@studio-freight/lenis'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { easeInOutCubic } from '@/logic/easing/easing'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const LenisContext = createContext<Lenis | null>(null)
 
@@ -14,7 +11,7 @@ const ANCHOR_MAX_SECONDS = 2.4
 const ANCHOR_PX_PER_SECOND = 4000
 
 
-/* Smooth scroll Lenis cadencé par gsap.ticker, pour que ScrollTrigger reste synchronisé. */
+/* Smooth scroll Lenis cadencé par gsap.ticker, la même horloge que les animations gsap du widget d'appel. */
 export default function LenisProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null)
 
@@ -29,7 +26,6 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
     })
 
     setLenis(lenisInstance)
-    lenisInstance.on('scroll', ScrollTrigger.update)
 
     const ticker = gsap.ticker.add((time) => {
       lenisInstance.raf(time * 1000)

@@ -23,7 +23,7 @@ portfolio-frontend/
 │                             runs/columinst/ (build.sh + CMakeLists.txt : Qt 6.10.3 wasm dans C:/Qt, emsdk 4.0.7 dans C:/emsdk-qt ; patch_sources.py adapte une copie du code Qt 5)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
-│   ├── App.tsx               providers (Helmet, Locale, Music, Router, Lenis) + ContextCursor + routes animées + MusicToggle
+│   ├── App.tsx               providers (Locale, Music, Router, Lenis) + ContextCursor + routes animées (pages hors accueil en lazy) + MusicToggle
 │   ├── index.css             Tailwind + shadcn + reset (@layer base) + variables shadcn branchées sur les tokens
 │   ├── tokens.css            toutes les CSS vars du portfolio (couleurs, typo, espacements, easings)
 │   ├── components/
@@ -42,14 +42,9 @@ portfolio-frontend/
 │   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
 │   │       │   ├── Hero.tsx             1er écran (réf. jorge-template.framer.website, couleurs inversées) : section collée de la hauteur de l'écran, recouverte par la section suivante (bornée par un div dans HomePage)
 │   │       │   ├── HeroTitle.tsx        nom (h1, mot par mot) + rôle centrés : entrée flou/montée en ressort après le loader, flou et rétrécissement au scroll (logic/heroExit)
-│   │       │   ├── Projects             pile de planches (réf. galerie Behance S. Baldeon)
-│   │       │   ├── Interlude.tsx        intercalaire « Selected works » + ellipse dessinée
-│   │       │   ├── ProjectBoard.tsx     une planche projet
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
-│   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
-│   │       │   ├── techIcons.ts         table techno vers { Icon, color }
 │   │       │   ├── Services.tsx         pile de services collée au scroll (réf. oddlymade.webflow.io) : titre à 64 px, rangées à 224 px puis +64 px chacune ; ServiceRow.tsx = photo, numéro, titre + description, liste d'outils
 │   │       │   ├── PinNote.tsx          tableau de notes épinglées en fin de home (réf. tpdapson.com), Tailwind : 1 note par visiteur (clé lib/visitorToken.ts), à retirer (croix sur sa note, seule supprimable) avant d'en épingler une autre ; pas sur téléphone
 │   │       │   ├── NoteForm.tsx         carte formulaire : note, prénom facultatif, couleur, bouton Pin note
@@ -57,7 +52,6 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
-│   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS : titre « Selected Projects » (SectionHeading) puis le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
 │   │       │   ├── ProjectsShowcase.tsx  téléphone seulement, à la place du Mac : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, Efreeshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui défile vers la gauche au scroll vertical, puis CertificationsButton ; ni Mac ni tableau de notes sur téléphone
 │   │       │   ├── CertificationsButton.tsx  « Voir mes certifications » : sous les projets sur téléphone, sous le MacBook sur ordinateur (fondu à la fin du rétrécissement)
@@ -91,7 +85,7 @@ portfolio-frontend/
 │   │   ├── api/contact.ts    envoi du formulaire de contact (FormSubmit)
 │   │   ├── api/repos.ts      lecture de public/repos/ (index et instantané d'un repo), une requête par fichier et par session
 │   │   ├── highlightCode.ts  coloration highlight.js : cœur et grammaires importés à la demande
-│   │   ├── LenisProvider.tsx smooth scroll Lenis branché sur gsap.ticker + ScrollTrigger
+│   │   ├── LenisProvider.tsx smooth scroll Lenis branché sur gsap.ticker
 │   │   ├── useMediaQuery.ts  useMediaQuery + MOBILE_QUERY (< 810px : version mobile de la home)
 │   │   ├── LocaleProvider.tsx locale en | fr partagée (useLocale), met à jour <html lang>
 │   │   ├── MusicProvider.tsx un seul Audio pour tout le site (useMusic) : musique de fond au 1er geste après le loader + app Musique du Mac
@@ -131,7 +125,6 @@ portfolio-frontend/
 │   │   ├── footerShape/      contour SVG du footer : rectangle arrondi + encoche en U en haut au centre
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
 │   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
-│   │   ├── padIndex/         1 vers « 01 » (compteur de planches)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
 │   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor) ; repo.ts : format de public/repos/ (écrit par tools/repos)
 │   └── assets/               pièces du loader (coin-{flat,solid}.svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS, background-music.m4a (musique de fond)
@@ -145,7 +138,7 @@ portfolio-frontend/
 
 ```
 Build        Vite 6 · TypeScript 6 · pnpm
-UI           React 19 · react-router-dom 7 · react-helmet-async
+UI           React 19 · react-router-dom 7
 Styling      CSS par section (sections existantes) · Tailwind v4 + shadcn/ui Base UI (tout nouveau code)
 Animations   gsap 3 + @gsap/react (useGSAP) · framer-motion 12 · Lenis
 Tests        Vitest (pnpm test)
@@ -200,15 +193,12 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 ## État du chantier
 
 ```
-Fait           Hero + SiteHeader · Projects · About · Experience · DedicatedTeam · Services · PinNote · CoinLoader · Footer
+Fait           Hero + SiteHeader · Mac (ordinateur) / ProjectsShowcase (téléphone) · About · Experience · Services · PinNote · CoinLoader · Footer
                ContextCursor · PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
-Écrit, pas monté   Process
-À faire        Menu (3 barres verticales) entre DedicatedTeam et Services
-               Footer, puis CTA de fin (réf. momdesign.fr)
+Archivé        Projects (planches), DedicatedTeam (compétences), Process : retirés le 2026-11-11, récupérables via le tag git archive/sections-cachees
+À faire        CTA de fin (réf. momdesign.fr)
                Pages /projects, /projects/:slug, /about, /contact
                Boutons de test de connexion au backend (ticket setup, RM4)
-               PinNote : partager les notes entre visiteurs via portfolio-backend (NotesStore prêt, API à écrire)
-Dette          Process : copie encore calquée sur la référence (verteal), à réécrire avec le parcours d'Ikhlas
-               Bundle JS de 650 Ko, pas de découpage par route
+Découpage      entrée JS 248 Ko gzip ; le faux macOS, les pages hors accueil et le calendrier Cal.com sont chargés à part
 ```

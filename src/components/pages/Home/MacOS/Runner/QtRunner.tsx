@@ -5,6 +5,7 @@ import { MACOS } from '@/data/macos'
 import { REPO_RUNS } from '@/data/projectShowcase'
 import { useLocale } from '@/lib/LocaleProvider'
 import { counterScale } from '@/logic/macos/counterScale/counterScale'
+import { loadScript } from '@/lib/api/runs'
 
 type QtRunnerProps = { frame: WindowFrameProps; repo: string }
 
@@ -23,26 +24,7 @@ type QtLoadConfig = {
 
 type QtWindow = Window & { qtLoad?: (config: QtLoadConfig) => Promise<unknown> } & Record<string, unknown>
 
-// Scripts classiques (pas des modules) : ajoutés une seule fois à la page, réutilisés aux lancements suivants.
-function loadScript(src: string) {
-  const existing = document.querySelector<HTMLScriptElement>(`script[src="${src}"]`)
-  if (existing?.dataset.loaded) return Promise.resolve()
-  return new Promise<void>((resolve, reject) => {
-    const script = existing ?? document.createElement('script')
-    script.addEventListener('load', () => {
-      script.dataset.loaded = 'true'
-      resolve()
-    })
-    script.addEventListener('error', () => reject(new Error(src)))
-    if (!existing) {
-      script.src = src
-      document.body.append(script)
-    }
-  })
-}
-
-/* App Exécution, variante Qt : charge au clic une app Qt Widgets compilée en WebAssembly et la dessine dans la fenêtre,
-   avec ses vraies fenêtres, menus et boîtes de dialogue. */
+/* App Exécution, variante Qt : app Qt Widgets en WebAssembly dessinée dans la fenêtre, avec ses vrais menus et dialogues. */
 export default function QtRunner({ frame, repo }: QtRunnerProps) {
   const { locale } = useLocale()
   const texts = MACOS[locale].runner

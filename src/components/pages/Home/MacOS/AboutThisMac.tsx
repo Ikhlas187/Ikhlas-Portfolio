@@ -11,7 +11,7 @@ export default function AboutThisMac({ frame, onMoreInfo }: AboutThisMacProps) {
   const texts = MACOS[locale].about
 
   return (
-    <FinderWindow frame={frame} title={texts.title} canZoom={false} toolbar={null}>
+    <FinderWindow frame={frame} title={texts.title} isZoomable={false} toolbar={null}>
       <div className="absolute inset-0 flex flex-col items-center px-[26px] pb-[22px] text-center">
         <AppleLogo className="mt-[6px] h-[80px] w-[68px] text-(--macos-text) drop-shadow-(--macos-shadow-icon)" />
         <h2 className="mt-[14px] font-sans text-[22px] font-bold">{texts.name}</h2>

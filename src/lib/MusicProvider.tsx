@@ -109,12 +109,12 @@ export default function MusicProvider({ children }: { children: ReactNode }) {
       const audio = audioRef.current
       const target = event.target instanceof Element ? event.target : null
       if (!audio || audio.error || target?.closest(`[${MUSIC_CONTROL_ATTRIBUTE}]`)) return
-      const canStart = shouldStartOnGesture({
+      const shouldStart = shouldStartOnGesture({
         isLoaderRevealed: isLoaderRevealed(),
         isMutedForSession: preferencesRef.current.isMuted,
         hasStartedOrChosen: hasStartedOrChosenRef.current,
       })
-      if (!canStart) return
+      if (!shouldStart) return
       hasStartedOrChosenRef.current = true
       // Refusé (geste qui n'active pas la lecture) : on retente au geste suivant.
       audio.play().catch(() => {

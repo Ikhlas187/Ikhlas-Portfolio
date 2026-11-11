@@ -1,11 +1,10 @@
 import avatarUrl from '@/assets/avatar.webp'
-import { useRef, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
 import { Phone, X } from 'lucide-react'
 import { useLocale } from '@/lib/LocaleProvider'
-import CallBooking from '@/components/ui/CallBooking'
 import { CALL_WIDGET } from '@/data/about'
 import { isCallSilenced, markCallSilenced } from '@/lib/callRingSession'
 import '@/components/pages/Home/About.css'
@@ -17,6 +16,9 @@ const RING_SHAKES = 3
 const RING_SHAKE_X = [0, -4, 4, -4, 4, -2, 2, 0]
 const RING_PERIOD_REPEAT_DELAY = 2.9
 // Bascule pastille ↔ calendrier : vraie taille animée (pas un scale) pour que l'encoche du footer suive.
+// Calendrier Cal.com chargé seulement à l'ouverture de la carte de réservation.
+const CallBooking = lazy(() => import('@/components/ui/CallBooking'))
+
 const SWAP_EASE = [0.22, 1, 0.36, 1] as const
 const SWAP_TRANSITION = { duration: 0.45, ease: SWAP_EASE }
 // Taille de la carte de réservation (CallBooking) : 800 × 586, moins large si la fenêtre est étroite.
@@ -121,7 +123,9 @@ export default function CallWidget({ onAccept }: CallWidgetProps) {
             exit={{ opacity: 0, y: 12, transition: { duration: 0.2, ease: SWAP_EASE } }}
             className="absolute top-0 left-1/2 w-[min(800px,calc(100vw-48px))] -translate-x-1/2"
           >
-            <CallBooking onClose={() => setIsFormOpen(false)} />
+            <Suspense fallback={null}>
+              <CallBooking onClose={() => setIsFormOpen(false)} />
+            </Suspense>
           </motion.div>
         )}
       </AnimatePresence>
@@ -143,7 +147,8 @@ export default function CallWidget({ onAccept }: CallWidgetProps) {
           type="button"
           className="about__call-avatar"
           onClick={reopen}
-          aria-label={isClosed ? callWidget.ariaReopen : 'Ikhlas'}
+          disabled={!isClosed}
+          aria-label={isClosed ? callWidget.ariaReopen : callWidget.name}
         >
           <img src={avatarUrl} alt="" className="size-full object-cover" />
         </button>

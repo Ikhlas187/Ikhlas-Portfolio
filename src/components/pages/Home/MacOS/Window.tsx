@@ -18,7 +18,7 @@ export type WindowFrameProps = {
 
 type WindowProps = WindowFrameProps & {
   title: string
-  canZoom?: boolean
+  isZoomable?: boolean
   toolbar?: ReactNode
   // false : l'app dessine ses propres barres d'outils (Safari, Notes), marquées data-window-drag.
   hasToolbarRow?: boolean
@@ -44,7 +44,7 @@ export default function Window({
   window: macWindow,
   title,
   isFocused,
-  canZoom = true,
+  isZoomable = true,
   toolbar,
   hasToolbarRow = true,
   isSeeThrough = false,
@@ -120,7 +120,7 @@ export default function Window({
     onPointerUp: handlePointerUp,
     onPointerCancel: handlePointerUp,
     onDoubleClick: (event: MouseEvent<HTMLElement>) => {
-      if (canZoom && isOnDragHandle(event.target)) onZoom()
+      if (isZoomable && isOnDragHandle(event.target)) onZoom()
     },
   }
 
@@ -158,7 +158,7 @@ export default function Window({
       )}
     >
       <div className="absolute top-[21px] left-[21px] z-20">
-        <TrafficLights isFocused={isFocused} canZoom={canZoom} onClose={onClose} onMinimize={onMinimize} onZoom={onZoom} />
+        <TrafficLights isFocused={isFocused} isZoomable={isZoomable} onClose={onClose} onMinimize={onMinimize} onZoom={onZoom} />
       </div>
       {sidebar && (
         <aside className={cn('flex w-[200px] shrink-0 flex-col border-r border-(--macos-frame-line)', sidebarClassName)}>

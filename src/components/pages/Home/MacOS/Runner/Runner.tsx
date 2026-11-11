@@ -3,6 +3,7 @@ import FinderWindow from '@/components/pages/Home/MacOS/FinderWindow'
 import type { WindowFrameProps } from '@/components/pages/Home/MacOS/Window'
 import { MACOS } from '@/data/macos'
 import { REPO_RUNS } from '@/data/projectShowcase'
+import { fetchProgramSource } from '@/lib/api/runs'
 import { useLocale } from '@/lib/LocaleProvider'
 import { commitInput, EMPTY_SCREEN, writeOutput, type TerminalScreen } from '@/logic/macos/terminalScreen/terminalScreen'
 
@@ -23,10 +24,7 @@ type ProgramFactory = (module: Partial<ProgramModule>) => Promise<unknown>
 
 // Le script est lu puis importé depuis une URL blob : Vite refuse en dev l'import direct d'un fichier de public/.
 async function loadProgram(moduleUrl: string) {
-  const source = await fetch(moduleUrl).then((response) => {
-    if (!response.ok) throw new Error(`HTTP ${response.status}`)
-    return response.text()
-  })
+  const source = await fetchProgramSource(moduleUrl)
   const blobUrl = URL.createObjectURL(new Blob([source], { type: 'text/javascript' }))
   try {
     return (await import(/* @vite-ignore */ blobUrl)) as { default: ProgramFactory }
@@ -35,8 +33,7 @@ async function loadProgram(moduleUrl: string) {
   }
 }
 
-/* App Exécution : charge le programme compilé en WebAssembly seulement à l'ouverture, et le fait tourner pour de vrai,
-   sortie et saisies au clavier dans la fenêtre, comme dans un terminal. */
+/* App Exécution : programme WebAssembly lancé à l'ouverture, sortie et saisies dans la fenêtre comme un terminal. */
 export default function Runner({ frame, repo }: RunnerProps) {
   const { locale } = useLocale()
   const texts = MACOS[locale].runner

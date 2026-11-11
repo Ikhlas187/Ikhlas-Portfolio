@@ -8,8 +8,7 @@ export type FooterShape = {
   shoulderRadius: number
 }
 
-// Contour SVG du footer : rectangle arrondi avec, en haut au centre, une encoche en U
-// (épaules arrondies vers le bas, fond arrondi), comme l'encoche de caméra d'un MacBook.
+// Contour SVG du footer : rectangle arrondi avec une encoche en U en haut au centre, comme celle d'un MacBook.
 export function footerPath({ width, height, notchWidth, notchDepth, cornerRadius, notchRadius, shoulderRadius }: FooterShape) {
   const left = (width - notchWidth) / 2
   const right = left + notchWidth

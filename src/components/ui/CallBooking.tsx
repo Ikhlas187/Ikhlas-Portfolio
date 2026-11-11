@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import { CALL_WIDGET } from '@/data/about'
 import { SITE } from '@/data/site'
 import { useLocale } from '@/lib/LocaleProvider'
+import { Button } from '@/components/ui/button'
 
 type CallBookingProps = {
   onClose: () => void
@@ -20,14 +21,14 @@ export default function CallBooking({ onClose }: CallBookingProps) {
 
   return (
     <div className="relative w-full overflow-hidden rounded-[8px] bg-white text-black shadow-(--note-form-shadow)">
-      <button
-        type="button"
+      <Button
+        variant="plain"
         aria-label={copy.ariaCloseForm}
         onClick={onClose}
-        className="absolute right-4 bottom-4 z-10 flex size-10 cursor-pointer items-center justify-center rounded-full bg-(--color-call-decline) text-white"
+        className="absolute right-4 bottom-4 z-10 size-10 rounded-full bg-(--color-call-decline) text-white"
       >
         <X className="size-5" strokeWidth={2.4} aria-hidden="true" />
-      </button>
+      </Button>
       <Cal
         calLink={SITE.calLink}
         config={{ layout: 'month_view', theme: 'light' }}
