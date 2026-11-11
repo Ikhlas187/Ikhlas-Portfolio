@@ -1,5 +1,5 @@
 import { motion, type Transition } from 'framer-motion'
-import { Pin } from 'lucide-react'
+import { Pin, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { NOTE_COLOR_CLASSES } from '@/components/pages/Home/noteColorClasses'
 import { noteSignature } from '@/logic/notes/draft/draft'
@@ -23,6 +23,9 @@ type StickyNoteProps = {
   rotation: string
   isUnderForm?: boolean
   isJustPinned?: boolean
+  // Seulement sur la note du visiteur : la retirer du tableau.
+  onRemove?: () => void
+  removeLabel?: string
 }
 
 export default function StickyNote({
@@ -31,6 +34,8 @@ export default function StickyNote({
   rotation,
   isUnderForm = false,
   isJustPinned = false,
+  onRemove,
+  removeLabel,
 }: StickyNoteProps) {
   const sway = noteSway(note.id)
 
@@ -59,6 +64,17 @@ export default function StickyNote({
           {noteSignature(note, anonymousLabel)}
         </figcaption>
       </figure>
+      {onRemove && (
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label={removeLabel}
+          title={removeLabel}
+          className="absolute top-[4cqw] right-[4cqw] z-10 flex size-[13cqw] min-h-6 min-w-6 cursor-pointer items-center justify-center rounded-full bg-black text-white transition-transform hover:scale-110"
+        >
+          <X aria-hidden="true" strokeWidth={2.4} className="size-1/2" />
+        </button>
+      )}
       <motion.span
         aria-hidden="true"
         className="pointer-events-none absolute top-[-9.5cqw] left-1/2 size-[13.7cqw] origin-bottom -translate-x-1/2"

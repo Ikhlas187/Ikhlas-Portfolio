@@ -11,7 +11,10 @@ const NOTES_LIMIT = 30
 const RATE_LIMIT_COUNT = 3
 const RATE_LIMIT_SECONDS = 60
 
-type NoteRow = { id: string; text: string; author: string | null; color: NoteColor; created_at: string | Date }
+type NoteRow = { id: string; text: string; author: string | null; color: NoteColor; created_at: string | Date; is_mine?: boolean }
+
+// Clé secrète du navigateur du visiteur (lib/visitorToken.ts) : seule son empreinte est gardée, elle désigne sa note.
+const VISITOR_TOKEN = /^[0-9a-f-]{36}$/i
 
 const sql = neon(process.env.DATABASE_URL ?? '')
 
@@ -28,6 +31,10 @@ function ensureTable() {
       created_at timestamptz NOT NULL DEFAULT now()
     )`,
   )
+    .then(() => sql`ALTER TABLE portfolio_notes.pinned_notes ADD COLUMN IF NOT EXISTS owner_hash char(64)`)
+    // 1 note par visiteur, garanti par la base même si 2 demandes arrivent en même temps.
+    .then(() => sql`CREATE UNIQUE INDEX IF NOT EXISTS pinned_notes_owner ON portfolio_notes.pinned_notes (owner_hash)
+      WHERE owner_hash IS NOT NULL`)
   ready.catch(() => {
     ready = null
   })
@@ -35,7 +42,17 @@ function ensureTable() {
 }
 
 function toNote(row: NoteRow): PinnedNote {
-  return { id: row.id, text: row.text, author: row.author, color: row.color, createdAt: new Date(row.created_at).toISOString() }
+  const note: PinnedNote = { id: row.id, text: row.text, author: row.author, color: row.color, createdAt: new Date(row.created_at).toISOString() }
+  return row.is_mine ? { ...note, isMine: true } : note
+}
+
+function hashOf(value: string) {
+  return createHash('sha256').update(`${process.env.NOTES_SALT ?? 'portfolio-notes'}:${value}`).digest('hex')
+}
+
+function ownerHash(request: Request) {
+  const token = request.headers.get('x-visitor-token') ?? ''
+  return VISITOR_TOKEN.test(token) ? hashOf(`visitor:${token}`) : null
 }
 
 function json(body: unknown, status = 200) {
@@ -43,15 +60,19 @@ function json(body: unknown, status = 200) {
 }
 
 function ipHash(request: Request) {
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
-  return createHash('sha256').update(`${process.env.NOTES_SALT ?? 'portfolio-notes'}:${ip}`).digest('hex')
+  return hashOf(request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown')
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     await ensureTable()
-    const rows = (await sql`SELECT id, text, author, color, created_at FROM portfolio_notes.pinned_notes
-      ORDER BY created_at DESC LIMIT ${NOTES_LIMIT}`) as NoteRow[]
+    const owner = ownerHash(request) ?? ''
+    // Les plus récentes, plus la note du visiteur si elle est plus ancienne : il doit toujours pouvoir la retirer.
+    const rows = (await sql`(SELECT id, text, author, color, created_at, owner_hash = ${owner} AS is_mine
+        FROM portfolio_notes.pinned_notes ORDER BY created_at DESC LIMIT ${NOTES_LIMIT})
+      UNION
+      (SELECT id, text, author, color, created_at, true AS is_mine FROM portfolio_notes.pinned_notes WHERE owner_hash = ${owner})
+      ORDER BY created_at DESC`) as NoteRow[]
     return json(rows.map(toNote))
   } catch {
     return json({ error: 'unavailable' }, 503)
@@ -70,17 +91,38 @@ export async function POST(request: Request) {
   const color = NOTE_COLORS.find((noteColor) => noteColor === body.color)
   const rejection = noteRejection(text, author)
   if (rejection || !color) return json({ error: rejection ?? 'empty' }, 400)
+  const owner = ownerHash(request)
+  if (!owner) return json({ error: 'unavailable' }, 400)
 
   try {
     await ensureTable()
+    const [{ pinned }] = (await sql`SELECT count(*)::int AS pinned FROM portfolio_notes.pinned_notes
+      WHERE owner_hash = ${owner}`) as { pinned: number }[]
+    if (pinned > 0) return json({ error: 'alreadyPinned' }, 409)
     const hash = ipHash(request)
     const [{ count }] = (await sql`SELECT count(*)::int AS count FROM portfolio_notes.pinned_notes
       WHERE ip_hash = ${hash} AND created_at > now() - make_interval(secs => ${RATE_LIMIT_SECONDS})`) as { count: number }[]
     if (count >= RATE_LIMIT_COUNT) return json({ error: 'tooMany' }, 429)
-    const [row] = (await sql`INSERT INTO portfolio_notes.pinned_notes (id, text, author, color, ip_hash)
-      VALUES (${randomUUID()}, ${text}, ${author || null}, ${color}, ${hash})
-      RETURNING id, text, author, color, created_at`) as NoteRow[]
+    const [row] = (await sql`INSERT INTO portfolio_notes.pinned_notes (id, text, author, color, ip_hash, owner_hash)
+      VALUES (${randomUUID()}, ${text}, ${author || null}, ${color}, ${hash}, ${owner})
+      RETURNING id, text, author, color, created_at, true AS is_mine`) as NoteRow[]
     return json(toNote(row), 201)
+  } catch (error) {
+    // 23505 : l'index unique a refusé une 2e note du même visiteur.
+    if ((error as { code?: string }).code === '23505') return json({ error: 'alreadyPinned' }, 409)
+    return json({ error: 'unavailable' }, 503)
+  }
+}
+
+// Retire une note, seulement si elle appartient au visiteur qui le demande.
+export async function DELETE(request: Request) {
+  const id = new URL(request.url).searchParams.get('id') ?? ''
+  const owner = ownerHash(request)
+  if (!owner || !/^[0-9a-f-]{36}$/i.test(id)) return json({ error: 'notFound' }, 404)
+  try {
+    await ensureTable()
+    const rows = await sql`DELETE FROM portfolio_notes.pinned_notes WHERE id = ${id} AND owner_hash = ${owner} RETURNING id`
+    return rows.length > 0 ? json({ id }) : json({ error: 'notFound' }, 404)
   } catch {
     return json({ error: 'unavailable' }, 503)
   }

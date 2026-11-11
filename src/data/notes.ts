@@ -15,7 +15,9 @@ type NotesSection = {
   pinnedStatus: string
   emptyStatus: string
   // Refus du contrôle des notes ou du serveur.
-  rejectedStatus: { tooLong: string; blockedWord: string; link: string; tooMany: string; unavailable: string }
+  rejectedStatus: Record<'tooLong' | 'blockedWord' | 'link' | 'tooMany' | 'alreadyPinned' | 'notFound' | 'unavailable', string>
+  // Retrait de sa propre note (bouton sur la note du visiteur).
+  removeLabel: string
   seeMoreLabel: string
   anonymous: string
   boardLabel: string
@@ -41,7 +43,10 @@ export const NOTES_SECTION: Localized<NotesSection> = {
       link: 'Links aren’t allowed on the board.',
       tooMany: 'You’ve pinned a lot in a short time. Try again in a minute.',
       unavailable: 'The board can’t be reached right now. Try again in a moment.',
+      alreadyPinned: 'You already have a note on the board. Remove it to pin a new one.',
+      notFound: 'This note is no longer on the board.',
     },
+    removeLabel: 'Remove my note',
     seeMoreLabel: 'See more notes',
     anonymous: 'Anonymous',
     boardLabel: 'Pinned notes',
@@ -65,7 +70,10 @@ export const NOTES_SECTION: Localized<NotesSection> = {
       link: 'Les liens ne sont pas acceptés sur le tableau.',
       tooMany: 'Vous avez épinglé beaucoup de notes d’affilée. Réessayez dans une minute.',
       unavailable: 'Le tableau est injoignable pour le moment. Réessayez dans un instant.',
+      alreadyPinned: 'Vous avez déjà une note au tableau. Retirez-la pour en épingler une autre.',
+      notFound: 'Cette note n’est plus au tableau.',
     },
+    removeLabel: 'Retirer ma note',
     seeMoreLabel: 'Voir plus de notes',
     anonymous: 'Anonyme',
     boardLabel: 'Notes épinglées',

@@ -1,10 +1,11 @@
-import { apiNotesStore } from '@/lib/api/notes'
+import { apiNotesStore, NotesRequestError } from '@/lib/api/notes'
 import { NOTE_COLORS, type PinnedNote } from '@/types/note'
 
 // Contrat de stockage des notes : localNotesStore (ce navigateur) ou apiNotesStore (lib/api/notes.ts, partagé).
 export type NotesStore = {
   listNotes: () => Promise<PinnedNote[]>
   pinNote: (note: PinnedNote) => Promise<PinnedNote>
+  removeNote: (id: string) => Promise<void>
 }
 
 const NOTES_KEY = 'pinned-notes'
@@ -31,16 +32,24 @@ function readNotes(): PinnedNote[] {
   }
 }
 
+function writeNotes(notes: PinnedNote[]) {
+  try {
+    window.localStorage.setItem(NOTES_KEY, JSON.stringify(notes))
+  } catch {
+    // Stockage bloqué : la note vit jusqu'au rechargement.
+  }
+}
+
+// Toutes les notes de ce navigateur sont celles du visiteur ; même règle qu'en ligne, 1 note à la fois.
 export const localNotesStore: NotesStore = {
-  listNotes: async () => readNotes(),
+  listNotes: async () => readNotes().map((note) => ({ ...note, isMine: true })),
   pinNote: async (note) => {
-    try {
-      window.localStorage.setItem(NOTES_KEY, JSON.stringify([note, ...readNotes()]))
-    } catch {
-      return note
-    }
-    return note
+    const notes = readNotes()
+    if (notes.length > 0) throw new NotesRequestError('alreadyPinned')
+    writeNotes([note])
+    return { ...note, isMine: true }
   },
+  removeNote: async (id) => writeNotes(readNotes().filter((note) => note.id !== id)),
 }
 
 // Notes partagées (api/notes.ts) une fois VITE_SHARED_NOTES=true et DATABASE_URL posés dans Vercel ; sinon ce navigateur.

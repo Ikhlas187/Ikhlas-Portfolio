@@ -69,6 +69,7 @@ export default function PinNote() {
   }, [])
 
   const allNotes = [...visitorNotes, ...WELCOME_NOTES[locale]]
+  const hasPinnedNote = visitorNotes.some((note) => note.isMine)
   const shownNotes = visibleNotes(allNotes, step, layout)
 
   async function handlePin(draft: NoteDraft): Promise<NotesError | null> {
@@ -85,6 +86,16 @@ export default function PinNote() {
     setJustPinnedId(savedNote.id)
     if (!isReducedMotion) animateBoard(boardRef.current, { x: BOARD_SHAKE_X }, BOARD_SHAKE_TRANSITION)
     return null
+  }
+
+  async function handleRemove(id: string) {
+    try {
+      await notesStore.removeNote(id)
+    } catch (error) {
+      // Déjà retirée (autre onglet) : on la retire aussi d'ici ; sinon elle reste affichée.
+      if (!(error instanceof NotesRequestError && error.reason === 'notFound')) return
+    }
+    setVisitorNotes((notes) => notes.filter((note) => note.id !== id))
   }
 
   return (
@@ -134,7 +145,7 @@ export default function PinNote() {
           ref={boardRef}
           className="relative mt-8 rounded-[24px] bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-black)_11%,var(--color-white))_1.5px,transparent_1.6px)] bg-size-[32px_32px] bg-position-[5.5px_5.5px] p-4 sm:p-8 lg:mt-12 lg:h-[560px] lg:overflow-hidden lg:rounded-[32px] lg:p-0 xl:h-[600px] min-[1440px]:h-[640px]"
         >
-          <NoteForm onPin={handlePin} />
+          <NoteForm onPin={handlePin} hasPinnedNote={hasPinnedNote} />
           <ul
             aria-label={copy.boardLabel}
             className="mt-12 grid grid-cols-2 gap-x-4 gap-y-10 sm:mt-14 sm:gap-x-8 sm:gap-y-12 md:grid-cols-3 lg:static lg:mt-0 lg:block"
@@ -158,6 +169,8 @@ export default function PinNote() {
                     rotation={NOTE_ROTATION}
                     isUnderForm={index === UNDER_FORM_SLOT}
                     isJustPinned={isJustPinned}
+                    onRemove={note.isMine ? () => handleRemove(note.id) : undefined}
+                    removeLabel={copy.removeLabel}
                   />
                 </motion.li>
               )

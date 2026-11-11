@@ -23,11 +23,13 @@ import type { NoteColor, NotesError } from '@/types/note'
 type NoteFormProps = {
   // Rend la raison du refus, null quand la note est épinglée.
   onPin: (draft: NoteDraft) => Promise<NotesError | null>
+  // Le visiteur a déjà sa note au tableau : il doit la retirer avant d'en épingler une autre.
+  hasPinnedNote: boolean
 }
 
 type Status = 'idle' | 'pinned' | NotesError
 
-export default function NoteForm({ onPin }: NoteFormProps) {
+export default function NoteForm({ onPin, hasPinnedNote }: NoteFormProps) {
   const { locale } = useLocale()
   const copy = NOTES_SECTION[locale]
   const textId = useId()
@@ -40,6 +42,10 @@ export default function NoteForm({ onPin }: NoteFormProps) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const draft = { text, author, color }
+    if (hasPinnedNote) {
+      setStatus('alreadyPinned')
+      return
+    }
     if (!isNoteDraftPinnable(draft)) {
       setStatus('empty')
       return
@@ -95,7 +101,7 @@ export default function NoteForm({ onPin }: NoteFormProps) {
         <NoteColorPicker value={color} onChange={setColor} label={copy.colorGroupLabel} colorNames={copy.colorNames} />
         <Button
           type="submit"
-          disabled={isPinning}
+          disabled={isPinning || hasPinnedNote}
           className="h-auto rounded-full bg-black px-5 py-3 text-sm leading-[normal] font-medium text-white hover:bg-black disabled:cursor-wait disabled:opacity-70"
         >
           <RollingLabel>
@@ -105,9 +111,10 @@ export default function NoteForm({ onPin }: NoteFormProps) {
         </Button>
       </div>
       <p aria-live="polite" className="-mt-1 text-[13px] leading-[1.3] text-gray-400 empty:hidden">
-        {status === 'pinned' && copy.pinnedStatus}
+        {status === 'pinned' && hasPinnedNote && copy.pinnedStatus}
         {status === 'empty' && copy.emptyStatus}
-        {status !== 'idle' && status !== 'pinned' && status !== 'empty' && copy.rejectedStatus[status]}
+        {hasPinnedNote && status !== 'pinned' && copy.rejectedStatus.alreadyPinned}
+        {!hasPinnedNote && status !== 'idle' && status !== 'pinned' && status !== 'empty' && status !== 'alreadyPinned' && copy.rejectedStatus[status]}
       </p>
     </form>
   )

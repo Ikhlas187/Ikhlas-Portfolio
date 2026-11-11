@@ -9,8 +9,10 @@ export type PinnedNote = {
   author: string | null
   color: NoteColor
   createdAt: string
+  // Note du visiteur qui la lit (seule qu'il peut retirer), renvoyé par api/notes.ts.
+  isMine?: boolean
 }
 
 // Refus renvoyé par api/notes.ts (champ error) : ceux de la modération, trop de notes d'affilée, serveur injoignable.
 export type NoteRejection = 'empty' | 'tooLong' | 'blockedWord' | 'link'
-export type NotesError = NoteRejection | 'tooMany' | 'unavailable'
+export type NotesError = NoteRejection | 'tooMany' | 'alreadyPinned' | 'notFound' | 'unavailable'

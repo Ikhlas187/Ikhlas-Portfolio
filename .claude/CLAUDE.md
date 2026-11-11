@@ -51,7 +51,7 @@ portfolio-frontend/
 │   │       │   ├── DedicatedTeam        roue elliptique de rôles + logos tech (Draggable)
 │   │       │   ├── techIcons.ts         table techno vers { Icon, color }
 │   │       │   ├── Services.tsx         pile de services collée au scroll (réf. oddlymade.webflow.io) : titre à 64 px, rangées à 224 px puis +64 px chacune ; ServiceRow.tsx = photo, numéro, titre + description, liste d'outils
-│   │       │   ├── PinNote.tsx          tableau de notes épinglées en fin de home (réf. tpdapson.com), Tailwind
+│   │       │   ├── PinNote.tsx          tableau de notes épinglées en fin de home (réf. tpdapson.com), Tailwind : 1 note par visiteur (clé lib/visitorToken.ts), à retirer (croix sur sa note, seule supprimable) avant d'en épingler une autre ; pas sur téléphone
 │   │       │   ├── NoteForm.tsx         carte formulaire : note, prénom facultatif, couleur, bouton Pin note
 │   │       │   ├── StickyNote.tsx       une note carrée inclinée + punaise lucide Pin
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
@@ -98,7 +98,8 @@ portfolio-frontend/
 │   │   ├── MusicProvider.tsx un seul Audio pour tout le site (useMusic) : musique de fond au 1er geste après le loader + app Musique du Mac
 │   │   ├── musicSession.ts   musique coupée ou non et volume, gardés pour la session (sessionStorage)
 │   │   ├── localeStorage.ts  choix de langue gardé dans localStorage
-│   │   ├── notesStore.ts     contrat NotesStore + localNotesStore (localStorage), à doubler d'un lib/api/notes.ts
+│   │   ├── notesStore.ts     contrat NotesStore (lister, épingler, retirer) : apiNotesStore (lib/api/notes.ts → api/notes.ts, Neon, partagé) si VITE_SHARED_NOTES=true, sinon localNotesStore
+│   │   ├── visitorToken.ts   clé aléatoire du navigateur (localStorage) qui désigne la note du visiteur ; le serveur n'en garde que l'empreinte
 │   │   ├── loaderSession.ts  page révélée par le loader (déclenche l'entrée du nom)
 │   │   ├── callRingSession.ts  sonnerie du CallWidget déjà coupée dans la session (sessionStorage)
 │   │   ├── notesBookStorage.ts  changements de l'app Notes du faux macOS (localStorage)
