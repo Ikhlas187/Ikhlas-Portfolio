@@ -44,7 +44,7 @@ portfolio-frontend/
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
-│   │       │   ├── Services.tsx         pile de services collée au scroll (réf. oddlymade.webflow.io) : titre à 64 px, rangées à 224 px puis +64 px chacune ; ServiceRow.tsx = photo, numéro, titre + description, outils en tuiles noires (toolLogos.ts, réf. haufsess.com)
+│   │       │   ├── Services.tsx         pile de services collée au scroll (réf. oddlymade.webflow.io) : titre à 64 px, rangées à 224 px puis +64 px chacune ; ServiceRow.tsx = photo, numéro, titre + description, liste des outils sur ordinateur, tuiles noires des logos sur téléphone (toolLogos.ts, réf. haufsess.com)
 │   │       │   ├── PinNote.tsx          tableau de notes épinglées en fin de home (réf. tpdapson.com), Tailwind : 1 note par visiteur (clé lib/visitorToken.ts), à retirer (croix sur sa note, seule supprimable) avant d'en épingler une autre ; pas sur téléphone
 │   │       │   ├── NoteForm.tsx         carte formulaire : note, prénom facultatif, couleur, bouton Pin note
 │   │       │   ├── StickyNote.tsx       une note carrée inclinée + punaise lucide Pin

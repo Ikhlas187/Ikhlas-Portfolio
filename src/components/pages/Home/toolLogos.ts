@@ -17,7 +17,7 @@ import {
 } from 'react-icons/si'
 import type { ToolId } from '@/data/services'
 
-// Logo de chaque outil des services : marque via react-icons/si, notion sans marque via lucide.
+// Logo de chaque outil des services sur téléphone : marque via react-icons/si, notion sans marque via lucide.
 export const TOOL_LOGOS: Record<ToolId, IconType | LucideIcon> = {
   node: SiNodedotjs,
   laravel: SiLaravel,
