@@ -1,7 +1,22 @@
 import columinstBoard from '@/assets/projects/columinst/board.webp'
 import columinstCover from '@/assets/projects/columinst/cover-portrait.webp'
 import componentsHoleCover from '@/assets/projects/components-hole/cover-portrait.webp'
+import componentsHoleAgenciy from '@/assets/projects/components-hole/agenciy-home.webp'
+import componentsHoleDetroit from '@/assets/projects/components-hole/detroit-home.webp'
 import componentsHoleGallery from '@/assets/projects/components-hole/gallery.webp'
+import componentsHoleGrainient from '@/assets/projects/components-hole/grainient-home.webp'
+import componentsHoleHanzo from '@/assets/projects/components-hole/hanzo-home.webp'
+import componentsHoleIncredibles from '@/assets/projects/components-hole/incredibles-home.webp'
+import componentsHoleIntelli from '@/assets/projects/components-hole/intelli-home.webp'
+import componentsHoleMacbookScroll from '@/assets/projects/components-hole/macbook-scroll.webp'
+import componentsHoleNormalboring from '@/assets/projects/components-hole/normalboring-home.webp'
+import componentsHoleNovaApp from '@/assets/projects/components-hole/nova-app.webp'
+import componentsHoleOversizedTitle from '@/assets/projects/components-hole/oversized-title.webp'
+import componentsHolePoppr from '@/assets/projects/components-hole/poppr-home.webp'
+import componentsHolePortfolite from '@/assets/projects/components-hole/portfolite-home.webp'
+import componentsHoleStackgrid from '@/assets/projects/components-hole/stackgrid-home.webp'
+import componentsHoleVerseo from '@/assets/projects/components-hole/verseo-home.webp'
+import componentsHoleVoltMenu from '@/assets/projects/components-hole/volt-menu.webp'
 import efreeshopComponents from '@/assets/projects/efreeshop/components.webp'
 import efreeshopHero from '@/assets/projects/efreeshop/hero.webp'
 import efreeshopCoverLandscape from '@/assets/projects/efreeshop/cover-landscape.webp'
@@ -193,18 +208,14 @@ export type ShowcaseProject = {
   stack: string[]
   description: string
   year: string
-  // Absent pour un repo privé sans version en ligne : rien à ouvrir pour le visiteur.
+  // Seulement pour les projets que le visiteur peut ouvrir (Efreeshop, MEDICASTOCK).
   link?: { label: string; href: string }
   cover: { portrait: string; landscape: string; alt: string }
   shots: ShowcaseShot[]
 }
 
 const EFREESHOP_URL = 'https://www.e-freeshop.com'
-const ETUDOCS_URL = 'https://github.com/thelord00229/ETUDOCS'
-const PORTFOLIO_URL = 'https://github.com/Ikhlas187/Ikhlas-Portfolio'
 const MEDICASTOCK_URL = 'https://medicastock-react.vercel.app'
-const GITHUB_USER_URL = 'https://github-user-red.vercel.app'
-const COMPONENTS_HOLE_URL = 'https://my-project-pied-xi.vercel.app'
 
 const STACKS = {
   efreeshop: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Drizzle ORM', 'PostgreSQL (Neon)', 'NextAuth', 'FedaPay', 'GSAP'],
@@ -246,7 +257,6 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       description:
         'Built at the HACKBYIFRI 2026 hackathon: students request their administrative documents online, follow each validation step in real time, and download authentic documents checked by QR code.',
       year: '2026',
-      link: { label: 'See the code on GitHub', href: ETUDOCS_URL },
       cover: { portrait: etudocsCover, landscape: etudocsCover, alt: '2 graduating students in cap and gown' },
       shots: [
         { src: etudocsHero, alt: 'EtuDocs home page with a preview of the student dashboard' },
@@ -264,7 +274,6 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       description:
         'This site: a giant hero, an interactive fake macOS that runs my projects in WebAssembly, scroll animations and a note board shared between visitors.',
       year: '2026',
-      link: { label: 'See the code on GitHub', href: PORTFOLIO_URL },
       cover: { portrait: portfolioCover, landscape: portfolioHero, alt: 'Portfolio home page on mobile with the Ikhlas Agbeti name' },
       shots: [{ src: portfolioHero, alt: 'Portfolio home page with the Ikhlas A. name' }],
     },
@@ -292,7 +301,6 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       stack: STACKS.githubUser,
       description: 'Search any GitHub user and see their profile and repositories in seconds, straight from the GitHub API.',
       year: '2026',
-      link: { label: 'Visit the site', href: GITHUB_USER_URL },
       cover: { portrait: githubUserCover, landscape: githubUserHero, alt: 'github-user home page on mobile: discover GitHub profiles and repos' },
       shots: [
         { src: githubUserHero, alt: 'github-user home page: discover GitHub profiles and repos' },
@@ -306,11 +314,27 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       services: ['Component library', 'Creative development'],
       stack: STACKS.componentsHole,
       description:
-        'Website studies rebuilt as standalone React components: menus, hero sections, carousels and scroll animations, each one testable full screen.',
+        'My library of more than 300 React components rebuilt from website studies, and 12 full templates (studios, AI agencies, SaaS, finance app, portfolios): menus, heros, carousels, cursors, footers and scroll animations, each one testable full screen.',
       year: '2026',
-      link: { label: 'Visit the site', href: COMPONENTS_HOLE_URL },
-      cover: { portrait: componentsHoleCover, landscape: componentsHoleGallery, alt: 'components-hole gallery on mobile' },
-      shots: [{ src: componentsHoleGallery, alt: 'Gallery of website studies rebuilt as React components' }],
+      cover: { portrait: componentsHoleCover, landscape: componentsHoleGallery, alt: 'components-hole: Agenciy template on mobile' },
+      shots: [
+        { src: componentsHoleGallery, alt: 'Gallery of the components, each one opens full screen' },
+        { src: componentsHoleAgenciy, alt: 'Agenciy template: creative studio home page' },
+        { src: componentsHoleHanzo, alt: 'Hanzo template: design subscription for startups' },
+        { src: componentsHolePoppr, alt: 'Poppr template: immersive studio home page' },
+        { src: componentsHoleDetroit, alt: 'Detroit template: giant typographic hero' },
+        { src: componentsHoleIntelli, alt: 'Intelli template: AI automation agency' },
+        { src: componentsHoleGrainient, alt: 'Grainient template: grainy gradients marketplace' },
+        { src: componentsHoleIncredibles, alt: 'Incredibles template: student documents platform' },
+        { src: componentsHoleNormalboring, alt: 'Normal is Boring template: horizontal rail' },
+        { src: componentsHoleNovaApp, alt: 'Nova template: finance app landing page' },
+        { src: componentsHolePortfolite, alt: 'Portfolite template: designer portfolio' },
+        { src: componentsHoleStackgrid, alt: 'Stackgrid template: AI agency' },
+        { src: componentsHoleVerseo, alt: 'Verseo template: AI writing SaaS landing page' },
+        { src: componentsHoleVoltMenu, alt: 'Volt menu open: chartreuse panel' },
+        { src: componentsHoleMacbookScroll, alt: 'Macbook Scroll: a MacBook that opens on scroll' },
+        { src: componentsHoleOversizedTitle, alt: 'Oversized chapter title' },
+      ],
     },
     {
       slug: 'medipass',
@@ -365,7 +389,6 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       description:
         'Réalisé au hackathon HACKBYIFRI 2026 : les étudiants demandent leurs documents administratifs en ligne, suivent chaque étape de validation en temps réel et téléchargent des documents authentifiés par QR code.',
       year: '2026',
-      link: { label: 'Voir le code sur GitHub', href: ETUDOCS_URL },
       cover: { portrait: etudocsCover, landscape: etudocsCover, alt: '2 étudiants diplômés en toge et toque' },
       shots: [
         { src: etudocsHero, alt: 'Accueil d’EtuDocs avec un aperçu du tableau de bord étudiant' },
@@ -383,7 +406,6 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       description:
         'Ce site : un hero géant, un faux macOS interactif qui fait tourner mes projets en WebAssembly, des animations au défilement et un tableau de notes partagé entre les visiteurs.',
       year: '2026',
-      link: { label: 'Voir le code sur GitHub', href: PORTFOLIO_URL },
       cover: { portrait: portfolioCover, landscape: portfolioHero, alt: 'Accueil du portfolio sur mobile avec le nom Ikhlas Agbeti' },
       shots: [{ src: portfolioHero, alt: 'Accueil du portfolio avec le nom Ikhlas A.' }],
     },
@@ -411,7 +433,6 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       stack: STACKS.githubUser,
       description: 'Recherche n’importe quel utilisateur GitHub et affiche son profil et ses repos en quelques secondes, directement depuis l’API de GitHub.',
       year: '2026',
-      link: { label: 'Voir le site', href: GITHUB_USER_URL },
       cover: { portrait: githubUserCover, landscape: githubUserHero, alt: 'Accueil de github-user sur mobile : découvrir profils et repos GitHub' },
       shots: [
         { src: githubUserHero, alt: 'Accueil de github-user : découvrir profils et repos GitHub' },
@@ -425,11 +446,27 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       services: ['Bibliothèque de composants', 'Développement créatif'],
       stack: STACKS.componentsHole,
       description:
-        'Études de sites refaites en composants React autonomes : menus, heros, carrousels et animations au défilement, chacun testable en plein écran.',
+        'Ma bibliothèque de plus de 300 composants React refaits à partir d’études de sites, et 12 templates complets (studios, agences IA, SaaS, app de finance, portfolios) : menus, heros, carrousels, curseurs, footers et animations au défilement, chacun testable en plein écran.',
       year: '2026',
-      link: { label: 'Voir le site', href: COMPONENTS_HOLE_URL },
-      cover: { portrait: componentsHoleCover, landscape: componentsHoleGallery, alt: 'Galerie de components-hole sur mobile' },
-      shots: [{ src: componentsHoleGallery, alt: 'Galerie d’études de sites refaites en composants React' }],
+      cover: { portrait: componentsHoleCover, landscape: componentsHoleGallery, alt: 'components-hole : template Agenciy sur mobile' },
+      shots: [
+        { src: componentsHoleGallery, alt: 'Galerie des composants, chacun s’ouvre en plein écran' },
+        { src: componentsHoleAgenciy, alt: 'Template Agenciy : accueil d’un studio créatif' },
+        { src: componentsHoleHanzo, alt: 'Template Hanzo : abonnement design pour startups' },
+        { src: componentsHolePoppr, alt: 'Template Poppr : accueil immersif d’un studio' },
+        { src: componentsHoleDetroit, alt: 'Template Detroit : hero typographique géant' },
+        { src: componentsHoleIntelli, alt: 'Template Intelli : agence d’automatisation IA' },
+        { src: componentsHoleGrainient, alt: 'Template Grainient : marketplace de dégradés grainés' },
+        { src: componentsHoleIncredibles, alt: 'Template Incredibles : plateforme de documents étudiants' },
+        { src: componentsHoleNormalboring, alt: 'Template Normal is Boring : rail horizontal' },
+        { src: componentsHoleNovaApp, alt: 'Template Nova : landing d’une app de finance' },
+        { src: componentsHolePortfolite, alt: 'Template Portfolite : portfolio de designer' },
+        { src: componentsHoleStackgrid, alt: 'Template Stackgrid : agence IA' },
+        { src: componentsHoleVerseo, alt: 'Template Verseo : landing d’un SaaS d’écriture IA' },
+        { src: componentsHoleVoltMenu, alt: 'Menu Volt ouvert : panneau chartreuse' },
+        { src: componentsHoleMacbookScroll, alt: 'Macbook Scroll : un MacBook qui s’ouvre au défilement' },
+        { src: componentsHoleOversizedTitle, alt: 'Titre de chapitre géant' },
+      ],
     },
     {
       slug: 'medipass',
