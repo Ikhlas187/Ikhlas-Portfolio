@@ -85,11 +85,12 @@ export default function SiteHeader() {
       className={`fixed inset-x-0 top-0 z-[90] bg-white ${isVisible ? '' : 'pointer-events-none'}`}
     >
       <div className="mx-auto flex max-w-[1800px] flex-col px-3 py-5 min-[810px]:px-4">
-        <div className="flex w-full items-center justify-center gap-2.5 max-[809px]:h-[47px]">
+        {/* Ordinateur : 3 colonnes, les liens au centre exact de la page quelle que soit la largeur du sélecteur de langue. */}
+        <div className="flex w-full items-center justify-center gap-2.5 max-[809px]:h-[47px] min-[810px]:grid min-[810px]:grid-cols-[1fr_auto_1fr]">
           <img
             src={avatarUrl}
             alt={header.avatarLabel}
-            className="h-[43px] w-[38px] shrink-0 rounded-[49px] bg-black object-cover min-[810px]:size-[57px]"
+            className="h-[43px] w-[38px] shrink-0 rounded-[49px] bg-black object-cover min-[810px]:size-[57px] min-[810px]:justify-self-start"
           />
 
           <nav aria-label={header.navLabel} className="hidden flex-1 items-center gap-4 min-[810px]:flex">
@@ -98,7 +99,7 @@ export default function SiteHeader() {
             ))}
           </nav>
 
-          <div className={isMenuOpen ? 'order-2' : ''}>
+          <div className={`min-[810px]:justify-self-end ${isMenuOpen ? 'order-2' : ''}`}>
             <LanguageSelect />
           </div>
 
