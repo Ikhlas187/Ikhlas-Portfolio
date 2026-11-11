@@ -64,14 +64,14 @@ export default function Window({
   const [isDragging, setIsDragging] = useState(false)
   const { rect, isMinimized, z } = macWindow
   const isReducedMotion = useReducedMotion() ?? false
-  const [wasMinimized, setWasMinimized] = useState(isMinimized)
+  const [isPreviouslyMinimized, setIsPreviouslyMinimized] = useState(isMinimized)
   const [genieDirection, setGenieDirection] = useState<GenieDirection | null>(
     macWindow.isOpenedFromDock && !isReducedMotion ? 'restore' : null,
   )
   const [hasGenieAtMount] = useState(genieDirection !== null)
 
-  if (wasMinimized !== isMinimized) {
-    setWasMinimized(isMinimized)
+  if (isPreviouslyMinimized !== isMinimized) {
+    setIsPreviouslyMinimized(isMinimized)
     // Mouvement réduit : pas de génie, la fenêtre s'efface en fondu court.
     if (!isReducedMotion) setGenieDirection(isMinimized ? 'minimize' : 'restore')
   }

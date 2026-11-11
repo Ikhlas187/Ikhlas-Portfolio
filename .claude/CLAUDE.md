@@ -23,7 +23,7 @@ portfolio-frontend/
 │                             runs/columinst/ (build.sh + CMakeLists.txt : Qt 6.10.3 wasm dans C:/Qt, emsdk 4.0.7 dans C:/emsdk-qt ; patch_sources.py adapte une copie du code Qt 5)
 ├── src/
 │   ├── main.tsx              monte l'app et importe index.css. Rien d'autre.
-│   ├── App.tsx               providers (Locale, Music, Router, Lenis) + ContextCursor + routes animées (pages hors accueil en lazy) + MusicToggle
+│   ├── App.tsx               providers (Locale, Music, Router, Lenis) + routes animées (pages hors accueil en lazy) + MusicToggle
 │   ├── index.css             Tailwind + shadcn + reset (@layer base) + variables shadcn branchées sur les tokens
 │   ├── tokens.css            toutes les CSS vars du portfolio (couleurs, typo, espacements, easings)
 │   ├── components/
@@ -32,14 +32,13 @@ portfolio-frontend/
 │   │   │   ├── select.tsx          shadcn (Base UI), restylé crème/noir (boîte du sélecteur de langue)
 │   │   │   ├── textarea.tsx, input.tsx  shadcn, restylés sans bordure (champs de PinNote)
 │   │   │   ├── PageTransition.tsx  fondu + volet noir entre routes
-│   │   │   ├── ContextCursor.tsx   bulle crème à la place du curseur sur les zones data-cursor (planches projet)
 │   │   │   ├── MusicToggle.tsx     bouton son fixe en bas à gauche (z-95) : barres d'égaliseur, coupe / relance la musique de fond
 │   │   │   └── CoinLoader.tsx      écran de chargement : une seule chute de pièces IKHLAS / AGBETI / DEVELOPER, puis entrée automatique, sans bouton (+ CoinPile, FlatCoin, SolidCoin)
 │   │   │   ├── SiteHeader.tsx      header fixe z-90 de toutes les pages : fondu au scroll, revient en remontant puis repart seul après 1,5 s d'arrêt ; sur le Mac plein écran ([data-header-guard]) il faut remonter 320 px ; menu mobile < 810px (NavPill, LanguageSelect, BurgerButton)
 │   │   │   ├── Footer.tsx          footer de toutes les pages : DesktopFooter (réf. cosmoq.framer.website, carte noire à encoche en U qui épouse le CallWidget + CallBooking Cal.com, colonnes FooterLinkColumn) ou MobileFooter < 810px (réf. cashless.africa : prise de rendez-vous, puis bloc noir pleine largeur, nom, réseaux en icônes, rubriques en petites capitales, copyright) ; liens /#section hors de la home
 │   │   │   └── BackPill.tsx        bouton « ← Retour » des pages projet et certifications (réf. haufsess.com)
 │   │   └── pages/            un dossier par écran
-│   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
+│   │       ├── Home/         HomePage + ses morceaux en Tailwind (seul About garde un .css BEM appairé)
 │   │       │   ├── Hero.tsx             1er écran (réf. jorge-template.framer.website, couleurs inversées) : section collée de la hauteur de l'écran, recouverte par la section suivante (bornée par un div dans HomePage)
 │   │       │   ├── HeroTitle.tsx        nom (h1, mot par mot) + rôle centrés : entrée flou/montée en ressort après le loader, flou et rétrécissement au scroll (logic/heroExit)
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
@@ -83,6 +82,7 @@ portfolio-frontend/
 │   │       └── NotFound/     404
 │   ├── lib/
 │   │   ├── api/contact.ts    envoi du formulaire de contact (FormSubmit)
+│   │   ├── api/runs.ts       programmes WebAssembly de public/runs/ : source d'un module, script Qt ajouté une fois à la page
 │   │   ├── api/repos.ts      lecture de public/repos/ (index et instantané d'un repo), une requête par fichier et par session
 │   │   ├── highlightCode.ts  coloration highlight.js : cœur et grammaires importés à la demande
 │   │   ├── LenisProvider.tsx smooth scroll Lenis branché sur gsap.ticker
@@ -98,9 +98,8 @@ portfolio-frontend/
 │   │   ├── notesBookStorage.ts  changements de l'app Notes du faux macOS (localStorage)
 │   │   ├── macDisplaySession.ts  luminosité et mode sombre du faux macOS, gardés pour la session (sessionStorage)
 │   │   └── utils.ts          cn() de shadcn, ne pas déplacer
-│   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, experience, services, roles, process, loader, notes
+│   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, experience, services (outils : ToolId + TOOL_NAMES), roles, loader, notes, footer, certifications, certificationPhotos, readmeShots (captures des README du Mac)
 │   │   ├── cv.ts             CV d'Ikhlas : CV.pdf de l'Aperçu, dossier Certifications du Mac et page Certifications
-│   │   ├── cursor.ts         libellés de la bulle du curseur contextuel, par valeur de data-cursor
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
 │   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
 │   │   ├── projectShowcase.ts  ordre des repos pour les recruteurs, repos masqués, façon d'exécuter chaque projet
@@ -109,7 +108,8 @@ portfolio-frontend/
 │   ├── logic/
 │   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
 │   │   ├── experiencePeriod/ période d'une expérience écrite selon la langue
-│   │   ├── cursorKind/       valeur de data-cursor vers type de bulle (view, scroll), inconnue = pas de bulle
+│   │   ├── easing/           courbes d'animation partagées (easeInOutCubic)
+│   │   ├── showcaseTrack/    décalage horizontal des projets sur téléphone selon le défilement
 │   │   ├── heroExit/         flou et échelle du titre du hero selon le défilement
 │   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll, remontée exigée avant de le réafficher (plus longue sur le Mac)
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
@@ -117,14 +117,15 @@ portfolio-frontend/
 │   │   │                     contextMenu (position du menu), repoShowcase (tri recruteurs), terminalScreen (lignes + ligne en cours de l'app Exécution), counterScale (écran Qt à sa vraie taille affichée), buildFileTree (Projets = un dossier par repo), fileTree, projectSlug, windowManager, windowBounds, browserSession, browserAddress, browserTabs, browserBookmarks,
 │   │   │                     navigationHistory, terminal, calendar (Calendrier : grille, horaires, rendez-vous), clock (horloge de la barre de menus),
 │   │   │                     finderItems (tri, recherche), finderLocation, fileSize, recents (Finder), notesBook (Notes), photoAlbums (Photos),
-│   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité)
+│   │   │                     genie (bandes de l'effet génie), brightness (voile de luminosité),
+│   │   │                     appMenu (menu de l'app au 1er plan), previewSize (taille de fenêtre Aperçu), vscodeWorkspace (onglets et dossiers dépliés de VS Code), aboutSegment (texte brut du paragraphe À propos), readmeSummary
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
 │   │   ├── screenReveal/     échelle, proportion et fond noir du Mac plein écran qui rétrécit au scroll
 │   │   ├── sectionHref/      lien #section tel quel sur la home, /#section ailleurs
 │   │   ├── footerShape/      contour SVG du footer : rectangle arrondi + encoche en U en haut au centre
 │   │   ├── scrollCapture/    une fenêtre macOS peut-elle encore défiler (sinon la page défile)
-│   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note)
+│   │   ├── notes/            draft (100 caractères max, nom facultatif), page (« See more »), textSize, sway (balancement stable par note), moderation (insultes et liens refusés, partagé avec api/notes.ts)
 │   │   └── unsplashPhotoUrl/ URL Unsplash recadrée à une largeur
 │   ├── types/                contrat d'API avec portfolio-backend : note.ts (PinnedNote, NoteColor) ; repo.ts : format de public/repos/ (écrit par tools/repos)
 │   └── assets/               pièces du loader (coin-{flat,solid}.svg), apple-logo.svg, icônes Sequoia du Finder (finder-*.svg) et fond d'écran (.avif) du faux macOS, background-music.m4a (musique de fond)
@@ -155,7 +156,7 @@ Déploiement  Vercel
 - **Le texte affiché vit dans `data/`**, pas en tête de composant. Les timings et réglages d'animation restent dans le composant qui les utilise.
 - **Un composant par fichier.** Un sous-composant nommé sort dans son propre fichier, dans le dossier de son écran.
 - **Imports internes toujours en `@/`.**
-- **Sections existantes** : elles gardent leur `.css` BEM appairé (`.about__call-pill`, `.bd-board`). On ne les migre pas en Tailwind.
+- **Section About et widget d'appel** : ils gardent leur `.css` BEM appairé (`.about__call-pill`). On ne les migre pas en Tailwind.
 - **Nouveau code** : Tailwind pour la mise en page, shadcn pour les composants d'interface, valeurs tirées de `tokens.css` (les tokens surchargent le thème Tailwind : `bg-black`, `text-sm`, `font-sans` donnent les valeurs du portfolio).
 
 ## Identité visuelle
@@ -174,7 +175,7 @@ Body    --font-body Inter 500 (tout le reste)
 
 Langue du site : anglais et français, via le sélecteur du header. Tout texte affiché (data/, alt, aria-label) existe dans les 2 langues : chaque export de `data/` est un `Localized<T>` (`{ en, fr }`), lu dans un composant par `useLocale()` puis `DATA[locale]`. L'anglais fait référence ; `index.html` reste en anglais. Pièces du loader (IKHLAS / AGBETI / métiers) et noms propres identiques dans les 2 langues.
 
-Polices chargées par `@import` Google Fonts en tête de `index.css`. Une nouvelle famille va dans l'@import ET dans `tokens.css`.
+Polices chargées par un `<link>` Google Fonts dans `index.html` (demandées dès le HTML). Une nouvelle famille va dans ce lien ET dans `tokens.css`.
 
 ## Règles de reproduction (IP)
 
@@ -194,9 +195,10 @@ Calibrage visuel : capture Brave headless (`--force-prefers-reduced-motion`) par
 
 ```
 Fait           Hero + SiteHeader · Mac (ordinateur) / ProjectsShowcase (téléphone) · About · Experience · Services · PinNote · CoinLoader · Footer
-               ContextCursor · PageTransition · Lenis
+               PageTransition · Lenis
                Faux macOS : dossier Projets = repos GitHub (pnpm repos:snapshot), clic droit, app VS Code
-Archivé        Projects (planches), DedicatedTeam (compétences), Process : retirés le 2026-11-11, récupérables via le tag git archive/sections-cachees
+Archivé        Projects (planches), DedicatedTeam (compétences), Process : tag git archive/sections-cachees ;
+               curseur contextuel (ContextCursor) : tag git archive/curseur-contextuel. Retirés le 2026-11-11
 À faire        CTA de fin (réf. momdesign.fr)
                Pages /projects, /projects/:slug, /about, /contact
                Boutons de test de connexion au backend (ticket setup, RM4)

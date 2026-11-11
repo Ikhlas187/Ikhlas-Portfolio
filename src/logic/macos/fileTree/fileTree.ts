@@ -11,7 +11,6 @@ export function findNode(root: FsFolder, path: string[]): FsNode | null {
   return node
 }
 
-// Les dossiers traversés, racine comprise : sert à la barre de chemin du Finder.
 export function collectImages(
   node: FsNode,
   path: string[] = [],

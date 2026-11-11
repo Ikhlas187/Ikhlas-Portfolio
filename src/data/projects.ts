@@ -18,12 +18,10 @@ export type Project = {
   eyebrow: string
   description: string
   date: string
-  layout: 'a' | 'b'
   photos: ProjectPhoto[]
 }
 
 type ProjectsSection = {
-  interludeTitle: [string, string]
   dateLabel: string
 }
 
@@ -35,7 +33,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Fashion store inspired by luxury houses: image preloader, pinned horizontal scroll and animated product pages.',
       date: '2025',
-      layout: 'a',
       photos: [
         { id: '1580478491436-fd6a937acc9e', alt: 'Fashion editorial, figure in motion' },
         { id: '1629511565591-a1d494ad6c58', alt: 'Studio fashion portrait' },
@@ -49,7 +46,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Mobile app for reselling Nike sneakers: editorial home, categories pinned on scroll and a mobile-first checkout flow.',
       date: '2025',
-      layout: 'b',
       photos: [
         { id: '1560769629-975ec94e6a86', alt: 'Red sneaker on a plain background' },
         { id: '1552346154-21d32810aba3', alt: 'Pair of sneakers in mid-air' },
@@ -63,7 +59,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Pharmacy stock management: inventory, expiry alerts and dashboards, with shared navigation animations.',
       date: '2025',
-      layout: 'a',
       photos: [
         { id: '1607619056574-7b8d3ee536b2', alt: 'Close-up of colorful capsules' },
         { id: '1587854692152-cbe660dbde88', alt: 'Medicine blister packs' },
@@ -77,7 +72,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Platform for student administrative paperwork: online requests, file tracking and an admin area.',
       date: '2024',
-      layout: 'b',
       photos: [
         { id: '1562654501-a0ccc0fc3fb1', alt: 'Administrative documents on a desk' },
         { id: '1590012314607-cda9d9b699ae', alt: 'University library' },
@@ -91,7 +85,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Mapping and promoting a town’s local skills: talent directory, profiles and search by trade.',
       date: '2024',
-      layout: 'a',
       photos: [
         { id: '1597960194599-22929afc25b1', alt: 'Craftsman at work in his workshop' },
         { id: '1426927308491-6380b6a9936f', alt: 'Craftsman’s hands at the workbench' },
@@ -107,7 +100,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Boutique de mode inspirée des maisons de luxe : préchargeur d’images, scroll horizontal épinglé et fiches produit animées.',
       date: '2025',
-      layout: 'a',
       photos: [
         { id: '1580478491436-fd6a937acc9e', alt: 'Éditorial mode, silhouette en mouvement' },
         { id: '1629511565591-a1d494ad6c58', alt: 'Portrait mode en studio' },
@@ -121,7 +113,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Application mobile de revente de sneakers Nike : accueil éditorial, catégories épinglées au scroll et parcours d’achat pensé mobile-first.',
       date: '2025',
-      layout: 'b',
       photos: [
         { id: '1560769629-975ec94e6a86', alt: 'Sneaker rouge sur fond uni' },
         { id: '1552346154-21d32810aba3', alt: 'Paire de sneakers en l’air' },
@@ -135,7 +126,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Gestion de stock pharmaceutique : inventaire, alertes de péremption et tableaux de bord, avec des animations de navigation partagées.',
       date: '2025',
-      layout: 'a',
       photos: [
         { id: '1607619056574-7b8d3ee536b2', alt: 'Gélules colorées en gros plan' },
         { id: '1587854692152-cbe660dbde88', alt: 'Blisters de médicaments' },
@@ -149,7 +139,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Plateforme de gestion des actes administratifs étudiants : demandes en ligne, suivi de dossier et espace d’administration.',
       date: '2024',
-      layout: 'b',
       photos: [
         { id: '1562654501-a0ccc0fc3fb1', alt: 'Documents administratifs sur un bureau' },
         { id: '1590012314607-cda9d9b699ae', alt: 'Bibliothèque universitaire' },
@@ -163,7 +152,6 @@ export const PROJECTS: Localized<Project[]> = {
       description:
         'Recensement et valorisation des compétences locales d’une commune : annuaire des talents, profils et recherche par métier.',
       date: '2024',
-      layout: 'a',
       photos: [
         { id: '1597960194599-22929afc25b1', alt: 'Artisan au travail dans son atelier' },
         { id: '1426927308491-6380b6a9936f', alt: 'Mains d’un artisan sur l’établi' },
@@ -175,8 +163,8 @@ export const PROJECTS: Localized<Project[]> = {
 }
 
 export const PROJECTS_SECTION: Localized<ProjectsSection> = {
-  en: { interludeTitle: ['SELECTED', 'WORKS'], dateLabel: 'Date:' },
-  fr: { interludeTitle: ['TRAVAUX', 'CHOISIS'], dateLabel: 'Date :' },
+  en: { dateLabel: 'Date:' },
+  fr: { dateLabel: 'Date :' },
 }
 
 export type ShowcaseShot = { src: string; alt: string }

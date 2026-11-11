@@ -15,10 +15,10 @@ gsap.registerPlugin(useGSAP)
 const RING_SHAKES = 3
 const RING_SHAKE_X = [0, -4, 4, -4, 4, -2, 2, 0]
 const RING_PERIOD_REPEAT_DELAY = 2.9
-// Bascule pastille ↔ calendrier : vraie taille animée (pas un scale) pour que l'encoche du footer suive.
 // Calendrier Cal.com chargé seulement à l'ouverture de la carte de réservation.
 const CallBooking = lazy(() => import('@/components/ui/CallBooking'))
 
+// Bascule pastille ↔ calendrier : vraie taille animée (pas un scale) pour que l'encoche du footer suive.
 const SWAP_EASE = [0.22, 1, 0.36, 1] as const
 const SWAP_TRANSITION = { duration: 0.45, ease: SWAP_EASE }
 // Taille de la carte de réservation (CallBooking) : 800 × 586, moins large si la fenêtre est étroite.

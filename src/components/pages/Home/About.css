@@ -54,7 +54,7 @@
   font-style: italic;
 }
 
-/* ---- Widget « appel entrant » (CallSection, en fin de home) ---- */
+/* ---- Widget « appel entrant » (CallWidget, en fin de home) ---- */
 .about__call {
   display: flex;
   flex-direction: column;
