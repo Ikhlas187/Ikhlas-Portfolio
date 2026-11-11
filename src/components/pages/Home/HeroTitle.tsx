@@ -37,7 +37,7 @@ export default function HeroTitle({ name, role }: HeroTitleProps) {
       className="pointer-events-none flex w-full flex-col items-center justify-center gap-5"
     >
       <h1
-        className={`w-full font-sans text-[56px] leading-none font-medium tracking-[-0.06em] min-[810px]:text-[110px] min-[1200px]:text-[132px] ${TEXT_CLASSES}`}
+        className={`w-full font-sans text-[56px] leading-none font-medium tracking-[-0.06em] min-[810px]:text-[110px] min-[1200px]:text-[132px] min-[1280px]:text-[170px] ${TEXT_CLASSES}`}
       >
         {words.map((word, index) => (
           <span key={index}>
