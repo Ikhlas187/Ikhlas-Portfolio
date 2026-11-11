@@ -1,3 +1,7 @@
+import columinstBoard from '@/assets/projects/columinst/board.webp'
+import columinstCover from '@/assets/projects/columinst/cover-portrait.webp'
+import componentsHoleCover from '@/assets/projects/components-hole/cover-portrait.webp'
+import componentsHoleGallery from '@/assets/projects/components-hole/gallery.webp'
 import efreeshopComponents from '@/assets/projects/efreeshop/components.webp'
 import efreeshopHero from '@/assets/projects/efreeshop/hero.webp'
 import efreeshopCoverLandscape from '@/assets/projects/efreeshop/cover-landscape.webp'
@@ -9,6 +13,16 @@ import etudocsFeatures from '@/assets/projects/etudocs/features.webp'
 import etudocsHero from '@/assets/projects/etudocs/hero.webp'
 import etudocsLogin from '@/assets/projects/etudocs/login.webp'
 import etudocsCover from '@/assets/projects/etudocs/cover.webp'
+import githubUserCover from '@/assets/projects/github-user/cover-portrait.webp'
+import githubUserHero from '@/assets/projects/github-user/hero.webp'
+import githubUserSearch from '@/assets/projects/github-user/search.webp'
+import medicastockCover from '@/assets/projects/medicastock/cover-portrait.webp'
+import medicastockHero from '@/assets/projects/medicastock/hero.webp'
+import medicastockServices from '@/assets/projects/medicastock/services.webp'
+import medipassCover from '@/assets/projects/medipass/cover-portrait.webp'
+import medipassMenu from '@/assets/projects/medipass/menu.webp'
+import portfolioCover from '@/assets/projects/portfolio/cover-portrait.webp'
+import portfolioHero from '@/assets/projects/portfolio/hero.webp'
 import type { Localized } from '@/data/locale'
 
 export type ProjectPhoto = { id: string; alt: string }
@@ -169,22 +183,39 @@ export const PROJECTS_SECTION: Localized<ProjectsSection> = {
 
 export type ShowcaseShot = { src: string; alt: string }
 
-// Projets du téléphone et du Mac : captures 4K des vrais sites, cover en portrait (téléphone) et paysage (ordinateur).
+// Projets du téléphone et du Mac : captures haute définition des vrais projets, cover en portrait (téléphone) et paysage (tablette).
 export type ShowcaseProject = {
   slug: string
   // Nom du dossier du projet dans le dossier Projects du Mac.
   repo: string
   name: string
   services: string[]
+  stack: string[]
   description: string
   year: string
-  link: { label: string; href: string }
+  // Absent pour un repo privé sans version en ligne : rien à ouvrir pour le visiteur.
+  link?: { label: string; href: string }
   cover: { portrait: string; landscape: string; alt: string }
   shots: ShowcaseShot[]
 }
 
 const EFREESHOP_URL = 'https://www.e-freeshop.com'
 const ETUDOCS_URL = 'https://github.com/thelord00229/ETUDOCS'
+const PORTFOLIO_URL = 'https://github.com/Ikhlas187/Ikhlas-Portfolio'
+const MEDICASTOCK_URL = 'https://medicastock-react.vercel.app'
+const GITHUB_USER_URL = 'https://github-user-red.vercel.app'
+const COMPONENTS_HOLE_URL = 'https://my-project-pied-xi.vercel.app'
+
+const STACKS = {
+  efreeshop: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Drizzle ORM', 'PostgreSQL (Neon)', 'NextAuth', 'FedaPay', 'GSAP'],
+  etudocs: ['React', 'Vite', 'TanStack Query', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'JWT', 'Puppeteer'],
+  portfolio: ['React 19', 'TypeScript', 'Vite', 'Tailwind CSS v4', 'shadcn/ui', 'Framer Motion', 'GSAP', 'Lenis', 'Vercel Functions', 'Neon'],
+  medicastock: ['React', 'Vite', 'GSAP', 'Chart.js', 'Node.js', 'Express', 'PostgreSQL', 'JWT'],
+  githubUser: ['React', 'Vite', 'React Router', 'Tailwind CSS', 'GitHub REST API'],
+  componentsHole: ['React', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'GSAP', 'Framer Motion', 'Three.js'],
+  medipass: ['C++', 'SQLite', 'Emscripten (WebAssembly)'],
+  columinst: ['C++', 'Qt Widgets', 'SQLite', 'Emscripten (WebAssembly)'],
+}
 
 export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
   en: [
@@ -193,11 +224,12 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       repo: 'Efreeshop',
       name: 'Efreeshop',
       services: ['Web platform', 'Marketplace'],
+      stack: STACKS.efreeshop,
       description:
         'Freemium platform of UI resources for frontend developers in Africa and beyond: React components, templates and digital products to browse, copy or sell, with Mobile Money payments built in.',
       year: '2026',
       link: { label: 'Visit e-freeshop.com', href: EFREESHOP_URL },
-      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Efreeshop Explore page: the community’s components, templates and themes' },
+      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Efreeshop home page on mobile: the n°1 platform to sell components, templates and digital products' },
       shots: [
         { src: efreeshopHero, alt: 'Efreeshop home page: the n°1 platform to sell components, templates and digital products' },
         { src: efreeshopComponents, alt: 'Premium components section with a React code sample' },
@@ -210,6 +242,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       repo: 'ETUDOCS',
       name: 'EtuDocs',
       services: ['Web app', 'Full stack'],
+      stack: STACKS.etudocs,
       description:
         'Built at the HACKBYIFRI 2026 hackathon: students request their administrative documents online, follow each validation step in real time, and download authentic documents checked by QR code.',
       year: '2026',
@@ -222,6 +255,87 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         { src: etudocsLogin, alt: 'EtuDocs sign-in page' },
       ],
     },
+    {
+      slug: 'portfolio',
+      repo: 'Ikhlas-Portfolio',
+      name: 'Portfolio',
+      services: ['Website', 'Creative development'],
+      stack: STACKS.portfolio,
+      description:
+        'This site: a giant hero, an interactive fake macOS that runs my projects in WebAssembly, scroll animations and a note board shared between visitors.',
+      year: '2026',
+      link: { label: 'See the code on GitHub', href: PORTFOLIO_URL },
+      cover: { portrait: portfolioCover, landscape: portfolioHero, alt: 'Portfolio home page on mobile with the Ikhlas Agbeti name' },
+      shots: [{ src: portfolioHero, alt: 'Portfolio home page with the Ikhlas A. name' }],
+    },
+    {
+      slug: 'medicastock',
+      repo: 'medicastock-react',
+      name: 'MEDICASTOCK',
+      services: ['Web app', 'Full stack'],
+      stack: STACKS.medicastock,
+      description:
+        'Hospital pharmacy stock management: medicines, batches and expiry dates, stock movements, threshold alerts and statistics, behind an administrator sign-in.',
+      year: '2026',
+      link: { label: 'Visit the site', href: MEDICASTOCK_URL },
+      cover: { portrait: medicastockCover, landscape: medicastockHero, alt: 'MEDICASTOCK home page on mobile: smart management of pharmaceutical stock' },
+      shots: [
+        { src: medicastockHero, alt: 'MEDICASTOCK home page: smart management of pharmaceutical stock' },
+        { src: medicastockServices, alt: 'Services section: drug catalogue sorted by family' },
+      ],
+    },
+    {
+      slug: 'github-user',
+      repo: 'github-user',
+      name: 'github-user',
+      services: ['Web app', 'API'],
+      stack: STACKS.githubUser,
+      description: 'Search any GitHub user and see their profile and repositories in seconds, straight from the GitHub API.',
+      year: '2026',
+      link: { label: 'Visit the site', href: GITHUB_USER_URL },
+      cover: { portrait: githubUserCover, landscape: githubUserHero, alt: 'github-user home page on mobile: discover GitHub profiles and repos' },
+      shots: [
+        { src: githubUserHero, alt: 'github-user home page: discover GitHub profiles and repos' },
+        { src: githubUserSearch, alt: 'User search results' },
+      ],
+    },
+    {
+      slug: 'components-hole',
+      repo: 'components-hole',
+      name: 'components-hole',
+      services: ['Component library', 'Creative development'],
+      stack: STACKS.componentsHole,
+      description:
+        'Website studies rebuilt as standalone React components: menus, hero sections, carousels and scroll animations, each one testable full screen.',
+      year: '2026',
+      link: { label: 'Visit the site', href: COMPONENTS_HOLE_URL },
+      cover: { portrait: componentsHoleCover, landscape: componentsHoleGallery, alt: 'components-hole gallery on mobile' },
+      shots: [{ src: componentsHoleGallery, alt: 'Gallery of website studies rebuilt as React components' }],
+    },
+    {
+      slug: 'medipass',
+      repo: 'MediPass',
+      name: 'MediPass',
+      services: ['Desktop software', 'Object-oriented programming'],
+      stack: STACKS.medipass,
+      description:
+        'Console hospital management in C++: administrator and health professional accounts, patients, consultations and statistics, stored in SQLite. It runs in the browser through WebAssembly in the Mac on this site.',
+      year: '2025',
+      cover: { portrait: medipassCover, landscape: medipassMenu, alt: 'MediPass running in WebAssembly: administrator menu and statistics' },
+      shots: [{ src: medipassMenu, alt: 'MediPass running in WebAssembly: administrator menu and statistics' }],
+    },
+    {
+      slug: 'columinst',
+      repo: 'Columinst',
+      name: 'Columinst',
+      services: ['Desktop software', 'Task manager'],
+      stack: STACKS.columinst,
+      description:
+        'Kanban task manager in C++ and Qt: projects in tabs, editable columns and cards, search, JSON and CSV export and statistics, saved in SQLite. It runs in the browser through WebAssembly in the Mac on this site.',
+      year: '2025',
+      cover: { portrait: columinstCover, landscape: columinstBoard, alt: 'Columinst running in WebAssembly: a project board with its columns' },
+      shots: [{ src: columinstBoard, alt: 'Columinst running in WebAssembly: a project board with its columns' }],
+    },
   ],
   fr: [
     {
@@ -229,11 +343,12 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       repo: 'Efreeshop',
       name: 'Efreeshop',
       services: ['Plateforme web', 'Marketplace'],
+      stack: STACKS.efreeshop,
       description:
         'Plateforme freemium de ressources UI pour les développeurs frontend africains et du monde entier : composants React, templates et produits digitaux à parcourir, copier ou vendre, avec paiement Mobile Money intégré.',
       year: '2026',
       link: { label: 'Voir e-freeshop.com', href: EFREESHOP_URL },
-      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Page Explorer d’Efreeshop : composants, templates et thèmes de la communauté' },
+      cover: { portrait: efreeshopCoverPortrait, landscape: efreeshopCoverLandscape, alt: 'Accueil d’Efreeshop sur mobile : la plateforme n°1 pour vendre composants, templates et produits digitaux' },
       shots: [
         { src: efreeshopHero, alt: 'Accueil d’Efreeshop : la plateforme n°1 pour vendre composants, templates et produits digitaux' },
         { src: efreeshopComponents, alt: 'Section des composants premium avec un exemple de code React' },
@@ -246,6 +361,7 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
       repo: 'ETUDOCS',
       name: 'EtuDocs',
       services: ['Application web', 'Full stack'],
+      stack: STACKS.etudocs,
       description:
         'Réalisé au hackathon HACKBYIFRI 2026 : les étudiants demandent leurs documents administratifs en ligne, suivent chaque étape de validation en temps réel et téléchargent des documents authentifiés par QR code.',
       year: '2026',
@@ -258,6 +374,87 @@ export const SHOWCASE_PROJECTS: Localized<ShowcaseProject[]> = {
         { src: etudocsLogin, alt: 'Page de connexion d’EtuDocs' },
       ],
     },
+    {
+      slug: 'portfolio',
+      repo: 'Ikhlas-Portfolio',
+      name: 'Portfolio',
+      services: ['Site web', 'Développement créatif'],
+      stack: STACKS.portfolio,
+      description:
+        'Ce site : un hero géant, un faux macOS interactif qui fait tourner mes projets en WebAssembly, des animations au défilement et un tableau de notes partagé entre les visiteurs.',
+      year: '2026',
+      link: { label: 'Voir le code sur GitHub', href: PORTFOLIO_URL },
+      cover: { portrait: portfolioCover, landscape: portfolioHero, alt: 'Accueil du portfolio sur mobile avec le nom Ikhlas Agbeti' },
+      shots: [{ src: portfolioHero, alt: 'Accueil du portfolio avec le nom Ikhlas A.' }],
+    },
+    {
+      slug: 'medicastock',
+      repo: 'medicastock-react',
+      name: 'MEDICASTOCK',
+      services: ['Application web', 'Full stack'],
+      stack: STACKS.medicastock,
+      description:
+        'Gestion du stock de la pharmacie d’un hôpital : médicaments, lots et dates de péremption, entrées et sorties, alertes de seuil et statistiques, derrière une connexion administrateur.',
+      year: '2026',
+      link: { label: 'Voir le site', href: MEDICASTOCK_URL },
+      cover: { portrait: medicastockCover, landscape: medicastockHero, alt: 'Accueil de MEDICASTOCK sur mobile : gestion intelligente du stock pharmaceutique' },
+      shots: [
+        { src: medicastockHero, alt: 'Accueil de MEDICASTOCK : gestion intelligente du stock pharmaceutique' },
+        { src: medicastockServices, alt: 'Section Services : catalogue des médicaments classés par famille' },
+      ],
+    },
+    {
+      slug: 'github-user',
+      repo: 'github-user',
+      name: 'github-user',
+      services: ['Application web', 'API'],
+      stack: STACKS.githubUser,
+      description: 'Recherche n’importe quel utilisateur GitHub et affiche son profil et ses repos en quelques secondes, directement depuis l’API de GitHub.',
+      year: '2026',
+      link: { label: 'Voir le site', href: GITHUB_USER_URL },
+      cover: { portrait: githubUserCover, landscape: githubUserHero, alt: 'Accueil de github-user sur mobile : découvrir profils et repos GitHub' },
+      shots: [
+        { src: githubUserHero, alt: 'Accueil de github-user : découvrir profils et repos GitHub' },
+        { src: githubUserSearch, alt: 'Résultats d’une recherche d’utilisateur' },
+      ],
+    },
+    {
+      slug: 'components-hole',
+      repo: 'components-hole',
+      name: 'components-hole',
+      services: ['Bibliothèque de composants', 'Développement créatif'],
+      stack: STACKS.componentsHole,
+      description:
+        'Études de sites refaites en composants React autonomes : menus, heros, carrousels et animations au défilement, chacun testable en plein écran.',
+      year: '2026',
+      link: { label: 'Voir le site', href: COMPONENTS_HOLE_URL },
+      cover: { portrait: componentsHoleCover, landscape: componentsHoleGallery, alt: 'Galerie de components-hole sur mobile' },
+      shots: [{ src: componentsHoleGallery, alt: 'Galerie d’études de sites refaites en composants React' }],
+    },
+    {
+      slug: 'medipass',
+      repo: 'MediPass',
+      name: 'MediPass',
+      services: ['Logiciel', 'Programmation orientée objet'],
+      stack: STACKS.medipass,
+      description:
+        'Gestion d’hôpital en console, en C++ : comptes administrateur et professionnel de santé, patients, consultations et statistiques, enregistrés dans SQLite. Il tourne dans le navigateur grâce à WebAssembly, dans le Mac de ce site.',
+      year: '2025',
+      cover: { portrait: medipassCover, landscape: medipassMenu, alt: 'MediPass lancé en WebAssembly : menu administrateur et statistiques' },
+      shots: [{ src: medipassMenu, alt: 'MediPass lancé en WebAssembly : menu administrateur et statistiques' }],
+    },
+    {
+      slug: 'columinst',
+      repo: 'Columinst',
+      name: 'Columinst',
+      services: ['Logiciel', 'Gestionnaire de tâches'],
+      stack: STACKS.columinst,
+      description:
+        'Gestionnaire de tâches Kanban en C++ et Qt : projets en onglets, colonnes et cartes modifiables, recherche, export JSON et CSV et statistiques, enregistrés dans SQLite. Il tourne dans le navigateur grâce à WebAssembly, dans le Mac de ce site.',
+      year: '2025',
+      cover: { portrait: columinstCover, landscape: columinstBoard, alt: 'Columinst lancé en WebAssembly : tableau de projet et ses colonnes' },
+      shots: [{ src: columinstBoard, alt: 'Columinst lancé en WebAssembly : tableau de projet et ses colonnes' }],
+    },
   ],
 }
 
@@ -267,6 +464,7 @@ type ProjectPageText = {
   back: string
   description: string
   services: string
+  stack: string
   year: string
   link: string
 }
@@ -279,6 +477,7 @@ export const PROJECT_PAGE: Localized<ProjectPageText> = {
     back: 'Back',
     description: 'Description',
     services: 'Services',
+    stack: 'Stack',
     year: 'Year',
     link: 'Link',
   },
@@ -288,6 +487,7 @@ export const PROJECT_PAGE: Localized<ProjectPageText> = {
     back: 'Retour',
     description: 'Description',
     services: 'Services',
+    stack: 'Stack technique',
     year: 'Année',
     link: 'Lien',
   },

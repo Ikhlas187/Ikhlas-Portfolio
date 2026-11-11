@@ -3,7 +3,6 @@ import { BookOpen, Compass, ExternalLink } from 'lucide-react'
 import { MACOS } from '@/data/macos'
 import { REPO_RUNS, SHOWCASE_RENAMED } from '@/data/projectShowcase'
 import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
-import { README_SHOTS } from '@/data/readmeShots'
 import { fetchRepoSnapshot } from '@/lib/api/repos'
 import { useLocale } from '@/lib/LocaleProvider'
 import { sourceRepoName } from '@/logic/macos/repoShowcase/repoShowcase'
@@ -39,7 +38,7 @@ export default function RepoReadme({ repo, onRun }: RepoReadmeProps) {
   const services = showcase?.services ?? (repo.language ? [repo.language] : [])
   const year = showcase?.year ?? repo.updatedAt.slice(0, 4)
   const isWebRunnable = REPO_RUNS[repo.name]?.kind === 'web'
-  const shots = showcase?.shots ?? README_SHOTS[locale][repo.name] ?? []
+  const shots = showcase?.shots ?? []
 
   return (
     <section className="mx-[16px] mt-[8px] mb-[20px] rounded-[10px] border border-(--macos-finder-separator) text-(--macos-finder-text)">
@@ -55,6 +54,12 @@ export default function RepoReadme({ repo, onRun }: RepoReadmeProps) {
             <>
               <dt className="text-(--macos-finder-text-muted)">{showcase ? labels.services : texts.language}</dt>
               <dd>{services.join(' · ')}</dd>
+            </>
+          )}
+          {showcase && (
+            <>
+              <dt className="text-(--macos-finder-text-muted)">{labels.stack}</dt>
+              <dd>{showcase.stack.join(' · ')}</dd>
             </>
           )}
           <dt className="text-(--macos-finder-text-muted)">{labels.year}</dt>

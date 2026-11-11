@@ -32,7 +32,7 @@ export default function ProjectPage() {
   if (index < 0) return <Navigate to="/" replace />
   const project = projects[index]
   const nextProject = projects[(index + 1) % projects.length]
-  const { services } = project
+  const { services, stack, link } = project
 
   return (
     <div className="bg-white pt-[72px] text-black">
@@ -56,17 +56,23 @@ export default function ProjectPage() {
             </div>
           )}
           <div className="flex flex-col gap-1">
+            <dt className="text-[14px] tracking-normal">{text.stack}</dt>
+            <dd>{stack.join(' · ')}</dd>
+          </div>
+          <div className="flex flex-col gap-1">
             <dt className="text-[14px] tracking-normal">{text.year}</dt>
             <dd>{project.year}</dd>
           </div>
-          <div className="flex flex-col gap-1">
-            <dt className="text-[14px] tracking-normal">{text.link}</dt>
-            <dd>
-              <a href={project.link.href} target="_blank" rel="noreferrer" className="cursor-pointer underline underline-offset-4">
-                {project.link.label}
-              </a>
-            </dd>
-          </div>
+          {link && (
+            <div className="flex flex-col gap-1">
+              <dt className="text-[14px] tracking-normal">{text.link}</dt>
+              <dd>
+                <a href={link.href} target="_blank" rel="noreferrer" className="cursor-pointer underline underline-offset-4">
+                  {link.label}
+                </a>
+              </dd>
+            </div>
+          )}
         </dl>
         <div className="mt-12 flex flex-col gap-3 min-[810px]:gap-4">
           {project.shots.map((shot) => (

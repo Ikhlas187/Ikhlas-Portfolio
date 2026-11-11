@@ -52,7 +52,7 @@ portfolio-frontend/
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
 │   │       │   ├── MacOSSection.tsx     section macOS : titre « Selected Projects » (SectionHeading) puis le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
-│   │       │   ├── ProjectsShowcase.tsx  téléphone seulement, à la place du Mac : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, Efreeshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui défile vers la gauche au scroll vertical, puis CertificationsButton ; ni Mac ni tableau de notes sur téléphone
+│   │       │   ├── ProjectsShowcase.tsx  téléphone seulement, à la place du Mac : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, les 8 projets du dossier Projects du Mac, photo de présentation portrait 1290 × 2796 et captures haute définition dans src/assets/projects/<projet>/, stack de chaque projet sur sa page et dans le README du Mac), section collée qui défile vers la gauche au scroll vertical, puis CertificationsButton ; ni Mac ni tableau de notes sur téléphone
 │   │       │   ├── CertificationsButton.tsx  « Voir mes certifications » : sous les projets sur téléphone, sous le MacBook sur ordinateur (fondu à la fin du rétrécissement)
 │   │       │   └── MacOS/               faux macOS de l'écran (1512 × 982) : bureau Giant Sur affiché directement (pas d'écran de démarrage), fond et barre de menus du 1er macOS
 │   │       │       ├── Desktop.tsx          bureau Giant Sur : icônes, fenêtres, barre de menus, Dock ; pilote les menus
@@ -98,7 +98,7 @@ portfolio-frontend/
 │   │   ├── notesBookStorage.ts  changements de l'app Notes du faux macOS (localStorage)
 │   │   ├── macDisplaySession.ts  luminosité et mode sombre du faux macOS, gardés pour la session (sessionStorage)
 │   │   └── utils.ts          cn() de shadcn, ne pas déplacer
-│   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, experience, services (outils : ToolId + TOOL_NAMES), roles, loader, notes, footer, certifications, certificationPhotos, readmeShots (captures des README du Mac)
+│   ├── data/                 tout le texte affiché, en versions en / fr : locale (type Locale, Localized<T>), site, routes, home, hero, about, projects, experience, services (outils : ToolId + TOOL_NAMES), roles, loader, notes, footer, certifications, certificationPhotos
 │   │   ├── cv.ts             CV d'Ikhlas : CV.pdf de l'Aperçu, dossier Certifications du Mac et page Certifications
 │   │   ├── macos.ts          fichiers du Finder, textes des apps macOS (Terminal, Mail, Notes, Messages, Musique, Calendrier…)
 │   │   ├── giantSur.ts       menus de la barre de menus et apps du Dock
