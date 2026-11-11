@@ -3,9 +3,8 @@ import type { NavLink } from '@/data/site'
 
 type HeroContent = {
   name: string
-  tagline: string
-  photoId: string
-  photoAlt: string
+  fullName: string
+  role: string
 }
 
 type HeaderContent = {
@@ -19,15 +18,13 @@ type HeaderContent = {
 export const HERO: Localized<HeroContent> = {
   en: {
     name: 'Ikhlas A.',
-    tagline: 'Fast, readable products with character in every pixel.',
-    photoId: '1555066931-4365d14bab8c',
-    photoAlt: 'Lines of code on a dark screen',
+    fullName: 'Ikhlas Agbeti',
+    role: 'Web developer studying in Lille',
   },
   fr: {
     name: 'Ikhlas A.',
-    tagline: 'Des produits rapides et lisibles, avec du caractère dans chaque pixel.',
-    photoId: '1555066931-4365d14bab8c',
-    photoAlt: 'Lignes de code sur un écran sombre',
+    fullName: 'Ikhlas Agbeti',
+    role: 'Développeur web, étudiant à Lille',
   },
 }
 

@@ -40,8 +40,8 @@ portfolio-frontend/
 │   │   │   └── BackPill.tsx        bouton « ← Retour » des pages projet et certifications (réf. haufsess.com)
 │   │   └── pages/            un dossier par écran
 │   │       ├── Home/         HomePage + ses morceaux, sections en .tsx + .css appairés
-│   │       │   ├── Hero.tsx             1er écran (réf. haufsess.com) : tagline + photo + nom géant
-│   │       │   ├── HeroName.tsx         nom en SVG mis à l'échelle de la largeur, entrée en ressort
+│   │       │   ├── Hero.tsx             1er écran (réf. jorge-template.framer.website, couleurs inversées) : section collée de la hauteur de l'écran, recouverte par la section suivante (bornée par un div dans HomePage)
+│   │       │   ├── HeroTitle.tsx        nom (h1, mot par mot) + rôle centrés : entrée flou/montée en ressort après le loader, flou et rétrécissement au scroll (logic/heroExit)
 │   │       │   ├── Projects             pile de planches (réf. galerie Behance S. Baldeon)
 │   │       │   ├── Interlude.tsx        intercalaire « Selected works » + ellipse dessinée
 │   │       │   ├── ProjectBoard.tsx     une planche projet
@@ -57,7 +57,6 @@ portfolio-frontend/
 │   │       │   ├── NoteColorPicker.tsx  5 pastilles (radiogroup)
 │   │       │   ├── RollingLabel.tsx     libellé de bouton qui roule au survol
 │   │       │   ├── noteColorClasses.ts  table couleur de note vers classes Tailwind
-│   │       │   ├── NameMark.tsx         nom géant en <text> SVG (viewBox de la réf. ; pas de foreignObject, que Safari iPhone ne met pas à l'échelle), utilisé par HeroName
 │   │       │   ├── Process              4 étapes, écrit mais PAS monté
 │   │       │   ├── MacOSSection.tsx     section macOS : titre « Selected Projects » (SectionHeading) puis le Mac arrive plein écran (toute la fenêtre, bureau à la proportion de la fenêtre), reste collé et rétrécit au scroll jusqu'à sa place dans l'appareil (réf. cafedelmar.nl) ; Éteindre en plein écran fait défiler jusqu'à la fin ; bouton Allumer après extinction
 │   │       │   ├── ProjectsShowcase.tsx  téléphone seulement, à la place du Mac : « Selected Projects », un projet par écran (ProjectSlide : SHOWCASE_PROJECTS de data/projects.ts, Efreeshop et EtuDocs, photo de présentation portrait/paysage, captures 4K des vrais sites dans src/assets/projects/), section collée qui défile vers la gauche au scroll vertical, puis CertificationsButton ; ni Mac ni tableau de notes sur téléphone
@@ -117,6 +116,7 @@ portfolio-frontend/
 │   │   ├── coinRain/         ordre de chute, keyframes et instant de révélation du loader
 │   │   ├── experiencePeriod/ période d'une expérience écrite selon la langue
 │   │   ├── cursorKind/       valeur de data-cursor vers type de bulle (view, scroll), inconnue = pas de bulle
+│   │   ├── heroExit/         flou et échelle du titre du hero selon le défilement
 │   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll, remontée exigée avant de le réafficher (plus longue sur le Mac)
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
 │   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),

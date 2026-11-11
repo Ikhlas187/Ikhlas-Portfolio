@@ -41,10 +41,13 @@ export default function HomePage() {
 
   return (
     <main className="bg-black">
-      <Hero />
-      {SHOULD_SHOW_PROJECTS && <Projects />}
-      {/* Ordinateur : le Mac (bouton des certifications dessous) ; téléphone (réf. haufsess.com) : les projets à sa place, pas de tableau de notes. */}
-      {isMobile ? <ProjectsShowcase /> : <MacOSSection />}
+      {/* Borne le hero collé : il reste sous la section qui le recouvre, puis repart avec elle. */}
+      <div>
+        <Hero />
+        {SHOULD_SHOW_PROJECTS && <Projects />}
+        {/* Ordinateur : le Mac (bouton des certifications dessous) ; téléphone (réf. haufsess.com) : les projets à sa place, pas de tableau de notes. */}
+        {isMobile ? <ProjectsShowcase /> : <MacOSSection />}
+      </div>
       <About />
       <Experience />
       {SHOULD_SHOW_SKILLS && <DedicatedTeam />}

@@ -18,7 +18,7 @@ export default function ProjectsShowcase() {
   const x = useTransform(scrollYProgress, (progress) => `${showcaseOffsetVw(progress, projects.length)}vw`)
 
   return (
-    <section id="projects" className="bg-white pt-(--section-gap) pb-4 text-black">
+    <section id="projects" className="relative bg-white pt-(--section-gap) pb-4 text-black">
       <div className="px-3 pb-6 min-[810px]:px-4 min-[1200px]:px-5">
         <SectionHeading title={text.sectionTitle} />
       </div>
