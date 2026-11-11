@@ -25,18 +25,21 @@ const SCREEN_WIDTH_PX = 1512
 const SCREEN_HEIGHT_PX = 982
 const SCREEN_ASPECT = SCREEN_WIDTH_PX / SCREEN_HEIGHT_PX
 
-function canAncestorScroll(target: EventTarget | null, boundary: HTMLElement, event: WheelEvent) {
+// État de la molette sous le pointeur : dans une zone défilante d'une fenêtre (même arrivée au bout), et si elle peut encore avancer.
+function wheelTargetState(target: EventTarget | null, boundary: HTMLElement, event: WheelEvent) {
+  let isInScrollArea = false
   for (let node = target instanceof Element ? target : null; node && node !== boundary; node = node.parentElement) {
     const style = getComputedStyle(node)
-    const isScrollableY =
-      /(auto|scroll)/.test(style.overflowY) &&
-      canScrollBy({ offset: node.scrollTop, contentSize: node.scrollHeight, viewportSize: node.clientHeight }, event.deltaY)
-    const isScrollableX =
-      /(auto|scroll)/.test(style.overflowX) &&
-      canScrollBy({ offset: node.scrollLeft, contentSize: node.scrollWidth, viewportSize: node.clientWidth }, event.deltaX)
-    if (isScrollableY || isScrollableX) return true
+    const overflowsY = /(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight + 1
+    const overflowsX = /(auto|scroll)/.test(style.overflowX) && node.scrollWidth > node.clientWidth + 1
+    if (!overflowsY && !overflowsX) continue
+    isInScrollArea = true
+    const canScroll =
+      (overflowsY && canScrollBy({ offset: node.scrollTop, contentSize: node.scrollHeight, viewportSize: node.clientHeight }, event.deltaY)) ||
+      (overflowsX && canScrollBy({ offset: node.scrollLeft, contentSize: node.scrollWidth, viewportSize: node.clientWidth }, event.deltaX))
+    if (canScroll) return { isInScrollArea, canScroll }
   }
-  return false
+  return { isInScrollArea, canScroll: false }
 }
 
 // Retour de l'écran à sa place quand on éteint le Mac en plein écran.
@@ -98,14 +101,19 @@ export default function MacOSSection() {
     lenis.scrollTo(target, { duration: REVEAL_SCROLL_SECONDS, easing: easeInOutCubic })
   }
 
-  // Une fenêtre qui peut encore défiler garde la molette ; sinon la page défile.
+  // Une zone défilante d'une fenêtre garde la molette ; ailleurs sur le bureau, la page défile.
   const attachWheelCapture = useCallback((frame: HTMLDivElement | null) => {
     frameRef.current = frame
     if (!frame) return
     const handleWheel = (event: WheelEvent) => {
       // data-wheel-capture : zone qui gère la molette elle-même (app Qt dessinée dans un canvas).
       const isCaptured = event.target instanceof Element && event.target.closest('[data-wheel-capture]')
-      if (isCaptured || canAncestorScroll(event.target, frame, event)) event.stopPropagation()
+      if (isCaptured) return event.stopPropagation()
+      // Au bout d'un README ou d'une liste, la molette s'arrête là au lieu de faire défiler la page.
+      const { isInScrollArea, canScroll } = wheelTargetState(event.target, frame, event)
+      if (!isInScrollArea) return
+      event.stopPropagation()
+      if (!canScroll) event.preventDefault()
     }
     frame.addEventListener('wheel', handleWheel, { passive: false })
     return () => frame.removeEventListener('wheel', handleWheel)

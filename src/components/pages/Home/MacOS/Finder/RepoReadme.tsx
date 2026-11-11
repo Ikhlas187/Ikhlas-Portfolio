@@ -3,6 +3,7 @@ import { BookOpen, Compass, ExternalLink } from 'lucide-react'
 import { MACOS } from '@/data/macos'
 import { REPO_RUNS } from '@/data/projectShowcase'
 import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
+import { README_SHOTS } from '@/data/readmeShots'
 import { fetchRepoSnapshot } from '@/lib/api/repos'
 import { useLocale } from '@/lib/LocaleProvider'
 import { repoReadmeSummary } from '@/logic/macos/readmeSummary/readmeSummary'
@@ -37,6 +38,7 @@ export default function RepoReadme({ repo, onRun }: RepoReadmeProps) {
   const services = showcase?.services ?? (repo.language ? [repo.language] : [])
   const year = showcase?.year ?? repo.updatedAt.slice(0, 4)
   const isWebRunnable = REPO_RUNS[repo.name]?.kind === 'web'
+  const shots = showcase?.shots ?? README_SHOTS[locale][repo.name] ?? []
 
   return (
     <section className="mx-[16px] mt-[8px] mb-[20px] rounded-[10px] border border-(--macos-finder-separator) text-(--macos-finder-text)">
@@ -72,10 +74,16 @@ export default function RepoReadme({ repo, onRun }: RepoReadmeProps) {
             )}
           </dd>
         </dl>
-        {showcase && (
-          <div className="flex flex-col gap-[10px]">
-            {showcase.shots.map((shot) => (
-              <img key={shot.src} src={shot.src} alt={shot.alt} loading="lazy" className="w-full rounded-[8px] border border-(--macos-finder-separator)" />
+        {shots.length > 0 && (
+          <div className="flex flex-col items-center gap-[10px]">
+            {shots.map((shot) => (
+              <img
+                key={shot.src}
+                src={shot.src}
+                alt={shot.alt}
+                loading="lazy"
+                className="max-h-[560px] w-auto max-w-full rounded-[8px] border border-(--macos-finder-separator)"
+              />
             ))}
           </div>
         )}
