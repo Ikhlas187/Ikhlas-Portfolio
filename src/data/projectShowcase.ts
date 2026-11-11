@@ -6,20 +6,11 @@ export const SHOWCASE_ORDER = [
   'Efreeshop',
   'ETUDOCS',
   'Ikhlas-Portfolio',
-  'kommit-frontend',
-  'kommit-backend',
-  'portfolio-backend',
   'medicastock-react',
   'github-user',
-  'john-website',
   'components-hole',
-  'kommit-perso',
-  'Groupe_5_Java',
-  'Groupe_15_POO',
-  'Columinst',
-  'Gestionnaire_de_contacts',
   'MediPass',
-  'New-Projet-Int-grateur',
+  'Columinst',
 ]
 
 // Projets sans code consultable (repo privé d'une autre équipe) : un dossier qui ne s'ouvre que dans le Safari du Mac.
@@ -37,8 +28,25 @@ export const CODELESS_PROJECTS: RepoSummary[] = [
   },
 ]
 
-// Exercices et tutoriels : sans intérêt pour un recruteur, retirés du dossier.
-export const SHOWCASE_HIDDEN = ['JavaScript', 'React-tutoriel-', 'Podia-Project', 'Landing-Page-']
+// Exercices, tutoriels et projets retirés du dossier ; « MediPass » est l'ancienne version, remplacée par Groupe_15_POO.
+export const SHOWCASE_HIDDEN = [
+  'JavaScript',
+  'React-tutoriel-',
+  'Podia-Project',
+  'Landing-Page-',
+  'kommit-frontend',
+  'kommit-backend',
+  'kommit-perso',
+  'portfolio-backend',
+  'john-website',
+  'Groupe_5_Java',
+  'Gestionnaire_de_contacts',
+  'New-Projet-Int-grateur',
+  'MediPass',
+]
+
+// Repos affichés sous un autre nom dans le Mac : nom GitHub vers nom affiché.
+export const SHOWCASE_RENAMED: Record<string, string> = { Groupe_15_POO: 'MediPass' }
 
 // « Exécuter » : app web dans le Safari du Mac, ou programme WebAssembly (tools/runs/) dans l'app Exécution.
 export type RepoRun =
@@ -51,9 +59,8 @@ export const REPO_RUNS: Record<string, RepoRun> = {
   'Ikhlas-Portfolio': { kind: 'web', url: 'https://ikhlas-dev.vercel.app' },
   'medicastock-react': { kind: 'web', url: 'https://medicastock-react.vercel.app' },
   'github-user': { kind: 'web', url: 'https://github-user-red.vercel.app' },
-  'john-website': { kind: 'web', url: 'https://john-website-peach.vercel.app' },
   'components-hole': { kind: 'web', url: 'https://my-project-pied-xi.vercel.app' },
-  Groupe_15_POO: {
+  MediPass: {
     kind: 'wasm',
     module: '/runs/medipass/medipass.mjs',
     hint: {

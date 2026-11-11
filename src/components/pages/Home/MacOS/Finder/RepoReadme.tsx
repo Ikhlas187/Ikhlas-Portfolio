@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { BookOpen, Compass, ExternalLink } from 'lucide-react'
 import { MACOS } from '@/data/macos'
-import { REPO_RUNS } from '@/data/projectShowcase'
+import { REPO_RUNS, SHOWCASE_RENAMED } from '@/data/projectShowcase'
 import { PROJECT_PAGE, SHOWCASE_PROJECTS } from '@/data/projects'
 import { README_SHOTS } from '@/data/readmeShots'
 import { fetchRepoSnapshot } from '@/lib/api/repos'
 import { useLocale } from '@/lib/LocaleProvider'
+import { sourceRepoName } from '@/logic/macos/repoShowcase/repoShowcase'
 import { repoReadmeSummary } from '@/logic/macos/readmeSummary/readmeSummary'
 import type { RepoSummary } from '@/types/repo'
 
@@ -26,7 +27,7 @@ export default function RepoReadme({ repo, onRun }: RepoReadmeProps) {
   useEffect(() => {
     if (showcase || !hasCode) return
     let isCurrent = true
-    fetchRepoSnapshot(repo.name)
+    fetchRepoSnapshot(sourceRepoName(repo.name, SHOWCASE_RENAMED))
       .then((snapshot) => isCurrent && setReadme(repoReadmeSummary(snapshot.entries)))
       .catch(() => isCurrent && setReadme(null))
     return () => {

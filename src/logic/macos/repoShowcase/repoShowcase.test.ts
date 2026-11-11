@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { showcaseRepos } from '@/logic/macos/repoShowcase/repoShowcase'
+import { showcaseRepos, sourceRepoName } from '@/logic/macos/repoShowcase/repoShowcase'
 import type { RepoSummary } from '@/types/repo'
 
 function repo(name: string, updatedAt: string): RepoSummary {
@@ -31,5 +31,23 @@ describe('showcaseRepos', () => {
     const names = showcaseRepos(repos, [], ['tutorial']).map((item) => item.name)
 
     expect(names).toEqual(['keep'])
+  })
+
+  it('affiche un repo renommé sous son nouveau nom, à sa place dans la liste', () => {
+    const repos = [repo('other', '2026-01-01'), repo('Groupe_15_POO', '2024-01-01')]
+
+    const names = showcaseRepos(repos, ['MediPass'], [], { Groupe_15_POO: 'MediPass' }).map((item) => item.name)
+
+    expect(names).toEqual(['MediPass', 'other'])
+  })
+})
+
+describe('sourceRepoName', () => {
+  it('retrouve le nom GitHub derrière le nom affiché, ou garde le nom tel quel', () => {
+    const renamed = { Groupe_15_POO: 'MediPass' }
+
+    const names = ['MediPass', 'Columinst'].map((name) => sourceRepoName(name, renamed))
+
+    expect(names).toEqual(['Groupe_15_POO', 'Columinst'])
   })
 })

@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { CODELESS_PROJECTS, SHOWCASE_HIDDEN, SHOWCASE_ORDER } from '@/data/projectShowcase'
+import { CODELESS_PROJECTS, SHOWCASE_HIDDEN, SHOWCASE_ORDER, SHOWCASE_RENAMED } from '@/data/projectShowcase'
 import { fetchRepoIndex, fetchRepoSnapshot } from '@/lib/api/repos'
-import { showcaseRepos } from '@/logic/macos/repoShowcase/repoShowcase'
+import { showcaseRepos, sourceRepoName } from '@/logic/macos/repoShowcase/repoShowcase'
 import { buildRepoTree, type RepoTreeDir } from '@/logic/macos/repoTree/repoTree'
 import type { RepoSummary } from '@/types/repo'
 
@@ -32,7 +32,7 @@ export default function MacReposProvider({ children }: { children: ReactNode }) 
     fetchRepoIndex()
       .then((repos) => {
         if (!isCurrent) return
-        setIndex(showcaseRepos([...repos, ...CODELESS_PROJECTS], SHOWCASE_ORDER, SHOWCASE_HIDDEN))
+        setIndex(showcaseRepos([...repos, ...CODELESS_PROJECTS], SHOWCASE_ORDER, SHOWCASE_HIDDEN, SHOWCASE_RENAMED))
         setIndexStatus('ready')
       })
       .catch(() => isCurrent && setIndexStatus('error'))
@@ -56,7 +56,7 @@ export default function MacReposProvider({ children }: { children: ReactNode }) 
       return
     }
     setStatuses((current) => ({ ...current, [name]: 'loading' }))
-    fetchRepoSnapshot(name)
+    fetchRepoSnapshot(sourceRepoName(name, SHOWCASE_RENAMED))
       .then((snapshot) => {
         const tree = buildRepoTree(snapshot.entries)
         setTrees((loaded) => ({ ...loaded, [name]: tree }))
