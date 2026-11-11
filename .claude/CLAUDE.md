@@ -153,7 +153,7 @@ Code         highlight.js (cœur + grammaires en import dynamique) pour l'app VS
 Déploiement  Vercel
 ```
 
-`pnpm dev` ouvre http://localhost:3000/. `pnpm build` lance `tsc -b` puis le build dans `build/`.
+`pnpm dev` ouvre toujours http://localhost:3000/ (port fixe : Vite s'arrête si le port est pris). Variables en ligne (notes partagées) : `.env.example`, à poser dans Vercel. `pnpm build` lance `tsc -b` puis le build dans `build/`.
 
 ## Idéologie
 
