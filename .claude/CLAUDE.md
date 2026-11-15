@@ -39,8 +39,7 @@ portfolio-frontend/
 │   │   │   └── BackPill.tsx        bouton « ← Retour » des pages projet et certifications (réf. haufsess.com)
 │   │   └── pages/            un dossier par écran
 │   │       ├── Home/         HomePage + ses morceaux en Tailwind (seul About garde un .css BEM appairé)
-│   │       │   ├── Hero.tsx             1er écran (réf. jorge-template.framer.website, couleurs inversées) : section collée de la hauteur de l'écran, recouverte par la section suivante (bornée par un div dans HomePage)
-│   │       │   ├── HeroTitle.tsx        nom (h1, mot par mot) + rôle centrés : entrée flou/montée en ressort après le loader, flou et rétrécissement au scroll (logic/heroExit)
+│   │       │   ├── Hero.tsx             1er écran : section blanche collée de la hauteur de l'écran avec le badge (BadgeCanvas), recouverte par la section suivante (bornée par un div dans HomePage) ; nom et rôle en h1 masqué (sr-only), plus de texte visible depuis le 2026-11-15
 │   │       │   ├── BadgeCanvas.tsx      badge suspendu à un cordon devant le nom (réf. drkst.framer.website), chargé à part après le loader : three + @react-three/fiber, drei, rapier, meshline ; Badge.tsx = physique du cordon (code du badge Vercel), glisser pour déplacer, clic pour retourner ; modèle assets/badge.glb (carte, anneau, mousqueton du modèle de drkst, texture d’origine retirée) ; useBadgeTextures.ts = texture recto/verso dessinée sur canvas (photo about-portrait, nom, rôle)
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
@@ -111,7 +110,6 @@ portfolio-frontend/
 │   │   ├── experiencePeriod/ période d'une expérience écrite selon la langue
 │   │   ├── easing/           courbes d'animation partagées (easeInOutCubic)
 │   │   ├── showcaseTrack/    décalage horizontal des projets sur téléphone selon le défilement
-│   │   ├── heroExit/         flou et échelle du titre du hero selon le défilement
 │   │   ├── headerVisibility/ cacher ou non le header selon le sens du scroll, remontée exigée avant de le réafficher (plus longue sur le Mac)
 │   │   ├── initialLocale/    langue de départ : choix enregistré, sinon navigateur fr*, sinon en
 │   │   ├── macos/            repoTree (arbre trié d'un repo), codeLanguage (langage et icône d'après l'extension), editorTabs, textPosition (Ln/Col),
