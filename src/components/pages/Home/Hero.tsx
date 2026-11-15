@@ -12,29 +12,34 @@ const BadgeCanvas = lazy(() => import('@/components/pages/Home/BadgeCanvas'))
 // Défilement réservé à l'intro du badge, en hauteurs d'écran.
 const INTRO_SCREENS = 1.5
 
-/* 1er écran : badge suspendu (réf. drkst.framer.website). Au défilement, la carte se retourne, on entre dedans
-   et l'ancien hero (réf. jorge-template.framer.website, nom géant et rôle) apparaît. */
+/* 1er écran : badge suspendu (réf. drkst.framer.website). Au défilement, la carte se retourne, on aperçoit à travers
+   son dos dépoli l'ancien hero (réf. jorge-template.framer.website, nom géant et rôle), puis on entre dedans. */
 export default function Hero() {
   const { locale } = useLocale()
   const hero = HERO[locale]
   const section = useRef<HTMLElement>(null)
+  const titleLayer = useRef<HTMLDivElement>(null)
   const isPageVisible = useSyncExternalStore(subscribeLoaderGone, isLoaderGone)
   const { scrollY } = useScroll()
   const introProgress = useTransform(scrollY, (y) => y / (window.innerHeight * INTRO_SCREENS))
-  const [isTitleVisible, setIsTitleVisible] = useState(() => badgeIntro(introProgress.get()).isTitleVisible)
-  useMotionValueEvent(introProgress, 'change', (progress) => setIsTitleVisible(badgeIntro(progress).isTitleVisible))
+  const [isTitleVisible, setIsTitleVisible] = useState(() => badgeIntro(introProgress.get()).isBackVisible)
+  useMotionValueEvent(introProgress, 'change', (progress) => setIsTitleVisible(badgeIntro(progress).isBackVisible))
 
   return (
     <>
       <SiteHeader />
       {/* Collée sans z-index : la section suivante, positionnée et plus loin dans le DOM, passe par-dessus. */}
       <section ref={section} id="top" className="sticky top-0 flex h-svh w-full flex-col items-center overflow-clip bg-white text-center text-black">
-        <div className="relative flex w-full max-w-[1920px] flex-1 flex-col items-center justify-center overflow-clip px-5 min-[810px]:px-10">
+        {/* Découpé et flouté par le badge pendant l'intro : on aperçoit le titre à travers le dos de la carte. */}
+        <div
+          ref={titleLayer}
+          className="absolute inset-y-0 left-1/2 flex w-full max-w-[1920px] -translate-x-1/2 flex-col items-center justify-center overflow-clip px-5 min-[810px]:px-10"
+        >
           <HeroTitle name={hero.fullName} role={hero.role} isVisible={isPageVisible && isTitleVisible} exitStart={window.innerHeight * INTRO_SCREENS} />
         </div>
         {isPageVisible && (
           <Suspense fallback={null}>
-            <BadgeCanvas eventSource={section} introProgress={introProgress} name={hero.fullName} label={hero.badgeLabel} />
+            <BadgeCanvas eventSource={section} introProgress={introProgress} titleLayer={titleLayer} name={hero.fullName} label={hero.badgeLabel} />
           </Suspense>
         )}
       </section>

@@ -3,21 +3,23 @@ import { badgeIntro, cameraDistance, coverDistance } from '@/logic/badgeIntro/ba
 
 describe('badgeIntro', () => {
   test.each([
-    { progress: -0.2, flip: 0, zoom: 0, canvasOpacity: 1, isTitleVisible: false },
-    { progress: 0, flip: 0, zoom: 0, canvasOpacity: 1, isTitleVisible: false },
-    { progress: 0.15, flip: 0.5, zoom: 0, canvasOpacity: 1, isTitleVisible: false },
-    { progress: 0.3, flip: 1, zoom: 0, canvasOpacity: 1, isTitleVisible: false },
-    { progress: 0.575, flip: 1, zoom: 0.5, canvasOpacity: 1, isTitleVisible: false },
-    { progress: 0.85, flip: 1, zoom: 1, canvasOpacity: 1, isTitleVisible: true },
-    { progress: 0.9, flip: 1, zoom: 1, canvasOpacity: 0.5, isTitleVisible: true },
-    { progress: 1.4, flip: 1, zoom: 1, canvasOpacity: 0, isTitleVisible: true },
-  ])('à $progress : retournement $flip, avancée $zoom, opacité $canvasOpacity', ({ progress, ...expectedStep }) => {
+    { progress: -0.2, flip: 0, zoom: 0, canvasOpacity: 1, isBackVisible: false, titleBlur: 18 },
+    { progress: 0, flip: 0, zoom: 0, canvasOpacity: 1, isBackVisible: false, titleBlur: 18 },
+    { progress: 0.1, flip: 0.259, zoom: 0, canvasOpacity: 1, isBackVisible: false, titleBlur: 18 },
+    { progress: 0.15, flip: 0.5, zoom: 0, canvasOpacity: 1, isBackVisible: true, titleBlur: 18 },
+    { progress: 0.3, flip: 1, zoom: 0, canvasOpacity: 1, isBackVisible: true, titleBlur: 18 },
+    { progress: 0.575, flip: 1, zoom: 0.5, canvasOpacity: 1, isBackVisible: true, titleBlur: 9 },
+    { progress: 0.85, flip: 1, zoom: 1, canvasOpacity: 1, isBackVisible: true, titleBlur: 0 },
+    { progress: 0.9, flip: 1, zoom: 1, canvasOpacity: 0.5, isBackVisible: true, titleBlur: 0 },
+    { progress: 1.4, flip: 1, zoom: 1, canvasOpacity: 0, isBackVisible: true, titleBlur: 0 },
+  ])('à $progress : retournement $flip, avancée $zoom, flou du titre $titleBlur px', ({ progress, ...expectedStep }) => {
     const step = badgeIntro(progress)
 
-    expect(step.flip).toBeCloseTo(expectedStep.flip)
+    expect(step.flip).toBeCloseTo(expectedStep.flip, 2)
     expect(step.zoom).toBeCloseTo(expectedStep.zoom)
     expect(step.canvasOpacity).toBeCloseTo(expectedStep.canvasOpacity)
-    expect(step.isTitleVisible).toBe(expectedStep.isTitleVisible)
+    expect(step.isBackVisible).toBe(expectedStep.isBackVisible)
+    expect(step.titleBlur).toBeCloseTo(expectedStep.titleBlur)
   })
 })
 

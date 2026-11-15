@@ -36,10 +36,14 @@ function drawFront(context: CanvasRenderingContext2D, photo: HTMLImageElement, n
   context.fillText(name.toUpperCase(), FACE_WIDTH / 2, 120)
 }
 
-// Dos blanc comme le fond du hero : en entrant dans la carte, on arrive sur le titre.
+// Dos translucide : la page derrière se voit à travers, floutée par le calque du titre (verre dépoli).
+const BACK_OPACITY = 0.45
+
 function drawBack(context: CanvasRenderingContext2D) {
+  context.globalAlpha = BACK_OPACITY
   context.fillStyle = tokenColor('--color-white')
   context.fillRect(FACE_WIDTH, 0, FACE_WIDTH, FACE_HEIGHT)
+  context.globalAlpha = 1
 }
 
 export default function useBadgeTextures(name: string) {

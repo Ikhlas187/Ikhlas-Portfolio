@@ -9,6 +9,7 @@ import { badgeIntro } from '@/logic/badgeIntro/badgeIntro'
 type BadgeCanvasProps = {
   eventSource: RefObject<HTMLElement | null>
   introProgress: MotionValue<number>
+  titleLayer: RefObject<HTMLDivElement | null>
   name: string
   label: string
 }
@@ -16,7 +17,7 @@ type BadgeCanvasProps = {
 const FOV = 23
 const START_DISTANCE = 13
 
-export default function BadgeCanvas({ eventSource, introProgress, name, label }: BadgeCanvasProps) {
+export default function BadgeCanvas({ eventSource, introProgress, titleLayer, name, label }: BadgeCanvasProps) {
   const opacity = useTransform(introProgress, (progress) => badgeIntro(progress).canvasOpacity)
   const [isHidden, setIsHidden] = useState(false)
   useMotionValueEvent(opacity, 'change', (value) => setIsHidden(value <= 0))
@@ -35,7 +36,7 @@ export default function BadgeCanvas({ eventSource, introProgress, name, label }:
         <ambientLight intensity={Math.PI} />
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Suspense fallback={null}>
-            <Badge name={name} introProgress={introProgress} fov={FOV} startDistance={START_DISTANCE} />
+            <Badge name={name} introProgress={introProgress} fov={FOV} startDistance={START_DISTANCE} titleLayer={titleLayer} />
           </Suspense>
         </Physics>
         <Environment blur={0.75}>

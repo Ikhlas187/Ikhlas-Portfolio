@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import { extend, useFrame, useThree, type ThreeElement, type ThreeEvent } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 import { BallCollider, CuboidCollider, RigidBody, useRopeJoint, useSphericalJoint, type RapierRigidBody } from '@react-three/rapier'
@@ -23,6 +23,7 @@ type BadgeProps = {
   introProgress: MotionValue<number>
   fov: number
   startDistance: number
+  titleLayer: RefObject<HTMLDivElement | null>
 }
 
 type BadgeModel = {
@@ -35,10 +36,17 @@ const MIN_SPEED = 10
 // Face visible du modèle à l'échelle 2,25.
 const CARD_FACE = { width: 1.61, height: 2.25 }
 const SETTLE_SPEED = 8
+// Coins de la face de la carte dans le repère du modèle (avant l'échelle 2,25).
+const FACE_CORNERS = [
+  [-0.358, 1.023],
+  [0.358, 1.023],
+  [0.358, 0.023],
+  [-0.358, 0.023],
+] as const
 
 useGLTF.preload(badgeModelUrl)
 
-export default function Badge({ name, introProgress, fov, startDistance }: BadgeProps) {
+export default function Badge({ name, introProgress, fov, startDistance, titleLayer }: BadgeProps) {
   const band = useRef<Mesh>(null)
   const face = useRef<Group>(null)
   const fixed = useRef<RapierRigidBody>(null!)
@@ -59,6 +67,7 @@ export default function Badge({ name, introProgress, fov, startDistance }: Badge
     direction: new Vector3(),
     angular: new Vector3(),
     rotation: new Vector3(),
+    corner: new Vector3(),
     upright: new Quaternion(),
     current: new Quaternion(),
   }))
@@ -144,6 +153,28 @@ export default function Badge({ name, introProgress, fov, startDistance }: Badge
     const centering = Math.min(1, intro.zoom * 2)
     const distance = cameraDistance(intro.zoom, startDistance, coverDistance(CARD_FACE, state.size, fov))
     state.camera.position.set(cardCenter.x * centering, cardCenter.y * centering, cardCenter.z * centering + distance)
+    state.camera.updateMatrixWorld()
+
+    // Verre dépoli : le titre n'est visible que dans le contour du dos de la carte, et flou.
+    const layer = titleLayer.current
+    if (!layer || !face.current) return
+    if (intro.zoom >= 1) {
+      layer.style.clipPath = ''
+      layer.style.filter = ''
+    } else if (!intro.isBackVisible) {
+      layer.style.clipPath = 'inset(50%)'
+    } else {
+      face.current.updateMatrixWorld()
+      const layerOffset = layer.getBoundingClientRect().left - state.gl.domElement.getBoundingClientRect().left
+      const points = FACE_CORNERS.map(([x, y]) => {
+        vectors.corner.set(x, y, 0).applyMatrix4(face.current!.matrixWorld).project(state.camera)
+        const left = ((vectors.corner.x + 1) / 2) * state.size.width - layerOffset
+        const top = ((1 - vectors.corner.y) / 2) * state.size.height
+        return `${left}px ${top}px`
+      })
+      layer.style.clipPath = `polygon(${points.join(', ')})`
+      layer.style.filter = `blur(${intro.titleBlur}px)`
+    }
   })
 
   const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
@@ -187,7 +218,7 @@ export default function Badge({ name, introProgress, fov, startDistance }: Badge
             onPointerUp={handlePointerUp}
           >
             <mesh geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial key={texture?.uuid} map={texture} clearcoat={1} clearcoatRoughness={0.15} roughness={0.3} metalness={0.1} />
+              <meshPhysicalMaterial key={texture?.uuid} map={texture} transparent clearcoat={1} clearcoatRoughness={0.15} roughness={0.3} metalness={0.1} />
             </mesh>
             {/* Métal argenté clair, comme le mousqueton de drkst. */}
             <mesh geometry={nodes.clip.geometry}>
