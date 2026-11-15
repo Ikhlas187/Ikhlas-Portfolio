@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { extend, useFrame, useThree, type ThreeElement, type ThreeEvent } from '@react-three/fiber'
+import { useGLTF } from '@react-three/drei'
 import { BallCollider, CuboidCollider, RigidBody, useRopeJoint, useSphericalJoint, type RapierRigidBody } from '@react-three/rapier'
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
-import { CatmullRomCurve3, DoubleSide, Group, MathUtils, Mesh, Vector2, Vector3 } from 'three'
-import useBadgeTextures, { BADGE_HEIGHT, BADGE_WIDTH } from '@/components/pages/Home/useBadgeTextures'
+import { CatmullRomCurve3, Group, MathUtils, Mesh, Vector2, Vector3 } from 'three'
+import useBadgeTextures from '@/components/pages/Home/useBadgeTextures'
+import badgeModelUrl from '@/assets/badge.glb?url'
 
 extend({ MeshLineGeometry, MeshLineMaterial })
 
@@ -19,19 +21,21 @@ type BadgeProps = {
   role: string
   isFlipped: boolean
   onFlip: () => void
-  segmentLength: number
-  scale: number
 }
 
-const SEGMENT = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 } as const
+type BadgeModel = {
+  nodes: { card: Mesh; clip: Mesh; clamp: Mesh }
+}
+
+const SEGMENT = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 2, linearDamping: 2 } as const
+const MAX_SPEED = 50
+const MIN_SPEED = 10
 const CLICK_MAX_DISTANCE = 6
 const CLICK_MAX_DURATION = 350
 
-function tokenColor(name: string) {
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
-}
+useGLTF.preload(badgeModelUrl)
 
-export default function Badge({ name, role, isFlipped, onFlip, segmentLength, scale }: BadgeProps) {
+export default function Badge({ name, role, isFlipped, onFlip }: BadgeProps) {
   const band = useRef<Mesh>(null)
   const face = useRef<Group>(null)
   const fixed = useRef<RapierRigidBody>(null!)
@@ -43,15 +47,18 @@ export default function Badge({ name, role, isFlipped, onFlip, segmentLength, sc
   const [dragOffset, setDragOffset] = useState<Vector3 | null>(null)
   const [isHovered, setIsHovered] = useState(false)
   const [curve] = useState(() => new CatmullRomCurve3([new Vector3(), new Vector3(), new Vector3(), new Vector3()], false, 'chordal'))
+  // Positions lissées des 2 maillons du milieu : le cordon ne tremble pas quand la carte bouge vite.
+  const [lerped] = useState(() => ({ j1: null as Vector3 | null, j2: null as Vector3 | null }))
   const [vectors] = useState(() => ({ pointer: new Vector3(), direction: new Vector3(), angular: new Vector3(), rotation: new Vector3() }))
   const { width, height } = useThree((state) => state.size)
-  const textures = useBadgeTextures(name, role)
-  const cardHalfHeight = (BADGE_HEIGHT * scale) / 2
+  const { nodes } = useGLTF(badgeModelUrl) as unknown as BadgeModel
+  const texture = useBadgeTextures(name, role)
+  const lanyardColor = getComputedStyle(document.documentElement).getPropertyValue('--color-lanyard').trim()
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], segmentLength])
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], segmentLength])
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], segmentLength])
-  useSphericalJoint(j3, card, [[0, 0, 0], [0, cardHalfHeight + 0.12 * scale, 0]])
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1])
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1])
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1])
+  useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.45, 0]])
 
   useEffect(() => {
     document.body.style.cursor = dragOffset ? 'grabbing' : isHovered ? 'grab' : ''
@@ -75,13 +82,20 @@ export default function Badge({ name, role, isFlipped, onFlip, segmentLength, sc
       })
     }
 
+    for (const key of ['j1', 'j2'] as const) {
+      const body = key === 'j1' ? j1.current : j2.current
+      const target = new Vector3().copy(body.translation())
+      const previous = (lerped[key] ??= target.clone())
+      const distance = Math.max(0.1, Math.min(1, previous.distanceTo(target)))
+      previous.lerp(target, delta * (MIN_SPEED + distance * (MAX_SPEED - MIN_SPEED)))
+    }
+
     curve.points[0].copy(j3.current.translation())
-    curve.points[1].copy(j2.current.translation())
-    curve.points[2].copy(j1.current.translation())
+    curve.points[1].copy(lerped.j2!)
+    curve.points[2].copy(lerped.j1!)
     curve.points[3].copy(fixed.current.translation())
     ;(band.current.geometry as MeshLineGeometry).setPoints(curve.getPoints(32))
 
-    // Ramène doucement la carte face à l'écran, comme un badge qui pend.
     vectors.angular.copy(card.current.angvel())
     vectors.rotation.copy(card.current.rotation())
     card.current.setAngvel({ x: vectors.angular.x, y: vectors.angular.y - vectors.rotation.y * 0.25, z: vectors.angular.z }, true)
@@ -90,9 +104,8 @@ export default function Badge({ name, role, isFlipped, onFlip, segmentLength, sc
   })
 
   const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
-    // Les 2 faces sont touchées par le même rayon : un seul appel par clic.
+    // Plusieurs meshes de la carte sont touchés par le même rayon : un seul appel par clic.
     event.stopPropagation()
-    if (!card.current) return
     ;(event.target as Element).setPointerCapture(event.pointerId)
     pointerStart.current = { x: event.clientX, y: event.clientY, time: performance.now() }
     setDragOffset(new Vector3().copy(event.point).sub(vectors.rotation.copy(card.current.translation())))
@@ -105,8 +118,6 @@ export default function Badge({ name, role, isFlipped, onFlip, segmentLength, sc
     const distance = Math.hypot(event.clientX - pointerStart.current.x, event.clientY - pointerStart.current.y)
     if (distance < CLICK_MAX_DISTANCE && performance.now() - pointerStart.current.time < CLICK_MAX_DURATION) onFlip()
   }
-
-  const metal = tokenColor('--color-gray-600')
 
   return (
     <>
@@ -122,38 +133,26 @@ export default function Badge({ name, role, isFlipped, onFlip, segmentLength, sc
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody position={[2, 0, 0]} ref={card} {...SEGMENT} type={dragOffset ? 'kinematicPosition' : 'dynamic'}>
-          <CuboidCollider args={[(BADGE_WIDTH * scale) / 2, cardHalfHeight, 0.01]} />
+          <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={scale}
+            ref={face}
+            scale={2.25}
+            position={[0, -1.2, -0.05]}
             onPointerOver={() => setIsHovered(true)}
             onPointerOut={() => setIsHovered(false)}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
           >
-            <group ref={face}>
-              {textures && (
-                <>
-                  <mesh position={[0, 0, 0.006]}>
-                    <planeGeometry args={[BADGE_WIDTH, BADGE_HEIGHT]} />
-                    <meshStandardMaterial map={textures.front} transparent alphaTest={0.5} roughness={0.6} />
-                  </mesh>
-                  <mesh position={[0, 0, -0.006]} rotation={[0, Math.PI, 0]}>
-                    <planeGeometry args={[BADGE_WIDTH, BADGE_HEIGHT]} />
-                    <meshStandardMaterial map={textures.back} transparent alphaTest={0.5} roughness={0.6} />
-                  </mesh>
-                </>
-              )}
-            </group>
-            <group position={[0, BADGE_HEIGHT / 2 + 0.02, 0]}>
-              <mesh>
-                <torusGeometry args={[0.11, 0.022, 12, 32]} />
-                <meshStandardMaterial color={metal} metalness={0.9} roughness={0.25} />
-              </mesh>
-              <mesh position={[0, 0.2, 0]}>
-                <cylinderGeometry args={[0.035, 0.035, 0.22, 16]} />
-                <meshStandardMaterial color={metal} metalness={0.9} roughness={0.25} />
-              </mesh>
-            </group>
+            <mesh geometry={nodes.card.geometry}>
+              <meshPhysicalMaterial key={texture?.uuid} map={texture} clearcoat={1} clearcoatRoughness={0.15} roughness={0.3} metalness={0.1} />
+            </mesh>
+            {/* Métal argenté clair, comme le mousqueton de drkst. */}
+            <mesh geometry={nodes.clip.geometry}>
+              <meshStandardMaterial color={lanyardColor} metalness={0.5} roughness={0.3} />
+            </mesh>
+            <mesh geometry={nodes.clamp.geometry}>
+              <meshStandardMaterial color={lanyardColor} metalness={0.5} roughness={0.3} />
+            </mesh>
           </group>
         </RigidBody>
       </group>
@@ -161,10 +160,10 @@ export default function Badge({ name, role, isFlipped, onFlip, segmentLength, sc
         <meshLineGeometry />
         <meshLineMaterial
           args={[{ resolution: new Vector2(width, height) }]}
-          color={tokenColor('--color-gray-600')}
+          color={lanyardColor}
+          depthTest={false}
           resolution={new Vector2(width, height)}
-          lineWidth={0.12 * scale}
-          side={DoubleSide}
+          lineWidth={1}
         />
       </mesh>
     </>

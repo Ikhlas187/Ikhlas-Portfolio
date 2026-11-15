@@ -2,6 +2,8 @@
   --color-black: #0a0a0a;
   /* Fond général de haufsess.com. */
   --color-white: #fbfbfb;
+  /* Cordon du badge du hero, gris mesuré sur drkst.framer.website. */
+  --color-lanyard: #d4d4d4;
   --macos-screen-shadow: 0 30px 80px rgb(0 0 0 / 0.35);
   /* Ombre du 1er écran de la section macOS, celle de la maquette Framer IFRI */
   --note-form-shadow: 0 24px 48px rgb(0 0 0 / 0.14);

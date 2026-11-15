@@ -41,7 +41,7 @@ portfolio-frontend/
 │   │       ├── Home/         HomePage + ses morceaux en Tailwind (seul About garde un .css BEM appairé)
 │   │       │   ├── Hero.tsx             1er écran (réf. jorge-template.framer.website, couleurs inversées) : section collée de la hauteur de l'écran, recouverte par la section suivante (bornée par un div dans HomePage)
 │   │       │   ├── HeroTitle.tsx        nom (h1, mot par mot) + rôle centrés : entrée flou/montée en ressort après le loader, flou et rétrécissement au scroll (logic/heroExit)
-│   │       │   ├── BadgeCanvas.tsx      badge suspendu à un cordon devant le nom (réf. drkst.framer.website), chargé à part après le loader : three + @react-three/fiber, drei, rapier, meshline ; Badge.tsx = physique du cordon, glisser pour déplacer, clic pour retourner ; useBadgeTextures.ts = faces dessinées sur canvas (photo about-portrait, nom, rôle)
+│   │       │   ├── BadgeCanvas.tsx      badge suspendu à un cordon devant le nom (réf. drkst.framer.website), chargé à part après le loader : three + @react-three/fiber, drei, rapier, meshline ; Badge.tsx = physique du cordon (code du badge Vercel), glisser pour déplacer, clic pour retourner ; modèle assets/badge.glb (carte, anneau, mousqueton du modèle de drkst, texture d’origine retirée) ; useBadgeTextures.ts = texture recto/verso dessinée sur canvas (photo about-portrait, nom, rôle)
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
