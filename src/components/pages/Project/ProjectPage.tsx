@@ -39,7 +39,7 @@ export default function ProjectPage() {
       <SiteHeader />
       <main className="mx-auto max-w-[1800px] px-3 pt-8 min-[810px]:px-4 min-[1200px]:px-5">
         <BackPill label={text.back} to="/#projects" />
-        <h1 className="mt-10 font-heading text-[48px] leading-[1.1] font-normal tracking-[-0.04em] min-[810px]:text-[64px] min-[1200px]:text-[80px]">
+        <h1 className="mt-10 font-heading text-[48px] leading-[1.1] font-medium tracking-[-0.04em] min-[810px]:text-[64px] min-[1200px]:text-[80px]">
           {project.name}
         </h1>
         <dl className="mt-8 flex max-w-[440px] flex-col gap-6 font-sans text-[18px] leading-[1.25] font-medium tracking-[-0.02em]">

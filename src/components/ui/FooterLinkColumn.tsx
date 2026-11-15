@@ -7,7 +7,7 @@ type FooterLinkColumnProps = {
 }
 
 const LINK_CLASS =
-  'cursor-pointer font-sans text-[16px] leading-[1.4] font-normal [overflow-wrap:anywhere] text-white/55 transition-colors duration-200 hover:text-white'
+  'cursor-pointer font-sans text-[16px] leading-[1.4] font-light [overflow-wrap:anywhere] text-white/55 transition-colors duration-200 hover:text-white'
 
 export default function FooterLinkColumn({ column }: FooterLinkColumnProps) {
   const isHome = useLocation().pathname === '/'

@@ -107,10 +107,10 @@ export default function Music({ frame }: MusicProps) {
         <table className="w-full text-left">
           <thead>
             <tr className="h-[26px] border-b border-(--macos-separator) text-[11px] text-(--macos-text-muted)">
-              <th className="w-[36px] font-normal" />
-              <th className="font-normal">{texts.columns.title}</th>
-              <th className="font-normal">{texts.columns.artist}</th>
-              <th className="w-[140px] text-right font-normal">{texts.columns.time}</th>
+              <th className="w-[36px] font-light" />
+              <th className="font-light">{texts.columns.title}</th>
+              <th className="font-light">{texts.columns.artist}</th>
+              <th className="w-[140px] text-right font-light">{texts.columns.time}</th>
             </tr>
           </thead>
           <tbody>

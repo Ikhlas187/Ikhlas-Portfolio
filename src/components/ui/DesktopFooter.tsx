@@ -42,7 +42,7 @@ export default function DesktopFooter() {
 
   return (
     <footer id="contact" className="bg-white px-3 pt-12 pb-3 text-black min-[810px]:px-4 min-[810px]:pb-4 min-[1200px]:pt-20">
-      <h2 className="mb-8 text-center font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em] min-[810px]:mb-10 min-[810px]:text-[36px] min-[1200px]:text-[40px]">
+      <h2 className="mb-8 text-center font-heading text-[28px] leading-[1.2] font-medium tracking-[-0.02em] min-[810px]:mb-10 min-[810px]:text-[36px] min-[1200px]:text-[40px]">
         {copy.callTitle}
       </h2>
       <div ref={cardRef} className="relative mx-auto max-w-[1800px] text-white">

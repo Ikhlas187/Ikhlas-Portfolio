@@ -12,11 +12,11 @@ export default function VSCodeWelcome({ repos, onOpenRepo }: VSCodeWelcomeProps)
 
   return (
     <div className="absolute inset-0 overflow-y-auto bg-(--macos-vscode-editor) px-[64px] py-[56px] text-(--macos-vscode-fg)">
-      <h1 className="font-(family-name:--font-macos-frame) text-[32px] leading-tight font-normal tracking-normal text-(--macos-vscode-fg-active)">
+      <h1 className="font-(family-name:--font-macos-frame) text-[32px] leading-tight font-medium tracking-normal text-(--macos-vscode-fg-active)">
         {texts.welcomeTitle}
       </h1>
       <p className="mt-[4px] text-[18px] text-(--macos-vscode-muted)">{texts.welcomeSubtitle}</p>
-      <h2 className="mt-[36px] mb-[8px] font-(family-name:--font-macos-frame) text-[15px] font-normal tracking-normal">{texts.recent}</h2>
+      <h2 className="mt-[36px] mb-[8px] font-(family-name:--font-macos-frame) text-[15px] font-medium tracking-normal">{texts.recent}</h2>
       <ul className="grid max-w-[560px] gap-[2px] text-[13px]">
         {repos.map((repo) => (
           <li key={repo.name}>

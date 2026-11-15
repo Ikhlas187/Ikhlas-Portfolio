@@ -37,7 +37,7 @@ export default function MobileFooter() {
   return (
     <footer id="contact">
       <div className="flex flex-col items-center gap-6 bg-white px-3 pt-12 pb-12 text-black">
-        <h2 className="text-center font-heading text-[28px] leading-[1.2] font-normal tracking-[-0.02em]">{copy.callTitle}</h2>
+        <h2 className="text-center font-heading text-[28px] leading-[1.2] font-medium tracking-[-0.02em]">{copy.callTitle}</h2>
         <CallWidget onAccept={() => navigate(ROUTES.BOOKING, { state: { from: pathname } })} />
       </div>
       <div className="bg-black px-6 pt-16 pb-24 text-white">

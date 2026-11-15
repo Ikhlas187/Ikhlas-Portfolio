@@ -34,7 +34,7 @@ export default function CertificationsPage() {
       <SiteHeader />
       <main className="mx-auto max-w-[1800px] px-3 pt-8 pb-16 min-[810px]:px-4 min-[1200px]:px-5">
         <BackPill label={text.back} to="/#projects" />
-        <h1 className="mt-10 font-heading text-[48px] leading-[1.1] font-normal tracking-[-0.04em] min-[810px]:text-[64px]">
+        <h1 className="mt-10 font-heading text-[48px] leading-[1.1] font-medium tracking-[-0.04em] min-[810px]:text-[64px]">
           {text.title}
         </h1>
         <ul className="mt-10 grid grid-cols-1 gap-12 min-[810px]:grid-cols-2 min-[810px]:gap-x-6">

@@ -69,7 +69,7 @@ export default function HeroTitle({
       )}
     >
       <div className="flex w-full flex-col items-center gap-6 overflow-clip">
-        <motion.p {...reveal(12, 0.1, 0.8)} className="flex h-8 items-center justify-center gap-12 text-center text-[13px] leading-[1.2] font-normal min-[810px]:gap-4 min-[810px]:text-[14px]">
+        <motion.p {...reveal(12, 0.1, 0.8)} className="flex h-8 items-center justify-center gap-12 text-center text-[13px] leading-[1.2] font-light min-[810px]:gap-4 min-[810px]:text-[14px]">
           <span>{location}</span>
           <span className="flex h-8 w-[30px] items-center justify-center">
             <Globe aria-hidden="true" className="size-[30px]" strokeWidth={1.5} />

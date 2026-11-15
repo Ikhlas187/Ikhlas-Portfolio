@@ -178,7 +178,7 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
     <h1
       ref={root}
       aria-label={text}
-      className="relative m-0 h-[calc(100cqw/4.1045)] w-full touch-pan-y p-0 font-heading font-normal select-none [clip-path:inset(-40%_-6%_0_-6%)] [cursor:inherit] [--name-base:0.864] [--name-ratio:5.3] [--name-stretch:1.29]"
+      className="relative m-0 h-[calc(100cqw/4.1045)] w-full touch-pan-y p-0 font-heading font-medium select-none [clip-path:inset(-40%_-6%_0_-6%)] [cursor:inherit] [--name-base:0.864] [--name-ratio:5.3] [--name-stretch:1.29]"
     >
       <span ref={rise} aria-hidden="true" className="absolute inset-0 block">
         {/* Ligne de base calée à 92,5 % de la boîte, comme celle de la réf. */}
