@@ -23,7 +23,7 @@ export default function BadgeCanvas({ eventSource, introProgress, titleLayer, na
   useMotionValueEvent(opacity, 'change', (value) => setIsHidden(value <= 0))
 
   return (
-    <motion.div role="img" aria-label={label} style={{ opacity }} className="absolute inset-0 z-10">
+    <motion.div role="img" aria-label={label} style={{ opacity }} className="pointer-events-none absolute inset-0 z-10">
       <Canvas
         eventSource={eventSource as RefObject<HTMLElement>}
         eventPrefix="client"
