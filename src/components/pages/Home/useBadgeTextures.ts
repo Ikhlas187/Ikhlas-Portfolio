@@ -33,7 +33,7 @@ function drawFront(context: CanvasRenderingContext2D, photo: HTMLImageElement, n
 
   context.fillStyle = tokenColor('--color-white')
   context.textAlign = 'center'
-  context.font = `600 92px ${tokenColor('--font-display')}`
+  context.font = `400 92px ${tokenColor('--font-display')}`
   context.fillText(name.toUpperCase(), FACE_WIDTH / 2, 240)
 }
 
@@ -54,7 +54,7 @@ export default function useBadgeTextures(name: string) {
     let isCancelled = false
     const photo = new Image()
     photo.src = portraitUrl
-    Promise.all([photo.decode(), document.fonts.load(`600 92px ${tokenColor('--font-display')}`)]).then(() => {
+    Promise.all([photo.decode(), document.fonts.load(`400 92px ${tokenColor('--font-display')}`)]).then(() => {
       if (isCancelled) return
       const canvas = document.createElement('canvas')
       canvas.width = ATLAS

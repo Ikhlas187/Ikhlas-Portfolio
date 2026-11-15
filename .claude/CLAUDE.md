@@ -171,16 +171,14 @@ Source unique : `src/tokens.css`.
 Encre   --color-black #0A0A0A    Fond   --color-white #FBFBFB (blanc de haufsess.com)
 Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
 Accent  --color-accent = encre #0A0A0A (plus d'orange)   Alt    --color-accent-alt #00E5A0
-Display --font-display DM Sans (titres de section, grands titres, nom du hero, recto du badge)
-Body    --font-body DM Sans (phrases : About, descriptions, textes de projets, notes), faux macOS : --font-giantsur, --font-macos-app, --font-macos-frame
-Label   --font-label DM Mono, en majuscules (méta, libellés, navigation, boutons, dates, numéros, listes) ; --font-macos-code aussi
+Display --font-display Anton (titres de section, grands titres, nom du hero, recto du badge)
+Body    --font-body Anton aussi (tout le texte), faux macOS : --font-giantsur, --font-macos-app, --font-macos-frame, --font-macos-code
+Label   --font-label Anton, en majuscules (méta, libellés, navigation, boutons, dates, numéros, listes)
 ```
 
-Duo de kirk-sinner.framer.website (relevé le 2026-11-15), chargé par 1 seul `<link>` dans index.html : DM Sans variable (opsz, 400-700, + italique) et DM Mono 400/500 (+ italique 500). Tailwind : `font-sans`/`font-heading` = DM Sans, `font-mono` = DM Mono.
+1 seule police sur tout le site, sans exception : Anton, celle de dexharlan.framer.website (décision de l'utilisateur du 2026-11-15), seule police chargée par index.html. Les rôles et tailles relevés sur kirk-sinner.framer.website restent : utilitaires `mono-sm` (12 px, +0,06em, majuscules) et `mono-md` (16 px, -0,01em, majuscules) de index.css, maintenant en Anton.
 
-- **DM Mono 500 majuscules**, 2 utilitaires de index.css : `mono-sm` (12 px, interlettrage +0,06em, interligne 1,2 : ESTD, 2024, libellés, copyright) et `mono-md` (16 px, -0,01em, 1,2 : navigation, boutons, listes d'expériences et d'outils, noms de projets, accroche du hero). Dans About.css (BEM), les mêmes réglages sont écrits à la main.
-- **DM Sans 500** : body à -0,02em, interligne 1,5 (texte courant 16-18 px, interligne 1,4-1,5) ; h1-h6 à -0,04em. Titre de section 28 / 36 / 40 px (paliers 810 et 1200), interligne 1,2, -0,04em.
-- **Graisses** : 500 partout ; 600 seulement pour un très grand titre (nom géant du hero, h1 des pages projet et certifications dès 810 px à -0,07em / 1,1, page 404). Pas de 300, pas de faux gras : DM Sans a ses vraies graisses 400-700.
+- **Graisse unique 400** : Anton n'existe qu'en 400, donc body, h1-h6 et toutes les classes `font-*` (light à black) valent 400 dans index.css, pour éviter le faux gras.
 
 Espace entre 2 sections : `--section-gap` (58 px : les 48 px de la réf. + 10), en padding-top de chaque section. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; plus d'orange sur le site.
 
