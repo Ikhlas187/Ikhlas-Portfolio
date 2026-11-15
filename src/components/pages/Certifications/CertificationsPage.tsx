@@ -50,12 +50,12 @@ export default function CertificationsPage() {
                     className="aspect-[1.414] w-full rounded-[8px] border border-[color-mix(in_srgb,var(--color-black)_10%,var(--color-white))] bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] object-contain"
                   />
                 ) : (
-                  <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 rounded-[8px] bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] mono-sm text-(--color-gray-400)">
+                  <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 rounded-[8px] bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] label-sm text-(--color-gray-400)">
                     <Award aria-hidden="true" className="size-10" />
                     {text.photoPending}
                   </div>
                 )}
-                <div className="flex items-baseline justify-between gap-4 mono-md">
+                <div className="flex items-baseline justify-between gap-4 label-md">
                   <p>{certification.title}</p>
                   <p className="shrink-0">{certification.year ?? certification.issuer}</p>
                 </div>

@@ -18,7 +18,7 @@ const SOCIAL_LOGOS = [
 ]
 
 const LINK_CLASS =
-  'cursor-pointer mono-md [overflow-wrap:anywhere] text-white/65 transition-colors hover:text-white'
+  'cursor-pointer label-md [overflow-wrap:anywhere] text-white/65 transition-colors hover:text-white'
 
 // Footer mobile (réf. cashless.africa) : rendez-vous, puis bloc noir avec nom, réseaux, rubriques et copyright.
 export default function MobileFooter() {
@@ -60,7 +60,7 @@ export default function MobileFooter() {
         <div className="mt-16 flex flex-col gap-10">
           {columns.map((column) => (
             <div key={column.title} className="flex flex-col gap-4">
-              <p className="mono-sm leading-none text-white/35">
+              <p className="label-sm leading-none text-white/35">
                 {column.title}
               </p>
               <ul className="flex flex-col gap-2">
@@ -86,7 +86,7 @@ export default function MobileFooter() {
             </div>
           ))}
         </div>
-        <div className="mt-12 flex flex-col gap-3 mono-sm text-white/45">
+        <div className="mt-12 flex flex-col gap-3 label-sm text-white/45">
           <p>{copy.copyright}</p>
           <p>{copy.credit}</p>
         </div>

@@ -110,7 +110,7 @@ export default function PinNote() {
               transition={{ duration: 0.6, ease: INK_EASE }}
               className="flex origin-left flex-col items-start gap-1"
             >
-              <p className="mono-md text-gray-200">{copy.kicker}</p>
+              <p className="label-md text-gray-200">{copy.kicker}</p>
               <motion.span
                 aria-hidden="true"
                 initial={{ scaleX: 0 }}
@@ -184,7 +184,7 @@ export default function PinNote() {
               type="button"
               variant="ghost"
               onClick={() => setPaging({ layout, step: step + 1 })}
-              className="h-auto rounded-full bg-white py-3.5 pr-5 pl-[22px] mono-sm text-gray-200 hover:bg-white hover:text-gray-200"
+              className="h-auto rounded-full bg-white py-3.5 pr-5 pl-[22px] label-sm text-gray-200 hover:bg-white hover:text-gray-200"
             >
               <RollingLabel>
                 {copy.seeMoreLabel}

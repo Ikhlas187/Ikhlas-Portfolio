@@ -72,10 +72,10 @@ export default function NoteForm({ onPin, hasPinnedNote }: NoteFormProps) {
       className="relative z-10 mx-auto flex w-full max-w-[480px] flex-col gap-4 rounded-[24px] bg-white p-5 shadow-(--note-form-shadow) sm:rounded-[28px] sm:p-7 lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[420px] lg:-translate-x-1/2 lg:-translate-y-1/2"
     >
       <div className="flex items-baseline justify-between">
-        <label htmlFor={textId} className="mono-sm text-gray-400">
+        <label htmlFor={textId} className="label-sm text-gray-400">
           {copy.noteLabel}
         </label>
-        <span aria-hidden="true" className="mono-sm text-gray-500 tabular-nums">
+        <span aria-hidden="true" className="label-sm text-gray-500 tabular-nums">
           {Array.from(text).length}/{NOTE_TEXT_MAX_LENGTH}
         </span>
       </div>
@@ -102,7 +102,7 @@ export default function NoteForm({ onPin, hasPinnedNote }: NoteFormProps) {
         <Button
           type="submit"
           disabled={isPinning || hasPinnedNote}
-          className="h-auto rounded-full bg-black px-5 py-3 mono-sm text-white hover:bg-black disabled:cursor-wait disabled:opacity-70"
+          className="h-auto rounded-full bg-black px-5 py-3 label-sm text-white hover:bg-black disabled:cursor-wait disabled:opacity-70"
         >
           <RollingLabel>
             {copy.pinLabel}

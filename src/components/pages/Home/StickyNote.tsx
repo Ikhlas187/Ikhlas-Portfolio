@@ -61,7 +61,7 @@ export default function StickyNote({
         >
           <span>{note.text}</span>
         </blockquote>
-        <figcaption className={cn('truncate font-mono text-[6.2cqw] font-medium tracking-[0.06em] uppercase', isUnderForm && 'lg:order-first')}>
+        <figcaption className={cn('truncate font-mono text-[6.2cqw] font-medium tracking-[-0.02em]', isUnderForm && 'lg:order-first')}>
           {noteSignature(note, anonymousLabel)}
         </figcaption>
       </figure>

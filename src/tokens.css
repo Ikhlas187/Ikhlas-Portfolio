@@ -295,7 +295,7 @@
   --section-gap: 58px;
 
   --font-body: 'Inter', 'Helvetica Neue', sans-serif;
-  /* Méta, libellés, navigation, boutons, dates, listes : utilitaires mono-sm et mono-md (index.css). */
+  /* Méta, libellés, navigation, boutons, dates, listes : utilitaires label-sm et label-md (index.css). */
   --font-label: var(--font-body);
 
   --text-xs: clamp(0.75rem, 1vw, 0.875rem);

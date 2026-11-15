@@ -76,7 +76,7 @@ export default function DesktopFooter() {
           ))}
         </div>
 
-        <div className="relative flex flex-col gap-2 border-t border-white/10 px-5 py-6 mono-sm text-white/50 min-[810px]:flex-row min-[810px]:justify-between min-[810px]:px-10">
+        <div className="relative flex flex-col gap-2 border-t border-white/10 px-5 py-6 label-sm text-white/50 min-[810px]:flex-row min-[810px]:justify-between min-[810px]:px-10">
           <p>{copy.copyright}</p>
           <p>{copy.credit}</p>
         </div>

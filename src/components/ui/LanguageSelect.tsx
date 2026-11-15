@@ -21,7 +21,7 @@ export default function LanguageSelect() {
     >
       <SelectTrigger
         aria-label={LANGUAGE_SELECT[locale].label}
-        className="w-[166px] mono-md min-[810px]:w-[200px] [&_svg:not([class*='size-'])]:size-6"
+        className="w-[166px] label-md min-[810px]:w-[200px] [&_svg:not([class*='size-'])]:size-6"
       >
         <SelectValue>
           {(value: string) => (
@@ -38,7 +38,7 @@ export default function LanguageSelect() {
             key={item.value}
             value={item.value}
             lang={item.value}
-            className="mono-md [&_svg:not([class*='size-'])]:size-6"
+            className="label-md [&_svg:not([class*='size-'])]:size-6"
           >
             <Globe strokeWidth={1.75} aria-hidden="true" />
             {item.label}

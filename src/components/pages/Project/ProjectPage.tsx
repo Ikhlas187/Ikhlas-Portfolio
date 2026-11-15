@@ -44,30 +44,30 @@ export default function ProjectPage() {
         </h1>
         <dl className="mt-8 flex max-w-[440px] flex-col gap-6 font-sans text-[18px] leading-[1.4] font-medium tracking-[-0.02em]">
           <div className="flex flex-col gap-1">
-            <dt className="mono-sm">{text.description}</dt>
+            <dt className="label-sm">{text.description}</dt>
             <dd>{project.description}</dd>
           </div>
           {services.length > 0 && (
             <div className="flex flex-col gap-1">
-              <dt className="mono-sm">{text.services}</dt>
+              <dt className="label-sm">{text.services}</dt>
               {services.map((service) => (
-                <dd key={service} className="mono-md">{service}</dd>
+                <dd key={service} className="label-md">{service}</dd>
               ))}
             </div>
           )}
           <div className="flex flex-col gap-1">
-            <dt className="mono-sm">{text.stack}</dt>
-            <dd className="mono-md">{stack.join(' · ')}</dd>
+            <dt className="label-sm">{text.stack}</dt>
+            <dd className="label-md">{stack.join(' · ')}</dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="mono-sm">{text.year}</dt>
-            <dd className="mono-md">{project.year}</dd>
+            <dt className="label-sm">{text.year}</dt>
+            <dd className="label-md">{project.year}</dd>
           </div>
           {link && (
             <div className="flex flex-col gap-1">
-              <dt className="mono-sm">{text.link}</dt>
+              <dt className="label-sm">{text.link}</dt>
               <dd>
-                <a href={link.href} target="_blank" rel="noreferrer" className="cursor-pointer mono-md underline underline-offset-4">
+                <a href={link.href} target="_blank" rel="noreferrer" className="cursor-pointer label-md underline underline-offset-4">
                   {link.label}
                 </a>
               </dd>
@@ -88,7 +88,7 @@ export default function ProjectPage() {
         <div className="flex justify-end py-16">
           <Link
             to={`/projects/${nextProject.slug}`}
-            className="inline-flex cursor-pointer items-center gap-1 mono-md underline underline-offset-4"
+            className="inline-flex cursor-pointer items-center gap-1 label-md underline underline-offset-4"
           >
             {nextProject.name}
             <ChevronRight aria-hidden="true" className="size-5" />

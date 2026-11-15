@@ -13,7 +13,7 @@ type ServiceRowProps = {
 
 const PHOTO_WIDTH = 640
 const ROW_HEADING = 'font-sans text-[26px] leading-[1.15] font-medium tracking-[-0.04em] min-[810px]:text-[32px]'
-const TOOL_ITEM = 'border-t border-black/20 py-2 mono-md'
+const TOOL_ITEM = 'border-t border-black/20 py-2 label-md'
 
 /* Une rangée de la pile de services (réf. oddlymade.webflow.io) : collée en haut, 64 px sous la précédente. */
 export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }: ServiceRowProps) {
@@ -29,7 +29,7 @@ export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }
         className="h-[260px] w-full object-cover min-[810px]:h-[329px]"
       />
       <div className="grid grid-cols-1 gap-4 min-[810px]:grid-cols-[194fr_388fr_291fr]">
-        <p className="mono-md">{service.num}</p>
+        <p className="label-md">{service.num}</p>
         <div className="flex flex-col gap-4">
           <h3 className={ROW_HEADING}>{service.title}</h3>
           <p className="max-w-[360px] font-sans text-[16px] leading-[1.5] font-medium tracking-[-0.02em] text-black/60">{service.desc}</p>
@@ -49,7 +49,7 @@ export default function ServiceRow({ service, toolsLabel, toolNames, stickyTop }
           </ul>
         </div>
         <ul className="hidden flex-col border-b border-black/20 min-[810px]:flex">
-          <li className="py-2 mono-sm">{toolsLabel}</li>
+          <li className="py-2 label-sm">{toolsLabel}</li>
           {service.tools.map((tool) => (
             <li key={tool} className={TOOL_ITEM}>
               {toolNames[tool]}

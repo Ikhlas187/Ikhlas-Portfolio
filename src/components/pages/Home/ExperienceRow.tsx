@@ -8,7 +8,7 @@ type ExperienceRowProps = {
   presentLabel: string
 }
 
-const ROW_TEXT = 'mono-md'
+const ROW_TEXT = 'label-md'
 
 export default function ExperienceRow({ item, locale, presentLabel }: ExperienceRowProps) {
   return (

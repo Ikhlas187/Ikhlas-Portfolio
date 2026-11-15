@@ -151,23 +151,21 @@
   }
 }
 
-/* Les 2 styles de libellés relevés sur kirk-sinner.framer.website, en police du site : repère 12 px (« CREATIVE DIRECTOR », « 2026 ») et liste 16 px. */
-@utility mono-sm {
+/* Libellés au format de haufsess.com : Inter 500, sans majuscules, lettres resserrées. */
+@utility label-sm {
   font-family: var(--font-label);
   font-weight: 500;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.2;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
-@utility mono-md {
+@utility label-md {
   font-family: var(--font-label);
   font-weight: 500;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.2;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
+  letter-spacing: -0.04em;
 }
 
 ::selection {

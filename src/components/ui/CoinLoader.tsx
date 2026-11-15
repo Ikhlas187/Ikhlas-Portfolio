@@ -95,7 +95,7 @@ export default function CoinLoader() {
         isExiting={isDone && !isStatic}
       />
       <span
-        className={`mono-sm tracking-[0.14em] text-white transition-opacity duration-300 after:animate-[rain-dots_1.4s_steps(4,end)_infinite] after:content-[''] ${isDone ? 'opacity-0' : 'opacity-100'}`}
+        className={`label-sm tracking-[0.14em] text-white transition-opacity duration-300 after:animate-[rain-dots_1.4s_steps(4,end)_infinite] after:content-[''] ${isDone ? 'opacity-0' : 'opacity-100'}`}
       >
         {LOADER_LABELS[locale].label}
       </span>
