@@ -290,7 +290,8 @@
   --macos-vscode-icon-folder: #c5c5c5;
 
   /* Polices réellement chargées (index.css), plus de familles fantômes */
-  --font-display: 'Plus Jakarta Sans', 'Helvetica Neue', sans-serif;
+  /* Anton, la police des titres de dexharlan.framer.website (BDO Grotesk, son texte courant, n'est pas libre : Inter reste). */
+  --font-display: 'Anton', 'Helvetica Neue', sans-serif;
   /* Espace entre 2 sections de la home : le gap de 48 px de haufsess.com + 10 px. */
   --section-gap: 58px;
 

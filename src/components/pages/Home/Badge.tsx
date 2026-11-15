@@ -218,7 +218,7 @@ export default function Badge({ name, introProgress, fov, startDistance, titleLa
             onPointerUp={handlePointerUp}
           >
             <mesh geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial key={texture?.uuid} map={texture} transparent clearcoat={1} clearcoatRoughness={0.15} roughness={0.3} metalness={0.1} />
+              <meshPhysicalMaterial key={texture?.uuid} map={texture} transparent toneMapped={false} clearcoat={1} clearcoatRoughness={0.15} roughness={0.3} metalness={0.1} />
             </mesh>
             {/* Métal argenté clair, comme le mousqueton de drkst. */}
             <mesh geometry={nodes.clip.geometry}>

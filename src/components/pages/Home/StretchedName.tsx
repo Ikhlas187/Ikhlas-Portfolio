@@ -22,11 +22,10 @@ const INTRO_DELAY = 350
 const RISE_DURATION = 1200
 const RISE_KICK = 2.2 * STRENGTH
 const TOUCH_RELEASE = 450
-// Capitales d'Inter moins hautes que celles d'Anton (réf.) : étirement vertical fixe pour retrouver leur hauteur.
-const STRETCH_Y = 2.028
-const CANVAS_FONT = '800 100px Inter'
+// Ratio largeur / taille de « DEX HARLAN » sur la réf. : le nom, plus long, est étiré en hauteur pour garder la hauteur de la réf.
+const REF_RATIO = 4.1045
 
-/* Nom géant de dexharlan.framer.website : remplit la largeur, lettres étirées en hauteur ; au survol, la lettre sous
+/* Nom géant de dexharlan.framer.website en Anton : remplit la largeur, à la hauteur de la réf. ; au survol, la lettre sous
    le pointeur s'élargit et s'écrase pendant que les autres s'affinent et grandissent, en ressort. */
 export default function StretchedName({ text, isVisible }: StretchedNameProps) {
   const shouldReduceMotion = useReducedMotion()
@@ -40,6 +39,7 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
   const springs = useRef<Spring[]>([])
   const frame = useRef(0)
   const lastTime = useRef(0)
+  const stretchY = useRef(1)
 
   const fontSize = () => (row.current && parseFloat(getComputedStyle(row.current).fontSize)) || 0
 
@@ -49,7 +49,7 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
     const values = springs.current.map((spring) => spring.value)
     letterTransforms(widths.current, values, SQUASH).forEach(({ offset, scaleX, scaleY }, index) => {
       const letter = letters.current[index]
-      if (letter) letter.style.transform = `translate3d(${(offset * size).toFixed(2)}px,0,0) scale(${scaleX.toFixed(4)},${(scaleY * STRETCH_Y).toFixed(4)})`
+      if (letter) letter.style.transform = `translate3d(${(offset * size).toFixed(2)}px,0,0) scale(${scaleX.toFixed(4)},${(scaleY * stretchY.current).toFixed(4)})`
     })
   }
 
@@ -96,10 +96,13 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
       const measured = Array.from(copy.children).map((letter) => letter.getBoundingClientRect().width / zoom / 100)
       if (!measured.length || measured.some((width) => !(width > 0))) return
       widths.current = measured
-      heading.style.setProperty('--name-ratio', String(measured.reduce((sum, width) => sum + width, 0)))
+      const ratio = measured.reduce((sum, width) => sum + width, 0)
+      stretchY.current = ratio / REF_RATIO
+      heading.style.setProperty('--name-ratio', String(ratio))
+      heading.style.setProperty('--name-stretch', stretchY.current.toFixed(4))
       const metrics = document.createElement('canvas').getContext('2d')
       if (metrics) {
-        metrics.font = CANVAS_FONT
+        metrics.font = `400 100px ${getComputedStyle(heading).fontFamily}`
         const { fontBoundingBoxAscent: ascent, fontBoundingBoxDescent: descent } = metrics.measureText('H')
         if (ascent && descent) heading.style.setProperty('--name-base', fontBaseline(ascent, descent, 100).toFixed(4))
       }
@@ -175,7 +178,7 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
     <h1
       ref={root}
       aria-label={text}
-      className="relative m-0 h-[calc(100cqw/4.1045)] w-full touch-pan-y p-0 font-sans font-extrabold select-none [clip-path:inset(-40%_-6%_0_-6%)] [cursor:inherit] [--name-base:0.864] [--name-ratio:7.0455]"
+      className="relative m-0 h-[calc(100cqw/4.1045)] w-full touch-pan-y p-0 font-heading font-normal select-none [clip-path:inset(-40%_-6%_0_-6%)] [cursor:inherit] [--name-base:0.864] [--name-ratio:5.3] [--name-stretch:1.29]"
     >
       <span ref={rise} aria-hidden="true" className="absolute inset-0 block">
         {/* Ligne de base calée à 92,5 % de la boîte, comme celle de la réf. */}
@@ -189,7 +192,7 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
                 ref={(letter) => {
                   letters.current[index] = letter
                 }}
-                className={`block origin-[0_calc(var(--name-base)*100%)] [transform:scale(1,2.028)] ${trackingFor(index)}`}
+                className={`block origin-[0_calc(var(--name-base)*100%)] [transform:scale(1,var(--name-stretch))] ${trackingFor(index)}`}
               >
                 {char}
               </span>
