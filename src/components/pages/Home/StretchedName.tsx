@@ -25,7 +25,7 @@ const TOUCH_RELEASE = 450
 // Ratio largeur / taille de « DEX HARLAN » sur la réf. : le nom, plus long, est étiré en hauteur pour garder la hauteur de la réf.
 const REF_RATIO = 4.1045
 
-/* Nom géant de dexharlan.framer.website en Anton : remplit la largeur, à la hauteur de la réf. ; au survol, la lettre sous
+/* Nom géant de dexharlan.framer.website, dans la police du site : remplit la largeur, à la hauteur de la réf. ; au survol, la lettre sous
    le pointeur s'élargit et s'écrase pendant que les autres s'affinent et grandissent, en ressort. */
 export default function StretchedName({ text, isVisible }: StretchedNameProps) {
   const shouldReduceMotion = useReducedMotion()
