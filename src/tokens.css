@@ -44,8 +44,7 @@
   --color-giantsur-blue-600: #2563eb;
   --color-giantsur-blue-700: #1d4ed8;
   --giantsur-text-shadow: 2px 2px 4px rgb(0 0 0 / 0.5);
-  --font-giantsur: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-giantsur: 'Anton', 'Helvetica Neue', sans-serif;
   /* Faux macOS de l'écran du MacBook : verres, pastilles de fenêtre et dégradés d'icônes propres à l'interface macOS */
   --macos-close: #ff5f57;
   --macos-minimize: #febc2e;
@@ -144,8 +143,8 @@
   --macos-cc-shadow: 0 18px 50px rgb(0 0 0 / 0.35), 0 0 0 0.5px rgb(0 0 0 / 0.2);
   --macos-brightness-shade: #000000;
   /* Intérieur des apps Calendrier, Notes et Photos (relevé sur frvky.online, palette neutral de Tailwind) */
-  --font-macos-app: Arial, Helvetica, sans-serif;
-  --font-macos-code: Menlo, Monaco, 'Courier New', monospace;
+  --font-macos-app: 'Anton', 'Helvetica Neue', sans-serif;
+  --font-macos-code: 'Anton', 'Helvetica Neue', sans-serif;
   --macos-app-ink: #171717;
   --macos-app-text: #262626;
   --macos-app-strong: #404040;
@@ -200,7 +199,7 @@
   --macos-photos-shade-soft: rgb(0 0 0 / 0.8);
 
   /* Cadre des fenêtres du faux macOS, copié du Safari de mihrimatrix/macos-clone-react (variantes sombres plus bas) */
-  --font-macos-frame: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  --font-macos-frame: 'Anton', 'Helvetica Neue', sans-serif;
   --macos-frame-window: rgb(236 236 236 / 0.8);
   --macos-frame-window-solid: #ececec;
   --macos-frame-surface: #ffffff;
@@ -290,12 +289,12 @@
   --macos-vscode-icon-folder: #c5c5c5;
 
   /* Polices réellement chargées (index.css), plus de familles fantômes */
-  /* Anton, la police des titres de dexharlan.framer.website (BDO Grotesk, son texte courant, n'est pas libre : Inter reste). */
+  /* Anton (police de dexharlan.framer.website) partout, sans exception : titres, texte, faux macOS. */
   --font-display: 'Anton', 'Helvetica Neue', sans-serif;
   /* Espace entre 2 sections de la home : le gap de 48 px de haufsess.com + 10 px. */
   --section-gap: 58px;
 
-  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+  --font-body: 'Anton', 'Helvetica Neue', sans-serif;
 
   --text-xs: clamp(0.75rem, 1vw, 0.875rem);
   --text-sm: clamp(0.875rem, 1.2vw, 1rem);

@@ -172,10 +172,10 @@ Encre   --color-black #0A0A0A    Fond   --color-white #FBFBFB (blanc de haufsess
 Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
 Accent  --color-accent = encre #0A0A0A (plus d'orange)   Alt    --color-accent-alt #00E5A0
 Display --font-display Anton 400 (nom du hero, titres de section : Experiences, services…, recto du badge), comme dexharlan.framer.website (depuis le 2026-11-15)
-Body    --font-body Inter 500 (tout le reste)
+Body    --font-body Anton aussi (tout le reste, faux macOS compris : --font-giantsur, --font-macos-*), décision de l'utilisateur du 2026-11-15
 ```
 
-2 familles : Anton pour les titres (celle de dexharlan.framer.website), Inter pour le texte (BDO Grotesk, le texte de dexharlan, n'est pas libre). Un titre de section fait 28 / 36 / 40 px (paliers 810 et 1200), comme Experiences. Espace entre 2 sections : `--section-gap` (58 px : les 48 px de la réf. + 10), en padding-top de chaque section. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; plus d'orange sur le site.
+1 seule famille sur tout le site, sans exception : Anton (celle de dexharlan.framer.website), seule police chargée par index.html. Un titre de section fait 28 / 36 / 40 px (paliers 810 et 1200), comme Experiences. Espace entre 2 sections : `--section-gap` (58 px : les 48 px de la réf. + 10), en padding-top de chaque section. Couleurs : noir et crème du loader partout, via les tokens (jamais de hex en dur dans un composant) ; plus d'orange sur le site.
 
 Langue du site : anglais et français, via le sélecteur du header. Tout texte affiché (data/, alt, aria-label) existe dans les 2 langues : chaque export de `data/` est un `Localized<T>` (`{ en, fr }`), lu dans un composant par `useLocale()` puis `DATA[locale]`. L'anglais fait référence ; `index.html` reste en anglais. Pièces du loader (IKHLAS / AGBETI / métiers) et noms propres identiques dans les 2 langues.
 
