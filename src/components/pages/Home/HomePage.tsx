@@ -26,10 +26,10 @@ export default function HomePage() {
       {/* Borne le hero collé : il reste sous la section qui le recouvre, puis repart avec elle. */}
       <div>
         <Hero />
-        {/* Ordinateur : le Mac (bouton des certifications dessous) ; téléphone (réf. haufsess.com) : les projets à sa place, pas de tableau de notes. */}
-        {isMobile ? <ProjectsShowcase /> : <MacOSSection />}
+        <About />
       </div>
-      <About />
+      {/* Ordinateur : le Mac (bouton des certifications dessous) ; téléphone (réf. haufsess.com) : les projets à sa place, pas de tableau de notes. */}
+      {isMobile ? <ProjectsShowcase /> : <MacOSSection />}
       <Experience />
       <Services />
       {!isMobile && <PinNote />}
