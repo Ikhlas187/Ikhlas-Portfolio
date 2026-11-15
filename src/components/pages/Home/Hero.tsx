@@ -33,7 +33,7 @@ export default function Hero() {
         {/* Découpé et flouté par le badge pendant l'intro : on aperçoit le titre à travers le dos de la carte. */}
         <div
           ref={titleLayer}
-          className="absolute inset-y-0 left-1/2 flex w-full max-w-[1920px] -translate-x-1/2 flex-col items-center justify-center overflow-clip px-5 min-[810px]:px-7"
+          className="absolute inset-y-0 left-1/2 flex w-full max-w-[1920px] -translate-x-1/2 flex-col items-center justify-center overflow-clip px-3 min-[810px]:px-4 min-[1200px]:px-3"
         >
           <HeroTitle
             name={hero.fullName}

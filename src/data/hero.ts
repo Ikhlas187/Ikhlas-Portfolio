@@ -11,6 +11,7 @@ type HeroContent = {
   establishedYear: string
   tagline: string
   ctaLabel: string
+  cursorClickLabel: string
 }
 
 type HeaderContent = {
@@ -32,6 +33,7 @@ export const HERO: Localized<HeroContent> = {
     establishedYear: '2024',
     tagline: 'Web developer building websites, apps and automations.',
     ctaLabel: 'Start a project',
+    cursorClickLabel: 'Click',
   },
   fr: {
     name: 'Ikhlas A.',
@@ -43,6 +45,7 @@ export const HERO: Localized<HeroContent> = {
     establishedYear: '2024',
     tagline: 'Développeur web qui crée des sites, des applications et des automatisations.',
     ctaLabel: 'Démarrer un projet',
+    cursorClickLabel: 'Clic',
   },
 }
 
