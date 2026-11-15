@@ -39,8 +39,9 @@ portfolio-frontend/
 │   │   │   └── BackPill.tsx        bouton « ← Retour » des pages projet et certifications (réf. haufsess.com)
 │   │   └── pages/            un dossier par écran
 │   │       ├── Home/         HomePage + ses morceaux en Tailwind (seul About garde un .css BEM appairé)
-│   │       │   ├── Hero.tsx             1er écran : section blanche collée de la hauteur de l'écran avec le badge (BadgeCanvas), recouverte par la section suivante (bornée par un div dans HomePage) ; nom et rôle en h1 masqué (sr-only), plus de texte visible depuis le 2026-11-15
-│   │       │   ├── BadgeCanvas.tsx      badge suspendu à un cordon devant le nom (réf. drkst.framer.website), chargé à part après le loader : three + @react-three/fiber, drei, rapier, meshline ; Badge.tsx = physique du cordon (code du badge Vercel), glisser pour déplacer, clic pour retourner ; modèle assets/badge.glb (carte, anneau, mousqueton du modèle de drkst, texture d’origine retirée) ; useBadgeTextures.ts = texture recto/verso dessinée sur canvas (photo about-portrait, nom, rôle)
+│   │       │   ├── Hero.tsx             1er écran : section blanche collée de la hauteur de l'écran, suivie de 150vh de défilement réservés à l'intro du badge, puis recouverte par la section suivante (bornée par un div dans HomePage)
+│   │       │   ├── HeroTitle.tsx        nom (h1, mot par mot) + rôle centrés (réf. jorge-template.framer.website) : entrée flou/montée en ressort quand la carte remplit l'écran, flou et rétrécissement au scroll après l'intro (logic/heroExit)
+│   │       │   ├── BadgeCanvas.tsx      badge suspendu à un cordon (réf. drkst.framer.website), chargé à part après le loader : three + @react-three/fiber, drei, rapier, meshline ; Badge.tsx = physique du cordon (code du badge Vercel), glisser pour déplacer ; au scroll la carte se retourne, la caméra entre dedans puis le canvas s'efface devant HeroTitle (logic/badgeIntro) ; modèle assets/badge.glb (carte, anneau, mousqueton du modèle de drkst, texture d’origine retirée) ; useBadgeTextures.ts = recto photo about-portrait + nom, verso blanc
 │   │       │   ├── About                planche claire (réf. abhijitrout.in)
 │   │       │   ├── Experience           expériences du CV après About, trait du titre animé (réf. haufsess.com)
 │   │       │   ├── SectionHeading.tsx   titre de section de la réf. haufsess.com (trait animé + titre Plus Jakarta Sans), utilisé par Experience
@@ -120,6 +121,8 @@ portfolio-frontend/
 │   │   │                     appMenu (menu de l'app au 1er plan), previewSize (taille de fenêtre Aperçu), vscodeWorkspace (onglets et dossiers dépliés de VS Code), aboutSegment (texte brut du paragraphe À propos), readmeSummary
 │   │   ├── giantSur/         largeurs du Dock, rebond des icônes au lancement (dockBounce)
 │   │   ├── music/            trackTime (3:07, --:-- si inconnu), trackProgress (part écoulée), autoStart (démarrage au 1er geste)
+│   │   ├── heroExit/         flou et échelle du titre du hero selon le défilement (après l'intro du badge)
+│   │   ├── badgeIntro/       étapes de l'intro du badge selon le défilement : retournement, avancée de la caméra (distance où la carte couvre l'écran), fondu, apparition du titre
 │   │   ├── screenReveal/     échelle, proportion et fond noir du Mac plein écran qui rétrécit au scroll
 │   │   ├── sectionHref/      lien #section tel quel sur la home, /#section ailleurs
 │   │   ├── footerShape/      contour SVG du footer : rectangle arrondi + encoche en U en haut au centre

@@ -2,35 +2,40 @@ import { Suspense, useState, type RefObject } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, Lightformer } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
+import { motion, useMotionValueEvent, useTransform, type MotionValue } from 'framer-motion'
 import Badge from '@/components/pages/Home/Badge'
-import { Button } from '@/components/ui/button'
+import { badgeIntro } from '@/logic/badgeIntro/badgeIntro'
 
 type BadgeCanvasProps = {
   eventSource: RefObject<HTMLElement | null>
+  introProgress: MotionValue<number>
   name: string
-  role: string
   label: string
-  flipLabel: string
 }
 
-export default function BadgeCanvas({ eventSource, name, role, label, flipLabel }: BadgeCanvasProps) {
-  const [isFlipped, setIsFlipped] = useState(false)
-  const toggleFlip = () => setIsFlipped((flipped) => !flipped)
+const FOV = 23
+const START_DISTANCE = 13
+
+export default function BadgeCanvas({ eventSource, introProgress, name, label }: BadgeCanvasProps) {
+  const opacity = useTransform(introProgress, (progress) => badgeIntro(progress).canvasOpacity)
+  const [isHidden, setIsHidden] = useState(false)
+  useMotionValueEvent(opacity, 'change', (value) => setIsHidden(value <= 0))
 
   return (
-    <div role="img" aria-label={label} className="absolute inset-0 z-10">
+    <motion.div role="img" aria-label={label} style={{ opacity }} className="absolute inset-0 z-10">
       <Canvas
         eventSource={eventSource as RefObject<HTMLElement>}
         eventPrefix="client"
-        camera={{ position: [0, 0, 13], fov: 23 }}
+        camera={{ position: [0, 0, START_DISTANCE], fov: FOV }}
         dpr={[1, 2]}
         gl={{ alpha: true }}
+        frameloop={isHidden ? 'never' : 'always'}
         style={{ pointerEvents: 'none' }}
       >
         <ambientLight intensity={Math.PI} />
         <Physics interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
           <Suspense fallback={null}>
-            <Badge name={name} role={role} isFlipped={isFlipped} onFlip={toggleFlip} />
+            <Badge name={name} introProgress={introProgress} fov={FOV} startDistance={START_DISTANCE} />
           </Suspense>
         </Physics>
         <Environment blur={0.75}>
@@ -45,13 +50,6 @@ export default function BadgeCanvas({ eventSource, name, role, label, flipLabel 
           />
         </Environment>
       </Canvas>
-      <Button
-        type="button"
-        onClick={toggleFlip}
-        className="sr-only focus-visible:not-sr-only focus-visible:absolute focus-visible:top-24 focus-visible:left-1/2 focus-visible:-translate-x-1/2"
-      >
-        {flipLabel}
-      </Button>
-    </div>
+    </motion.div>
   )
 }

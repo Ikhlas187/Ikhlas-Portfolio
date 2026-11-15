@@ -6,7 +6,6 @@ type HeroContent = {
   fullName: string
   role: string
   badgeLabel: string
-  badgeFlipLabel: string
 }
 
 type HeaderContent = {
@@ -22,15 +21,13 @@ export const HERO: Localized<HeroContent> = {
     name: 'Ikhlas A.',
     fullName: 'Ikhlas Agbeti',
     role: 'Web developer studying in Lille',
-    badgeLabel: 'Badge with a photo of Ikhlas Agbeti, hanging from a lanyard: drag it to move it, click it to flip it.',
-    badgeFlipLabel: 'Flip the badge',
+    badgeLabel: 'Badge with a photo of Ikhlas Agbeti, hanging from a lanyard: drag it to move it, scroll to flip it and enter it.',
   },
   fr: {
     name: 'Ikhlas A.',
     fullName: 'Ikhlas Agbeti',
     role: 'Développeur web, étudiant à Lille',
-    badgeLabel: 'Badge avec une photo d’Ikhlas Agbeti, suspendu à un cordon : glissez-le pour le déplacer, cliquez pour le retourner.',
-    badgeFlipLabel: 'Retourner le badge',
+    badgeLabel: 'Badge avec une photo d’Ikhlas Agbeti, suspendu à un cordon : glissez-le pour le déplacer, faites défiler pour le retourner et entrer dedans.',
   },
 }
 
