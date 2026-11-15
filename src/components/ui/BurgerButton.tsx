@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Equal, X } from 'lucide-react'
 import { useLocale } from '@/lib/LocaleProvider'
 import { HEADER } from '@/data/hero'
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,7 @@ type BurgerButtonProps = {
 
 export default function BurgerButton({ isOpen, onToggle }: BurgerButtonProps) {
   const { locale } = useLocale()
-  const Icon = isOpen ? X : Menu
+  const Icon = isOpen ? X : Equal
 
   return (
     <Button
@@ -31,7 +31,7 @@ export default function BurgerButton({ isOpen, onToggle }: BurgerButtonProps) {
           transition={{ type: 'spring', stiffness: 500, damping: 60, mass: 1 }}
           className="flex"
         >
-          <Icon className="size-9" strokeWidth={1.75} aria-hidden="true" />
+          <Icon className="size-7" strokeWidth={1.5} aria-hidden="true" />
         </motion.span>
       </AnimatePresence>
     </Button>

@@ -1,7 +1,6 @@
-import avatarUrl from '@/assets/avatar.webp'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
-import NavPill from '@/components/ui/NavPill'
+import HeaderLink from '@/components/ui/HeaderLink'
 import LanguageSelect from '@/components/ui/LanguageSelect'
 import BurgerButton from '@/components/ui/BurgerButton'
 import { HEADER } from '@/data/hero'
@@ -21,11 +20,12 @@ function isOverHeaderGuard() {
   return rect.top <= 0 && rect.bottom > 0
 }
 
-/* Header fixe (réf. haufsess.com) : disparaît en fondu en descendant, revient quand on remonte. Sous le CoinLoader (z-100). */
+/* Header fixe au format de callumhayes.framer.website (nom à gauche, liens et sélecteur de langue à droite, verre flou) :
+   disparaît en fondu en descendant, revient quand on remonte. Sous le CoinLoader (z-100). */
 export default function SiteHeader() {
   const { locale } = useLocale()
   const header = HEADER[locale]
-  const links = [header.homeLink, ...NAV_LINKS[locale]]
+  const links = NAV_LINKS[locale]
   const { scrollY } = useScroll()
   const [isHidden, setIsHidden] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -82,53 +82,52 @@ export default function SiteHeader() {
         isHovered.current = false
         if (!isHidden) scheduleIdleHide()
       }}
-      className={`fixed inset-x-0 top-0 z-[90] bg-white ${isVisible ? '' : 'pointer-events-none'}`}
+      className={`fixed inset-x-0 top-0 z-[90] border-b border-[color-mix(in_srgb,var(--color-black)_6%,transparent)] bg-[color-mix(in_srgb,var(--color-white)_70%,transparent)] text-black backdrop-blur-[50px] ${isVisible ? '' : 'pointer-events-none'}`}
     >
-      <div className="mx-auto flex max-w-[1800px] flex-col px-3 py-5 min-[810px]:px-4">
-        {/* Ordinateur : 3 colonnes, les liens au centre exact de la page quelle que soit la largeur du sélecteur de langue. */}
-        <div className="flex w-full items-center justify-center gap-2.5 max-[809px]:h-[47px] min-[810px]:grid min-[810px]:grid-cols-[1fr_auto_1fr]">
-          <img
-            src={avatarUrl}
-            alt={header.avatarLabel}
-            className="h-[43px] w-[38px] shrink-0 rounded-[49px] bg-black object-cover min-[810px]:size-[57px] min-[810px]:justify-self-start"
-          />
+      <div className="flex h-[70px] items-center justify-between px-5 min-[810px]:h-[90px] min-[810px]:px-[50px]">
+        <HeaderLink
+          label={header.avatarLabel}
+          href={header.homeLink.href}
+          onNavigate={closeMenu}
+          className="text-[16px] leading-none font-normal tracking-[-0.01em] text-black! hover:text-black!"
+        />
 
-          <nav aria-label={header.navLabel} className="hidden flex-1 items-center gap-4 min-[810px]:flex">
+        <div className="hidden items-center gap-[30px] min-[810px]:flex">
+          <nav aria-label={header.navLabel} className="flex items-center gap-[30px] text-[14px] leading-none font-normal tracking-[-0.01em]">
             {links.map((link) => (
-              <NavPill key={link.href} label={link.label} href={link.href} />
+              <HeaderLink key={link.href} label={link.label} href={link.href} />
             ))}
           </nav>
-
-          <div className={`min-[810px]:justify-self-end ${isMenuOpen ? 'order-2' : ''}`}>
-            <LanguageSelect />
-          </div>
-
-          <div className={`min-[810px]:hidden ${isMenuOpen ? 'order-1' : 'order-3'}`}>
-            <BurgerButton isOpen={isMenuOpen} onToggle={() => setIsMenuOpen((isOpen) => !isOpen)} />
-          </div>
+          <LanguageSelect />
         </div>
 
-        <motion.div
-          id="home-mobile-nav"
-          initial={false}
-          animate={{ height: isMenuOpen ? 'auto' : 0 }}
-          transition={{ type: 'spring', bounce: 0.08, duration: 0.48 }}
-          className="overflow-hidden min-[810px]:hidden"
-          inert={!isMenuOpen}
-        >
-          <motion.nav
-            aria-label={header.navLabel}
-            initial={false}
-            animate={{ opacity: isMenuOpen ? 1 : 0 }}
-            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-wrap items-center justify-between gap-y-2 pt-[50px]"
-          >
-            {links.map((link) => (
-              <NavPill key={link.href} label={link.label} href={link.href} onNavigate={closeMenu} />
-            ))}
-          </motion.nav>
-        </motion.div>
+        <div className="min-[810px]:hidden">
+          <BurgerButton isOpen={isMenuOpen} onToggle={() => setIsMenuOpen((isOpen) => !isOpen)} />
+        </div>
       </div>
+
+      <motion.div
+        id="home-mobile-nav"
+        initial={false}
+        animate={{ height: isMenuOpen ? 'auto' : 0 }}
+        transition={{ type: 'spring', bounce: 0.08, duration: 0.48 }}
+        className="overflow-hidden min-[810px]:hidden"
+        inert={!isMenuOpen}
+      >
+        <motion.div
+          initial={false}
+          animate={{ opacity: isMenuOpen ? 1 : 0 }}
+          transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-start gap-6 px-5 pt-4 pb-8"
+        >
+          <nav aria-label={header.navLabel} className="flex flex-col gap-4 text-[28px] leading-[1.2] tracking-[-0.04em]">
+            {links.map((link) => (
+              <HeaderLink key={link.href} label={link.label} href={link.href} onNavigate={closeMenu} />
+            ))}
+          </nav>
+          <LanguageSelect />
+        </motion.div>
+      </motion.div>
     </motion.header>
   )
 }
