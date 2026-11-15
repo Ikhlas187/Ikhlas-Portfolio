@@ -172,7 +172,7 @@ Encre   --color-black #0A0A0A    Fond   --color-white #FBFBFB (blanc de haufsess
 Notes   --color-note-{pink,yellow,orange,green,blue} (+ -ink), réservés aux notes de PinNote
 Accent  --color-accent = encre #0A0A0A (plus d'orange)   Alt    --color-accent-alt #00E5A0
 Display --font-display Plus Jakarta Sans 400 (titres de section : Experiences, services…, recto du badge), comme haufsess.com
-Body    --font-body Inter 500 (tout le reste) ; libellés --font-label = Inter ; nom géant du hero en Plus Jakarta Sans 400, comme « Aufsess H. »
+Body    --font-body Inter 500 (tout le reste) ; libellés --font-label = Inter ; nom géant du hero en Inter 800
 ```
 
 2 familles d'origine, remises le 2026-11-15 après les essais Anton, DM Mono/DM Sans et Satoshi : Plus Jakarta Sans pour les titres, Inter pour le texte, chargées par 1 seul `<link>` dans index.html. Le faux macOS garde ses polices système (--font-giantsur, --font-macos-*). Usage de haufsess.com (relevé le 2026-11-15) : aucune majuscule forcée, Inter 500 à lettres resserrées (navigation 18 px -0,05em, listes 20 px -0,04em), Plus Jakarta Sans 400 pour les titres et le grand nom. Utilitaires `label-sm` (14 px, -0,02em) et `label-md` (18 px, -0,04em) de index.css, en Inter 500, pour les libellés, la navigation, les dates et les listes.
