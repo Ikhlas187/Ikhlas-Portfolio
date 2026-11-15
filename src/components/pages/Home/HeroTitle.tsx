@@ -63,7 +63,7 @@ export default function HeroTitle({
       onPointerMove={(event) => setIsHovered(event.pointerType === 'mouse')}
       onPointerLeave={() => setIsHovered(false)}
       className={cn(
-        'flex h-full w-full flex-col gap-8 pt-24 font-sans text-black antialiased min-[810px]:gap-9 min-[1200px]:gap-12',
+        'flex h-full w-full flex-col justify-center gap-8 font-sans text-black antialiased min-[810px]:gap-9 min-[1200px]:gap-12',
         isInteractive ? 'pointer-events-auto' : 'pointer-events-none',
         isEyesActive && 'cursor-none',
       )}
