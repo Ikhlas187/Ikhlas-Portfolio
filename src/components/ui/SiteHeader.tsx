@@ -1,4 +1,3 @@
-import avatarUrl from '@/assets/avatar.webp'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
 import HeaderLink from '@/components/ui/HeaderLink'
@@ -83,21 +82,18 @@ export default function SiteHeader() {
         isHovered.current = false
         if (!isHidden) scheduleIdleHide()
       }}
-      className={`fixed inset-x-0 top-0 z-[90] font-[family-name:var(--font-nav)] border-b border-[color-mix(in_srgb,var(--color-black)_6%,transparent)] bg-[color-mix(in_srgb,var(--color-white)_70%,transparent)] text-black backdrop-blur-[50px] ${isVisible ? '' : 'pointer-events-none'}`}
+      className={`fixed inset-x-0 top-0 z-[90] border-b border-[color-mix(in_srgb,var(--color-black)_6%,transparent)] bg-[color-mix(in_srgb,var(--color-white)_70%,transparent)] text-black backdrop-blur-[50px] ${isVisible ? '' : 'pointer-events-none'}`}
     >
       <div className="flex h-[70px] items-center justify-between px-5 min-[810px]:h-[90px] min-[810px]:px-[50px]">
-        <div className="flex items-center gap-3">
-          <img src={avatarUrl} alt="" className="size-9 shrink-0 rounded-full bg-black object-cover min-[810px]:size-11" />
-          <HeaderLink
-            label={header.avatarLabel}
-            href={header.homeLink.href}
-            onNavigate={closeMenu}
-            className="text-[18px] leading-none font-medium tracking-[-0.01em] text-black! hover:text-black! min-[810px]:text-[20px]"
-          />
-        </div>
+        <HeaderLink
+          label={header.avatarLabel}
+          href={header.homeLink.href}
+          onNavigate={closeMenu}
+          className="text-[16px] leading-none font-normal tracking-[-0.01em] text-black! hover:text-black!"
+        />
 
         <div className="hidden items-center gap-[30px] min-[810px]:flex">
-          <nav aria-label={header.navLabel} className="flex items-center gap-[34px] text-[17px] leading-none font-medium tracking-[-0.01em]">
+          <nav aria-label={header.navLabel} className="flex items-center gap-[30px] text-[14px] leading-none font-normal tracking-[-0.01em]">
             {links.map((link) => (
               <HeaderLink key={link.href} label={link.label} href={link.href} />
             ))}
