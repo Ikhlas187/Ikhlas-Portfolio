@@ -21,7 +21,7 @@ export default function LanguageSelect() {
     >
       <SelectTrigger
         aria-label={LANGUAGE_SELECT[locale].label}
-        className="h-[37px] gap-2 rounded-[8px] px-5 py-2.5 text-[14px] leading-none font-medium tracking-[-0.01em] hover:bg-black hover:text-white data-popup-open:bg-black data-popup-open:text-white [&_svg:not([class*='size-'])]:size-4"
+        className="h-[42px] gap-2 rounded-[8px] px-5 py-2.5 font-[family-name:var(--font-nav)] text-[16px] leading-none font-medium tracking-[-0.01em] hover:bg-black hover:text-white data-popup-open:bg-black data-popup-open:text-white [&_svg:not([class*='size-'])]:size-4"
       >
         <SelectValue>
           {(value: string) => (
@@ -38,7 +38,7 @@ export default function LanguageSelect() {
             key={item.value}
             value={item.value}
             lang={item.value}
-            className="text-[14px] font-medium tracking-[-0.01em] [&_svg:not([class*='size-'])]:size-4"
+            className="font-[family-name:var(--font-nav)] text-[16px] font-medium tracking-[-0.01em] [&_svg:not([class*='size-'])]:size-4"
           >
             <Globe strokeWidth={1.75} aria-hidden="true" />
             {item.label}

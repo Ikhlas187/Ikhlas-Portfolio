@@ -294,6 +294,8 @@
   --section-gap: 58px;
 
   --font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  /* Barre de navigation : Satoshi (fontshare.com, licence gratuite). */
+  --font-nav: 'Satoshi', 'DM Sans', sans-serif;
   /* Méta, libellés, navigation, boutons, dates, listes : utilitaires mono-sm et mono-md (index.css). */
   --font-label: 'DM Mono', ui-monospace, monospace;
 
