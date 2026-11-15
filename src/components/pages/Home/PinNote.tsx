@@ -110,7 +110,7 @@ export default function PinNote() {
               transition={{ duration: 0.6, ease: INK_EASE }}
               className="flex origin-left flex-col items-start gap-1"
             >
-              <p className="text-[18px] font-medium text-gray-200 sm:text-[20px]">{copy.kicker}</p>
+              <p className="mono-md text-gray-200">{copy.kicker}</p>
               <motion.span
                 aria-hidden="true"
                 initial={{ scaleX: 0 }}
@@ -120,7 +120,7 @@ export default function PinNote() {
                 className="block h-[2px] w-[70px] origin-left rounded-[1px] bg-gray-400"
               />
             </motion.div>
-            <h2 className="font-heading text-[28px] leading-[1.2] font-medium tracking-[-0.02em] text-black min-[810px]:text-[36px] min-[1200px]:text-[40px]">
+            <h2 className="font-heading text-[28px] leading-[1.2] font-medium tracking-[-0.04em] text-black min-[810px]:text-[36px] min-[1200px]:text-[40px]">
               {/* L'observateur est sur le masque : le texte décalé hors du masque ne serait jamais vu « à l'écran ». */}
               <motion.span
                 className="-mb-[0.06em] block overflow-hidden pb-[0.06em]"
@@ -138,7 +138,7 @@ export default function PinNote() {
               </motion.span>
             </h2>
           </div>
-          <p className="max-w-[420px] text-[16px] leading-[1.5] font-medium text-gray-400">{copy.intro}</p>
+          <p className="max-w-[420px] text-[16px] leading-[1.5] font-medium tracking-[-0.02em] text-gray-400">{copy.intro}</p>
         </div>
 
         <div
@@ -184,7 +184,7 @@ export default function PinNote() {
               type="button"
               variant="ghost"
               onClick={() => setPaging({ layout, step: step + 1 })}
-              className="h-auto rounded-full bg-white py-3.5 pr-5 pl-[22px] text-sm leading-[normal] font-medium text-gray-200 hover:bg-white hover:text-gray-200"
+              className="h-auto rounded-full bg-white py-3.5 pr-5 pl-[22px] mono-sm text-gray-200 hover:bg-white hover:text-gray-200"
             >
               <RollingLabel>
                 {copy.seeMoreLabel}

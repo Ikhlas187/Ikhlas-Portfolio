@@ -39,35 +39,35 @@ export default function ProjectPage() {
       <SiteHeader />
       <main className="mx-auto max-w-[1800px] px-3 pt-8 min-[810px]:px-4 min-[1200px]:px-5">
         <BackPill label={text.back} to="/#projects" />
-        <h1 className="mt-10 font-heading text-[48px] leading-[1.1] font-medium tracking-[-0.04em] min-[810px]:text-[64px] min-[1200px]:text-[80px]">
+        <h1 className="mt-10 font-heading text-[48px] leading-[1.2] font-medium tracking-[-0.04em] min-[810px]:text-[64px] min-[810px]:leading-[1.1] min-[810px]:font-semibold min-[810px]:tracking-[-0.07em] min-[1200px]:text-[80px]">
           {project.name}
         </h1>
-        <dl className="mt-8 flex max-w-[440px] flex-col gap-6 font-sans text-[18px] leading-[1.25] font-medium tracking-[-0.02em]">
+        <dl className="mt-8 flex max-w-[440px] flex-col gap-6 font-sans text-[18px] leading-[1.4] font-medium tracking-[-0.02em]">
           <div className="flex flex-col gap-1">
-            <dt className="text-[14px] tracking-normal">{text.description}</dt>
+            <dt className="mono-sm">{text.description}</dt>
             <dd>{project.description}</dd>
           </div>
           {services.length > 0 && (
             <div className="flex flex-col gap-1">
-              <dt className="text-[14px] tracking-normal">{text.services}</dt>
+              <dt className="mono-sm">{text.services}</dt>
               {services.map((service) => (
-                <dd key={service}>{service}</dd>
+                <dd key={service} className="mono-md">{service}</dd>
               ))}
             </div>
           )}
           <div className="flex flex-col gap-1">
-            <dt className="text-[14px] tracking-normal">{text.stack}</dt>
-            <dd>{stack.join(' · ')}</dd>
+            <dt className="mono-sm">{text.stack}</dt>
+            <dd className="mono-md">{stack.join(' · ')}</dd>
           </div>
           <div className="flex flex-col gap-1">
-            <dt className="text-[14px] tracking-normal">{text.year}</dt>
-            <dd>{project.year}</dd>
+            <dt className="mono-sm">{text.year}</dt>
+            <dd className="mono-md">{project.year}</dd>
           </div>
           {link && (
             <div className="flex flex-col gap-1">
-              <dt className="text-[14px] tracking-normal">{text.link}</dt>
+              <dt className="mono-sm">{text.link}</dt>
               <dd>
-                <a href={link.href} target="_blank" rel="noreferrer" className="cursor-pointer underline underline-offset-4">
+                <a href={link.href} target="_blank" rel="noreferrer" className="cursor-pointer mono-md underline underline-offset-4">
                   {link.label}
                 </a>
               </dd>
@@ -88,7 +88,7 @@ export default function ProjectPage() {
         <div className="flex justify-end py-16">
           <Link
             to={`/projects/${nextProject.slug}`}
-            className="inline-flex cursor-pointer items-center gap-1 font-sans text-[20px] leading-[1.2] font-medium tracking-[-0.02em] underline underline-offset-4"
+            className="inline-flex cursor-pointer items-center gap-1 mono-md underline underline-offset-4"
           >
             {nextProject.name}
             <ChevronRight aria-hidden="true" className="size-5" />

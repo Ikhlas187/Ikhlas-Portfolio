@@ -72,10 +72,10 @@ export default function NoteForm({ onPin, hasPinnedNote }: NoteFormProps) {
       className="relative z-10 mx-auto flex w-full max-w-[480px] flex-col gap-4 rounded-[24px] bg-white p-5 shadow-(--note-form-shadow) sm:rounded-[28px] sm:p-7 lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[420px] lg:-translate-x-1/2 lg:-translate-y-1/2"
     >
       <div className="flex items-baseline justify-between">
-        <label htmlFor={textId} className="text-[13px] text-gray-400">
+        <label htmlFor={textId} className="mono-sm text-gray-400">
           {copy.noteLabel}
         </label>
-        <span aria-hidden="true" className="text-[12px] text-gray-500 tabular-nums">
+        <span aria-hidden="true" className="mono-sm text-gray-500 tabular-nums">
           {Array.from(text).length}/{NOTE_TEXT_MAX_LENGTH}
         </span>
       </div>
@@ -86,7 +86,7 @@ export default function NoteForm({ onPin, hasPinnedNote }: NoteFormProps) {
         maxLength={NOTE_TEXT_MAX_LENGTH * 2}
         placeholder={copy.notePlaceholder}
         onChange={(event) => setText(limitNoteText(event.target.value))}
-        className={cn('h-[120px] text-[18px] leading-[1.35] font-medium', NOTE_COLOR_CLASSES[color].field)}
+        className={cn('h-[120px] text-[18px] leading-[1.35] font-medium tracking-[-0.02em]', NOTE_COLOR_CLASSES[color].field)}
       />
       <Input
         value={author}
@@ -102,7 +102,7 @@ export default function NoteForm({ onPin, hasPinnedNote }: NoteFormProps) {
         <Button
           type="submit"
           disabled={isPinning || hasPinnedNote}
-          className="h-auto rounded-full bg-black px-5 py-3 text-sm leading-[normal] font-medium text-white hover:bg-black disabled:cursor-wait disabled:opacity-70"
+          className="h-auto rounded-full bg-black px-5 py-3 mono-sm text-white hover:bg-black disabled:cursor-wait disabled:opacity-70"
         >
           <RollingLabel>
             {copy.pinLabel}
@@ -110,7 +110,7 @@ export default function NoteForm({ onPin, hasPinnedNote }: NoteFormProps) {
           </RollingLabel>
         </Button>
       </div>
-      <p aria-live="polite" className="-mt-1 text-[13px] leading-[1.3] text-gray-400 empty:hidden">
+      <p aria-live="polite" className="-mt-1 text-[14px] leading-[1.4] text-gray-400 empty:hidden">
         {status === 'pinned' && hasPinnedNote && copy.pinnedStatus}
         {status === 'empty' && copy.emptyStatus}
         {hasPinnedNote && status !== 'pinned' && copy.rejectedStatus.alreadyPinned}

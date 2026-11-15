@@ -54,14 +54,14 @@ export default function StickyNote({
       >
         <blockquote
           className={cn(
-            'm-0 flex min-h-0 flex-1 flex-col overflow-hidden font-sans font-medium [overflow-wrap:anywhere]',
+            'm-0 flex min-h-0 flex-1 flex-col overflow-hidden font-sans font-medium tracking-[-0.02em] [overflow-wrap:anywhere]',
             TEXT_SIZE_CLASSES[noteTextSize(note.text)],
             isUnderForm && 'lg:justify-end',
           )}
         >
           <span>{note.text}</span>
         </blockquote>
-        <figcaption className={cn('truncate font-sans text-[6.2cqw] font-medium', isUnderForm && 'lg:order-first')}>
+        <figcaption className={cn('truncate font-mono text-[6.2cqw] font-medium tracking-[0.06em] uppercase', isUnderForm && 'lg:order-first')}>
           {noteSignature(note, anonymousLabel)}
         </figcaption>
       </figure>

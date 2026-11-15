@@ -5,7 +5,7 @@ import { sectionHref } from '@/logic/sectionHref/sectionHref'
 const MotionLink = motion.create(Link)
 
 const PILL_CLASS =
-  "flex cursor-pointer items-center justify-center rounded-[50px] bg-[color-mix(in_srgb,var(--color-black)_clamp(0%,calc(6%_+_94%_*_var(--pill-hover)),100%),var(--color-white))] px-3 py-1.5 font-sans text-[18px] leading-[1.2] font-medium tracking-[-0.05em] whitespace-pre text-[color-mix(in_srgb,var(--color-white)_clamp(0%,calc(100%_*_var(--pill-hover)),100%),var(--color-black))]"
+  "flex cursor-pointer items-center justify-center rounded-[50px] bg-[color-mix(in_srgb,var(--color-black)_clamp(0%,calc(6%_+_94%_*_var(--pill-hover)),100%),var(--color-white))] px-3 py-1.5 mono-md whitespace-pre text-[color-mix(in_srgb,var(--color-white)_clamp(0%,calc(100%_*_var(--pill-hover)),100%),var(--color-black))]"
 
 type NavPillProps = {
   label: string

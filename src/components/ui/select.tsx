@@ -34,7 +34,7 @@ function SelectTrigger({
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       className={cn(
-        "group flex w-fit cursor-pointer items-center justify-between gap-2 rounded-[10px] border border-[color-mix(in_srgb,var(--color-black)_10%,transparent)] bg-white px-3.5 py-2.5 font-sans text-black whitespace-nowrap transition-colors duration-200 outline-none select-none hover:bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--color-black)_30%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 data-popup-open:bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "group flex w-fit cursor-pointer items-center justify-between gap-2 rounded-[10px] border border-[color-mix(in_srgb,var(--color-black)_10%,transparent)] bg-white px-3.5 py-2.5 text-black whitespace-nowrap transition-colors duration-200 outline-none select-none hover:bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--color-black)_30%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 data-popup-open:bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}

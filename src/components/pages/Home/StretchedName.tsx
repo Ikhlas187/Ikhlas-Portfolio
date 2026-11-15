@@ -102,7 +102,7 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
       heading.style.setProperty('--name-stretch', stretchY.current.toFixed(4))
       const metrics = document.createElement('canvas').getContext('2d')
       if (metrics) {
-        metrics.font = `400 100px ${getComputedStyle(heading).fontFamily}`
+        metrics.font = `600 100px ${getComputedStyle(heading).fontFamily}`
         const { fontBoundingBoxAscent: ascent, fontBoundingBoxDescent: descent } = metrics.measureText('H')
         if (ascent && descent) heading.style.setProperty('--name-base', fontBaseline(ascent, descent, 100).toFixed(4))
       }
@@ -172,13 +172,13 @@ export default function StretchedName({ text, isVisible }: StretchedNameProps) {
     }
   }, [shouldReduceMotion, chars])
 
-  const trackingFor = (index: number) => (index === chars.length - 1 ? 'tracking-normal' : 'tracking-[-0.04em]')
+  const trackingFor = (index: number) => (index === chars.length - 1 ? 'tracking-normal' : 'tracking-[-0.03em]')
 
   return (
     <h1
       ref={root}
       aria-label={text}
-      className="relative m-0 h-[calc(100cqw/4.1045)] w-full touch-pan-y p-0 font-heading font-medium select-none [clip-path:inset(-40%_-6%_0_-6%)] [cursor:inherit] [--name-base:0.864] [--name-ratio:5.3] [--name-stretch:1.29]"
+      className="relative m-0 h-[calc(100cqw/4.1045)] w-full touch-pan-y p-0 font-heading font-semibold select-none [clip-path:inset(-40%_-6%_0_-6%)] [cursor:inherit] [--name-base:0.864] [--name-ratio:5.3] [--name-stretch:1.29]"
     >
       <span ref={rise} aria-hidden="true" className="absolute inset-0 block">
         {/* Ligne de base calée à 92,5 % de la boîte, comme celle de la réf. */}

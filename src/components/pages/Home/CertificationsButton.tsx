@@ -13,7 +13,7 @@ export default function CertificationsButton() {
   return (
     <Link
       to={ROUTES.CERTIFICATIONS}
-      className={cn(buttonVariants(), 'h-12 w-full gap-2 rounded-full font-sans text-[16px] min-[810px]:w-auto min-[810px]:px-8')}
+      className={cn(buttonVariants(), 'h-12 w-full gap-2 rounded-full mono-md min-[810px]:w-auto min-[810px]:px-8')}
     >
       {PROJECT_PAGE[locale].certificationsLink}
       <ArrowRight aria-hidden="true" />

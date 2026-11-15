@@ -69,25 +69,25 @@ export default function HeroTitle({
       )}
     >
       <div className="flex w-full flex-col items-center gap-6 overflow-clip">
-        <motion.p {...reveal(12, 0.1, 0.8)} className="flex h-8 items-center justify-center gap-12 text-center text-[13px] leading-[1.2] font-light min-[810px]:gap-4 min-[810px]:text-[14px]">
+        <motion.p {...reveal(12, 0.1, 0.8)} className="flex h-8 items-center justify-center gap-6 text-center mono-sm min-[810px]:gap-4">
           <span>{location}</span>
           <span className="flex h-8 w-[30px] items-center justify-center">
             <Globe aria-hidden="true" className="size-[30px]" strokeWidth={1.5} />
           </span>
           <span>{availability}</span>
         </motion.p>
-        <motion.div {...reveal(16, 0.2, 0.9)} className="flex w-full items-center justify-center gap-5 uppercase min-[810px]:gap-10">
-          <span className="shrink-0 text-[12px] leading-[1.2] font-semibold tracking-[-0.02em]">{establishedLabel}</span>
-          <p className="max-w-[480px] flex-[1_0_0] text-center text-[16px] leading-[1.2] font-semibold tracking-[-0.04em] text-balance min-[810px]:max-w-[680px] min-[810px]:text-[18px] min-[1200px]:max-w-[480px] min-[1200px]:text-[20px]">
+        <motion.div {...reveal(16, 0.2, 0.9)} className="flex w-full items-center justify-center gap-5 min-[810px]:gap-10">
+          <span className="shrink-0 mono-sm">{establishedLabel}</span>
+          <p className="max-w-[480px] flex-[1_0_0] text-center mono-md text-balance min-[810px]:max-w-[680px] min-[810px]:text-[18px] min-[1200px]:max-w-[480px] min-[1200px]:text-[20px]">
             {tagline}
           </p>
-          <span className="shrink-0 text-[12px] leading-[1.2] font-semibold tracking-[-0.02em]">{establishedYear}</span>
+          <span className="shrink-0 mono-sm">{establishedYear}</span>
         </motion.div>
         <motion.div {...reveal(12, 0.3, 0.8)} className="flex justify-center">
           <a
             href="#contact"
             className={cn(
-              'text-[14px] leading-[1.2] font-semibold tracking-[-0.02em] uppercase underline transition-[color,text-decoration-color,text-decoration-thickness,text-underline-offset] duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] hover:no-underline min-[810px]:text-[16px]',
+              'mono-sm underline transition-[color,text-decoration-color,text-decoration-thickness,text-underline-offset] duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] hover:no-underline min-[810px]:mono-md',
               isEyesActive ? 'cursor-none' : 'cursor-pointer',
             )}
           >

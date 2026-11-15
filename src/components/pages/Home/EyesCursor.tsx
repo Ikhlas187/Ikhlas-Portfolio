@@ -146,7 +146,7 @@ export default function EyesCursor({ scope, isActive }: EyesCursorProps) {
             style={{ y: '-50%', originX: 0 }}
             animate={isOverClickable ? { opacity: 1, scale: 1, x: 0 } : { opacity: 0, scale: 0.5, x: -8 }}
             transition={isOverClickable ? { type: 'spring', stiffness: 520, damping: 26 } : { duration: 0.12 }}
-            className="absolute top-1/2 left-full ml-1.5 rounded-full border-[1.5px] border-white bg-black px-2.5 py-[5px] font-sans text-[11px] leading-none font-semibold tracking-[0.04em] whitespace-nowrap text-white uppercase"
+            className="absolute top-1/2 left-full ml-1.5 rounded-full border-[1.5px] border-white bg-black px-2.5 py-[5px] mono-sm leading-none whitespace-nowrap text-white"
           >
             {HERO[locale].cursorClickLabel}
           </motion.div>

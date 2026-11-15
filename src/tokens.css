@@ -44,7 +44,7 @@
   --color-giantsur-blue-600: #2563eb;
   --color-giantsur-blue-700: #1d4ed8;
   --giantsur-text-shadow: 2px 2px 4px rgb(0 0 0 / 0.5);
-  --font-giantsur: 'DM Mono', ui-monospace, monospace;
+  --font-giantsur: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   /* Faux macOS de l'écran du MacBook : verres, pastilles de fenêtre et dégradés d'icônes propres à l'interface macOS */
   --macos-close: #ff5f57;
   --macos-minimize: #febc2e;
@@ -143,7 +143,7 @@
   --macos-cc-shadow: 0 18px 50px rgb(0 0 0 / 0.35), 0 0 0 0.5px rgb(0 0 0 / 0.2);
   --macos-brightness-shade: #000000;
   /* Intérieur des apps Calendrier, Notes et Photos (relevé sur frvky.online, palette neutral de Tailwind) */
-  --font-macos-app: 'DM Mono', ui-monospace, monospace;
+  --font-macos-app: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   --font-macos-code: 'DM Mono', ui-monospace, monospace;
   --macos-app-ink: #171717;
   --macos-app-text: #262626;
@@ -199,7 +199,7 @@
   --macos-photos-shade-soft: rgb(0 0 0 / 0.8);
 
   /* Cadre des fenêtres du faux macOS, copié du Safari de mihrimatrix/macos-clone-react (variantes sombres plus bas) */
-  --font-macos-frame: 'DM Mono', ui-monospace, monospace;
+  --font-macos-frame: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   --macos-frame-window: rgb(236 236 236 / 0.8);
   --macos-frame-window-solid: #ececec;
   --macos-frame-surface: #ffffff;
@@ -288,13 +288,14 @@
   --macos-vscode-icon-binary: #8dc149;
   --macos-vscode-icon-folder: #c5c5c5;
 
-  /* Polices réellement chargées (index.css), plus de familles fantômes */
-  /* DM Mono (police de kirk-sinner.framer.website) partout, sans exception : titres, texte, faux macOS. */
-  --font-display: 'DM Mono', ui-monospace, monospace;
+  /* Duo de kirk-sinner.framer.website, chargé par index.html : DM Sans pour les phrases et les titres, DM Mono en majuscules pour les repères. */
+  --font-display: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
   /* Espace entre 2 sections de la home : le gap de 48 px de haufsess.com + 10 px. */
   --section-gap: 58px;
 
-  --font-body: 'DM Mono', ui-monospace, monospace;
+  --font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  /* Méta, libellés, navigation, boutons, dates, listes : utilitaires mono-sm et mono-md (index.css). */
+  --font-label: 'DM Mono', ui-monospace, monospace;
 
   --text-xs: clamp(0.75rem, 1vw, 0.875rem);
   --text-sm: clamp(0.875rem, 1.2vw, 1rem);

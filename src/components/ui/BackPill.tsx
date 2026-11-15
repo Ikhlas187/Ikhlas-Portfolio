@@ -12,7 +12,7 @@ export default function BackPill({ label, to }: BackPillProps) {
       to={to}
       className={cn(
         buttonVariants({ variant: 'ghost' }),
-        'h-auto gap-1 rounded-[50px] px-3 py-1.5 font-sans text-[18px] leading-[1.2] font-medium tracking-[-0.05em] text-black bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] hover:bg-[color-mix(in_srgb,var(--color-black)_12%,var(--color-white))]',
+        'h-auto gap-1 rounded-[50px] px-3 py-1.5 mono-md text-black bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] hover:bg-[color-mix(in_srgb,var(--color-black)_12%,var(--color-white))]',
       )}
     >
       <ArrowLeft aria-hidden="true" className="size-4" />

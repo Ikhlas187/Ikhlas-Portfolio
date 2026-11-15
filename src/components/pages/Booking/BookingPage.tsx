@@ -36,7 +36,7 @@ export default function BookingPage() {
         >
           <ArrowLeft aria-hidden="true" className="size-5" />
         </Button>
-        <h1 className="font-heading text-[22px] leading-[1.2] font-medium tracking-[-0.02em]">{copy.bookingTitle}</h1>
+        <h1 className="font-heading text-[22px] leading-[1.2] font-medium tracking-[-0.03em]">{copy.bookingTitle}</h1>
       </header>
       <Cal calLink={SITE.calLink} config={{ layout: 'month_view', theme: 'light' }} className="min-h-[calc(100svh-76px)] w-full" />
     </div>

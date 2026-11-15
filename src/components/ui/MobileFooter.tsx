@@ -18,7 +18,7 @@ const SOCIAL_LOGOS = [
 ]
 
 const LINK_CLASS =
-  'cursor-pointer font-sans text-[14px] leading-[1.5] font-light [overflow-wrap:anywhere] text-white/65 transition-colors hover:text-white'
+  'cursor-pointer mono-md [overflow-wrap:anywhere] text-white/65 transition-colors hover:text-white'
 
 // Footer mobile (réf. cashless.africa) : rendez-vous, puis bloc noir avec nom, réseaux, rubriques et copyright.
 export default function MobileFooter() {
@@ -37,11 +37,11 @@ export default function MobileFooter() {
   return (
     <footer id="contact">
       <div className="flex flex-col items-center gap-6 bg-white px-3 pt-12 pb-12 text-black">
-        <h2 className="text-center font-heading text-[28px] leading-[1.2] font-medium tracking-[-0.02em]">{copy.callTitle}</h2>
+        <h2 className="text-center font-heading text-[28px] leading-[1.2] font-medium tracking-[-0.04em]">{copy.callTitle}</h2>
         <CallWidget onAccept={() => navigate(ROUTES.BOOKING, { state: { from: pathname } })} />
       </div>
       <div className="bg-black px-6 pt-16 pb-24 text-white">
-        <p className="font-heading text-[32px] leading-none tracking-[-0.04em]">{HERO[locale].name}</p>
+        <p className="font-heading text-[32px] leading-none font-medium tracking-[-0.04em]">{HERO[locale].name}</p>
         <ul className="mt-6 flex items-center gap-5">
           {socialLinks.map(({ href, label, Logo }) => (
             <li key={href}>
@@ -60,7 +60,7 @@ export default function MobileFooter() {
         <div className="mt-16 flex flex-col gap-10">
           {columns.map((column) => (
             <div key={column.title} className="flex flex-col gap-4">
-              <p className="font-sans text-[11px] leading-none font-semibold tracking-[0.08em] text-white/35 uppercase">
+              <p className="mono-sm leading-none text-white/35">
                 {column.title}
               </p>
               <ul className="flex flex-col gap-2">
@@ -86,7 +86,7 @@ export default function MobileFooter() {
             </div>
           ))}
         </div>
-        <div className="mt-12 flex flex-col gap-3 font-sans text-[11px] leading-[1.5] text-white/45">
+        <div className="mt-12 flex flex-col gap-3 mono-sm text-white/45">
           <p>{copy.copyright}</p>
           <p>{copy.credit}</p>
         </div>

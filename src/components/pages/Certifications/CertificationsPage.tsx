@@ -34,7 +34,7 @@ export default function CertificationsPage() {
       <SiteHeader />
       <main className="mx-auto max-w-[1800px] px-3 pt-8 pb-16 min-[810px]:px-4 min-[1200px]:px-5">
         <BackPill label={text.back} to="/#projects" />
-        <h1 className="mt-10 font-heading text-[48px] leading-[1.1] font-medium tracking-[-0.04em] min-[810px]:text-[64px]">
+        <h1 className="mt-10 font-heading text-[48px] leading-[1.2] font-medium tracking-[-0.04em] min-[810px]:text-[64px] min-[810px]:leading-[1.1] min-[810px]:font-semibold min-[810px]:tracking-[-0.07em]">
           {text.title}
         </h1>
         <ul className="mt-10 grid grid-cols-1 gap-12 min-[810px]:grid-cols-2 min-[810px]:gap-x-6">
@@ -50,12 +50,12 @@ export default function CertificationsPage() {
                     className="aspect-[1.414] w-full rounded-[8px] border border-[color-mix(in_srgb,var(--color-black)_10%,var(--color-white))] bg-[color-mix(in_srgb,var(--color-black)_4%,var(--color-white))] object-contain"
                   />
                 ) : (
-                  <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 rounded-[8px] bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] font-sans text-[14px] text-(--color-gray-400)">
+                  <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 rounded-[8px] bg-[color-mix(in_srgb,var(--color-black)_6%,var(--color-white))] mono-sm text-(--color-gray-400)">
                     <Award aria-hidden="true" className="size-10" />
                     {text.photoPending}
                   </div>
                 )}
-                <div className="flex items-baseline justify-between gap-4 font-sans text-[18px] leading-[1.25] font-medium tracking-[-0.02em]">
+                <div className="flex items-baseline justify-between gap-4 mono-md">
                   <p>{certification.title}</p>
                   <p className="shrink-0">{certification.year ?? certification.issuer}</p>
                 </div>

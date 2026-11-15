@@ -35,12 +35,7 @@
 @theme inline {
   --font-sans: var(--font-body);
   --font-heading: var(--font-display);
-  --font-mono: var(--font-body);
-  /* DM Mono s'arrête à 500 : le gras des classes plus grasses reste le vrai 500, sans faux gras. */
-  --font-weight-semibold: 500;
-  --font-weight-bold: 500;
-  --font-weight-extrabold: 500;
-  --font-weight-black: 500;
+  --font-mono: var(--font-label);
   --font-serif: var(--font-body);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -109,9 +104,10 @@
     background-color: var(--color-black);
     color: var(--color-white);
     font-family: var(--font-body);
-    font-weight: 300;
+    font-weight: 500;
     font-size: var(--text-base);
-    line-height: 1.6;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
     overflow-x: hidden;
   }
 
@@ -151,8 +147,27 @@
     font-family: var(--font-display);
     font-weight: 500;
     line-height: 1.05;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
   }
+}
+
+/* Les 2 styles DM Mono de kirk-sinner.framer.website : repère 12 px (« CREATIVE DIRECTOR », « 2026 ») et liste 16 px. */
+@utility mono-sm {
+  font-family: var(--font-label);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@utility mono-md {
+  font-family: var(--font-label);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 ::selection {
